@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GOR-9 • Galactic Outpost Radio • 2560×1440 Broadcast Console Deck</title>
+<style>
+  :root {
+    --bg: #080a0f;
+    --panel: #0d1119;
+    --panel-alt: #111723;
+    --border: #262f42;
+    --amber: #e8b85a;
+    --cyan: #38bdf8;
+    --blue: #60a5fa;
+    --green: #5ec27e;
+    --red: #f43f5e;
+    --text: #e2e8f0;
+    --dim: #7c879c;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #040508;
+    color: var(--text);
+    font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  /* 16:9 2560x1440 Scaled Stage Wrapper */
+  #stage-outer {
+    width: 100vw;
+    height: 56.25vw;
+    max-height: 87vh;
+    max-width: calc(87vh * 16 / 9);
+    position: relative;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.92);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Top Master Broadcast Telemetry Bar */
+  .master-bar {
+    height: 4.2%;
+    min-height: 44px;
+    background: linear-gradient(90deg, #090c12 0%, #121826 50%, #090c12 100%);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    font-size: clamp(11px, 0.85vw, 18px);
+    letter-spacing: 0.08em;
+    z-index: 30;
+  }
+  .callsign {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 800;
+    color: var(--amber);
+    font-size: clamp(13px, 1.05vw, 22px);
+  }
+  .on-air-pill {
+    background: rgba(244, 63, 94, 0.18);
+    border: 1px solid var(--red);
+    color: #fda4af;
+    font-size: 0.72em;
+    padding: 2px 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .on-air-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--red);
+    box-shadow: 0 0 10px var(--red);
+    animation: pulse 1.2s infinite ease-in-out;
+  }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+
+  .telem-group {
+    display: flex;
+    gap: 24px;
+    color: var(--dim);
+    align-items: center;
+  }
+  .telem-group span b { color: var(--text); }
+  .telem-group span.cyan b { color: var(--cyan); }
+  .telem-group span.green b { color: var(--green); }
+  .telem-group span.amber b { color: var(--amber); }
+
+  /* Main Console Deck Viewport */
+  .console-deck {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+  }
+  .console-view {
+    position: absolute;
+    inset: 0;
+    display: none;
+    padding: 1.4%;
+    gap: 1.4%;
+  }
+  .console-view.active { display: flex; }
+
+  /* View 0: Fullscreen Exterior Station Webcam */
+  #view-cam0 { padding: 0; }
+  #cam0-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .cam-hud-overlay {
+    position: absolute;
+    inset: 2.2%;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 15;
+  }
+  .hud-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .hud-bottom-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .hud-box {
+    background: rgba(8, 11, 17, 0.82);
+    border: 1px solid rgba(232, 184, 90, 0.5);
+    padding: 12px 18px;
+    backdrop-filter: blur(6px);
+    max-width: 620px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  }
+  .hud-title {
+    color: var(--amber);
+    font-size: clamp(13px, 1.05vw, 22px);
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+  .hud-sub {
+    color: var(--text);
+    font-size: clamp(10px, 0.75vw, 15px);
+    line-height: 1.55;
+  }
+
+  /* Shared Hardware Panel Styling */
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  .panel-hdr {
+    height: 36px;
+    background: linear-gradient(90deg, rgba(232,184,90,0.08) 0%, rgba(255,255,255,0.02) 100%);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 14px;
+    font-size: clamp(10px, 0.72vw, 15px);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--amber);
+    flex-shrink: 0;
+  }
+  .panel-body {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .cam-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    inset: 0;
+    transition: opacity 0.35s ease;
+  }
+  .scanlines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 2px,
+      rgba(0, 0, 0, 0.26) 3px,
+      rgba(0, 0, 0, 0.26) 4px
+    );
+    pointer-events: none;
+    z-index: 8;
+  }
+  .cam-badge {
+    position: absolute;
+    bottom: 14px;
+    left: 14px;
+    right: 14px;
+    background: rgba(8, 10, 15, 0.88);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--amber);
+    padding: 10px 14px;
+    font-size: clamp(10px, 0.74vw, 15px);
+    z-index: 10;
+    line-height: 1.45;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* Telemetry Data Cards */
+  .telem-card {
+    background: var(--panel-alt);
+    border: 1px solid var(--border);
+    padding: 12px 14px;
+    font-size: clamp(10px, 0.74vw, 15px);
+    line-height: 1.6;
+  }
+  .telem-card-title {
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+    font-size: 0.95em;
+  }
+
+  /* Vernier Dial Rack for Console 3 */
+  .vernier-rack {
+    height: 145px;
+    background: #0a0d14;
+    border-bottom: 1px solid var(--border);
+    padding: 12px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+  .vernier-scale {
+    height: 54px;
+    background: #06080c;
+    border: 1px solid #2b3548;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+  #vernier-needle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--red);
+    box-shadow: 0 0 12px var(--red);
+    left: 22%;
+    transition: left 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 5;
+  }
+  .station-btn-bar {
+    display: flex;
+    gap: 10px;
+  }
+  .station-btn {
+    flex: 1;
+    background: #121826;
+    border: 1px solid var(--border);
+    color: var(--dim);
+    padding: 7px 12px;
+    font-family: inherit;
+    font-size: clamp(10px, 0.7vw, 14px);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+  }
+  .station-btn.active {
+    background: rgba(232, 184, 90, 0.14);
+    border-color: var(--amber);
+    color: var(--text);
+  }
+
+  /* Euclid Step Controls */
+  .euclid-step-bar {
+    display: flex;
+    gap: 8px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    background: #090c12;
+  }
+  .step-pill {
+    background: #131926;
+    border: 1px solid var(--border);
+    color: var(--dim);
+    padding: 5px 12px;
+    font-family: inherit;
+    font-size: clamp(10px, 0.7vw, 14px);
+    cursor: pointer;
+  }
+  .step-pill.active {
+    border-color: var(--green);
+    color: var(--green);
+    background: rgba(94, 194, 126, 0.12);
+    font-weight: 700;
+  }
+
+  /* Bottom Studio Switcher & SFX Audition Bars */
+  .switcher-bar {
+    margin-top: 6px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0 12px;
+  }
+  .tab-btn {
+    background: #101520;
+    color: var(--dim);
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    font-family: inherit;
+    font-size: 11.5px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: all 0.15s;
+  }
+  .tab-btn:hover { color: var(--text); border-color: #475569; }
+  .tab-btn.active {
+    background: #1c2539;
+    color: var(--amber);
+    border-color: var(--amber);
+    font-weight: 700;
+  }
+  .sfx-btn {
+    background: #0c131d;
+    color: var(--cyan);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    padding: 4px 10px;
+    font-family: inherit;
+    font-size: 11px;
+    cursor: pointer;
+  }
+  .sfx-btn:hover { background: rgba(56, 189, 248, 0.15); border-color: var(--cyan); }
+</style>
+</head>
+<body>
+
+<div id="stage-outer">
+  <!-- MASTER TOP TELEMETRY BAR -->
+  <div class="master-bar">
+    <div class="callsign">
+      <div class="on-air-pill"><div class="on-air-dot"></div>ON AIR</div>
+      <span>GOR-9 • GALACTIC OUTPOST RADIO</span>
+    </div>
+    <div class="telem-group">
+      <span>QTH: <b>HIGH BASALT SHELF • ASTEROID 3-5-1 • SECTOR 9</b></span>
+      <span class="cyan">FREQ: <b id="master-freq">14,285.7 kHz USB</b></span>
+      <span class="green">SINPO: <b id="master-sinpo">5-4-4-4-4</b></span>
+      <span class="amber">UTC: <b id="utc-clock">04:00:00</b></span>
+    </div>
+  </div>
+
+  <!-- 6-VIEW CONSOLE DECK -->
+  <div class="console-deck">
+
+    <!-- ================================================================= -->
+    <!-- VIEW 0: CAM-00 EXTERIOR STATION WEBCAM (ZERO-SPILL LAYERED RIG)   -->
+    <!-- ================================================================= -->
+    <div class="console-view active" id="view-cam0">
+      <canvas id="cam0-canvas" width="2560" height="1440"></canvas>
+      <div class="scanlines"></div>
+      <div class="cam-hud-overlay">
+        <div class="hud-top-row">
+          <div class="hud-box" style="pointer-events:auto">
+            <div class="hud-title" id="cam0-hud-title">CAM-00 • HIGH BASALT SHELF TOWER OUTPOST</div>
+            <div class="hud-sub">
+              ASTEROID 3-5-1 • SECTOR 9 • ROTATION PERIOD: <b>4h 19m</b> • ELEVATED BOOTH &amp; SINGLE DISH<br>
+              CARRIER: <span id="cam0-lock-status" style="color:var(--green);font-weight:700">LOCKED 14,285.7 kHz USB</span> • BEACONS: <span style="color:var(--red)">4× STAGGERED ASYNC</span>
+            </div>
+            <div style="margin-top:8px; display:flex; gap:6px">
+              <button class="sfx-btn" onclick="setExteriorCamMode('tower')">CAM-00A • TOWER BOOTH</button>
+              <button class="sfx-btn" onclick="setExteriorCamMode('canyon')">CAM-00B • CANYON OVERLOOK</button>
+              <button class="sfx-btn" onclick="setExteriorCamMode('barracks')">CAM-00C • CANYON FLOOR BARRACKS</button>
+            </div>
+          </div>
+          <div class="hud-box" style="text-align:right; border-color:rgba(56,189,248,0.45)">
+            <div style="color:var(--cyan);font-size:0.85em;font-weight:700">HAUSER MK-IV RECEIVER LOCK</div>
+            <div id="cam0-freq-large" style="font-size:1.5em;font-weight:800;color:var(--amber);margin-top:2px">14,285.7 kHz USB</div>
+            <div style="font-size:0.75em;color:var(--dim)">ZERO-SPILL LATTICE ALPHA COMPOSITE • 2560×1440</div>
+          </div>
+        </div>
+
+        <div class="hud-bottom-row">
+          <div class="hud-box" style="border-color:rgba(94,194,126,0.45); max-width:480px">
+            <div style="color:var(--green);font-size:0.8em;font-weight:700">OUTPOST TOPOLOGY • ASTEROID 3-5-1</div>
+            <div style="font-size:0.78em;color:var(--dim);margin-top:3px" id="cam0-topo-note">
+              ELEVATED BOOTH: +85m STEEL TRUSS • CANYON BARRACKS (DORM B): -240m GORGE FLOOR
+            </div>
+          </div>
+          <div class="hud-box" style="border-color:rgba(232,184,90,0.55); max-width:700px">
+            <div style="color:var(--amber);font-size:0.8em;font-weight:700">BROADCAST MONITOR • SEGMENT 0 (COLD OPEN)</div>
+            <div style="font-size:0.88em;margin-top:4px;line-height:1.45" id="cam0-caption">
+              "This is GOR-9. This is GOR-9 [ding-ding] Galactic Outpost Radio, broadcasting from the High Basalt Shelf on Asteroid 3-5-1 in Sector 9. Fourteen-two-eighty-five kilohertz upper sideband. Zero-four-hundred Galactic Coordinated."
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- CONSOLE 1: METEO-9 SPACE WEATHER & SECTOR 9 PROPAGATION           -->
+    <!-- ================================================================= -->
+    <div class="console-view" id="view-meteo">
+      <div class="panel" style="flex: 0 0 41%">
+        <div class="panel-hdr">
+          <span>METEO-9 • SECTOR 9 MAGNETOSPHERIC RADAR</span>
+          <span style="color:var(--red)">SQUALL WARNING</span>
+        </div>
+        <div class="panel-body" style="padding:18px; justify-content:space-between; align-items:center">
+          <svg viewBox="0 0 320 320" style="width:74%; max-height:54%">
+            <defs>
+              <radialGradient id="radar-glow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#0ea5e9" stop-opacity="0.16"/>
+                <stop offset="100%" stop-color="#080a0f" stop-opacity="0.95"/>
+              </radialGradient>
+            </defs>
+            <circle cx="160" cy="160" r="142" fill="url(#radar-glow)" stroke="#263248" stroke-width="2"/>
+            <circle cx="160" cy="160" r="102" fill="none" stroke="#1e293b" stroke-dasharray="4 4"/>
+            <circle cx="160" cy="160" r="58" fill="none" stroke="#1e293b"/>
+            <line x1="18" y1="160" x2="302" y2="160" stroke="#1e293b"/>
+            <line x1="160" y1="18" x2="160" y2="302" stroke="#1e293b"/>
+            <text x="165" y="34" fill="#64748b" font-size="9">COREWARD LANES (K-2 CALM)</text>
+            <!-- Electrostatic Dust Squall Contour over Meridian Plateau -->
+            <ellipse cx="218" cy="112" rx="44" ry="26" fill="rgba(244,63,94,0.25)" stroke="#f43f5e" stroke-width="1.5" stroke-dasharray="4 2">
+              <animate attributeName="rx" values="42;47;42" dur="1.6s" repeatCount="indefinite"/>
+            </ellipse>
+            <circle cx="218" cy="112" r="4.5" fill="#38bdf8"/>
+            <text x="166" y="82" fill="#f43f5e" font-size="10" font-weight="bold">RELAY KZ9-OMEGA (60kV ARC)</text>
+            <!-- Asteroid 3-5-1 Center Marker -->
+            <circle cx="160" cy="160" r="5" fill="#e8b85a"/>
+            <text x="112" y="178" fill="#e8b85a" font-size="10" font-weight="bold">ASTEROID 3-5-1</text>
+            <!-- Rotating Radar Sweep -->
+            <g>
+              <line x1="160" y1="160" x2="160" y2="18" stroke="#38bdf8" stroke-width="2.5"/>
+              <path d="M160,160 L125,23 A142,142 0 0,1 160,18 Z" fill=" rgba(56,189,248,0.18)"/>
+              <animateTransform attributeName="transform" type="rotate" from="0 160 160" to="360 160 160" dur="4s" repeatCount="indefinite"/>
+            </g>
+          </svg>
+
+          <div style="width:100%; display:flex; flex-direction:column; gap:8px">
+            <div class="telem-card" style="border-left:3px solid var(--green)">
+              <div class="telem-card-title" style="color:var(--green)">COREWARD LANES • NOMINAL</div>
+              Solar Flux: <b>174 SFU</b> • Planetary K-Index: <b>2 (Quiet)</b>
+            </div>
+            <div class="telem-card" style="border-left:3px solid var(--red)">
+              <div class="telem-card-title" style="color:var(--red)">MERIDIAN PLATEAU • RELAY KZ9-OMEGA</div>
+              <b>60 kV Triboelectric Dust Squall</b> • Feedhorn coronal arcing<br>
+              Hardware Alert: <b>#4 Marzelvane Bushing Phase-Wobble (+4.8°)</b> • <b>SINPO 2-3-2-2-2</b>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" style="flex: 1">
+        <div class="panel-hdr">
+          <span>CAM-02 • RELAY STATION KZ9-OMEGA (MERIDIAN PLATEAU • 7,140 kHz)</span>
+          <span style="color:var(--cyan)" id="meteo-state-label">STATE A: DUST SQUALL ONSET</span>
+        </div>
+        <div class="panel-body">
+          <img class="cam-img" id="meteo-img-a" src="../assets/plates/cam02_relay_storm_start.jpg" alt="Relay Storm Start">
+          <img class="cam-img" id="meteo-img-b" style="opacity:0" src="../assets/plates/cam02_relay_storm_end.jpg" alt="Relay Storm Arc">
+          <div class="scanlines"></div>
+          <div class="cam-badge">
+            <div>
+              <b style="color:var(--cyan)">REMOTE FEED: KZ9-OMEGA</b> • 60 kV electrostatic discharge across primary feedhorn
+            </div>
+            <div style="color:var(--amber);font-weight:700">SINPO 2-3-2-2-2</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- CONSOLE 2: ECON-9 OUTPOST ECONOMICS, POWER & CUSTOMS LEDGER       -->
+    <!-- ================================================================= -->
+    <div class="console-view" id="view-econ">
+      <div class="panel" style="flex: 0 0 43%">
+        <div class="panel-hdr">
+          <span>ECON-9 • CERES SPOT COMMODITIES & REACTOR LOAD</span>
+          <span>SECTOR 9 LEDGER</span>
+        </div>
+        <div class="panel-body" style="padding:18px; justify-content:space-between; gap:12px">
+          <div class="telem-card" style="flex:1; display:flex; flex-direction:column; justify-content:space-between">
+            <div style="display:flex; justify-content:space-between; align-items:center">
+              <span class="telem-card-title" style="color:var(--amber)">GRADE-B DEUTERIUM PELLETS (CERES SPOT)</span>
+              <span style="color:var(--red);font-weight:800">+4.2% SPIKE</span>
+            </div>
+            <svg viewBox="0 0 420 120" width="100%" height="100%" style="background:#070a0f; border:1px solid #1e293b; margin-top:6px">
+              <line x1="0" y1="30" x2="420" y2="30" stroke="#161f30"/>
+              <line x1="0" y1="65" x2="420" y2="65" stroke="#161f30"/>
+              <line x1="0" y1="100" x2="420" y2="100" stroke="#161f30"/>
+              <polyline fill="none" stroke="#e8b85a" stroke-width="3" points="12,98 75,95 140,92 205,89 255,86 285,32 350,26 408,22"/>
+              <line x1="285" y1="0" x2="285" y2="120" stroke="#f43f5e" stroke-dasharray="3 3"/>
+              <circle cx="285" cy="32" r="4.5" fill="#f43f5e"/>
+              <text x="135" y="20" fill="#f43f5e" font-size="10" font-weight="bold">QUARRY 44-K DRAGLINE SLOWDOWN</text>
+            </svg>
+          </div>
+
+          <div class="telem-card" style="border-left:3px solid var(--cyan)">
+            <div class="telem-card-title" style="color:var(--cyan)">OUTPOST 9 POWER RATIONING SCHEDULE</div>
+            • <b>Pebble-Bed Reactor #2</b> stepping down from <b>50 kW → 12 kW</b> after 00:00 Local<br>
+            • <span style="color:var(--amber)">ADVISORY: Dormitory Wing B should plug in auxiliary foot-warmers.</span>
+          </div>
+
+          <div class="telem-card" style="border-left:3px solid var(--red); background:rgba(244,63,94,0.08)">
+            <div class="telem-card-title" style="color:var(--red)">QUARANTINE BUOY 12 • CUSTOMS IMPOUND (DAY 11)</div>
+            Supply Tender: <b>MV Perseverance-4</b><br>
+            Customs Error: <i>Replacement Oscillator Tubes</i> misfiled under Agricultural Tariff 409-B as <b style="color:var(--amber)">"Fermented Brine Tubers"</b>.
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" style="flex: 1">
+        <div class="panel-hdr">
+          <span>CAM-44K • SILICATE QUARRY 44-K DRAGLINE EXCAVATOR FEED</span>
+          <span style="color:var(--amber)">CABLE INSPECTION SLOWDOWN</span>
+        </div>
+        <div class="panel-body">
+          <img class="cam-img" id="econ-img-a" src="../assets/plates/cam44k_quarry_start.jpg" alt="Quarry 44K Start">
+          <img class="cam-img" id="econ-img-b" style="opacity:0" src="../assets/plates/cam44k_quarry_end.jpg" alt="Quarry 44K End">
+          <div class="scanlines"></div>
+          <div class="cam-badge">
+            <div>
+              <b style="color:var(--amber)">CAM-44K • ASTEROID SILICATE QUARRY 44-K</b> • Night-shift dragline bucket &amp; haul terrace
+            </div>
+            <div style="color:var(--cyan)">0.03 G</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- CONSOLE 3: HAUSER MK-IV SPECTRUM CORRELATOR (DETECTED BROADCASTS) -->
+    <!-- ================================================================= -->
+    <div class="console-view" id="view-hauser" style="flex-direction:column">
+      <div class="panel" style="flex:1">
+        <div class="vernier-rack">
+          <div style="display:flex; justify-content:space-between; align-items:center; font-size:clamp(10px, 0.75vw, 15px)">
+            <span style="color:var(--amber);font-weight:800">HAUSER MK-IV SPECTRUM CORRELATOR • GALACTIC &amp; INTERGALACTIC DX LOG</span>
+            <span style="color:var(--green)">HAUSER INDEX: <b>H-8.4</b> • CLICK LOG ITEM BELOW TO TUNE</span>
+          </div>
+          <div class="vernier-scale">
+            <canvas id="waterfall-canvas" width="1200" height="54" style="width:100%;height:100%;opacity:0.65"></canvas>
+            <div id="vernier-needle"></div>
+          </div>
+          <div class="station-btn-bar">
+            <button class="station-btn active" onclick="selectHauserStation(0, this, '22%')">
+              <b>1 • TITAN-MINOR (3,890 kHz)</b> — Hydrographic Buoy N-24 &amp; Silt-Striders
+            </button>
+            <button class="station-btn" onclick="selectHauserStation(1, this, '54%')">
+              <b>2 • CALLISTO DOME-4 (11,410 kHz AM)</b> — "Radio Corrugated" Noodle Bazaar
+            </button>
+            <button class="station-btn" onclick="selectHauserStation(2, this, '86%')">
+              <b>3 • INTERGALACTIC M-33 (1,420.405 MHz)</b> — 700-Yr-Old Ammonia Sea Buoy
+            </button>
+          </div>
+        </div>
+
+        <!-- Station Sub-Views -->
+        <div class="panel-body" style="padding:14px">
+          <div id="hauser-cams" style="display:grid; grid-template-columns: 1fr 1fr; gap:14px; width:100%; height:100%">
+            <div id="hauser-card-0" style="position:relative; border:2px solid var(--amber); overflow:hidden">
+              <img class="cam-img" id="hauser-n24-a" src="../assets/plates/cam_n24_shallows_start.jpg" alt="Buoy N24 Start">
+              <img class="cam-img" id="hauser-n24-b" style="opacity:0" src="../assets/plates/cam_n24_shallows_end.jpg" alt="Buoy N24 End">
+              <div class="scanlines"></div>
+              <div class="cam-badge">
+                <div>
+                  <b style="color:var(--green)">3,890 kHz • TITAN-MINOR BUOY N-24</b><br>
+                  French methane tide tables • Migratory silt-striders detuning whip antenna (+42 Ω)
+                </div>
+                <span style="color:var(--amber)">FLOW TWEEN 1</span>
+              </div>
+            </div>
+
+            <div id="hauser-card-1" style="position:relative; border:1px solid var(--border); overflow:hidden">
+              <img class="cam-img" id="hauser-sw4-a" src="../assets/plates/cam_sw4_bazaar_start.jpg" alt="Bazaar 21:47:03">
+              <img class="cam-img" id="hauser-sw4-b" style="opacity:0" src="../assets/plates/cam_sw4_bazaar_end.jpg" alt="Bazaar 21:47:08">
+              <div class="scanlines"></div>
+              <div class="cam-badge">
+                <div>
+                  <b style="color:var(--amber)">11,410 kHz AM • CALLISTO DOME-4 ("RADIO CORRUGATED")</b><br>
+                  Unlicensed noodle-market dipole • Peaking as engineer hits balun with blowtorch
+                </div>
+                <span style="color:var(--cyan)">21:47:03→08 UTC</span>
+              </div>
+            </div>
+          </div>
+
+          <div id="hauser-m33" style="display:none; width:100%; height:100%; gap:16px; align-items:center; justify-content:space-around; background:#06090e; border:1px solid var(--border); padding:20px">
+            <canvas id="m33-scope" width="420" height="420" style="width:360px;height:360px;border-radius:50%;border:2px solid #2e4a38;background:#040d07;box-shadow:inset 0 0 40px rgba(94,194,126,0.25)"></canvas>
+            <div style="flex:1; max-width:680px; display:flex; flex-direction:column; gap:14px">
+              <div class="telem-card" style="border-left:3px solid var(--green)">
+                <div class="telem-card-title" style="color:var(--green)">INTERGALACTIC CATCH • M-33 TRIANGULUM SPUR</div>
+                Frequency: <b>1,420.405 MHz (H-I Line • Doppler Δf -180 kHz)</b> • Mode: <b>GRAVITATIONAL LENS SKIP</b><br>
+                Transponder ID: <b>AUTONOMOUS DRIFT-BUOY M33-771 (LAUNCH EPOCH: -700 YRS)</b>
+              </div>
+              <div class="telem-card" style="border-left:3px solid var(--amber); font-size:1.05em">
+                <div class="telem-card-title" style="color:var(--amber)">DECODED PACKET TELEMETRY</div>
+                "SMALL-CRAFT BAROMETRIC WARNING: HIGH CHOP ON GREAT SOUTHERN AMMONIA SEA."<br>
+                <span style="color:var(--dim)">[GEOLOGICAL ARCHIVE NOTE: Ammonia sea evaporated circa 1580 CE — Ming Dynasty.]</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- CONSOLE 4: EUCLID-9 SIGNAL DETECTOR (UNSUSPECTING PARALLELOGRAM)  -->
+    <!-- ================================================================= -->
+    <div class="console-view" id="view-euclid">
+      <div class="panel" style="flex: 0 0 48%">
+        <div class="panel-hdr">
+          <span>CAM-VAT19 • CALLISTO-SOUTH BRINE EVAPORATION VAT 19</span>
+          <span style="color:var(--red)">FRAME 7 • 03:12 UTC</span>
+        </div>
+        <div class="panel-body">
+          <img class="cam-img" src="../assets/plates/cam_vat19_parallelogram.jpg" alt="Unsuspecting Parallelogram in Salt Crust" style="transform:scale(1.04)">
+          <div class="scanlines"></div>
+          <div class="cam-badge">
+            <div>
+              <b style="color:var(--amber)">UNMANNED BRINE SETTLING PAN 19</b><br>
+              "An unsuspecting parallelogram in the salt crust..."
+            </div>
+            <span style="color:var(--green);font-weight:700">±0.0002″</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" style="flex: 1">
+        <div class="panel-hdr">
+          <span>EUCLID-9 GEOMETRIC INTELLIGENCE DETECTOR • BOOK I, PROP. 34 (G.47)</span>
+          <span style="color:var(--green)">CONFIDENCE: 99.99994%</span>
+        </div>
+        <div class="euclid-step-bar">
+          <button class="step-pill active" onclick="setEuclidStep(1, this)">STEP 4A • PARALLEL WALLS (I.34 GIVEN)</button>
+          <button class="step-pill" onclick="setEuclidStep(2, this)">STEP 4B • DIAMETER BC &amp; CONGRUENT BISECTION</button>
+          <button class="step-pill" onclick="setEuclidStep(3, this)">STEP 4C • WATER BOARD COTTER-PIN COVER STORY</button>
+        </div>
+        <div class="panel-body" style="padding:18px; justify-content:space-between; align-items:center">
+          <svg id="euclid-svg" viewBox="-8 0 236 150" style="width:90%; max-height:66%; background:#080b11; border:1px solid #1e293b">
+            <defs>
+              <marker id="tick1" viewBox="-6 -6 12 12" refX="0" refY="0" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto">
+                <line x1="0" y1="-5" x2="0" y2="5" stroke="#5ec27e" stroke-width="2.2"/>
+              </marker>
+              <marker id="tick2" viewBox="-6 -6 12 12" refX="0" refY="0" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto">
+                <line x1="-2" y1="-5" x2="-2" y2="5" stroke="#5ec27e" stroke-width="2.2"/>
+                <line x1="2" y1="-5" x2="2" y2="5" stroke="#5ec27e" stroke-width="2.2"/>
+              </marker>
+            </defs>
+            <polygon id="e-poly-abc" points="37,37 202,37 16,117.5" fill="rgba(94,194,126,0.18)" opacity="0" style="transition:opacity 0.35s"/>
+            <polygon id="e-poly-dcb" points="181,117.5 16,117.5 202,37" fill="rgba(56,189,248,0.14)" opacity="0" style="transition:opacity 0.35s"/>
+            <g id="e-wedges" opacity="0" style="transition:opacity 0.35s">
+              <path d="M 202 37 L 182.00 37.00 A 20 20 0 0 0 183.65 44.94 Z" fill="rgba(232,184,90,0.3)" stroke="#e8b85a" stroke-width="1.5"/>
+              <path d="M 16 117.5 L 34.35 109.56 A 20 20 0 0 1 36.00 117.50 Z" fill="rgba(232,184,90,0.3)" stroke="#e8b85a" stroke-width="1.5"/>
+              <path d="M 16 117.5 L 21.05 98.15 A 20 20 0 0 1 34.35 109.56 Z" fill="rgba(94,194,126,0.3)" stroke="#5ec27e" stroke-width="1.5"/>
+              <path d="M 202 37 L 183.65 44.94 A 20 20 0 0 0 196.95 56.35 Z" fill="rgba(94,194,126,0.3)" stroke="#5ec27e" stroke-width="1.5"/>
+            </g>
+            <path id="e-ab" d="M 37 37 L 119.5 37 L 202 37" stroke="#60a5fa" stroke-width="2.6" fill="none"/>
+            <path id="e-cd" d="M 16 117.5 L 98.5 117.5 L 181 117.5" stroke="#60a5fa" stroke-width="2.6" fill="none"/>
+            <path id="e-ac" d="M 37 37 L 26.5 77.25 L 16 117.5" stroke="#38bdf8" stroke-width="2.6" fill="none"/>
+            <path id="e-bd" d="M 202 37 L 191.5 77.25 L 181 117.5" stroke="#38bdf8" stroke-width="2.6" fill="none"/>
+            <path id="e-bc" d="M 202 37 L 109 77.25 L 16 117.5" stroke="#475569" stroke-width="1.8" stroke-dasharray="4 3" fill="none"/>
+            <circle cx="37" cy="37" r="3.8" fill="#e8b85a"/><text x="37" y="25" fill="#e2e8f0" font-size="13" font-weight="bold" text-anchor="middle">A</text>
+            <circle cx="202" cy="37" r="3.8" fill="#e8b85a"/><text x="202" y="25" fill="#e2e8f0" font-size="13" font-weight="bold" text-anchor="middle">B</text>
+            <circle cx="16" cy="117.5" r="3.8" fill="#e8b85a"/><text x="16" y="134" fill="#e2e8f0" font-size="13" font-weight="bold" text-anchor="middle">C</text>
+            <circle cx="181" cy="117.5" r="3.8" fill="#e8b85a"/><text x="181" y="134" fill="#e2e8f0" font-size="13" font-weight="bold" text-anchor="middle">D</text>
+          </svg>
+
+          <div style="width:100%; display:flex; flex-direction:column; gap:8px">
+            <div class="telem-card" id="euclid-proof-box" style="border-left:3px solid var(--green)">
+              <div class="telem-card-title" style="color:var(--green)">G.47 (BOOK I, PROP. 34) • PARALLELOGRAM BISECTION</div>
+              Opposite sides parallel to <b>0.0002″</b> (<code>/ A B / ∥ / C D /</code>, <code>/ A C / ∥ / B D /</code>) — and diameter <b><code>/ B C /</code></b> bisects the brine sludge into two congruent triangles: <code>&lt; A B C &gt; = &lt; D C B &gt;</code>.
+            </div>
+            <div class="telem-card" id="euclid-coverup-box" style="border-left:3px solid var(--amber); background:rgba(232,184,90,0.08)">
+              <div class="telem-card-title" style="color:var(--amber)">CALLISTO WATER BOARD PRESS RELEASE</div>
+              "A motorized mud-rake lost a cotter pin and dragged sideways." — <i>It's always a broken cotter pin, folks.</i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- CONSOLE 5: SCHED-9 ("ON THE NEXT BROADCAST..." & QSL SIGN-OFF)    -->
+    <!-- ================================================================= -->
+    <div class="console-view" id="view-sched">
+      <div class="panel" style="flex: 0 0 46%">
+        <div class="panel-hdr">
+          <span>SCHED-9 • ON THE NEXT BROADCAST OF GOR-9</span>
+          <span>0400 UTC SCHEDULE</span>
+        </div>
+        <div class="panel-body" style="padding:22px; justify-content:space-between">
+          <div style="display:flex; flex-direction:column; gap:14px">
+            <div class="telem-card" style="border-left:3px solid var(--cyan)">
+              <div class="telem-card-title" style="color:var(--cyan)">1 • TROJAN CLUSTER NUMBERS STATION (6,925 kHz LSB)</div>
+              Unlicensed transmitter reciting pre-war <b>dumpling recipes in base-eight (octal)</b>.
+            </div>
+            <div class="telem-card" style="border-left:3px solid var(--green)">
+              <div class="telem-card-title" style="color:var(--green)">2 • OUTER-BELT EUCLID DETECTOR FOLLOW-UP</div>
+              Unconfirmed report from an ice-hauler captain claiming to have discovered a <b>suspected rhombus</b> inside a frozen cargo hold.
+            </div>
+          </div>
+
+          <div class="telem-card" style="border:1px solid var(--amber); background:rgba(232,184,90,0.07); padding:16px">
+            <div class="telem-card-title" style="color:var(--amber); font-size:1.05em">QSL CARDS &amp; RECEPTION REPORTS (SINPO)</div>
+            Route physical QSL cards via the <b>Titan Packet Buoy</b>, care of:<br>
+            <b style="color:var(--text)">GALACTIC OUTPOST RADIO • GOR-9</b><br>
+            High Basalt Shelf • Asteroid 3-5-1 • Sector 9<br>
+            <div style="margin-top:8px; color:var(--amber); font-weight:700">"From Asteroid 3-5-1 in Sector 9... this is GOR-9. Good DX."</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" style="flex: 1">
+        <div class="panel-hdr">
+          <span>DESK-01 • LISTENING BUNKER &amp; ZENITH DISH SLEW</span>
+          <span style="color:var(--green)">73 &amp; GOOD DX</span>
+        </div>
+        <div class="panel-body">
+          <img class="cam-img" id="sched-img-a" src="../assets/plates/desk01_hauser_receiver.jpg" alt="Hauser Listening Desk">
+          <img class="cam-img" id="sched-img-b" style="opacity:0" src="../assets/plates/cam00_dishes_tilted_end.jpg" alt="Dishes Tilted toward Zenith">
+          <div class="scanlines"></div>
+          <div class="cam-badge">
+            <div>
+              <b style="color:var(--amber)">OPERATOR LISTENING POST • HIGH BASALT SHELF</b> • Hauser Mk-IV &amp; Vector Scope
+            </div>
+            <span style="color:var(--green)">14,285.7 kHz USB</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- STUDIO CONSOLE SWITCHER BAR -->
+<div class="switcher-bar">
+  <button class="tab-btn active" id="tab-cam0" onclick="showTab('view-cam0', this, '14,285.7 kHz USB', '5-4-4-4-4')">0 • CAM-00 TOWER OUTPOST</button>
+  <button class="tab-btn" id="tab-meteo" onclick="showTab('view-meteo', this, '7,140.0 kHz LSB', '2-3-2-2-2')">1 • METEO-9 WEATHER</button>
+  <button class="tab-btn" id="tab-econ" onclick="showTab('view-econ', this, '14,285.7 kHz USB', '4-4-4-4-4')">2 • ECON-9 ECONOMICS</button>
+  <button class="tab-btn" id="tab-hauser" onclick="showTab('view-hauser', this, '3,890.0 kHz CW', '3-4-3-3-3')">3 • HAUSER MK-IV DX</button>
+  <button class="tab-btn" id="tab-euclid" onclick="showTab('view-euclid', this, '9,420.0 kHz TELEM', '5-5-5-5-5')">4 • EUCLID-9 PARALLELOGRAM</button>
+  <button class="tab-btn" id="tab-sched" onclick="showTab('view-sched', this, '14,285.7 kHz USB', '5-4-4-4-4')">5 • SCHED-9 SIGN-OFF</button>
+  <button class="tab-btn" style="border-color:var(--green);color:var(--green)" onclick="replayColdOpen()">▶ COLD OPEN (0:17)</button>
+  <button class="tab-btn" style="border-color:var(--amber);color:var(--amber);font-weight:800" onclick="playFullEpisode()">▶ PLAY FULL BROADCAST (2:39)</button>
+</div>
+
+<!-- 24kHz CRACKLY WHITE-NOISE SFX LIBRARY AUDITION BAR -->
+<div class="switcher-bar" style="margin-top:4px">
+  <span style="font-size:11px;color:var(--dim);margin-right:4px">SFX LIBRARY (24kHz):</span>
+  <button class="sfx-btn" onclick="playSfx('../assets/sfx/crackle_cam_boot_2p8s.wav', true)">🔊 1. CAM BOOT CRACKLE (4.3s)</button>
+  <button class="sfx-btn" onclick="playSfx('../assets/sfx/white_noise_crackle_loop_4s.wav')">🔊 2. CRACKLY WHITE NOISE (4s)</button>
+  <button class="sfx-btn" onclick="playSfx('../assets/sfx/shortwave_squelch_burst_0p8s.wav')">🔊 3. SQUELCH SWITCH (0.8s)</button>
+  <button class="sfx-btn" onclick="playSfx('../assets/sfx/triboelectric_arc_crackle_1p5s.wav')">🔊 4. 60kV PLASMA ARC (1.5s)</button>
+  <button class="sfx-btn" onclick="playSfx('../assets/sfx/geiger_ionospheric_crackle_3s.wav')">🔊 5. GEIGER SFERICS (3s)</button>
+  <button class="sfx-btn" onclick="playSfx('../assets/sfx/carrier_drop_signoff_3s.wav')">🔊 6. CARRIER DROP (3s)</button>
+</div>
+
+<audio id="cold-open-audio" src="../renders/cam00_cold_open_mix.wav" preload="auto"></audio>
+<audio id="full-ep-audio" src="../renders/gor9_ep01_full_master.wav" preload="auto"></audio>
+<audio id="sfx-player" preload="auto"></audio>
+
+<script>
+let t0 = performance.now();
+let extCamMode = 'tower'; // 'tower' | 'canyon' | 'barracks'
+let fullEpActive = false;
+
+function setExteriorCamMode(mode) {
+  extCamMode = mode;
+  const titleEl = document.getElementById('cam0-hud-title');
+  const topoEl = document.getElementById('cam0-topo-note');
+  if (mode === 'tower') {
+    titleEl.textContent = 'CAM-00A • HIGH BASALT SHELF TOWER OUTPOST';
+    topoEl.textContent = 'ELEVATED BOOTH: +85m STEEL TRUSS • SINGLE PARABOLIC DISH • 4 STAGGERED BEACONS';
+  } else if (mode === 'canyon') {
+    titleEl.textContent = 'CAM-00B • ACHERON CANYON WEST RIM OVERLOOK';
+    topoEl.textContent = 'ACROSS-CANYON VIEW (1.4 km WEST) LOOKING BACK AT HIGH BASALT SHELF TOWER';
+  } else {
+    titleEl.textContent = 'CAM-00C • TOWER MAST DOWN-LOOK (BARRACKS)';
+    topoEl.textContent = 'NORTH-24 CANYON FLOOR QUONSET BARRACKS (DORM B) & CONDENSATION SUMP (-240m)';
+  }
+  playSfx('../assets/sfx/shortwave_squelch_burst_0p8s.wav', false);
+}
+
+function playSfx(src, retriggerCam0) {
+  const p = document.getElementById('sfx-player');
+  p.src = src;
+  p.currentTime = 0;
+  p.play().catch(() => {});
+  if (retriggerCam0) {
+    t0 = performance.now();
+  }
+}
+
+function showTab(id, btn, freq, sinpo, silentSwitch) {
+  document.querySelectorAll('.console-view').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (btn) btn.classList.add('active');
+  if (freq) document.getElementById('master-freq').textContent = freq;
+  if (sinpo) document.getElementById('master-sinpo').textContent = sinpo;
+  if (!silentSwitch) {
+    playSfx('../assets/sfx/shortwave_squelch_burst_0p8s.wav', false);
+  }
+}
+
+function selectHauserStation(idx, btn, needleLeft, silentSwitch) {
+  const btns = document.querySelectorAll('.station-btn');
+  btns.forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  else if (btns[idx]) btns[idx].classList.add('active');
+  document.getElementById('vernier-needle').style.left = needleLeft;
+  if (!silentSwitch) playSfx('../assets/sfx/shortwave_squelch_burst_0p8s.wav', false);
+  const cams = document.getElementById('hauser-cams');
+  const m33 = document.getElementById('hauser-m33');
+  if (idx === 2) {
+    cams.style.display = 'none';
+    m33.style.display = 'flex';
+    document.getElementById('master-freq').textContent = '1,420.405 MHz (Δf -180kHz)';
+  } else {
+    cams.style.display = 'grid';
+    m33.style.display = 'none';
+    document.getElementById('hauser-card-0').style.border = idx === 0 ? '2px solid var(--amber)' : '1px solid var(--border)';
+    document.getElementById('hauser-card-1').style.border = idx === 1 ? '2px solid var(--amber)' : '1px solid var(--border)';
+    document.getElementById('master-freq').textContent = idx === 0 ? '3,890.0 kHz CW' : '11,410.0 kHz AM';
+  }
+}
+
+function setEuclidStep(step, btn) {
+  const pills = document.querySelectorAll('.step-pill');
+  pills.forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  else if (pills[step - 1]) pills[step - 1].classList.add('active');
+
+  const polyAbc = document.getElementById('e-poly-abc');
+  const polyDcb = document.getElementById('e-poly-dcb');
+  const wedges = document.getElementById('e-wedges');
+  const bc = document.getElementById('e-bc');
+  const ab = document.getElementById('e-ab');
+  const cd = document.getElementById('e-cd');
+  const ac = document.getElementById('e-ac');
+  const bd = document.getElementById('e-bd');
+
+  if (step === 1) {
+    polyAbc.style.opacity = '0';
+    polyDcb.style.opacity = '0';
+    wedges.style.opacity = '0';
+    bc.setAttribute('stroke', '#475569');
+    bc.setAttribute('stroke-width', '1.8');
+    bc.setAttribute('stroke-dasharray', '4 3');
+    ab.setAttribute('stroke', '#60a5fa'); cd.setAttribute('stroke', '#60a5fa');
+    ac.setAttribute('stroke', '#38bdf8'); bd.setAttribute('stroke', '#38bdf8');
+    ab.removeAttribute('marker-mid'); cd.removeAttribute('marker-mid');
+    ac.removeAttribute('marker-mid'); bd.removeAttribute('marker-mid');
+  } else {
+    polyAbc.style.opacity = '1';
+    polyDcb.style.opacity = '1';
+    wedges.style.opacity = '1';
+    bc.setAttribute('stroke', '#e8b85a');
+    bc.setAttribute('stroke-width', '3.2');
+    bc.removeAttribute('stroke-dasharray');
+    ab.setAttribute('stroke', '#5ec27e'); cd.setAttribute('stroke', '#5ec27e');
+    ac.setAttribute('stroke', '#5ec27e'); bd.setAttribute('stroke', '#5ec27e');
+    ab.setAttribute('marker-mid', 'url(#tick1)'); cd.setAttribute('marker-mid', 'url(#tick1)');
+    ac.setAttribute('marker-mid', 'url(#tick2)'); bd.setAttribute('marker-mid', 'url(#tick2)');
+  }
+}
+
+let sec = 0;
+setInterval(() => {
+  sec++;
+  const s = String(sec % 60).padStart(2, '0');
+  const m = String(Math.floor(sec / 60) % 60).padStart(2, '0');
+  document.getElementById('utc-clock').textContent = `04:${m}:${s}`;
+  const stateB = (sec % 4 >= 2);
+  const op = stateB ? '1' : '0';
+  ['meteo-img-b', 'econ-img-b', 'hauser-n24-b', 'hauser-sw4-b', 'sched-img-b'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.opacity = op;
+  });
+  const mLabel = document.getElementById('meteo-state-label');
+  if (mLabel) {
+    mLabel.textContent = stateB ? 'STATE B: 60 kV CYAN PLASMA ARC' : 'STATE A: DUST SQUALL ONSET';
+    mLabel.style.color = stateB ? 'var(--red)' : 'var(--cyan)';
+  }
+}, 1000);
+
+// ============================================================================
+// CAM-00: 60FPS 2560x1440 SINGLE-TOWER COMPOSITE + 4 STAGGERED BEACONS
+// ============================================================================
+const canvas = document.getElementById('cam0-canvas');
+const ctx = canvas.getContext('2d');
+
+const imgSky = new Image(); imgSky.src = '../assets/plates/cam00_aurora_sky_bg.jpg';
+const imgTowerOff = new Image(); imgTowerOff.src = '../assets/composited/cam00_tower_fg_off.png';
+const imgBeaconsOnly = new Image(); imgBeaconsOnly.src = '../assets/composited/cam00_tower_beacons_only.png';
+const imgCanyon = new Image(); imgCanyon.src = '../assets/plates/cam00b_canyon_overlook.jpg';
+const imgBarracks = new Image(); imgBarracks.src = '../assets/plates/cam00c_tower_downlook_barracks.jpg';
+
+const BEACONS = [
+  { id: 'mast_top', x: 740, y: 44, w: 144, h: 144, period: 2.30, phase: 0.15 },
+  { id: 'dish_apex', x: 1032, y: 72, w: 144, h: 144, period: 3.10, phase: 1.25 },
+  { id: 'truss_right', x: 1069, y: 351, w: 144, h: 144, period: 2.75, phase: 2.05 },
+  { id: 'booth_left', x: 652, y: 523, w: 144, h: 144, period: 3.65, phase: 0.65 },
+];
+
+function getBeaconPulse(t, period, phase) {
+  const cyc = ((t + phase) % period) / period;
+  if (cyc < 0.38) {
+    return Math.pow(Math.sin((cyc / 0.38) * Math.PI), 1.6);
+  }
+  return 0.0;
+}
+
+const snowCanvases = Array.from({length: 4}, () => {
+  const sc = document.createElement('canvas');
+  sc.width = 640; sc.height = 360;
+  const sctx = sc.getContext('2d');
+  const id = sctx.createImageData(640, 360);
+  const d = id.data;
+  for (let i = 0; i < d.length; i += 4) {
+    const v = Math.random() > 0.72 ? 255 : (Math.random() < 0.35 ? 10 : Math.floor(Math.random() * 210));
+    d[i] = v * 0.9; d[i+1] = v * 0.96; d[i+2] = v; d[i+3] = 255;
+  }
+  sctx.putImageData(id, 0, 0);
+  return sc;
+});
+
+function getBootStaticEnvelope(dt) {
+  // Voice starts under static at 0.92s and clears right at the [ding-ding] signal lock (4.30s)
+  const lockSec = 4.30;
+  if (dt >= lockSec) return 0.0;
+  const p = dt / lockSec;
+  if (dt < 0.42) return 0.85 - 0.20 * (dt / 0.42);
+  if (p < 0.48) return 0.48 + 0.14 * Math.sin(dt * 19.0);
+  if (p < 0.62) return 0.65;
+  if (p < 0.86) return 0.42 * Math.pow((0.86 - p) / (0.86 - 0.62), 1.2);
+  return 0.16 * Math.pow(Math.max(0.0, (1.0 - p) / 0.14), 2.0);
+}
+
+function replayColdOpen() {
+  fullEpActive = false;
+  const fullAud = document.getElementById('full-ep-audio');
+  if (fullAud) fullAud.pause();
+  extCamMode = 'tower';
+  showTab('view-cam0', document.getElementById('tab-cam0'), '14,285.7 kHz USB', '5-4-4-4-4', true);
+  t0 = performance.now();
+  const aud = document.getElementById('cold-open-audio');
+  if (aud) {
+    aud.currentTime = 0;
+    aud.play().catch(() => {});
+  }
+}
+
+function playFullEpisode() {
+  const coldAud = document.getElementById('cold-open-audio');
+  if (coldAud) coldAud.pause();
+  fullEpActive = true;
+  extCamMode = 'tower';
+  showTab('view-cam0', document.getElementById('tab-cam0'), '14,285.7 kHz USB', '5-4-4-4-4', true);
+  t0 = performance.now();
+  const fullAud = document.getElementById('full-ep-audio');
+  if (fullAud) {
+    fullAud.currentTime = 0;
+    fullAud.play().catch(() => {});
+  }
+}
+
+function syncFullEpisodeTimeline() {
+  if (!fullEpActive) return;
+  const fullAud = document.getElementById('full-ep-audio');
+  if (!fullAud || fullAud.paused) return;
+  const t = fullAud.currentTime;
+
+  if (t < 17.32 || t >= 150.70) {
+    if (!document.getElementById('view-cam0').classList.contains('active')) {
+      showTab('view-cam0', document.getElementById('tab-cam0'), '14,285.7 kHz USB', '5-4-4-4-4', true);
+    }
+  } else if (t < 40.73) {
+    if (!document.getElementById('view-meteo').classList.contains('active')) {
+      showTab('view-meteo', document.getElementById('tab-meteo'), '7,140.0 kHz LSB', '2-3-2-2-2', true);
+    }
+  } else if (t < 64.99) {
+    if (!document.getElementById('view-econ').classList.contains('active')) {
+      showTab('view-econ', document.getElementById('tab-econ'), '14,285.7 kHz USB', '4-4-4-4-4', true);
+    }
+  } else if (t < 102.74) {
+    if (!document.getElementById('view-hauser').classList.contains('active')) {
+      showTab('view-hauser', document.getElementById('tab-hauser'), '3,890.0 kHz CW', '3-4-3-3-3', true);
+    }
+    if (t < 80.46) selectHauserStation(0, null, '22%', true);
+    else if (t < 91.97) selectHauserStation(1, null, '54%', true);
+    else selectHauserStation(2, null, '86%', true);
+  } else if (t < 141.36) {
+    if (!document.getElementById('view-euclid').classList.contains('active')) {
+      showTab('view-euclid', document.getElementById('tab-euclid'), '9,420.0 kHz TELEM', '5-5-5-5-5', true);
+    }
+    if (t < 121.32) setEuclidStep(1, null);
+    else if (t < 133.10) setEuclidStep(2, null);
+    else setEuclidStep(3, null);
+  } else {
+    if (!document.getElementById('view-sched').classList.contains('active')) {
+      showTab('view-sched', document.getElementById('tab-sched'), '14,285.7 kHz USB', '5-4-4-4-4', true);
+    }
+  }
+}
+
+const wfCanvas = document.getElementById('waterfall-canvas');
+const wfCtx = wfCanvas.getContext('2d');
+const m33Canvas = document.getElementById('m33-scope');
+const m33Ctx = m33Canvas.getContext('2d');
+
+let frameCount = 0;
+function renderLoop(now) {
+  frameCount++;
+  syncFullEpisodeTimeline();
+  const dt = (now - t0) * 0.001;
+  const W = 2560, H = 1440;
+
+  ctx.fillStyle = '#04060a';
+  ctx.fillRect(0, 0, W, H);
+
+  const s = getBootStaticEnvelope(dt);
+  const jitterX = s > 0.02 ? (Math.random() - 0.5) * 140 * (s * s) : 0;
+  const jitterY = s > 0.65 ? (Math.random() - 0.5) * 140 * s : 0;
+
+  ctx.save();
+  if (s > 0.2) {
+    ctx.filter = `saturate(${Math.max(0, 100 - s * 110)}%) contrast(${100 + s * 35}%)`;
+  }
+  ctx.translate(jitterX, jitterY);
+
+  if (extCamMode === 'canyon' && imgCanyon.complete && imgCanyon.naturalWidth > 0) {
+    ctx.drawImage(imgCanyon, 0, 0, W, H);
+  } else if (extCamMode === 'barracks' && imgBarracks.complete && imgBarracks.naturalWidth > 0) {
+    ctx.drawImage(imgBarracks, 0, 0, W, H);
+  } else {
+    // Layer 1: Rotating & Drifting Aurora + Nebula Sky behind Single-Tower Outpost
+    if (imgSky.complete && imgSky.naturalWidth > 0) {
+      ctx.save();
+      const panX = Math.sin(dt * 0.11) * 220 - (dt % 40) * 4.5;
+      const panY = Math.cos(dt * 0.08) * 75;
+      const roll = Math.sin(dt * 0.06) * 0.04;
+      ctx.translate(W * 0.5 + panX, H * 0.5 + panY);
+      ctx.rotate(roll);
+      ctx.drawImage(imgSky, -W * 0.68, -H * 0.68, W * 1.36, H * 1.36);
+      ctx.restore();
+    }
+
+    // Layer 2: Zero-Spill Single-Tower Outpost (Beacons Off)
+    if (imgTowerOff.complete && imgTowerOff.naturalWidth > 0) {
+      ctx.drawImage(imgTowerOff, 0, 0, W, H);
+    }
+
+    // Layer 3: 4 Independent Staggered Aviation Warning Beacons
+    if (imgBeaconsOnly.complete && imgBeaconsOnly.naturalWidth > 0) {
+      for (const b of BEACONS) {
+        const p = getBeaconPulse(dt, b.period, b.phase);
+        if (p > 0.01) {
+          ctx.save();
+          ctx.globalAlpha = p;
+          ctx.drawImage(imgBeaconsOnly, b.x, b.y, b.w, b.h, b.x, b.y, b.w, b.h);
+          ctx.restore();
+        }
+      }
+    }
+  }
+  ctx.restore();
+
+  // Layer 4: 2D Crackly White-Noise Snow & Scanline Tear Crackle-In
+  if (s > 0.01) {
+    ctx.save();
+    ctx.globalAlpha = Math.min(0.88, Math.pow(s, 1.1) * 0.85);
+    const sc = snowCanvases[frameCount % snowCanvases.length];
+    ctx.drawImage(sc, 0, 0, W, H);
+    ctx.restore();
+
+    const barCount = Math.floor(8 + 26 * s);
+    for (let i = 0; i < barCount; i++) {
+      const y = Math.random() * H;
+      const h = 2 + Math.random() * 14 * s;
+      ctx.fillStyle = Math.random() > 0.35
+        ? `rgba(235, 245, 255, ${s * 0.50})`
+        : `rgba(5, 8, 14, ${s * 0.70})`;
+      ctx.fillRect(0, y, W, h);
+    }
+  }
+
+  const freqLarge = document.getElementById('cam0-freq-large');
+  const lockStatus = document.getElementById('cam0-lock-status');
+  if (dt < 4.30) {
+    const sweepFreq = (14252.0 + (dt / 4.30) * 33.7 + (Math.random() - 0.5) * 1.4 * s).toFixed(1);
+    freqLarge.textContent = `${sweepFreq} kHz [TUNING]`;
+    freqLarge.style.color = s > 0.5 ? 'var(--red)' : 'var(--cyan)';
+    lockStatus.textContent = dt >= 0.85 ? 'CALLING UNDER STATIC: "THIS IS GOR-9..."' : 'ACQUIRING CARRIER...';
+    lockStatus.style.color = 'var(--amber)';
+  } else if (dt < 5.30) {
+    freqLarge.textContent = '14,285.7 kHz USB';
+    freqLarge.style.color = 'var(--green)';
+    lockStatus.textContent = '[DING-DING] SIGNAL LOCK ACQUIRED';
+    lockStatus.style.color = 'var(--amber)';
+  } else {
+    freqLarge.textContent = '14,285.7 kHz USB';
+    freqLarge.style.color = 'var(--amber)';
+    lockStatus.textContent = 'LOCKED 14,285.7 kHz USB [SINPO 5-4-4-4-4]';
+    lockStatus.style.color = 'var(--green)';
+  }
+
+  wfCtx.fillStyle = 'rgba(6, 8, 12, 0.15)';
+  wfCtx.fillRect(0, 0, 1200, 54);
+  for (let x = 20; x < 1200; x += 24) {
+    const amp = (x === 264 || x === 648 || x === 1032)
+      ? 32 + Math.sin(dt * 8 + x) * 14
+      : 6 + Math.abs(Math.sin(dt * 3 + x * 0.1)) * 12;
+    wfCtx.fillStyle = (x === 264 || x === 648 || x === 1032) ? '#5ec27e' : '#1e3a5f';
+    wfCtx.fillRect(x, 54 - amp, 6, amp);
+  }
+
+  m33Ctx.fillStyle = 'rgba(4, 13, 7, 0.18)';
+  m33Ctx.fillRect(0, 0, 420, 420);
+  m33Ctx.strokeStyle = '#5ec27e';
+  m33Ctx.lineWidth = 2;
+  m33Ctx.beginPath();
+  for (let a = 0; a < Math.PI * 2; a += 0.04) {
+    const r = 140 + Math.sin(a * 5 + dt * 2.5) * 28 * Math.cos(dt * 0.9);
+    const px = 210 + Math.cos(a * 3 + dt * 1.4) * r;
+    const py = 210 + Math.sin(a * 2 - dt * 1.1) * r;
+    if (a === 0) m33Ctx.moveTo(px, py);
+    else m33Ctx.lineTo(px, py);
+  }
+  m33Ctx.closePath();
+  m33Ctx.stroke();
+
+  requestAnimationFrame(renderLoop);
+}
+requestAnimationFrame(renderLoop);
+</script>
+</body>
+</html>

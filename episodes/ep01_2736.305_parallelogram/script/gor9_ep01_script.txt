@@ -1,0 +1,37 @@
+[bell:context]
+This is GOR-9. <pause> This is GOR-9, <pause> Galactic Outpost Radio, broadcasting from the High Basalt Shelf on Asteroid 3-5-1 in Sector 9. <pause> Fourteen-two-eighty-five kilohertz upper sideband. Zero-four-hundred Galactic Coordinated.
+
+[bell:construction]
+Space Weather, with emphasis on Sector 9. <pause>
+Coreward lanes are calm—solar flux one-seventy-four, K-index two. <pause>
+Locally, an electrostatic dust squall on the Meridian Plateau has engulfed Relay K-Z-9 Omega. Sixty-kilovolt triboelectric arcing across the feedhorn is causing minor phase-wobble in the number-four marzelvane bushing. <pause> Expect SINPO two-three-two-two-two.
+
+[bell:proposition]
+Outpost Economics. <pause>
+Grade-B Deuterium pellets rose four percent today following a dragline cable slowdown at Silicate Quarry 44-K. <pause> Outpost Nine will step Reactor Two down to twelve kilowatts after midnight; Dormitory B should plug in auxiliary foot-warmers. <pause>
+Meanwhile, our monthly supply tender remains impounded at Quarantine Buoy Twelve after customs misfiled replacement oscillator tubes as fermented brine tubers.
+
+[bell:context]
+On the Hauser Correlator: <pause>
+Titan-Minor, three-eight-ninety kilohertz. Hydrographic Buoy N-24 reciting methane tide tables, <pause> <pause> while migratory silt-striders rub against the guy-wires, detuning the whip antenna. <pause>
+Callisto Dome Four, eleven-four-ten kilohertz. Unlicensed noodle-market broadcaster Radio Corrugated, <pause> <pause> peaking right as their engineer hit the dipole with a blowtorch. <pause>
+And Intergalactic, M-Thirty-Three: a seven-hundred-year-old drift-buoy still issuing small-craft warnings for an ammonia sea that evaporated in the Ming Dynasty.
+
+[bell:insight]
+Finally, <pause> a late-night alert on the Euclid Signal Detector, which scans the noise floor for signs of geometric intelligence. <pause>
+At zero-three-twelve UTC, inside unmanned Brine Evaporation Vat Nineteen on Callisto-South, the detector locked onto Frame Seven: <pause> an unsuspecting parallelogram in the salt crust.
+
+[bell:construction]
+Opposite sides parallel to two ten-thousandths of an arcsecond—A-B to C-D, A-C to B-D—and somebody drew the diameter B-C, bisecting the sludge into two congruent triangles.
+
+[bell:punchline]
+The Water Board claims a motorized mud-rake lost a cotter pin and dragged sideways. <pause>
+It's always a broken cotter pin, folks.
+
+[bell:context]
+On the next broadcast: an unlicensed numbers station in the Trojans reciting dumpling recipes in base-eight, and a suspected rhombus aboard an ice-hauler. <pause>
+From Asteroid 3-5-1 in Sector 9, <pause> this is GOR-9—your eye to the cosmos, ear to the vacuum.
+
+[bell:insight]
+Remember, a like indication on your listening apparatus gives us three kilowatts, <pause> and a subscription gets us one step closer to upgrading our marzelvane emitters.
+

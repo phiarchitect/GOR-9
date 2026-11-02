@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="38%" r="52%">
+      <stop offset="0%" stop-color="#183848" stop-opacity="0.95"/>
+      <stop offset="55%" stop-color="#091520" stop-opacity="0.98"/>
+      <stop offset="100%" stop-color="#04070B" stop-opacity="1"/>
+    </radialGradient>
+    <radialGradient id="apexFlare" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="1"/>
+      <stop offset="35%" stop-color="#FFF0B8" stop-opacity="0.85"/>
+      <stop offset="70%" stop-color="#6CE6FF" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#6CE6FF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Deep Space Background -->
+  <rect width="800" height="800" fill="url(#bgGlow)"/>
+
+  <!-- Outer Cosmic Halo Arch -->
+  <circle cx="400" cy="400" r="336" fill="none" stroke="#F4DF9E" stroke-width="7" stroke-opacity="0.88" filter="url(#glow)"/>
+  <circle cx="400" cy="400" r="276" fill="none" stroke="#F4DF9E" stroke-width="2.5" stroke-opacity="0.42"/>
+  <circle cx="400" cy="400" r="222" fill="none" stroke="#F4DF9E" stroke-width="2" stroke-opacity="0.30"/>
+
+  <!-- 4 Concentric Signal Rings around Antenna Apex (cx=400, cy=255) -->
+  <g filter="url(#glow)">
+    <circle cx="400" cy="255" r="142" fill="none" stroke="#8CEEFF" stroke-width="4.5" stroke-opacity="0.92"/>
+    <circle cx="400" cy="255" r="110" fill="none" stroke="#9CF4FF" stroke-width="4.5" stroke-opacity="0.95"/>
+    <circle cx="400" cy="255" r="78"  fill="none" stroke="#B8F8FF" stroke-width="4.5" stroke-opacity="0.98"/>
+    <circle cx="400" cy="255" r="46"  fill="none" stroke="#FFF4C8" stroke-width="5"   stroke-opacity="1.0"/>
+  </g>
+
+  <!-- 4-Point Crosshair Signal Lock Star Flare -->
+  <circle cx="400" cy="255" r="42" fill="url(#apexFlare)"/>
+  <polygon points="400,72 407,246 588,255 407,264 400,410 393,264 212,255 393,246" fill="#FFF7D6" filter="url(#glow)"/>
+
+  <!-- Tapered Open-Lattice Radio Tower + Elevated Octagonal Booth -->
+  <g stroke="#081018" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- Upper Vertical Mast -->
+    <line x1="400" y1="245" x2="400" y2="430" stroke-width="9"/>
+    <line x1="382" y1="430" x2="400" y2="275"/>
+    <line x1="418" y1="430" x2="400" y2="275"/>
+    <line x1="387" y1="380" x2="413" y2="380" stroke-width="5"/>
+    <line x1="391" y1="335" x2="409" y2="335" stroke-width="5"/>
+
+    <!-- Lower Lattice Legs below Booth -->
+    <line x1="366" y1="496" x2="328" y2="642" stroke-width="11"/>
+    <line x1="434" y1="496" x2="472" y2="642" stroke-width="11"/>
+    <line x1="400" y1="496" x2="400" y2="642" stroke-width="7"/>
+    <!-- Cross Bracing -->
+    <line x1="356" y1="532" x2="444" y2="532" stroke-width="6"/>
+    <line x1="344" y1="582" x2="456" y2="582" stroke-width="6"/>
+    <line x1="366" y1="496" x2="444" y2="532" stroke-width="5"/>
+    <line x1="434" y1="496" x2="356" y2="532" stroke-width="5"/>
+    <line x1="356" y1="532" x2="456" y2="582" stroke-width="5"/>
+    <line x1="444" y1="532" x2="344" y2="582" stroke-width="5"/>
+    <line x1="344" y1="582" x2="472" y2="642" stroke-width="6"/>
+    <line x1="456" y1="582" x2="328" y2="642" stroke-width="6"/>
+  </g>
+
+  <!-- Cantilevered Octagonal Broadcast Booth -->
+  <polygon points="332,448 468,448 452,498 348,498" fill="#0B131C" stroke="#1E3346" stroke-width="4"/>
+  <!-- Warm Glowing Booth Window -->
+  <polygon points="356,458 444,458 436,486 364,486" fill="#FFB347"/>
+  <!-- Lone Operator Silhouette -->
+  <circle cx="408" cy="469" r="6" fill="#120D08"/>
+  <path d="M398,486 C398,476 418,476 418,486 Z" fill="#120D08"/>
+  <!-- Neon GOR-9 Rooftop Sign -->
+  <text x="400" y="440" text-anchor="middle" font-family="DejaVu Sans Mono, monospace" font-weight="bold" font-size="26" fill="#FFB84D" filter="url(#glow)">GOR-9</text>
+
+  <!-- Curved Asteroid 3-5-1 Horizon -->
+  <path d="M90,695 Q400,590 710,695 L710,800 L90,800 Z" fill="#04070B"/>
+  <path d="M90,695 Q400,590 710,695" fill="none" stroke="#5CA4B8" stroke-width="4" stroke-opacity="0.75"/>
+
+  <!-- Main Callsign Emblem Text -->
+  <text x="400" y="736" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-weight="900" font-size="76" letter-spacing="4" fill="#FFF3C4">GOR-9</text>
+</svg>

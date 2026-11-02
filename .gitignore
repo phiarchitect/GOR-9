@@ -1,0 +1,10 @@
+# Full-episode master video renders (>100 MB, kept locally at episode root & repo root)
+/gor9_ep*.mp4
+/episodes/*/*.mp4
+/episodes/*/*.mov
+/episodes/*/previews/cam00_opening_test.mp4
+
+# Python / OS cache
+__pycache__/
+*.py[cod]
+.DS_Store

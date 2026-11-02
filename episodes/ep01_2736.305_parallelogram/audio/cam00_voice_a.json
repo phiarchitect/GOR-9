@@ -1,0 +1,25 @@
+{
+  "voice_id": "voice_xdhacg1pn1cq",
+  "audio_wav": "/home/phi/Sessions/GOR-9/renders/cam00_voice_a.wav",
+  "total_duration_sec": 3.72,
+  "segments": [
+    {
+      "index": 0,
+      "bell": null,
+      "style": "speaking briskly, nimble, crisp, and composed",
+      "text": "This is GOR-9. This is GOR-9.",
+      "start_sec": 0.0,
+      "end_sec": 3.72,
+      "duration_sec": 3.72,
+      "subsegments": [
+        {
+          "index": 0,
+          "text": "This is GOR-9. This is GOR-9.",
+          "start_sec": 0.0,
+          "end_sec": 3.72,
+          "duration_sec": 3.72
+        }
+      ]
+    }
+  ]
+}

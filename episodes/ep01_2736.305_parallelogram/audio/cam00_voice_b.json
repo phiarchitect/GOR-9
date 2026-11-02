@@ -1,0 +1,25 @@
+{
+  "voice_id": "voice_xdhacg1pn1cq",
+  "audio_wav": "/home/phi/Sessions/GOR-9/renders/cam00_voice_b.wav",
+  "total_duration_sec": 10.16,
+  "segments": [
+    {
+      "index": 0,
+      "bell": null,
+      "style": "speaking briskly, nimble, crisp, and composed",
+      "text": "Galactic Outpost Radio, broadcasting from the High Basalt Shelf on Asteroid 3-5-1 in Sector 9. Fourteen-two-eighty-five kilohertz upper sideband. Zero-four-hundred Galactic Coordinated.",
+      "start_sec": 0.0,
+      "end_sec": 10.16,
+      "duration_sec": 10.16,
+      "subsegments": [
+        {
+          "index": 0,
+          "text": "Galactic Outpost Radio, broadcasting from the High Basalt Shelf on Asteroid 3-5-1 in Sector 9. Fourteen-two-eighty-five kilohertz upper sideband. Zero-four-hundred Galactic Coordinated.",
+          "start_sec": 0.0,
+          "end_sec": 10.16,
+          "duration_sec": 10.16
+        }
+      ]
+    }
+  ]
+}
