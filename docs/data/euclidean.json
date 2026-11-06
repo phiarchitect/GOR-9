@@ -1,0 +1,136 @@
+{
+  "schema_version": "1.0.0",
+  "system_id": "VAN-ALLEN-ED9",
+  "model": "Van Allen ED-9",
+  "manufacturer": "Van Allen & Sons Switchgear • Deep-Space Astrometric & SETI Division (Ceres Foundry #7)",
+  "motto": "\"Chaos Makes Noise. Minds Make Geometry.\"",
+  "name": "Van Allen ED-9 • Cosmic Geometric Intelligence Correlator",
+  "location": "Octagonal ATC Control Tower • High Basalt Shelf, Asteroid 3-5-1 (Oort Cloud Sector 9)",
+  "epoch": "2736.305 • 0400 GCT",
+  "correlator_specs": {
+    "architecture": "12-Tube Optical & Radar Hough-Transform Invariant Correlator",
+    "angular_resolution_arcsec": 0.0001,
+    "active_feeds_scanned": 148,
+    "noise_floor_rejection_db": 94.2,
+    "power_draw_kw": 2.4,
+    "bus_circuit": "Reactor #2 Auxiliary Bus B (Van Allen Belt-Master Regulated)"
+  },
+  "detections": [
+    {
+      "id": "euc-01-parallelogram",
+      "slot": "EUC-01",
+      "code": "SETI-GEO-2736-34",
+      "title": "The Unsuspecting Parallelogram",
+      "subtitle": "Callisto-South Unmanned Brine Evaporation Vat 19 (Frame 07)",
+      "cam_id": "CAM-VAT19 • CALLISTO-SOUTH SALTERN SECTOR 4",
+      "trigger_epoch": "2736.305 • 03:12:09.40 GCT",
+      "proposition": "Euclid I.34",
+      "g_index": "G.47",
+      "prop_title": "Book I, Proposition 34 — Parallelogram Bisection & Congruence",
+      "enunciation": "In parallelogrammic areas the opposite sides and angles are equal to one another, and the diameter bisects the areas.",
+      "plate_src": "assets/plates/cam_vat19_parallelogram.jpg",
+      "svg_src": "assets/plates/0338.g1.svg",
+      "status_badge": "CONFIRMED CONSTRUCTIVE ARTIFACT (p < 1.4e-14)",
+      "threat_color": "amber",
+      "metrics": {
+        "parallel_tolerance": "0.0002 arcsec (AB || CD, AC || BD)",
+        "side_ratio_error": "0.00004% (AB = CD = 14.200m, AC = BD = 9.800m)",
+        "diagonal_bisection": "Exact 50.0000% Area Partition along BC",
+        "natural_probability": "1 in 7.1 × 10¹³ (Non-Geological)",
+        "prerequisites": ["I.29 (Parallel Alternate Angles)", "I.26 (ASA Triangle Congruence)", "I.4 (SAS Congruence)"]
+      },
+      "geometry": {
+        "type": "parallelogram",
+        "vertices": {
+          "A": { "x": 0.28, "y": 0.28 },
+          "B": { "x": 0.76, "y": 0.28 },
+          "C": { "x": 0.22, "y": 0.76 },
+          "D": { "x": 0.70, "y": 0.76 }
+        }
+      },
+      "steps": [
+        {
+          "step_num": 1,
+          "tag": "STEP 1 • GIVEN PARALLELOGRAM ABDC",
+          "bell": "[bell:insight]",
+          "clause": "Given parallelogrammic area ABDC in the salt crust with opposite sides parallel: AB || CD and AC || BD to 0.0002 arcseconds.",
+          "highlight": "given"
+        },
+        {
+          "step_num": 2,
+          "tag": "STEP 2 • DIAMETER BC & ALTERNATE ANGLES (I.29)",
+          "bell": "[bell:construction]",
+          "clause": "Let the diameter BC be drawn across the brine sludge. Because AB || CD, alternate angles ∠ABC = ∠BCD (Euclid I.29); and because AC || BD, ∠ACB = ∠CBD.",
+          "highlight": "construction"
+        },
+        {
+          "step_num": 3,
+          "tag": "STEP 3 • CONGRUENT BISECTION ΔABC ≅ ΔDCB (I.26)",
+          "bell": "[bell:proposition]",
+          "clause": "Triangles ABC and DCB share common diameter BC and equal angles, therefore AB = CD, AC = BD, and diameter BC bisects parallelogram ABDC into two congruent triangles (G.47).",
+          "highlight": "assertion"
+        },
+        {
+          "step_num": 4,
+          "tag": "STEP 4 • OFFICIAL WATER BOARD COVER-UP",
+          "bell": "[bell:punchline]",
+          "clause": "CALLISTO WATER BOARD PRESS RELEASE: 'A motorized mud-rake lost a cotter pin and dragged sideways across Vat 19.' That is one remarkably well-educated mud-rake, folks.",
+          "highlight": "coverup"
+        }
+      ],
+      "narrative": "At 03:12 GCT, the Van Allen ED-9 Hough correlator flagged Frame 07 from unmanned Brine Evaporation Vat 19 on Callisto-South. Etched into the crystalline salt crust was a razor-sharp parallelogram (AB || CD, AC || BD to 0.0002 arcseconds) with diameter BC cleanly bisecting the sludge into two congruent triangles (Euclid I.34 / G.47).",
+      "bureau_coverup": "CALLISTO WATER BOARD PRESS RELEASE: 'Motorized mud-rake lost a cotter pin and dragged sideways.'"
+    }
+  ],
+  "coming_next": {
+    "id": "euc-02-rhombus",
+    "slot": "NEXT • BCAST 02",
+    "broadcast": "BCAST 02 • 2736.312 GCT",
+    "code": "SETI-GEO-2736-22",
+    "title": "The Ice-Hauler Rhombus",
+    "subtitle": "Sector 7 Ice-Hauler Depot • Four Tugboats Anchored Around Drift-Barge",
+    "cam_id": "CAM-DEPOT07 • SECTOR 7 ICE-HAULER DEPOT",
+    "trigger_epoch": "2736.312 • PREVIEW QUEUE",
+    "proposition": "Euclid Def. I.22",
+    "g_index": "G.38",
+    "prop_title": "Book I, Definition 22 — The Equilateral Non-Right-Angled Rhombus",
+    "enunciation": "Of quadrilateral figures, a rhombus is that which is equilateral, but not right-angled.",
+    "plate_src": "assets/plates/cam44k_quarry_start.jpg",
+    "status_badge": "QUEUED FOR NEXT BROADCAST (BCAST 02 • SECTOR 7 DEPOT)",
+    "threat_color": "cyan",
+    "metrics": {
+      "parallel_tolerance": "0.0003 arcsec (AB = BC = CD = DA = 1.400 km)",
+      "side_ratio_error": "0.00001% (Four Identical Tug Anchor Tethers)",
+      "diagonal_bisection": "Orthogonal Bisection AC ⊥ BD at 90.000°",
+      "natural_probability": "1 in 4.8 × 10¹² (Non-Random Mooring)",
+      "prerequisites": ["Def. I.22 (Equilateral Rhombus)", "I.34 (Parallelogram Bisection)", "I.8 (SSS Congruence)"]
+    },
+    "geometry": {
+      "type": "rhombus",
+      "vertices": {
+        "A": { "x": 0.50, "y": 0.16 },
+        "B": { "x": 0.80, "y": 0.50 },
+        "C": { "x": 0.50, "y": 0.84 },
+        "D": { "x": 0.20, "y": 0.50 }
+      }
+    },
+    "steps": [
+      {
+        "step_num": 1,
+        "tag": "NEXT BROADCAST PREVIEW • EQUILATERAL TUG MOORING",
+        "bell": "[bell:warming]",
+        "clause": "Four identical ice-tugs anchored around a central drift-barge at the Sector 7 Depot with equal 1.400 km tethers: AB = BC = CD = DA (Euclid Def. I.22).",
+        "highlight": "given"
+      },
+      {
+        "step_num": 2,
+        "tag": "ORTHOGONAL DIAGONAL BISECTION (AC ⊥ BD)",
+        "bell": "[bell:construction]",
+        "clause": "Diagonals AC and BD cross the central drift-barge at an exact 90.000° right angle, partitioning the mooring field into four congruent right triangles.",
+        "highlight": "assertion"
+      }
+    ],
+    "summary": "On the next broadcast: four identical tugboats anchored around a drift-barge at the Sector 7 Ice-Hauler Depot in a 1.4-kilometer equilateral Rhombus (Euclid Def. I.22) with orthogonal bisecting diagonals.",
+    "bureau_coverup": "SECTOR 7 HARBORMASTER NOTE: 'Coincidental four-way magnetic winch stall during shift change.'"
+  }
+}

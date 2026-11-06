@@ -1,0 +1,269 @@
+{
+  "id": "buoy-n24",
+  "preset_slot": "P-02",
+  "featured_prototype": false,
+  "callsign": "TM-N24/B",
+  "name": "Hydrographic Buoy N-24",
+  "subtitle": "Titan-Minor Methane Shallows Automated Tidal Beacon",
+  "category": "Automated Hydrographic Utility",
+  "status": "NO VIDEO • CW + TELEMETRY",
+  "status_color": "cyan",
+  "origin": {
+    "body": "Titan-Minor (Cygnus-Rift Hydrocarbon Colony Moon)",
+    "site": "Kraken North Shallows • Tripod Mooring N-24",
+    "coordinates": "64.8° N, 019.4° E (Tidal Grid)",
+    "distance": "412 Light-Years (Cygnus Rift Bearing 074.5°)",
+    "local_clock": "TSol 14.82 (Dawn Methane Mist / 0400 GCT)"
+  },
+  "galactic": {
+    "sector": "Orion–Cygnus Drift • Kraken Hydrocarbon Basin",
+    "arm": "Orion–Cygnus Spur (Spinward)",
+    "azimuth_deg": 74.5,
+    "elevation_deg": 6.8,
+    "range_ly": 412.0,
+    "range_label": "412 ly (0.13 kpc)",
+    "radial_norm": 0.56,
+    "relay_nodes": [
+      {
+        "name": "Cygnus Rift Waveguide",
+        "az_deg": 72.0,
+        "r_norm": 0.34
+      }
+    ]
+  },
+  "rf": {
+    "frequency_khz": 3890.0,
+    "measured_khz": 3889.835,
+    "doppler_hz": -165.0,
+    "band": "75m Utility / Cryo-Tropospheric Duct",
+    "mode": "CW/USB",
+    "filter_bw_hz": 2400,
+    "tx_power_watts": 85,
+    "tx_power_label": "85 W (Strontium-90 RTG Thermocouple)",
+    "antenna": "6.4m Vertical Whip with 3 Stainless Guy-Wires",
+    "relay_path": "Cygnus Rift Ionospheric Bounce → O.R.S. 351",
+    "sinpo": {
+      "s": 3,
+      "i": 4,
+      "n": 3,
+      "p": 3,
+      "o": 3
+    },
+    "s_meter": "S7 / S8",
+    "s_meter_pct": 64,
+    "hauser_index": "Q-7.1",
+    "peak_modulation_db": "-165 Hz CARRIER BEND [FAUNA RUB]",
+    "dx_shorthand": [
+      "SAWA",
+      "UTILITY",
+      "FAUNA-QRM",
+      "85W RTG"
+    ]
+  },
+  "hardware_dossier": {
+    "transmitter": "Sealed titanium capsule housing an 85-watt solid-state synthesizer and mechanical brass fog-bell acoustic transducer, powered since 2689 by a Strontium-90 RTG.",
+    "feedline_anomaly": "Every local morning at TSol dawn, a herd of tall 4-meter wading silt-striders migrates past Mooring N-24 and rubs their carapace plates against the stainless-steel guy-wires, detuning the vertical whip capacitive hat by -165 Hz.",
+    "receive_antenna_at_gor9": "Acheron Chasm 2km North/South Beverage Wire (Az 074.5°)"
+  },
+  "media": {
+    "video_src": "assets/clips/buoy_n24_methane.mp4",
+    "poster_src": "assets/plates/flow_n24_onboard_pov_a.jpg",
+    "alt_plate_src": "assets/plates/flow_n24_onboard_rub_b.jpg",
+    "cam_id": "BUOY TM-N24/B • ONBOARD MASTHEAD CAM POV",
+    "hud_banner": "NO VIDEO CARRIER • CW MORSE + METHANE TIDE TELEMETRY",
+    "audio_intercept_src": "assets/audio/intercept_buoy_n24.wav",
+    "interval_signal_src": "assets/audio/is_buoy_n24.wav",
+    "sstv_burst_src": "assets/audio/sstv_buoy_n24.wav",
+    "interval_signal_name": "Double Submerged Brass Bell Clank + 880 Hz FSK Pip",
+    "languages": [
+      "French (Automated Speech ROM)",
+      "ITU Morse CW"
+    ],
+    "transcript_excerpt": "[Metallic buoy bell CLANK] 'VVV DE TM-N24/B... Marée de méthane secteur nord: quatre virgule deux mètres... [CARRIER BENDS DOWNWARD -165 Hz AS SILT-STRIDER RUBS WHIP] ...vent nul...'",
+    "qsl_plate_src": "assets/plates/flow_n24_onboard_pov_a.jpg",
+    "qsl_plate_b_src": "assets/plates/flow_n24_onboard_rub_b.jpg",
+    "flow_plates": [
+      "assets/plates/flow_n24_onboard_pov_a.jpg",
+      "assets/plates/flow_n24_onboard_rub_b.jpg"
+    ]
+  },
+  "qsl": {
+    "qsl_number": "QSL #0089-N24",
+    "gif_src": "assets/qsl/qsl_buoy_n24.gif",
+    "protocol": "CW-HELLSCHREIBER / FSK RASTER BURST",
+    "dimensions": "384×240 • 10-Frame Postcard eQSL GIF",
+    "issue_epoch": "2736.305 • 0348 GCT",
+    "motto": "LA MER DE MÉTHANE NE DORT JAMAIS • 85 WATTS SUR L'HORIZON",
+    "signer": "Automated Bureau Hydrographique de Titan-Minor",
+    "collector_tier": "TIER II • EXOTIC BEACON EDITION (#42 of 200)",
+    "verification_hash": "0x3890-N24B-TSOL-771",
+    "embedded_clue": "The -165 Hz guy-wire pitch bend occurs at intervals of 3, 5, and 8 seconds."
+  },
+  "decoder": {
+    "has_live_video": false,
+    "default_view": "decoder",
+    "signal_type": "ITU MORSE CW (18 WPM) + FRENCH HYDROGRAPHIC ROM",
+    "spectrum_style": "cw_narrow",
+    "required_algorithm": "ALG-01",
+    "algorithm_name": "ALG-01 • ITU MORSE CW & FRENCH HYDRO-ROM TRANSLATOR",
+    "morse_stream": "...- ...- ...- / -.. . / - -- -....- -. ..--- ....- / -- .- .-. . . / ....- .-.-.- ..--- --",
+    "raw_rx_lines": [
+      "03:48:02.10  CW-KEY : •••— •••— •••—  —•• •  — —— —••••— —• ••——— ••••—  —•••",
+      "03:48:04.45  ROM-FR : MAREE DE METHANE SECTEUR NORD: QUATRE VIRGULE DEUX METRES",
+      "03:48:07.12  FSK-TLM: [CAP_HAT=159.4pF] Δf = -165.0 Hz (INTERVALS: 3s, 5s, 8s)",
+      "03:48:09.80  ROM-FR : DENSITE 0.424 g/cm³ • VENT NUL • BALISE SECOURS 85W SR-90"
+    ],
+    "translated_lines": [
+      "[CW MORSE ID]: 'VVV DE TM-N24/B' — Titan-Minor Mooring N-24 (85W Backup RTG Beacon)",
+      "[HYDRO TRANSLATION]: North Sector Liquid Methane Tide = 4.20 meters • Surface Wind = Calm",
+      "[TELEMETRY UNPACK]: Capacitive hat detuned -165.0 Hz by 4m Silt-Strider carapace on Guy-Wire #2",
+      "[FIBONACCI RUB CADENCE]: Carapace rub intervals [3s, 5s, 8s] confirm natural fauna migration"
+    ],
+    "telemetry_metrics": [
+      {
+        "label": "METHANE TIDE",
+        "value": "4.20 m",
+        "unit": "KRAKEN SHALLOWS",
+        "pct": 68,
+        "alert": false
+      },
+      {
+        "label": "WHIP DETUNE",
+        "value": "-165.0 Hz",
+        "unit": "GUY-WIRE FAUNA RUB",
+        "pct": 88,
+        "alert": true
+      },
+      {
+        "label": "CW KEY SPEED",
+        "value": "18.0 WPM",
+        "unit": "880 Hz BFO OFFSET",
+        "pct": 45,
+        "alert": false
+      },
+      {
+        "label": "SR-90 RTG BUS",
+        "value": "85.0 W",
+        "unit": "BACKUP RIG ACTIVE",
+        "pct": 85,
+        "alert": false
+      }
+    ]
+  },
+  "logs": [
+    {
+      "epoch": "2736.305",
+      "gct": "0348 GCT",
+      "entry": "** TITAN-MINOR [Cygnus Drift]. 3890.0 USB/CW, Epoch 2736.305 at 0348 GCT, Hydrographic Buoy N-24 (Az 074.5°, 412 ly) reciting French methane tide tables at S7/S8, thought to be 1 kW main beacon but confirmed as the 85-watt backup RTG rig! Periodic -165 Hz downward carrier warble whenever migratory silt-striders rub against the guy-wires, detuning the whip antenna (Operator, Asteroid 3-5-1, GOR-9)"
+    },
+    {
+      "epoch": "2736.292",
+      "gct": "0350 GCT",
+      "entry": "** TITAN-MINOR. 3890.000 CW, Epoch 2736.292 at 0350 GCT, clean 18 WPM Morse ID 'VVV DE TM-N24/B' and double brass fog-bell clank, zero carrier bend today as the methane tide was high (5.1m) and the silt-strider herd stayed on the southern mudflats (Operator, Asteroid 3-5-1, GOR-9)"
+    },
+    {
+      "epoch": "2736.275",
+      "gct": "0344 GCT",
+      "entry": "** TITAN-MINOR. 3889.835 USB, Epoch 2736.275 at 0344 GCT, initially logged as an unstable VFO on 75m utility band before correlating the -165 Hz capacitive detune with local TSol dawn fauna migration on Tripod Mooring N-24 (Operator, Asteroid 3-5-1, GOR-9)"
+    }
+  ],
+  "station_folder": "tm-n24_buoy-n24",
+  "characters": [
+    {
+      "name": "Automate Hydrographique 'Mariette-4'",
+      "role": "1980s-Style French Speech-Synthesis Tide ROM",
+      "species_or_type": "Solid-State Speech Synthesizer (Installed 2689 GCT)",
+      "languages": "French (Formal Maritime Hydrographic Standard) + 18 WPM ITU Morse",
+      "dialect_notes": "Clipped, hypnotic LPC-synthesized Parisian French reciting methane tide heights and barometric density.",
+      "voice_profile": {
+        "tts_voice": "Leda (French Maritime LPC Filter)",
+        "cadence": "Measured 115 WPM robotic cadence punctuated by double brass fog-bell clanks",
+        "dsp_chain": "LPC formant quantizer + -165 Hz capacitive pitch-bend warble"
+      },
+      "signature_quote": "VVV DE TM-N24/B... Marée de méthane secteur nord: quatre virgule deux mètres... vent nul...",
+      "bio": "Programmed fifty years ago by the colonial Bureau Hydrographique de Titan-Minor and sealed inside a titanium capsule powered by an 85-watt Strontium-90 RTG.",
+      "slug": "mariette4_rom",
+      "headshot_src": "assets/plates/flow_n24_onboard_pov_a.jpg",
+      "fullbody_src": "assets/plates/flow_n24_onboard_rub_b.jpg",
+      "voice_sample_dry_src": "assets/audio/voices/voice_mariette4_rom_dry.wav",
+      "voice_sample_rf_src": "assets/audio/voices/voice_mariette4_rom_rf.wav",
+      "language_sample_transcript": "V-V-V de T-M-N-vingt-quatre barre B. Bureau Hydrographique de Titan-Mineur. Marée de méthane secteur nord: quatre virgule deux mètres. Densité: zéro virgule quatre-deux-quatre. Vent nul.",
+      "phonetic_and_conlang_notes": "Formal French Maritime Hydrographic Standard ('Marée de méthane secteur nord') synthesized with LPC formant stepping."
+    },
+    {
+      "name": "The Kraken Shallows Silt-Strider Herd",
+      "role": "Bio-Capacitive Antenna Modulators ('The Singing Guy-Wires')",
+      "species_or_type": "Indigenous 4-Meter Cryo-Wading Fauna (Strideria krakenensis)",
+      "languages": "Bio-Capacitive Theremin Glissandos (-165 Hz Chord Harmonics)",
+      "dialect_notes": "Resonant chitinous throat-sacs rubbing directly against warm RF-energized stainless-steel guy-wires at Fibonacci intervals (3s, 5s, 8s).",
+      "voice_profile": {
+        "tts_voice": "Synthesized Bio-Theremin & Whale-Harmonic Resonator",
+        "cadence": "Slow dawn chorus synchronized with local TSol methane low tide",
+        "dsp_chain": "Capacitive hat detuning (-165 Hz) + cryo-tropospheric ducting"
+      },
+      "signature_quote": "[Submerged brass bell CLANK -> haunting -165 Hz three-voice theremin chord]",
+      "bio": "Discovering that the 85W RF current warms Mooring N-24's stainless guy-wires by 12°C in the freezing methane mist, the herd gathers every morning so individual striders can rub their long iridescent necks right up against the taut cable—turning the 6.4m whip antenna into an interstellar theremin.",
+      "slug": "silt_strider",
+      "headshot_src": "assets/characters/char_silt_strider_headshot.jpg",
+      "fullbody_src": "assets/characters/char_silt_strider_fullbody.jpg",
+      "voice_sample_dry_src": "assets/audio/voices/voice_silt_strider_dry.wav",
+      "voice_sample_rf_src": "assets/audio/voices/voice_silt_strider_rf.wav",
+      "language_sample_transcript": "[Bio-Acoustic Call]: Piezoelectric carapace clicks -> 220 Hz throat-sac lagoon resonance -> 880 Hz vocalized Morse mimicry ('VVV' with -165 Hz guy-wire rub bend).",
+      "phonetic_and_conlang_notes": "Non-human bio-acoustic communication: combines 1.4 kHz chitinous clicks, 220 Hz methane-lagoon throat-sac calls, and learned 880 Hz ITU Morse mimicry."
+    },
+    {
+      "name": "Dr. Hélène Moreau",
+      "role": "QSL Verifier & Field Xenobiologist (Ganymede Trust)",
+      "species_or_type": "Human (Xenobiology Trust Archivist)",
+      "languages": "French, English",
+      "dialect_notes": "Academic, enthusiastic field naturalist who signs the official QSL cards based on listener harmonic counts.",
+      "voice_profile": {
+        "tts_voice": "Aoede (French-Accented English)",
+        "cadence": "135 WPM",
+        "dsp_chain": "Clean studio sideband"
+      },
+      "signature_quote": "Look at the buoy's mast-camera feed: the matriarch is rubbing her neck right against Guy-Wire Number Two!",
+      "bio": "Monitors the onboard masthead inspection camera bolted to Buoy N-24 and issues official Bureau Hydrographique telemetry & wildlife QSL cards to DXers who report the herd's seasonal migration.",
+      "slug": "solene_moreau",
+      "headshot_src": "assets/characters/char_solene_moreau_headshot.jpg",
+      "fullbody_src": "assets/characters/char_solene_moreau_fullbody.jpg",
+      "voice_sample_dry_src": "assets/audio/voices/voice_solene_moreau_dry.wav",
+      "voice_sample_rf_src": "assets/audio/voices/voice_solene_moreau_rf.wav",
+      "language_sample_transcript": "Ici Solène Moreau, station acoustique Kraken-Nord. Listen closely to the hydrophone—the Silt-Strider isn't just rubbing its neck against Guy-Wire Number Two for the warmth. Its throat-sac is singing the buoy's Morse code back to the lagoon!",
+      "phonetic_and_conlang_notes": "Bilingual French-Québécois / English scientific field log recorded on portable hydrophone tape."
+    }
+  ],
+  "worldbuilding": {
+    "habitat_and_culture": "Kraken North Shallows on Titan-Minor is a mirror-calm expanse of liquid hydrocarbons shrouded in twilight mist. Because Buoy N-24 is an unstaffed autonomous beacon, the only camera in the shallows is bolted directly to the buoy's own upper steel tripod—looking down past its amber Fresnel lamp and taut stainless guy-wire.",
+    "spectrum_gimmick_title": "Biological Capacitive-Hat Theremin (-165 Hz Fauna Guy-Wire Rub)",
+    "hauser_commentary": "Titan-Minor on 3890 kilohertz. Automated French tide tables at 0348, followed by that unmistakable downward pitch-bend of 165 Hertz—captured on the buoy's own mast-mounted camera as a Silt-Strider walks right up and rubs its neck against the warm stainless-steel guy-wire!",
+    "qsl_postcard_style": "Bureau Hydrographique Onboard Mast-Cam & Telemetry Verification Card",
+    "qsl_animation_notes": "Seen from the camera bolted to Buoy N-24 itself: in Frame B, a bioluminescent Silt-Strider walks right up to the foreground guy-wire and rubs its neck against the cable, sending cyan capacitive sparks up the wire as the amber Fresnel lamp flashes!",
+    "discovery_arc": [
+      {
+        "stage": "Broadcast 01 (Initial Log)",
+        "summary": "Logged on 3890 kHz CW/USB; onboard mast-cam confirms a Silt-Strider rubbing directly against Guy-Wire #2, causing -165 Hz pitch bends every 3, 5, and 8 seconds."
+      },
+      {
+        "stage": "Broadcast 02 (The Herd Multiplies)",
+        "summary": "Seven Silt-Striders gather during a methane neap tide, detuning the beacon by a full -440 Hz into a minor-seventh chord that triggers GOR-9's Euclidean harmonic detector."
+      },
+      {
+        "stage": "Broadcast 03 (The Mimicry)",
+        "summary": "Dr. Moreau confirms the herd has begun vocally mimicking the buoy's 18 WPM Morse ID ('VVV DE TM-N24/B') even when the transmitter steps down!"
+      }
+    ]
+  },
+  "flow_plates": [
+    {
+      "src": "assets/plates/flow_n24_onboard_pov_a.jpg",
+      "role": "16:9 Onboard Buoy Mast-Cam POV Keyframe A (Flow)",
+      "caption": "Shot FROM the camera bolted to Buoy N-24 looking past its own salt-crusted steel bracket, amber Fresnel lamp, and diagonal stainless-steel guy-wire as three Silt-Striders wade across the shallows."
+    },
+    {
+      "src": "assets/plates/flow_n24_onboard_rub_b.jpg",
+      "role": "16:9 Onboard Buoy Mast-Cam POV Keyframe B (Flow)",
+      "caption": "One of the bioluminescent Silt-Striders walks right up to the foreground stainless-steel guy-wire and physically rubs its neck against the taut cable, triggering a cyan capacitive shimmer and -165 Hz pitch bend!"
+    }
+  ]
+}

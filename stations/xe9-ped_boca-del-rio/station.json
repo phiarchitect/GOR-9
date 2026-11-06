@@ -1,0 +1,223 @@
+{
+  "id": "pedregal-utility",
+  "preset_slot": "P-05",
+  "featured_prototype": false,
+  "callsign": "XE9-PED/U",
+  "name": "Pedregal Oort Weather Utility",
+  "subtitle": "Out-of-Band Pirate Maritime/Cometary Frost Forecast",
+  "category": "Pirate Utility",
+  "status": "NO VIDEO • 3W QRP TELEMETRY",
+  "status_color": "amber",
+  "origin": {
+    "body": "Inner Oort Cometary Staging Shoal (Sector 9 West)",
+    "site": "Independent Ice-Tender 'Boca del Río'",
+    "coordinates": "Gal Lon 264.0°, Gal Lat +11.5° (Oort Shell 38,400 AU)",
+    "distance": "0.058 Light-Years (3,700 AU • Local Oort Scatter)",
+    "local_clock": "0400 GCT Daily Window (0402–0415 GCT Only)"
+  },
+  "galactic": {
+    "sector": "Oort Cloud Sector 9 West • Cometary Ice Shoal",
+    "arm": "Local Oort Shell (Inner Rim)",
+    "azimuth_deg": 264.0,
+    "elevation_deg": 11.5,
+    "range_ly": 0.058,
+    "range_label": "3,700 AU (0.058 ly)",
+    "radial_norm": 0.22,
+    "relay_nodes": []
+  },
+  "rf": {
+    "frequency_khz": 6969.5,
+    "measured_khz": 6969.512,
+    "doppler_hz": 12.0,
+    "band": "43m Out-of-Band Pirate Trench",
+    "mode": "USB",
+    "filter_bw_hz": 2400,
+    "tx_power_watts": 3,
+    "tx_power_label": "3 W (Salvaged Dilithium-Foil Thermopile)",
+    "antenna": "End-Fed Longwire Strung Between Ice-Saw Derricks",
+    "relay_path": "Direct Oort Cometary Dust Scatter",
+    "sinpo": {
+      "s": 3,
+      "i": 4,
+      "n": 3,
+      "p": 4,
+      "o": 3
+    },
+    "s_meter": "S6 / S7",
+    "s_meter_pct": 55,
+    "hauser_index": "Q-7.9",
+    "peak_modulation_db": "3.0 WATTS PEP [PIRATE UTILITY]",
+    "dx_shorthand": [
+      "PIRATE UTILITY",
+      "3W QRP",
+      "QSL #1",
+      "OUT-OF-BAND"
+    ]
+  },
+  "hardware_dossier": {
+    "transmitter": "3-watt homebrew SSB transceiver built inside a biscuit tin. If a ham goes out-of-band and plays rock music, we call it a pirate; when XE9-PED goes out-of-band on 6,969.5 USB to read official methane-frost and sublimation forecasts for independent ice-harvesters, that makes him a Pirate Utility.",
+    "feedline_anomaly": "Remarkable 3,700 AU reach on just 3 watts thanks to forward-scatter off ionized cometary tails.",
+    "receive_antenna_at_gor9": "Acheron Chasm East/West Loop (Az 264.0°)"
+  },
+  "media": {
+    "video_src": "assets/clips/buoy_n24_methane.mp4",
+    "poster_src": "assets/plates/qsl_plate_pedregal_rafa.jpg",
+    "alt_plate_src": "assets/plates/qsl_plate_pedregal_rafa_wave.jpg",
+    "cam_id": "QRP COMETARY SCATTER & BAROMETRIC UNPACKER",
+    "hud_banner": "NO VIDEO CARRIER • 3.0W QRP ICE-TUG WEATHER & DILITHIUM INDEX",
+    "audio_intercept_src": "assets/audio/intercept_pedregal.wav",
+    "interval_signal_src": "assets/audio/is_pedregal.wav",
+    "sstv_burst_src": "assets/audio/sstv_pedregal.wav",
+    "interval_signal_name": "Acoustic Guitar Harmonic & Barometer Click",
+    "languages": [
+      "Spanish",
+      "Oort Tug-Crew Spanglish"
+    ],
+    "transcript_excerpt": "'Aviso meteorológico para los remolcadores de hielo en el Sector Nueve... presión de sublimación en aumento... Radio Pedregal, tres vatios de potencia...'",
+    "qsl_plate_src": "assets/plates/qsl_plate_pedregal_rafa.jpg",
+    "qsl_plate_b_src": "assets/plates/qsl_plate_pedregal_rafa_wave.jpg",
+    "flow_plates": [
+      "assets/plates/flow_pedregal_bridge_pov.jpg",
+      "assets/plates/qsl_plate_pedregal_rafa.jpg",
+      "assets/plates/qsl_plate_pedregal_rafa_wave.jpg"
+    ]
+  },
+  "qsl": {
+    "qsl_number": "QSL #0001-PED",
+    "gif_src": "assets/qsl/qsl_pedregal.gif",
+    "protocol": "SLOW-SCAN PACKET STAMP",
+    "dimensions": "384×240 • 10-Frame Postcard eQSL GIF",
+    "issue_epoch": "2736.305 • 0411 GCT",
+    "motto": "3 WATTS FOR THE ICE FLEET • PIRATE UTILITY OF SECTOR 9",
+    "signer": "Capt. Rafael 'Rafa' Rodríguez, MV Boca del Río",
+    "collector_tier": "TIER I • 3-WATT QRP MIRACLE QSL #1 (#1 of 50)",
+    "verification_hash": "0x6969-PEDU-3WQRP",
+    "embedded_clue": "Barometer millibar readings match the Dilithium Spot Exchange curve."
+  },
+  "decoder": {
+    "has_live_video": false,
+    "default_view": "decoder",
+    "signal_type": "3W QRP USB VOICE + CW BAROMETRIC MILLIBAR TABLE",
+    "spectrum_style": "qrp_scatter",
+    "required_algorithm": "ALG-04",
+    "algorithm_name": "ALG-04 • CRYO-TELEMETRY & OORT TUG SPANGLISH UNPACKER",
+    "morse_stream": "-..- . ----. -....- .--. . -.. / ...-- .-- / -- -... .- .-. / .---- ----- ....- ..---",
+    "raw_rx_lines": [
+      "04:11:02.18  CW-PREAMBLE: —••— • ————• —••••— •——• • —•• / •••— —•— •••",
+      "04:11:05.40  SPANGLISH  : 'Aviso pa los ice-tugs en Shoal 44-K: frost-plume subiendo a +14.2 Pa!'",
+      "04:11:08.75  MBAR-TABLE : [SHOAL-A: 1042.4] [SHOAL-B: 1046.8] [SHOAL-C: 1051.2] (+4.2%)",
+      "04:11:11.90  QRP-STATUS : TX=3.0W PEP (BISCUIT-TIN RIG) • COMETARY TAIL SCATTER +11 dB"
+    ],
+    "translated_lines": [
+      "[WEATHER TRANSLATION]: 'Advisory for independent ice-tugs in Shoal 44-K: sublimation plume rising to +14.2 Pa'",
+      "[PIRATE UTILITY STATUS]: Out-of-band on 6,969.5 kHz USB delivering official frost safety tables on 3.0 Watts",
+      "[TELEMETRY UNPACK]: Barometric millibar sequence [1042.4 -> 1046.8 -> 1051.2] encodes Grade-B Dilithium Spot (+4.2%)",
+      "[PELLET DROP ALERT]: Capt. Rafa is signaling an uninspected Dilithium pellet barge caches near Comet C/2736-K4!"
+    ],
+    "telemetry_metrics": [
+      {
+        "label": "TX OUTPUT",
+        "value": "3.00 W",
+        "unit": "BISCUIT-TIN QRP",
+        "pct": 18,
+        "alert": false
+      },
+      {
+        "label": "SUBLIMATION",
+        "value": "+14.2 Pa",
+        "unit": "COMET C/2736-K4",
+        "pct": 76,
+        "alert": true
+      },
+      {
+        "label": "BARO / SPOT",
+        "value": "1051.2 mb",
+        "unit": "DILITHIUM +4.2%",
+        "pct": 92,
+        "alert": true
+      },
+      {
+        "label": "SCATTER GAIN",
+        "value": "+11.4 dB",
+        "unit": "IONIZED TAIL BOUNCE",
+        "pct": 66,
+        "alert": false
+      }
+    ]
+  },
+  "logs": [
+    {
+      "epoch": "2736.305",
+      "gct": "0411 GCT",
+      "entry": "** OORT SHOAL WEST. 6969.5 USB, Epoch 2736.305 at 0402-0415 GCT only, 'Pedregal Radio' (Az 264.0°, 3,700 AU) reading Spanish cometary frost and sublimation forecasts for independent ice-boats. If a ham goes out of band and plays rock music we call it a pirate, so going out of band to read ice-tug weather makes him a Pirate Utility! Received QSL #1 confirming power is only 3 watts! (Operator, Asteroid 3-5-1, GOR-9)"
+    },
+    {
+      "epoch": "2736.295",
+      "gct": "0406 GCT",
+      "entry": "** OORT SHOAL WEST. 6969.512 USB, Epoch 2736.295 at 0406 GCT, Capt. Rafa on MV Boca del Río reporting a +14.2 Pa sublimation plume near Comet C/2736-K4; signal peaked S7 via forward-scatter off the comet's ionized dust tail (Operator, Asteroid 3-5-1, GOR-9)"
+    },
+    {
+      "epoch": "2736.280",
+      "gct": "0414 GCT",
+      "entry": "** OORT SHOAL WEST. 6969.500 USB, Epoch 2736.280 at 0414 GCT, acoustic guitar harmonic interval signal followed by CW millibar tables [1042.4 -> 1046.8 -> 1051.2] that track the Oort Grade-B Dilithium Spot Index to 0.1% (Operator, Asteroid 3-5-1, GOR-9)"
+    }
+  ],
+  "station_folder": "xe9-ped_boca-del-rio",
+  "characters": [
+    {
+      "name": "Capt. Rafael 'Rafa' Rodríguez",
+      "role": "Skipper of Ice-Tender MV Boca del Río & 'Pirate Utility' Broadcaster",
+      "species_or_type": "Human (Independent Cryo-Sea & Cometary Ice-Harvester)",
+      "languages": "Veracruz Spanish & Tug-Crew Spanglish",
+      "dialect_notes": "Warm, folksy, coastal Mexican cadence mixed with cryo-barometric terminology and acoustic guitar chords.",
+      "voice_profile": {
+        "tts_voice": "Puck / Fenrir (Warm Veracruz Spanish-Inflected)",
+        "cadence": "140 WPM relaxed wheelhouse delivery with nylon-string guitar harmonic intro",
+        "dsp_chain": "3-Watt QRP SSB biscuit-tin exciter + cometary ion-tail forward-scatter flutter"
+      },
+      "signature_quote": "Buenas madrugadas a toda la flota hielera en el Sector Nueve... tres vatios desde mi lata de galletas danesas, ¡pero con corazón de cincuenta kilovatios!",
+      "bio": "When the Sector 9 Meteorology Bureau stopped broadcasting Spanish-language ice-pack warnings to save reactor power, Capt. Rafa built a 3-watt SSB transmitter inside a round blue Danish butter-cookie tin and went out-of-band on 6,969.5 kHz USB every night from 0402 to 0415 GCT.",
+      "slug": "capt_rafa",
+      "headshot_src": "assets/characters/char_capt_rafa_headshot.jpg",
+      "fullbody_src": "assets/characters/char_capt_rafa_fullbody.jpg",
+      "voice_sample_dry_src": "assets/audio/voices/voice_capt_rafa_dry.wav",
+      "voice_sample_rf_src": "assets/audio/voices/voice_capt_rafa_rf.wav",
+      "language_sample_transcript": "Buenas madrugadas a toda la flota hielera del Sector Nueve! This is Captain Rafa aboard the Boca del Río on sixty-nine-sixty-nine point five. Three watts coming out of my Danish butter-cookie tin, pero con corazón de cincuenta kilovatios!",
+      "phonetic_and_conlang_notes": "Veracruz Maritime Spanish & Oort Ice-Fleet Spanglish ('flota hielera', 'lata de galletas danesas')."
+    }
+  ],
+  "worldbuilding": {
+    "habitat_and_culture": "The Pedregal Ice-Shoal is worked by dozens of family-owned ice-tugs navigating dark sub-glacial seas and emerald icebergs beneath active comet tails. Capt. Rafa's wheelhouse aboard MV Boca del Río is the unofficial town square and weather bureau for the entire fleet.",
+    "spectrum_gimmick_title": "3-Watt Biscuit-Tin QRP 'Pirate Utility' via Cometary Ion-Tail Scatter",
+    "hauser_commentary": "At 0411 on 6969.5 USB, Capt. Rafa aboard the ice-tender Boca del Río with his nightly frost forecast. If a ham goes out of band and plays rock music we call it a pirate; going out of band on 3 watts to read official ice-tug weather makes him a Pirate Utility! Proud to hold QSL #1 from his butter-cookie-tin rig.",
+    "qsl_postcard_style": "Homemade Wheelhouse Snapshot & Clip-Art Tower Postcard (inspired by Voice of Pancho Villa)",
+    "qsl_animation_notes": "2-frame wheelhouse action: Capt. Rafa raises his hand in a big warm wave while the vacuum tube atop his blue cookie-tin transmitter flares golden-orange and the clip-art '3W BIG SIGNAL!' tower radiates!",
+    "discovery_arc": [
+      {
+        "stage": "Broadcast 01 (Initial Log)",
+        "summary": "Received QSL #1 confirming 3.0 Watts PEP from a Danish butter-cookie tin; millibar readings secretly track Grade-B Dilithium spot prices."
+      },
+      {
+        "stage": "Broadcast 02 (The Geyser Rescue)",
+        "summary": "Rafa stays on the air past 0415 GCT on battery power to guide three ice-barges around a violent +22 Pa sublimation eruption."
+      }
+    ]
+  },
+  "flow_plates": [
+    {
+      "src": "assets/plates/flow_pedregal_bridge_pov.jpg",
+      "role": "16:9 Bridge-Window Ice-Sea Background Plate (Flow)",
+      "caption": "View from the frosted forward bridge windows of MV Boca del Río looking out over its ice-crusted steel bow and radar mast across a dark sea of glowing emerald icebergs and a cyan comet tail."
+    },
+    {
+      "src": "assets/plates/qsl_plate_pedregal_rafa.jpg",
+      "role": "16:9 Character Keyframe A (Flow)",
+      "caption": "Capt. Rafa Rodríguez in his warm timber-lined wheelhouse holding his 3W blue Danish butter-cookie-tin SSB transmitter."
+    },
+    {
+      "src": "assets/plates/qsl_plate_pedregal_rafa_wave.jpg",
+      "role": "16:9 Character Keyframe B (Flow)",
+      "caption": "Capt. Rafa raising his left hand in a big warm wave while the vacuum tube atop his cookie-tin rig flares bright gold."
+    }
+  ]
+}

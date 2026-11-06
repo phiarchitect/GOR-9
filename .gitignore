@@ -1,10 +1,30 @@
-# Full-episode master video renders (>100 MB, kept locally at episode root & repo root)
-/gor9_ep*.mp4
-/episodes/*/*.mp4
-/episodes/*/*.mov
-/episodes/*/previews/cam00_opening_test.mp4
+# All video and audio binary masters (stored in local/Google Drive archive, never in Git)
+*.mp4
+*.mov
+*.wav
+*.mp3
+
+# Episode raster renders, plates, thumbnails & scratch
+/episodes/**/*.webp
+/episodes/**/*.png
+/episodes/**/*.jpg
+/episodes/*/previews/
+/episodes/*/frames_cold_open_3d/
+/episodes/*/slides_cold_open_3d/
+/episodes/*/console_plates/
+/episodes/*/_*_concat.txt
+/episodes/*/audio/segments/
+
+# 3D Tower intermediate render frames, MP4s, and binary mesh snapshots
+/tower_3d/renders/
+/tower_3d/history/*.png
+/tower_3d/history/*.obj
+/tower_3d/history/*.mtl
+/tower_3d/history/*.igz
 
 # Python / OS cache
 __pycache__/
 *.py[cod]
 .DS_Store
+
+

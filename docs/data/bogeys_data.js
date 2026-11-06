@@ -1,0 +1,114 @@
+window.GOR9_BOGEYS_DATA = {
+  "schema_version": "1.0.0",
+  "scanner_meta": {
+    "system_id": "BOGEY-9",
+    "name": "Outpost Perimeter Asteroid Trail-Cam & UAP Bogey Detector",
+    "location": "High Basalt Shelf Perimeter Rim & Tower Mast, Asteroid 3-5-1 (Oort Cloud Sector 9)",
+    "description": "Motion-triggered optical, starlight-CMOS, and white-hot FLIR trail-cameras deployed around Outpost Nine to detect stray Oort boulders and cometary ice shards—routinely triggered by non-ballistic Unidentified Anomalous Phenomena (UAP) stalking the relay array."
+  },
+  "sightings": [
+    {
+      "id": "bgy-01-cylinder",
+      "slot": "BGY-01",
+      "code": "UAP-2736-09A",
+      "title": "The Acheron Specular Cylinder ('Tic-Tac')",
+      "subtitle": "Stationary Mirror-Capsule Hovering Between Tumbling Basalt Boulders",
+      "cam_id": "TRL-01 • ACHERON NORTH RIM (GUY-WIRE ANCHOR #3)",
+      "sensor_mode": "STARLIGHT CMOS MONOCHROME • ISO 51,200 + IONIZATION HALO FILTER",
+      "trigger_epoch": "2736.305 • 03:41:19.04 GCT",
+      "burst_frames": 8,
+      "anomaly_frame": 6,
+      "threat_color": "cyan",
+      "classification": "NON-BALLISTIC SPECULAR CAPSULE",
+      "plate_src": "assets/plates/uap_trailcam_cylinder.jpg",
+      "burst_gif_src": "assets/uap/bogey_01_cylinder.gif",
+      "kinematics": {
+        "range_m": 82.4,
+        "azimuth_deg": 341.2,
+        "elevation_deg": 8.4,
+        "keplerian_fit": "FAILED (0.000 m/s Hover → +140g Vertical Snap)",
+        "velocity_kms": "0.000 km/s (Frames 1–5) → 11.4 km/s (Frame 6)",
+        "lidar_rcs_m2": "0.000 m² (Optical Only — Zero Laser Return)",
+        "albedo": "0.96 (Seamless Mirror Chrome)",
+        "surface_temp_k": "2.73 K (Matches Cosmic Microwave Background)"
+      },
+      "coupling": {
+        "dilithium_bus_drain_kw": 0.4,
+        "hauser_rf_effect": "Induced -1,420 Hz phase-notch on 21-cm H-I Maser Preamp",
+        "vector_signature": "+140g Instantaneous Vertical Departure • Zero Propellant Plume",
+        "target_box": { "x": 0.65, "y": 0.25, "w": 0.09, "h": 0.36 }
+      },
+      "narrative": "Trail-Cam TRL-01 triggered when two ordinary carbonaceous boulders (1.4 m/s ballistic drift) crossed the north guy-wire motion gate. Hovering dead-still between the two tumbling rocks was a 6.2-meter featureless mirror-chrome cylinder with a faint cyan Cherenkov tip-halo. On Frame 06/08, the cylinder departed vertically at >140g with zero propellant plume.",
+      "bureau_coverup": "SECTOR 9 SAFETY BOARD NOTE: 'Misidentified stainless-steel thermos flask vented from Mess Hall airlock.'"
+    },
+    {
+      "id": "bgy-02-octahedron",
+      "slot": "BGY-02",
+      "code": "UAP-2736-14B",
+      "title": "The Cometary Wake Stealth Craft",
+      "subtitle": "Dark-Faceted Stealth Object Executing Unbanked 90° Right-Angle Turn",
+      "cam_id": "TRL-04 • WEST OORT COMET SHOAL OVERLOOK",
+      "sensor_mode": "WHITE-HOT FLIR THERMAL INFRARED (8–14 µm)",
+      "trigger_epoch": "2736.305 • 03:52:07.88 GCT",
+      "burst_frames": 8,
+      "anomaly_frame": 5,
+      "threat_color": "amber",
+      "classification": "FACETED STEALTH BOGEY • 90° SNAP VECTOR",
+      "plate_src": "assets/plates/uap_trailcam_octahedron.jpg",
+      "burst_gif_src": "assets/uap/bogey_02_octahedron.gif",
+      "kinematics": {
+        "range_m": 1840.0,
+        "azimuth_deg": 264.8,
+        "elevation_deg": 14.2,
+        "keplerian_fit": "FAILED (90.00° Instantaneous Vector Turn in Frame 5)",
+        "velocity_kms": "3.20 km/s (Shadowing Comet C/2736-K4)",
+        "lidar_rcs_m2": "0.012 m² (Retro-Directive Edge Scatter)",
+        "albedo": "0.03 (Ultra-Black Facets / Hot Edges)",
+        "surface_temp_k": "14.2 K Face / 410 K Vertex Ridges"
+      },
+      "coupling": {
+        "dilithium_bus_drain_kw": 1.2,
+        "hauser_rf_effect": "Synchronized 3-digit base-8 pulse burst on 6,440.0 kHz USB",
+        "vector_signature": "Unbanked 90.00° Heading Snap at 3.2 km/s • Zero Thermal Exhaust",
+        "target_box": { "x": 0.61, "y": 0.36, "w": 0.16, "h": 0.28 }
+      },
+      "narrative": "Triggered by outgassing Oort comet shard C/2736-K4 drifting 1.8 km west of the shelf. Tucked inside the comet's cold sublimation plume was a dark-faceted object matching the boulder's roll rate to 0.001 rad/s—until Frame 05/08, when it executed an unbanked 90.00° right-angle turn across the camera field.",
+      "bureau_coverup": "SECTOR 9 SAFETY BOARD NOTE: 'Detached radar calibration corner-reflector from Silicate Quarry 44-K.'"
+    },
+    {
+      "id": "bgy-03-plasmoids",
+      "slot": "BGY-03",
+      "code": "UAP-2736-19C",
+      "title": "The Apex Ring RF-Sipping Plasmoids",
+      "subtitle": "Triad of Luminous Plasma Orbs Feeding on the 50 kW Emitter",
+      "cam_id": "TRL-09 • TOWER MAST UP-LOOK (APEX RINGS 1–4)",
+      "sensor_mode": "LOW-LIGHT B/W CMOS + CORONAL UV/PLASMA OVERLAY • ISO 25,600",
+      "trigger_epoch": "2736.305 • 04:00:12.40 GCT",
+      "burst_frames": 8,
+      "anomaly_frame": 7,
+      "threat_color": "red",
+      "classification": "PARASITIC RF PLASMOID TRIAD",
+      "plate_src": "assets/plates/uap_trailcam_ring_orbs.jpg",
+      "burst_gif_src": "assets/uap/bogey_03_plasmoids.gif",
+      "kinematics": {
+        "range_m": 44.0,
+        "azimuth_deg": 0.0,
+        "elevation_deg": 88.5,
+        "keplerian_fit": "FAILED (Locked Inside 50 kW Near-Field Induction Zone)",
+        "velocity_kms": "0.002 km/s (Co-Rotating Triad @ 1.62 Hz)",
+        "lidar_rcs_m2": "TRANSPARENT (Refractive Plasma Shell)",
+        "albedo": "SELF-LUMINOUS (Amber/Cyan Interference Rings)",
+        "surface_temp_k": "3,400 K Electron Temp (Cold Ion Bulk)"
+      },
+      "coupling": {
+        "dilithium_bus_drain_kw": 6.8,
+        "hauser_rf_effect": "Siphoned 6.8 kW from Dilithium Bus; injected 528/792 Hz chime on 14,285.7 kHz",
+        "vector_signature": "Inductive Near-Field Coupling • +6.8 kW Parasitic Reactor Drain",
+        "target_box": { "x": 0.40, "y": 0.27, "w": 0.20, "h": 0.28 }
+      },
+      "narrative": "Triggered by a sudden 6.8 kW parasitic load spike on Pebble-Bed Dilithium Reactor #2 right as GOR-9 signed on at 0400 GCT. Upward mast camera TRL-09 caught three translucent plasmoid spheres perched directly inside Apex Rings 2 and 3, extending coronal filaments onto the copper radiator to drink RF power until Reactor #2 stepped down.",
+      "bureau_coverup": "SECTOR 9 SAFETY BOARD NOTE: 'Ordinary St. Elmo's fire / triboelectric frost corona on antenna insulators.'"
+    }
+  ]
+}
+;

@@ -1,37 +1,42 @@
 [bell:context]
-This is GOR-9. <pause> This is GOR-9, <pause> Galactic Outpost Radio, broadcasting from the High Basalt Shelf on Asteroid 3-5-1 in Sector 9. <pause> Fourteen-two-eighty-five kilohertz upper sideband. Zero-four-hundred Galactic Coordinated.
+This is GOR-9. <pause> This is GOR-9, <pause> Galactic Outpost Radio, broadcasting from the High Basalt Shelf Tower on Asteroid 3-5-1, <pause> forty-two thousand one hundred astronomical units out in Oort Cloud Sector 9. <pause> Fourteen-two-eighty-five kilohertz upper sideband. Zero-four-hundred Galactic Coordinated.
 
 [bell:construction]
-Space Weather, with emphasis on Sector 9. <pause>
-Coreward lanes are calm—solar flux one-seventy-four, K-index two. <pause>
-Locally, an electrostatic dust squall on the Meridian Plateau has engulfed Relay K-Z-9 Omega. Sixty-kilovolt triboelectric arcing across the feedhorn is causing minor phase-wobble in the number-four marzelvane bushing. <pause> Expect SINPO two-three-two-two-two.
+On the Van Allen V-A-Four Propagation and Power Console—brought to you by Van Allen and Sons Switchgear of Ceres Foundry Seven: <pause>
+Comet K-Four's ion tail is sweeping azimuth two-twelve, opening a clean twenty-four megahertz skip corridor into the Jovian moons. <pause>
+Closer to home, a sixty-kilovolt triboelectric dust squall has engulfed Relay K-Z-9 Omega—raising our lower usable frequency by four megahertz and arcing across the number-four Belt-Master marzelvane bushing. <pause> Expect SINPO two-three-two-two-two.
 
 [bell:proposition]
-Outpost Economics. <pause>
-Grade-B Deuterium pellets rose four percent today following a dragline cable slowdown at Silicate Quarry 44-K. <pause> Outpost Nine will step Reactor Two down to twelve kilowatts after midnight; Dormitory B should plug in auxiliary foot-warmers. <pause>
-Meanwhile, our monthly supply tender remains impounded at Quarantine Buoy Twelve after customs misfiled replacement oscillator tubes as fermented brine tubers.
+On the Dilithium Bus: <pause>
+Grade-B Dilithium pellets rose four percent on the Ceres Exchange following a dragline cable slowdown at Silicate Quarry 44-K. <pause> With our Van Allen Ring-Bake corona de-icer pulling an extra four-point-five kilowatts, we are stepping Reactor Two down to twelve kilowatts after midnight—Dormitory Wing B should plug in their Van Allen Cryo-Toast foot-warmers. <pause>
+Meanwhile, our monthly pellet and vacuum-tube tender remains impounded at Quarantine Buoy Twelve after customs misfiled replacement oscillator tubes as fermented brine tubers.
 
 [bell:context]
-On the Hauser Correlator: <pause>
-Titan-Minor, three-eight-ninety kilohertz. Hydrographic Buoy N-24 reciting methane tide tables, <pause> <pause> while migratory silt-striders rub against the guy-wires, detuning the whip antenna. <pause>
-Callisto Dome Four, eleven-four-ten kilohertz. Unlicensed noodle-market broadcaster Radio Corrugated, <pause> <pause> peaking right as their engineer hit the dipole with a blowtorch. <pause>
-And Intergalactic, M-Thirty-Three: a seven-hundred-year-old drift-buoy still issuing small-craft warnings for an ammonia sea that evaporated in the Ming Dynasty.
+Turning to the Hauser Dynamics Mark-Four Receiver and Galaxy Atlas: <pause>
+Preset Two—Titan-Minor, three-eight-ninety kilohertz. Hydrographic Buoy N-24 is transmitting methane tide telemetry, <pause> <pause> though migratory silt-striders rubbing against the guy-wires just detuned the whip antenna by eighteen Hertz. E-QSL zero-eight-eight-two logged. <pause>
+Preset One—Callisto Dome Four, eleven-four-ten kilohertz. Unlicensed noodle-market broadcaster Radio Corrugated, <pause> <pause> peaking at S-nine plus ten right as their engineer hit the rooftop dipole with a blowtorch. <pause>
+Preset Three—extragalactic, fourteen-twenty megahertz on the hydrogen line, two-point-seven million light-years toward M-Thirty-Three. <pause> No video carrier on this band—just a relativistic Doppler Lissajous on the spectrum scan. Running Translation Algorithm Zero-Two against the raw hex stream decodes Buoy M-33-771: <pause> still issuing small-craft advisories for an ammonia sea that evaporated during the Ming Dynasty. <pause>
+And on Preset Four, six-nine-two-five kilohertz in the Jupiter Trojans: an encrypted base-eight numbers station where Algorithm Zero-Three just decoded six metric tons of pork-chive dumpling wrappers—plus an octal shift key of thirteen for those tracking the sector cipher in the station log.
 
 [bell:insight]
-Finally, <pause> a late-night alert on the Euclid Signal Detector, which scans the noise floor for signs of geometric intelligence. <pause>
-At zero-three-twelve UTC, inside unmanned Brine Evaporation Vat Nineteen on Callisto-South, the detector locked onto Frame Seven: <pause> an unsuspecting parallelogram in the salt crust.
+Quick check on the Bogey-Nine Perimeter Trail-Cam, which discriminates ballistic Oort rocks from non-Keplerian visitors right outside our cliff rim. <pause>
+At zero-three-forty-one Galactic, Trail-Cam One on the Acheron North Rim triggered an eight-frame burst on a mirror-chrome cylinder drifting between two tumbling boulders at fourteen meters per second—before executing a ninety-degree vertical snap-turn on Frame Five at one-hundred-forty G's with zero thruster plume. <pause> The Outer Belt Safety Board says it was a vented thermos flask from the Mess Hall.
 
 [bell:construction]
-Opposite sides parallel to two ten-thousandths of an arcsecond—A-B to C-D, A-C to B-D—and somebody drew the diameter B-C, bisecting the sludge into two congruent triangles.
+Now to our centerpiece instrument: <pause> the Van Allen E-D-Nine Euclidean Detector—searching for geometric intelligence across the universe. <pause> Natural vacuum produces fractals and thermal static; intelligence leaves straight lines, parallel chords, and constructive ratios. <pause>
+Tonight, our twelve-tube Hough Transform correlator locked onto a single ninety-nine-point-nine-nine-eight percent synthetic signature in the maintenance feed from Callisto-South Brine Evaporation Vat Nineteen: <pause> what we are calling the Unsuspecting Parallelogram.
+
+[bell:proposition]
+Under inspection-beam sweep Frame Seven, four salt-crust ridges form parallelogram A-B-D-C—satisfying Euclid Book One, Proposition Thirty-Four: <pause> opposite sides A-B and C-D, and A-C and B-D, hold parallel to two ten-thousandths of an arcsecond, while diagonal diameter B-C bisects the brine sludge into two congruent triangles of equal area.
 
 [bell:punchline]
-The Water Board claims a motorized mud-rake lost a cotter pin and dragged sideways. <pause>
-It's always a broken cotter pin, folks.
+Seven minutes after our Van Allen detector logged the Proposition Thirty-Four proof, the Callisto Water Board scrubbed the archive and blamed a motorized mud-rake that lost a cotter pin. <pause>
+That is one remarkably well-educated mud-rake, folks.
 
 [bell:context]
-On the next broadcast: an unlicensed numbers station in the Trojans reciting dumpling recipes in base-eight, and a suspected rhombus aboard an ice-hauler. <pause>
-From Asteroid 3-5-1 in Sector 9, <pause> this is GOR-9—your eye to the cosmos, ear to the vacuum.
+On the next broadcast: <pause> an uninspected Dilithium barge rendezvous in the tail of Comet K-Four, and a suspected rhombus aboard a bulk ice-hauler. <pause>
+This broadcast is underwritten by Van Allen and Sons Switchgear—from radiation belts to reactor beds, if it arcs, we clamp it. <pause>
+From Asteroid 3-5-1 in Oort Cloud Sector 9, <pause> this is GOR-9—your eye to the cosmos, ear to the vacuum.
 
 [bell:insight]
-Remember, a like indication on your listening apparatus gives us three kilowatts, <pause> and a subscription gets us one step closer to upgrading our marzelvane emitters.
-
+Remember, a like indication on your listening apparatus gives us three kilowatts of Dilithium reserve, <pause> and a subscription gets us one step closer to shielding our marzelvane emitters.

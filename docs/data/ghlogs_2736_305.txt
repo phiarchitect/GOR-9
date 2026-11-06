@@ -1,0 +1,57 @@
+========================================================================
+ GOR-9 • GALACTIC OUTPOST RADIO — WEEKLY OORT CLOUD DX LOG ROUNDUP
+ Location : High Basalt Shelf (88.4° S Rotational Pole), Asteroid 3-5-1, Oort Cloud Sector 9
+ Carrier  : 14285.7 kHz USB • 0400 GCT
+ Clock    : PSR B1937+21 (641.928262 Hz Vulpecula Pulsar Barycentric Lock)
+ Reactor  : Pebble-Bed Dilithium Reactor #2 (Grade-B Dilithium Pellets (Oort Spot Index +4.2%))
+========================================================================
+
+DX / SWL / DEEP-SPACE INTERCEPT LOGS (Alphabetical by Sector/Body):
+
+** CALLISTO DOME-4 [non-Oort]. 11410.042 AM, Epoch 2736.305 at 0401 GCT, unlicensed noodle-market broadcaster 'Radio Corrugated' S9+18 dB via Jovian magneto-duct into Oort Sector 9 (Az 212.4°); warbling night-market lute and rapid port chatter in Cantonese/Patois, peaking +18.4 dB right as their engineer hit the rooftop dipole center-insulator with an oxy-acetylene blowtorch. Unsolicited animated eQSL #0165-RC decoded in sub-band FSK tail! (Operator, Asteroid 3-5-1, GOR-9)
+
+** CALLISTO DOME-4. 11410.038 AM, Epoch 2736.298 at 0354 GCT, JBA carrier with heavy 60-Hz sodium-ballast hum until streetlamps dimmed at 0358; S7 music and stall ads, but cut off abruptly at 0412 when harbor patrol swept Sub-Level 3 (Operator, Asteroid 3-5-1, GOR-9)
+
+** CALLISTO DOME-4. 11409.985 AM, Epoch 2736.284 at 0405 GCT, first tentative log of this unlicensed market rig drifting +57 Hz upward as the tetrode PA warmed up; OM announcer reading black-market Grade-B Dilithium barter rates between noodle orders. SINPO 3-3-3-2-3 (Operator, Asteroid 3-5-1, GOR-9)
+
+** TITAN-MINOR [Cygnus Drift]. 3890.0 USB/CW, Epoch 2736.305 at 0348 GCT, Hydrographic Buoy N-24 (Az 074.5°, 412 ly) reciting French methane tide tables at S7/S8, thought to be 1 kW main beacon but confirmed as the 85-watt backup RTG rig! Periodic -165 Hz downward carrier warble whenever migratory silt-striders rub against the guy-wires, detuning the whip antenna (Operator, Asteroid 3-5-1, GOR-9)
+
+** TITAN-MINOR. 3890.000 CW, Epoch 2736.292 at 0350 GCT, clean 18 WPM Morse ID 'VVV DE TM-N24/B' and double brass fog-bell clank, zero carrier bend today as the methane tide was high (5.1m) and the silt-strider herd stayed on the southern mudflats (Operator, Asteroid 3-5-1, GOR-9)
+
+** TITAN-MINOR. 3889.835 USB, Epoch 2736.275 at 0344 GCT, initially logged as an unstable VFO on 75m utility band before correlating the -165 Hz capacitive detune with local TSol dawn fauna migration on Tripod Mooring N-24 (Operator, Asteroid 3-5-1, GOR-9)
+
+** INTERGALACTIC [M-33]. 1420405.751 H-I (Δf -180 kHz), Epoch 2736.305 at 0402 GCT, JBA S4 carrier on the cryo-maser preamp (Gal Lon 133.6°, Lat -31.3°); 700-year-old drift-buoy M33-771 still dutifully issuing small-craft warnings for an ammonia sea that evaporated during the Ming Dynasty. Only 4.2 watts! (Operator, Asteroid 3-5-1, GOR-9)
+
+** INTERGALACTIC [M-33]. 1420225.751 H-I, Epoch 2736.260 at 0408 GCT, Perseus gravitational micro-lens aligned for 11 minutes, bringing M33-771 up from noise floor to S4; decoded archaic Survey-Era barometer packet stuck at 942 mbar with 0.00% ambient moisture (Operator, Asteroid 3-5-1, GOR-9)
+
+** INTERGALACTIC [M-33]. 1420225.800 H-I, Epoch 2736.210 at 0359 GCT, faint maser flute interval signal detected on Apex Ring #4; Lissajous phase scope locked onto a 3:5:1 harmonic ratio matching Asteroid 3-5-1 rotational pole (Operator, Asteroid 3-5-1, GOR-9)
+
+** TROJAN L4 [Perseus Rim]. 6440.000 USB, Epoch 2736.305 at 0404 GCT, unlicensed numbers station 'Three-Five-Octal' S9+10 on a no-no boundary frequency (Az 318.4°, 2,480 ly); YL synth voice reading 3-digit base-8 groups (claimed by L4 miners to be dumpling recipes). Note: yesterday (its day off), strong automated jamming still came on at 0355 GCT over an empty channel! (Operator, Asteroid 3-5-1, GOR-9)
+
+** TROJAN L4. 6440.000 USB, Epoch 2736.301 at 0355 GCT, E08-OCTAL silent on its scheduled off-day, yet the automated Ceres Syndicate noise-jammer still fired up at 0355 sharp on bearing 272.0° to jam the empty frequency for 20 minutes! (Operator, Asteroid 3-5-1, GOR-9)
+
+** TROJAN L4. 6440.000 USB, Epoch 2736.289 at 0400 GCT, ascending 5-note Lydian glockenspiel interval signal locked to a 641.928 Hz pulsar sub-tone; octal group [047 • 034] correlated with Euclid Prop I.34 parallelogram bisection (Operator, Asteroid 3-5-1, GOR-9)
+
+** OORT SHOAL WEST. 6969.5 USB, Epoch 2736.305 at 0402-0415 GCT only, 'Pedregal Radio' (Az 264.0°, 3,700 AU) reading Spanish cometary frost and sublimation forecasts for independent ice-boats. If a ham goes out of band and plays rock music we call it a pirate, so going out of band to read ice-tug weather makes him a Pirate Utility! Received QSL #1 confirming power is only 3 watts! (Operator, Asteroid 3-5-1, GOR-9)
+
+** OORT SHOAL WEST. 6969.512 USB, Epoch 2736.295 at 0406 GCT, Capt. Rafa on MV Boca del Río reporting a +14.2 Pa sublimation plume near Comet C/2736-K4; signal peaked S7 via forward-scatter off the comet's ionized dust tail (Operator, Asteroid 3-5-1, GOR-9)
+
+** OORT SHOAL WEST. 6969.500 USB, Epoch 2736.280 at 0414 GCT, acoustic guitar harmonic interval signal followed by CW millibar tables [1042.4 -> 1046.8 -> 1051.2] that track the Oort Grade-B Dilithium Spot Index to 0.1% (Operator, Asteroid 3-5-1, GOR-9)
+
+** MERIDIAN PLATEAU. 7140.310 DRM-9, Epoch 2736.305 at 0400 GCT, Relay KZ9-OMEGA (Az 018.6°, 1,420 AU) engulfed in a 60 kV electrostatic dust squall; S9+40 of dead-air windhowl and plasma arc snaps, slurping out ±30 kHz (7110-7170) due to a blown oil capacitor and #4 Marzelvane phase-wobble (+4.8°). SINPO 2-3-2-2-2 (Operator, Asteroid 3-5-1, GOR-9)
+
+** MERIDIAN PLATEAU. 7140.190 DRM-9, Epoch 2736.296 at 0352 GCT, Sector 9 Spectrum Bureau issued Notice of Violation NOV-2736-88 to KZ9-OMEGA after its PA oil filter capacitor ruptured, widening its 41m trunk passband from 15 kHz to 60.4 kHz (Operator, Asteroid 3-5-1, GOR-9)
+
+** MERIDIAN PLATEAU. 7140.000 DRM-9, Epoch 2736.281 at 0410 GCT, prior to the silicate squall, KZ9-OMEGA was relaying inner-ring cargo manifests at S9+25 dB before telemetry began flagging +1.9° wobble on the #4 Marzelvane bushing (Operator, Asteroid 3-5-1, GOR-9)
+
+** TROJAN L4 [Perseus Rim]. 6440 -> 6445 -> 6435 USB, Epoch 2736.305 at 0400-0418 GCT, mobile rebel pirate 'Radio Free Hektor' (180W on Crawler X-74); YL Zora playing live accordion and calling a +5 kHz QSY every 6 minutes while the automated Ceres Syndicate noise-jammer lumbered 90 seconds behind her! Note: on Thursday (their scheduled mahjong night off), the Syndicate jammer still came on at 0355 GCT to jam an empty frequency! (Operator, Asteroid 3-5-1, GOR-9)
+
+** KAELEN-V [Vael-Karun Nebula Rim]. 9290.118 AM + 1420405 H-I [simultaneous!], Epoch 2736.305 at 0400 GCT, 'Vael-Vihara Harmonic Spire' (VJB-3X) S9 across three spectrums at once! Solitary Lead Cantor Auren-7 chants an invocation followed immediately by a multi-voice choir of Kaelen-V ascetics chanting simultaneously ('Our resonators bring peace to the galaxy!'). Elegant animated QSL #0319-VJB received. (Operator, Asteroid 3-5-1, GOR-9)
+
+------------------------------------------------------------------------
+PROPAGATION OUTLOOK (OORT SECTOR 9 / PROP-IV):
+Coreward Sol lanes quiet (Solar Flux 174 SFU, K-Index 2). Local Meridian
+Plateau experiencing 60 kV triboelectric silicate dust squall at KZ9-OMEGA.
+Grade-B Dilithium Pellet reserves at 91.4% ahead of 0000 GCT step-down.
+Standard disclaimer.
+========================================================================

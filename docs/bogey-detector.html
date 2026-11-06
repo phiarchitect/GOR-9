@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GOR-9 • BOGEY-9 Outpost Perimeter Asteroid Trail-Cam & UAP Scanner</title>
+  <script src="data/bogeys_data.js"></script>
+  <style>
+    :root {
+      --bg-void: #05070a;
+      --bg-chassis: #0c1017;
+      --bg-panel: #111722;
+      --bg-screen: #060a0f;
+      --border-metal: #232d3f;
+      --border-bezel: #33415b;
+      --amber: #f59e0b;
+      --amber-glow: rgba(245, 158, 11, 0.25);
+      --cyan: #22d3ee;
+      --cyan-glow: rgba(34, 211, 238, 0.25);
+      --phosphor: #4ade80;
+      --crimson: #f43f5e;
+      --crimson-glow: rgba(244, 63, 94, 0.28);
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-void);
+      background-image:
+        radial-gradient(circle at 50% 0%, rgba(244, 63, 94, 0.08) 0%, transparent 55%),
+        radial-gradient(circle at 85% 90%, rgba(34, 211, 238, 0.06) 0%, transparent 50%),
+        linear-gradient(180deg, #040609 0%, #090d14 100%);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      padding: 12px;
+      overflow-x: hidden;
+    }
+
+    /* TOP NAV BAR */
+    .station-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(90deg, #0b0f17 0%, #141c2b 50%, #0b0f17 100%);
+      border: 1px solid var(--border-metal);
+      border-bottom: 2px solid var(--crimson);
+      border-radius: 6px;
+      padding: 10px 18px;
+      margin-bottom: 12px;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.65);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .brand-cluster {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-badge {
+      background: #280a14;
+      color: var(--crimson);
+      border: 1px solid var(--crimson);
+      font-family: var(--font-mono);
+      font-weight: 800;
+      font-size: 0.92rem;
+      padding: 5px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.1em;
+      text-shadow: 0 0 8px var(--crimson-glow);
+    }
+
+    .brand-title {
+      font-family: var(--font-mono);
+      font-size: 0.96rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--text-main);
+    }
+
+    .brand-sub {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .telemetry-pills {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .t-pill {
+      background: rgba(6, 10, 15, 0.85);
+      border: 1px solid var(--border-metal);
+      border-radius: 4px;
+      padding: 5px 10px;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .t-pill .label { color: var(--text-dim); }
+    .t-pill .val-amber { color: var(--amber); font-weight: 700; }
+    .t-pill .val-cyan { color: var(--cyan); font-weight: 700; }
+    .t-pill .val-green { color: var(--phosphor); font-weight: 700; }
+    .t-pill .val-red { color: var(--crimson); font-weight: 700; }
+
+    .nav-links {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 7px 12px;
+      border-radius: 4px;
+      border: 1px solid var(--border-bezel);
+      background: #161f2e;
+      color: var(--text-main);
+      transition: all 0.15s ease;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+    }
+
+    .nav-btn:hover, .nav-btn.active {
+      border-color: var(--crimson);
+      color: #fff;
+      background: #280a14;
+      box-shadow: 0 0 12px var(--crimson-glow);
+    }
+
+    /* MAIN BOGEY-9 CHASSIS */
+    .bogey-chassis {
+      background: linear-gradient(180deg, #131924 0%, #0c1018 100%);
+      border: 2px solid #2b364b;
+      border-radius: 10px;
+      padding: 14px;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        0 18px 48px rgba(0, 0, 0, 0.85);
+    }
+
+    .chassis-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-metal);
+      padding-bottom: 10px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .model-plate {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .model-name {
+      font-family: var(--font-mono);
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: var(--crimson);
+      text-transform: uppercase;
+    }
+
+    .model-desc {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+    }
+
+    /* 3-COLUMN ATC BOGEY GRID */
+    .bogey-grid {
+      display: grid;
+      grid-template-columns: 350px 1fr 375px;
+      gap: 14px;
+      align-items: start;
+    }
+
+    @media (max-width: 1320px) {
+      .bogey-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .rack-panel {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-metal);
+      border-radius: 6px;
+      padding: 12px;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
+      margin-bottom: 12px;
+    }
+
+    .rack-panel:last-child { margin-bottom: 0; }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      padding-bottom: 6px;
+      margin-bottom: 10px;
+    }
+
+    .panel-header .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--crimson);
+      box-shadow: 0 0 8px var(--crimson);
+      display: inline-block;
+    }
+
+    /* BOGEY TRIGGER PRESET BUTTONS */
+    .bogey-slot-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .bogey-slot-btn {
+      background: linear-gradient(180deg, #1b2434 0%, #111722 100%);
+      border: 1px solid #2e3c56;
+      border-radius: 6px;
+      padding: 10px 12px;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .bogey-slot-btn:hover {
+      border-color: var(--cyan);
+      transform: translateY(-1px);
+    }
+
+    .bogey-slot-btn.active {
+      background: linear-gradient(180deg, #28121c 0%, #170b12 100%);
+      border-color: var(--crimson);
+      box-shadow: 0 0 14px rgba(244, 63, 94, 0.25), inset 0 0 8px rgba(244, 63, 94, 0.12);
+    }
+
+    .slot-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .slot-code {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 800;
+      color: var(--amber);
+    }
+
+    .slot-badge {
+      font-family: var(--font-mono);
+      font-size: 0.64rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 3px;
+      text-transform: uppercase;
+    }
+
+    .badge-cyan { background: rgba(34, 211, 238, 0.14); color: var(--cyan); border: 1px solid rgba(34, 211, 238, 0.4); }
+    .badge-amber { background: rgba(245, 158, 11, 0.14); color: var(--amber); border: 1px solid rgba(245, 158, 11, 0.4); }
+    .badge-red { background: rgba(244, 63, 94, 0.18); color: var(--crimson); border: 1px solid rgba(244, 63, 94, 0.5); }
+
+    .slot-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 3px;
+    }
+
+    .slot-cam {
+      font-family: var(--font-mono);
+      font-size: 0.67rem;
+      color: var(--text-muted);
+    }
+
+    /* 360 PERIMETER RADAR CANVAS */
+    .radar-wrap {
+      background: #04070b;
+      border: 2px solid #253247;
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    #perimeterRadarCanvas {
+      width: 100%;
+      height: 295px;
+      display: block;
+      cursor: pointer;
+    }
+
+    .radar-legend {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 7px 10px;
+      background: #080d14;
+      border-top: 1px solid var(--border-metal);
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      color: var(--text-muted);
+    }
+
+    /* CENTER MONITOR: TRAIL-CAM BURST INSPECTOR */
+    .mode-switch-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .ctrl-btn {
+      font-family: var(--font-mono);
+      font-size: 0.71rem;
+      font-weight: 700;
+      padding: 6px 10px;
+      border-radius: 4px;
+      border: 1px solid var(--border-bezel);
+      background: #161f2e;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.12s ease;
+    }
+
+    .ctrl-btn:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    .ctrl-btn.active {
+      background: #1b2838;
+      border-color: var(--amber);
+      color: var(--amber);
+      box-shadow: 0 0 10px var(--amber-glow);
+    }
+
+    .ctrl-btn.alert-btn {
+      border-color: var(--crimson);
+      color: var(--crimson);
+      background: rgba(244, 63, 94, 0.12);
+    }
+
+    .ctrl-btn.alert-btn:hover {
+      background: var(--crimson);
+      color: #05070a;
+    }
+
+    .trailcam-viewport {
+      position: relative;
+      background: #03060a;
+      border: 2px solid #2b3950;
+      border-radius: 6px;
+      overflow: hidden;
+      min-height: 410px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #burstGifView {
+      width: 100%;
+      height: auto;
+      max-height: 490px;
+      object-fit: contain;
+      display: block;
+    }
+
+    #forensicCanvas {
+      width: 100%;
+      height: auto;
+      max-height: 490px;
+      display: none;
+      cursor: crosshair;
+    }
+
+    .frame-stepper-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 6px;
+      background: #090e17;
+      border: 1px solid var(--border-metal);
+      border-radius: 5px;
+      padding: 8px 10px;
+      margin-top: 10px;
+    }
+
+    .frame-pills {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    .frm-pill {
+      font-family: var(--font-mono);
+      font-size: 0.69rem;
+      font-weight: 700;
+      padding: 5px 8px;
+      border-radius: 3px;
+      border: 1px solid #263246;
+      background: #101722;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .frm-pill.active {
+      border-color: var(--cyan);
+      color: #04070b;
+      background: var(--cyan);
+    }
+
+    .frm-pill.anomaly {
+      border-color: var(--crimson);
+      color: var(--crimson);
+    }
+
+    .frm-pill.anomaly.active {
+      background: var(--crimson);
+      color: #fff;
+    }
+
+    /* NARRATIVE & SAFETY BOARD COVERUP */
+    .narrative-box {
+      background: #090e16;
+      border: 1px solid var(--border-metal);
+      border-left: 3px solid var(--cyan);
+      border-radius: 4px;
+      padding: 10px 12px;
+      margin-top: 10px;
+      font-size: 0.84rem;
+      line-height: 1.55;
+      color: var(--text-main);
+    }
+
+    .coverup-stamp {
+      margin-top: 8px;
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px dashed rgba(245, 158, 11, 0.45);
+      border-radius: 4px;
+      padding: 8px 10px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--amber);
+    }
+
+    /* RIGHT COLUMN: KINEMATICS & DILITHIUM COUPLING */
+    .kv-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: 0.73rem;
+    }
+
+    .kv-table td {
+      padding: 6px 4px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      vertical-align: top;
+    }
+
+    .kv-table td.k {
+      color: var(--text-dim);
+      width: 40%;
+    }
+
+    .kv-table td.v {
+      color: var(--text-main);
+      font-weight: 600;
+      text-align: right;
+    }
+
+    .kepler-alert {
+      background: rgba(244, 63, 94, 0.12);
+      border: 1px solid rgba(244, 63, 94, 0.5);
+      border-radius: 5px;
+      padding: 8px 10px;
+      margin-bottom: 10px;
+      font-family: var(--font-mono);
+      font-size: 0.73rem;
+      color: var(--crimson);
+      font-weight: 700;
+    }
+
+    .drain-meter-wrap {
+      background: #080d14;
+      border: 1px solid var(--border-metal);
+      border-radius: 5px;
+      padding: 9px 10px;
+      margin-bottom: 10px;
+    }
+
+    .drain-header {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.71rem;
+      margin-bottom: 6px;
+    }
+
+    .drain-bar-track {
+      width: 100%;
+      height: 10px;
+      background: #141c29;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .drain-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--amber), var(--crimson));
+      transition: width 0.3s ease;
+    }
+
+    /* CONTACT SHEET */
+    .contact-sheet-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    @media (max-width: 900px) {
+      .contact-sheet-grid { grid-template-columns: 1fr; }
+    }
+
+    .contact-card {
+      background: #0b1018;
+      border: 1px solid var(--border-metal);
+      border-radius: 6px;
+      padding: 8px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .contact-card:hover, .contact-card.active {
+      border-color: var(--crimson);
+      box-shadow: 0 0 12px rgba(244, 63, 94, 0.25);
+    }
+
+    .contact-card img {
+      width: 100%;
+      border-radius: 4px;
+      display: block;
+      margin-bottom: 6px;
+      border: 1px solid #222c3c;
+    }
+
+    .contact-card-meta {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    /* Full-Screen 16:9 CSS Grid Console Optimization & 1080p Readability */
+    html {
+      background-color: #05070a;
+      font-size: 17px;
+    }
+    body {
+      height: 100vh;
+      overflow: hidden;
+      padding: 8px 14px 12px;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 8px;
+    }
+    .station-topbar {
+      padding: 7px 14px;
+      margin-bottom: 0;
+    }
+    .brand-title { font-size: 1rem; }
+    .brand-sub { font-size: 0.76rem; }
+    .t-pill { font-size: 0.78rem; padding: 5px 10px; }
+    .nav-btn { font-size: 0.78rem; padding: 6px 11px; }
+    .bogey-chassis {
+      padding: 10px 14px;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 10px;
+      height: 100%;
+      min-height: 0;
+    }
+    .chassis-header {
+      padding-bottom: 6px;
+      margin-bottom: 0;
+    }
+    .model-name { font-size: 1.18rem; }
+    .model-desc { font-size: 0.78rem; }
+    .bogey-grid {
+      grid-template-columns: 380px 1fr 405px;
+      gap: 12px;
+      align-items: stretch;
+      height: 100%;
+      min-height: 0;
+    }
+    .bogey-grid > section {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      height: 100%;
+      min-height: 0;
+    }
+    .rack-panel {
+      padding: 9px 11px;
+      margin-bottom: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .bogey-grid > section > .rack-panel:last-child {
+      flex: 1;
+      justify-content: flex-start;
+      gap: 8px;
+    }
+    .panel-header {
+      font-size: 0.76rem;
+      padding-bottom: 5px;
+      margin-bottom: 7px;
+    }
+    .bogey-slot-btn { padding: 8px 10px; }
+    .slot-top { font-size: 0.74rem; }
+    .slot-title { font-size: 0.88rem; }
+    .slot-sub { font-size: 0.72rem; }
+    .radar-wrap {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    #perimeterRadarCanvas {
+      flex: 1;
+      height: 100%;
+      max-height: none;
+      width: 100%;
+      display: block;
+    }
+    .trailcam-viewport {
+      flex: 1;
+      min-height: 0;
+      max-height: none;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    #burstGifView, #forensicCanvas {
+      flex: 1;
+      height: 100%;
+      max-height: none;
+      width: 100%;
+      object-fit: cover;
+    }
+    .frame-stepper-bar { margin-top: 8px; padding: 6px 10px; }
+    .step-btn, .frm-pill { font-size: 0.74rem; padding: 5px 8px; }
+    .narrative-box { margin-top: 8px; padding: 9px 12px; font-size: 0.84rem; line-height: 1.45; }
+    .coverup-stamp { margin-top: 7px; padding: 7px 10px; font-size: 0.76rem; }
+    .kv-table { font-size: 0.78rem; }
+    .kv-table td { padding: 6px 4px; }
+    .kepler-alert { font-size: 0.78rem; padding: 8px 10px; margin-bottom: 6px; }
+    .drain-meter-wrap { margin-bottom: 4px; padding: 8px 10px; }
+    .drain-header { font-size: 0.76rem; }
+    .bogey-chassis > .rack-panel:last-of-type { display: none; }
+    .mini-burst-strip {
+      margin-top: auto;
+      border-top: 1px solid var(--border-metal);
+      padding-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .mini-burst-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+    .mini-burst-card {
+      background: #080d14;
+      border: 1px solid #243248;
+      border-radius: 4px;
+      padding: 4px;
+      cursor: pointer;
+      transition: all 0.14s ease;
+    }
+    .mini-burst-card.active, .mini-burst-card:hover {
+      border-color: var(--crimson);
+      box-shadow: 0 0 8px rgba(244, 63, 94, 0.25);
+    }
+    .mini-burst-card img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-radius: 3px;
+      display: block;
+      margin-bottom: 3px;
+    }
+    .mini-burst-lbl {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      font-weight: 700;
+      color: var(--amber);
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP STATION BAR: OVERALL GOR-9 DASHBOARD -->
+  <header class="station-topbar">
+    <div class="brand-cluster">
+      <div class="brand-badge">ON AIR • 0400 GCT</div>
+      <div>
+        <div class="brand-title">GOR-9 • GALACTIC OUTPOST RADIO — OORT SECTOR 9 DASHBOARD</div>
+        <div class="brand-sub">ACTIVE DEVICE: HAUSER BOGEY-9 • PERIMETER ASTEROID TRAIL-CAM &amp; UAP SCANNER (Hauser Dynamics)</div>
+      </div>
+    </div>
+
+    <div class="telemetry-pills">
+      <div class="t-pill">
+        <span class="label">LIDAR MOTION GATES:</span>
+        <span class="val-green">9 / 9 ARMED</span>
+      </div>
+      <div class="t-pill">
+        <span class="label">KEPLERIAN ROCKS:</span>
+        <span class="val-cyan">14 BALLISTIC</span>
+      </div>
+      <div class="t-pill">
+        <span class="label">NON-BALLISTIC BOGEYS:</span>
+        <span class="val-red" id="topBogeyCount">03 ACTIVE UAPs</span>
+      </div>
+      <div class="t-pill">
+        <span class="label">DILITHIUM PARASITIC LOAD:</span>
+        <span class="val-amber" id="topDrainPill">+0.4 kW</span>
+      </div>
+    </div>
+
+    <nav class="nav-links">
+      <a href="index.html" class="nav-btn">🎛 HAUSER MK-IV CONSOLE</a>
+      <a href="propagation.html" class="nav-btn" style="border-color:var(--phosphor);color:var(--phosphor);">🌩 VAN ALLEN VA-4</a>
+      <a href="euclidean-detector.html" class="nav-btn" style="border-color:var(--amber);color:var(--amber);">📐 VAN ALLEN ED-9 EUCLID</a>
+      <a href="bogey-detector.html" class="nav-btn active">🛸 BOGEY-9 TRAIL-CAM SCANNER</a>
+      <a href="celestial-atlas.html" class="nav-btn" style="border-color:var(--cyan);color:var(--cyan);">🪐 3D SKY &amp; RELAY ATLAS</a>
+      <a href="station.html" class="nav-btn">🃏 STATION DOSSIER &amp; CARDS</a>
+      <a href="data/ghlogs_2736_305.txt" target="_blank" class="nav-btn">📜 RAW LOG (.TXT)</a>
+    </nav>
+  </header>
+
+  <!-- MAIN BOGEY-9 HARDWARE CONSOLE -->
+  <main class="bogey-chassis">
+    <div class="chassis-header">
+      <div class="model-plate">
+        <span class="model-name">HAUSER BOGEY-9 • KEPLERIAN DISCRIMINATOR &amp; TRAIL-CAM BURST CORRELATOR</span>
+        <span class="model-desc">STARLIGHT CMOS / WHITE-HOT FLIR / APEX RING CORONAL MONITOR • S/N BG9-0351</span>
+      </div>
+      <div class="btn-group">
+        <button class="ctrl-btn" id="btnAudioPing" onclick="playBogeyPing()">🔊 AUDITION SONAR / RF ANOMALY PING</button>
+      </div>
+    </div>
+
+    <div class="bogey-grid">
+      <!-- LEFT RACK: TRIGGER PRESET SLOTS & 360 PERIMETER RADAR -->
+      <section>
+        <div class="rack-panel">
+          <div class="panel-header">
+            <span>TRAIL-CAM MOTION GATE TRIGGERS (EPOCH 2736.305)</span>
+            <span class="status-dot"></span>
+          </div>
+          <div class="bogey-slot-list" id="bogeySlotList"></div>
+        </div>
+
+        <div class="rack-panel">
+          <div class="panel-header">
+            <span>360° PERIMETER ASTEROID vs. BOGEY RADAR</span>
+            <span style="color:var(--phosphor);">KEPLER FIT GATE</span>
+          </div>
+          <div class="radar-wrap">
+            <canvas id="perimeterRadarCanvas" width="420" height="340"></canvas>
+            <div class="radar-legend">
+              <span style="color:var(--phosphor);">● KEPLERIAN ROCKS (BALLISTIC)</span>
+              <span style="color:var(--crimson);">◆ UAP BOGEY (NON-KEPLERIAN)</span>
+              <span style="color:var(--cyan);">▲ TRAIL-CAM FOV CONE</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CENTER MONITOR: TRAIL-CAM BURST & FORENSIC FRAME STEPPER -->
+      <section>
+        <div class="rack-panel">
+          <div class="panel-header">
+            <span id="camHeaderTitle">TRL-01 • ACHERON NORTH RIM</span>
+            <span id="camSensorBadge" style="color:var(--cyan);">STARLIGHT CMOS MONOCHROME</span>
+          </div>
+
+          <div class="mode-switch-bar">
+            <div class="btn-group">
+              <button class="ctrl-btn active" id="modeGifBtn" onclick="setInspectorMode('gif')">🎞 LIVE 8-FRAME BURST (.GIF)</button>
+              <button class="ctrl-btn" id="modeForensicBtn" onclick="setInspectorMode('forensic')">🔬 FORENSIC FRAME STEPPER</button>
+            </div>
+            <div class="btn-group" id="filterBtnGroup">
+              <button class="ctrl-btn active" data-filter="raw" onclick="setSensorFilter('raw')">RAW SENSOR</button>
+              <button class="ctrl-btn" data-filter="nvg" onclick="setSensorFilter('nvg')">P31 NIGHT-VISION</button>
+              <button class="ctrl-btn" data-filter="flir" onclick="setSensorFilter('flir')">THERMAL INVERT</button>
+              <button class="ctrl-btn" data-filter="vector" onclick="toggleVectorOverlay()" id="btnVectorOverlay">🎯 VECTOR TRACK: ON</button>
+            </div>
+          </div>
+
+          <div class="trailcam-viewport">
+            <img id="burstGifView" src="assets/uap/bogey_01_cylinder.gif" alt="Trail-Cam Animated Burst GIF" />
+            <canvas id="forensicCanvas" width="960" height="540"></canvas>
+          </div>
+
+          <div class="frame-stepper-bar">
+            <div class="btn-group">
+              <button class="ctrl-btn" onclick="stepFrame(-1)">◀ PREV</button>
+              <button class="ctrl-btn" onclick="stepFrame(1)">NEXT ▶</button>
+              <button class="ctrl-btn alert-btn" onclick="jumpToAnomalyFrame()">⚡ JUMP TO ANOMALY FRAME</button>
+            </div>
+            <div class="frame-pills" id="framePillsContainer"></div>
+          </div>
+
+          <div class="narrative-box" id="bogeyNarrative"></div>
+          <div class="coverup-stamp" id="bogeyCoverup"></div>
+        </div>
+      </section>
+
+      <!-- RIGHT RACK: KINEMATICS, VECTOR SIGNATURE & DILITHIUM COUPLING -->
+      <section>
+        <div class="rack-panel">
+          <div class="panel-header">
+            <span>KEPLERIAN KINEMATICS &amp; LIDAR DISCRIMINATOR</span>
+            <span id="bogeyCodeBadge" style="color:var(--amber);">UAP-2736-09A</span>
+          </div>
+
+          <div class="kepler-alert" id="keplerAlertBox">
+            ⚠ KEPLERIAN FIT: FAILED (0.000 m/s Hover → +140g Vertical Snap)
+          </div>
+
+          <table class="kv-table">
+            <tbody>
+              <tr><td class="k">CLASSIFICATION</td><td class="v" id="kvClass" style="color:var(--cyan);">—</td></tr>
+              <tr><td class="k">TRIGGER EPOCH</td><td class="v" id="kvEpoch">—</td></tr>
+              <tr><td class="k">SLANT RANGE</td><td class="v" id="kvRange">—</td></tr>
+              <tr><td class="k">AZIMUTH / ELEV</td><td class="v" id="kvBearing">—</td></tr>
+              <tr><td class="k">VELOCITY PROFILE</td><td class="v" id="kvVelocity" style="color:var(--amber);">—</td></tr>
+              <tr><td class="k">LIDAR RCS</td><td class="v" id="kvRcs">—</td></tr>
+              <tr><td class="k">OPTICAL ALBEDO</td><td class="v" id="kvAlbedo">—</td></tr>
+              <tr><td class="k">SURFACE TEMP</td><td class="v" id="kvTemp">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="rack-panel">
+          <div class="panel-header">
+            <span>REACTOR #2 &amp; HAUSER MK-IV CROSS-COUPLING</span>
+            <span style="color:var(--crimson);">RF / BUS DRAIN</span>
+          </div>
+
+          <div class="drain-meter-wrap">
+            <div class="drain-header">
+              <span style="color:var(--text-muted);">PARASITIC DILITHIUM BUS DRAIN</span>
+              <span id="drainValText" style="color:var(--crimson);font-weight:700;">+0.4 kW / 10.0 kW MAX</span>
+            </div>
+            <div class="drain-bar-track">
+              <div class="drain-bar-fill" id="drainBarFill" style="width: 6%;"></div>
+            </div>
+          </div>
+
+          <table class="kv-table">
+            <tbody>
+              <tr>
+                <td class="k">HAUSER MK-IV RF EFFECT</td>
+                <td class="v" id="kvRfEffect" style="color:var(--amber);">—</td>
+              </tr>
+              <tr>
+                <td class="k">KINEMATIC / EM VECTOR</td>
+                <td class="v" id="kvVectorSig" style="color:var(--phosphor);">—</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- SINGLE VECTOR LOGO FOR HAUSER BOGEY-9 -->
+          <div style="background:#04070d;border:1px solid #243248;border-radius:4px;padding:4px 8px;margin-top:4px;">
+            <img src="assets/branding/hauser_logo.svg" alt="Hauser Dynamics Vector Nameplate" style="width:100%;aspect-ratio:520/180;object-fit:contain;display:block;" />
+          </div>
+
+          <div class="mini-burst-strip">
+            <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:0.68rem;font-weight:700;color:var(--text-muted);">
+              <span>SECTOR 9 BURST ARCHIVE (16:9)</span>
+              <span style="color:var(--cyan);">CLICK TO LOAD</span>
+            </div>
+            <div class="mini-burst-grid" id="miniBurstGrid"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- BOTTOM ALL-3 BURST GIF CONTACT SHEET -->
+    <div class="rack-panel" style="margin-top:14px;">
+      <div class="panel-header">
+        <span>SECTOR 9 PERIMETER TRAIL-CAM ARCHIVE • ALL CAPTURED ANOMALY BURSTS (.GIF)</span>
+        <span style="color:var(--text-muted);">CLICK ANY TRAIL-CAM BURST TO INSPECT</span>
+      </div>
+      <div class="contact-sheet-grid" id="contactSheetGrid"></div>
+    </div>
+  </main>
+
+  <script>
+    const bogeyData = (window.GOR9_BOGEYS_DATA && window.GOR9_BOGEYS_DATA.sightings) ? window.GOR9_BOGEYS_DATA.sightings : [];
+    let activeBogeyIndex = 0;
+    let inspectorMode = 'gif'; // 'gif' or 'forensic'
+    let currentFrame = 6;
+    let sensorFilter = 'raw';
+    let showVectorOverlay = true;
+    let loadedPlateImg = new Image();
+    let radarTick = 0;
+
+    // 14 Ballistic Oort Asteroids for the 360° Radar
+    const keplerRocks = Array.from({ length: 14 }, (_, i) => ({
+      id: `R-${101 + i}`,
+      x: Math.cos(i * 1.1) * (55 + (i * 11) % 105),
+      y: Math.sin(i * 1.7) * (55 + (i * 13) % 105),
+      vx: Math.cos(i * 0.7 + 0.4) * 0.22,
+      vy: Math.sin(i * 0.7 + 0.4) * 0.22
+    }));
+
+    function initBogeyConsole() {
+      const params = new URLSearchParams(window.location.search);
+      const bIdx = params.get('bogey') !== null ? Number(params.get('bogey')) : 0;
+      renderSlotButtons();
+      renderContactSheet();
+      selectBogey(bIdx);
+      if (params.get('vector') !== null) {
+        showVectorOverlay = params.get('vector') === '1';
+        const btn = document.getElementById('btnVectorOverlay');
+        if (btn) {
+          btn.textContent = `🎯 VECTOR TRACK: ${showVectorOverlay ? 'ON' : 'OFF'}`;
+          btn.classList.toggle('active', showVectorOverlay);
+        }
+      }
+      if (params.get('filter')) {
+        setSensorFilter(params.get('filter'));
+      }
+      if (params.get('frame') !== null) {
+        setFrame(Number(params.get('frame')));
+      }
+      if (params.get('mode')) {
+        setInspectorMode(params.get('mode'));
+      }
+      requestAnimationFrame(animatePerimeterRadar);
+    }
+
+    function renderSlotButtons() {
+      const container = document.getElementById('bogeySlotList');
+      container.innerHTML = bogeyData.map((b, idx) => {
+        const badgeClass = b.threat_color === 'red' ? 'badge-red' : (b.threat_color === 'amber' ? 'badge-amber' : 'badge-cyan');
+        return `
+          <button class="bogey-slot-btn ${idx === activeBogeyIndex ? 'active' : ''}" onclick="selectBogey(${idx})">
+            <div class="slot-top">
+              <span class="slot-code">${b.slot} • ${b.code}</span>
+              <span class="slot-badge ${badgeClass}">ANOMALY FRM 0${b.anomaly_frame}/08</span>
+            </div>
+            <div class="slot-title">${b.title}</div>
+            <div class="slot-cam">${b.cam_id}</div>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function renderContactSheet() {
+      const grid = document.getElementById('contactSheetGrid');
+      grid.innerHTML = bogeyData.map((b, idx) => `
+        <div class="contact-card ${idx === activeBogeyIndex ? 'active' : ''}" onclick="selectBogey(${idx})">
+          <img src="${b.burst_gif_src}" alt="${b.title}" />
+          <div class="contact-card-meta">
+            <span style="color:var(--amber);font-weight:700;">${b.slot} • ${b.code}</span>
+            <span>${b.classification}</span>
+          </div>
+        </div>
+      `).join('');
+      const mini = document.getElementById('miniBurstGrid');
+      if (mini) {
+        mini.innerHTML = bogeyData.map((b, idx) => `
+          <div class="mini-burst-card ${idx === activeBogeyIndex ? 'active' : ''}" onclick="selectBogey(${idx})">
+            <img src="${b.plate_src}" alt="${b.title}" />
+            <div class="mini-burst-lbl">${b.slot} • FRM 0${b.anomaly_frame}</div>
+          </div>
+        `).join('');
+      }
+    }
+
+    function selectBogey(idx) {
+      activeBogeyIndex = idx;
+      const b = bogeyData[idx];
+      if (!b) return;
+
+      currentFrame = b.anomaly_frame;
+      renderSlotButtons();
+      renderContactSheet();
+      renderFramePills();
+
+      document.getElementById('camHeaderTitle').textContent = b.cam_id;
+      document.getElementById('camSensorBadge').textContent = b.sensor_mode;
+      document.getElementById('burstGifView').src = b.burst_gif_src;
+      document.getElementById('bogeyNarrative').textContent = b.narrative;
+      document.getElementById('bogeyCoverup').textContent = b.bureau_coverup;
+
+      // Right rack kinematics
+      document.getElementById('bogeyCodeBadge').textContent = b.code;
+      document.getElementById('keplerAlertBox').textContent = `⚠ KEPLERIAN FIT: ${b.kinematics.keplerian_fit}`;
+      document.getElementById('kvClass').textContent = b.classification;
+      document.getElementById('kvEpoch').textContent = b.trigger_epoch;
+      document.getElementById('kvRange').textContent = `${b.kinematics.range_m} m`;
+      document.getElementById('kvBearing').textContent = `AZ ${b.kinematics.azimuth_deg}° / EL +${b.kinematics.elevation_deg}°`;
+      document.getElementById('kvVelocity').textContent = b.kinematics.velocity_kms;
+      document.getElementById('kvRcs').textContent = b.kinematics.lidar_rcs_m2;
+      document.getElementById('kvAlbedo').textContent = b.kinematics.albedo;
+      document.getElementById('kvTemp').textContent = b.kinematics.surface_temp_k;
+
+      // Coupling & Dilithium drain
+      const drainKw = b.coupling.dilithium_bus_drain_kw;
+      document.getElementById('topDrainPill').textContent = `+${drainKw.toFixed(1)} kW`;
+      document.getElementById('drainValText').textContent = `+${drainKw.toFixed(1)} kW / 10.0 kW MAX`;
+      document.getElementById('drainBarFill').style.width = `${Math.min(100, drainKw * 12)}%`;
+      document.getElementById('kvRfEffect').textContent = b.coupling.hauser_rf_effect;
+      document.getElementById('kvVectorSig').textContent = b.coupling.vector_signature;
+
+      // Load high-res plate for Forensic Canvas
+      loadedPlateImg = new Image();
+      loadedPlateImg.onload = () => drawForensicFrame();
+      loadedPlateImg.src = b.plate_src;
+    }
+
+    function renderFramePills() {
+      const b = bogeyData[activeBogeyIndex];
+      if (!b) return;
+      const container = document.getElementById('framePillsContainer');
+      let html = '';
+      for (let f = 1; f <= b.burst_frames; f++) {
+        const isAnomaly = f === b.anomaly_frame;
+        const isActive = f === currentFrame;
+        html += `<button class="frm-pill ${isAnomaly ? 'anomaly' : ''} ${isActive ? 'active' : ''}" onclick="setFrame(${f})">FRM 0${f}${isAnomaly ? ' ⚡' : ''}</button>`;
+      }
+      container.innerHTML = html;
+    }
+
+    function setInspectorMode(mode) {
+      inspectorMode = mode;
+      document.getElementById('modeGifBtn').classList.toggle('active', mode === 'gif');
+      document.getElementById('modeForensicBtn').classList.toggle('active', mode === 'forensic');
+      document.getElementById('burstGifView').style.display = mode === 'gif' ? 'block' : 'none';
+      document.getElementById('forensicCanvas').style.display = mode === 'forensic' ? 'block' : 'none';
+      if (mode === 'forensic') drawForensicFrame();
+    }
+
+    function setFrame(f) {
+      currentFrame = f;
+      if (inspectorMode !== 'forensic') setInspectorMode('forensic');
+      renderFramePills();
+      drawForensicFrame();
+    }
+
+    function stepFrame(delta) {
+      const b = bogeyData[activeBogeyIndex];
+      if (!b) return;
+      let next = currentFrame + delta;
+      if (next < 1) next = b.burst_frames;
+      if (next > b.burst_frames) next = 1;
+      setFrame(next);
+    }
+
+    function jumpToAnomalyFrame() {
+      const b = bogeyData[activeBogeyIndex];
+      if (!b) return;
+      setFrame(b.anomaly_frame);
+      playBogeyPing();
+    }
+
+    function setSensorFilter(filter) {
+      sensorFilter = filter;
+      document.querySelectorAll('#filterBtnGroup [data-filter]').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-filter') === filter);
+      });
+      if (inspectorMode !== 'forensic') setInspectorMode('forensic');
+      drawForensicFrame();
+    }
+
+    function toggleVectorOverlay() {
+      showVectorOverlay = !showVectorOverlay;
+      const btn = document.getElementById('btnVectorOverlay');
+      btn.textContent = `🎯 VECTOR TRACK: ${showVectorOverlay ? 'ON' : 'OFF'}`;
+      btn.classList.toggle('active', showVectorOverlay);
+      if (inspectorMode !== 'forensic') setInspectorMode('forensic');
+      drawForensicFrame();
+    }
+
+    function drawForensicFrame() {
+      const canvas = document.getElementById('forensicCanvas');
+      const rect = canvas.getBoundingClientRect();
+      if (rect.width > 20 && rect.height > 20) {
+        const rw = Math.round(rect.width);
+        const rh = Math.round(rect.height);
+        if (canvas.width !== rw || canvas.height !== rh) {
+          canvas.width = rw;
+          canvas.height = rh;
+        }
+      }
+      const ctx = canvas.getContext('2d');
+      const b = bogeyData[activeBogeyIndex];
+      if (!b || !loadedPlateImg.complete) return;
+
+      const W = canvas.width;
+      const H = canvas.height;
+      ctx.clearRect(0, 0, W, H);
+
+      // Apply CSS-style canvas filter for sensor modes
+      if (sensorFilter === 'nvg') {
+        ctx.filter = 'sepia(100%) hue-rotate(75deg) saturate(260%) contrast(125%)';
+      } else if (sensorFilter === 'flir') {
+        ctx.filter = 'invert(100%) contrast(145%)';
+      } else {
+        ctx.filter = 'contrast(112%)';
+      }
+
+      // Slight frame-dependent camera jitter on anomaly frame + aspect-preserving cover draw
+      const jitterX = (currentFrame === b.anomaly_frame) ? 4 : 0;
+      const jitterY = (currentFrame === b.anomaly_frame) ? -3 : 0;
+      const iw = loadedPlateImg.naturalWidth || 1376;
+      const ih = loadedPlateImg.naturalHeight || 768;
+      const scale = Math.max(W / iw, H / ih);
+      const dw = iw * scale;
+      const dh = ih * scale;
+      const dx = (W - dw) / 2 + jitterX;
+      const dy = (H - dh) / 2 + jitterY;
+      ctx.drawImage(loadedPlateImg, dx, dy, dw, dh);
+      ctx.filter = 'none';
+
+      // Scanlines
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.22)';
+      for (let y = 0; y < H; y += 4) {
+        ctx.fillRect(0, y, W, 1);
+      }
+
+      // Target box coordinates mapped onto the aspect-covered image
+      const tb = b.coupling.target_box;
+      let bx = Math.round(dx + tb.x * dw);
+      let by = Math.round(dy + tb.y * dh);
+      const bw = Math.round(tb.w * dw);
+      const bh = Math.round(tb.h * dh);
+
+      // Simulate motion across frames 1..8
+      if (b.slot === 'BGY-01' && currentFrame >= b.anomaly_frame) {
+        by -= (currentFrame - b.anomaly_frame + 1) * 42;
+      } else if (b.slot === 'BGY-02') {
+        if (currentFrame < b.anomaly_frame) {
+          bx -= (b.anomaly_frame - currentFrame) * 22;
+        } else {
+          by -= (currentFrame - b.anomaly_frame) * 30;
+        }
+      }
+
+      const cx = bx + bw / 2;
+      const cy = by + bh / 2;
+
+      // Draw Target Reticle
+      const isAnom = currentFrame >= b.anomaly_frame;
+      const col = isAnom ? '#f43f5e' : '#22d3ee';
+      ctx.strokeStyle = col;
+      ctx.lineWidth = 2;
+
+      // Corner brackets
+      const cl = 18;
+      ctx.beginPath();
+      ctx.moveTo(bx, by + cl); ctx.lineTo(bx, by); ctx.lineTo(bx + cl, by);
+      ctx.moveTo(bx + bw - cl, by); ctx.lineTo(bx + bw, by); ctx.lineTo(bx + bw, by + cl);
+      ctx.moveTo(bx, by + bh - cl); ctx.lineTo(bx, by + bh); ctx.lineTo(bx + cl, by + bh);
+      ctx.moveTo(bx + bw - cl, by + bh); ctx.lineTo(bx + bw, by + bh); ctx.lineTo(bx + bw, by + bh - cl);
+      ctx.stroke();
+
+      // Kinematic Velocity & Acceleration Vector Overlay
+      if (showVectorOverlay) {
+        ctx.save();
+        ctx.strokeStyle = '#f59e0b';
+        ctx.lineWidth = 1.8;
+        ctx.setLineDash([5, 4]);
+
+        if (b.slot === 'BGY-01') {
+          // +140g Vertical departure vector arrow
+          ctx.beginPath();
+          ctx.moveTo(cx, cy);
+          ctx.lineTo(cx, Math.max(40, by - 90));
+          ctx.stroke();
+        } else if (b.slot === 'BGY-02') {
+          // 90-degree snap-turn trajectory vector
+          ctx.strokeStyle = '#f43f5e';
+          ctx.lineWidth = 2.5;
+          ctx.setLineDash([]);
+          ctx.beginPath();
+          ctx.moveTo(cx - 110, cy); ctx.lineTo(cx, cy); ctx.lineTo(cx, cy - 110);
+          ctx.stroke();
+        } else {
+          // Near-field RF coupling ring
+          const rOuter = Math.max(bw, bh) * 0.58;
+          ctx.beginPath();
+          ctx.arc(cx, cy, rOuter, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+
+      // HUD Top & Bottom Bars
+      ctx.fillStyle = 'rgba(5, 8, 14, 0.85)';
+      ctx.fillRect(0, 0, W, 36);
+      ctx.fillRect(0, H - 36, W, 36);
+
+      ctx.font = 'bold 14px monospace';
+      ctx.fillStyle = col;
+      ctx.fillText(`${b.cam_id} • ${b.code}`, 14, 23);
+      ctx.fillStyle = '#f59e0b';
+      ctx.fillText(`FORENSIC STEPPER: FRM 0${currentFrame}/0${b.burst_frames}`, W - 265, 23);
+
+      ctx.fillStyle = '#4ade80';
+      ctx.fillText(`RNG: ${b.kinematics.range_m}m • AZ: ${b.kinematics.azimuth_deg}° • ${b.coupling.vector_signature}`, 14, H - 13);
+    }
+
+    // 360° PERIMETER RADAR ANIMATION
+    function animatePerimeterRadar() {
+      const canvas = document.getElementById('perimeterRadarCanvas');
+      if (!canvas) return;
+      const rect = canvas.getBoundingClientRect();
+      if (rect.width > 20 && rect.height > 20) {
+        const rw = Math.round(rect.width);
+        const rh = Math.round(rect.height);
+        if (canvas.width !== rw || canvas.height !== rh) {
+          canvas.width = rw;
+          canvas.height = rh;
+        }
+      }
+      const ctx = canvas.getContext('2d');
+      const W = canvas.width;
+      const H = canvas.height;
+      const cx = W / 2;
+      const cy = H / 2;
+      const maxR = Math.min(W, H) * 0.44;
+      radarTick += 0.025;
+
+      ctx.fillStyle = '#04070b';
+      ctx.fillRect(0, 0, W, H);
+
+      // Range rings
+      ctx.strokeStyle = 'rgba(34, 211, 238, 0.16)';
+      ctx.lineWidth = 1;
+      [0.32, 0.65, 0.98].forEach(f => {
+        ctx.beginPath();
+        ctx.arc(cx, cy, maxR * f, 0, Math.PI * 2);
+        ctx.stroke();
+      });
+
+      // Crosshairs
+      ctx.beginPath();
+      ctx.moveTo(0, cy); ctx.lineTo(W, cy);
+      ctx.moveTo(cx, 0); ctx.lineTo(cx, H);
+      ctx.stroke();
+
+      // Rotating sweep line
+      const sweepAng = radarTick % (Math.PI * 2);
+      ctx.strokeStyle = 'rgba(74, 222, 128, 0.45)';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + Math.cos(sweepAng) * maxR, cy + Math.sin(sweepAng) * maxR);
+      ctx.stroke();
+
+      // Outpost Asteroid 3-5-1 silhouette at center
+      ctx.fillStyle = '#1e293b';
+      ctx.strokeStyle = '#f59e0b';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.arc(cx, cy, 11, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      // 14 Ballistic Keplerian Rocks (Green)
+      const rScale = maxR / 135;
+      ctx.fillStyle = '#4ade80';
+      keplerRocks.forEach(r => {
+        r.x += r.vx;
+        r.y += r.vy;
+        if (Math.hypot(r.x, r.y) > 135) { r.x = -r.x * 0.85; r.y = -r.y * 0.85; }
+        ctx.fillRect(cx + r.x * rScale - 2, cy + r.y * rScale - 2, 4, 4);
+      });
+
+      // 3 Non-Ballistic UAP Bogey Tracks
+      const bogeyPositions = [
+        { idx: 0, x: cx - 32 * rScale, y: cy - 68 * rScale, label: 'BGY-01 (TIC-TAC)', col: '#22d3ee' },
+        { idx: 1, x: cx - 104 * rScale, y: cy + 12 * rScale, label: 'BGY-02 (90° OCTA)', col: '#f59e0b' },
+        { idx: 2, x: cx + 4 * rScale, y: cy - 14 * rScale, label: 'BGY-03 (MAST ORBS)', col: '#f43f5e' }
+      ];
+
+      bogeyPositions.forEach(bp => {
+        const isSel = bp.idx === activeBogeyIndex;
+        ctx.strokeStyle = bp.col;
+        ctx.fillStyle = bp.col;
+        ctx.lineWidth = isSel ? 2.2 : 1.2;
+
+        // Diamond marker
+        ctx.beginPath();
+        ctx.moveTo(bp.x, bp.y - 7);
+        ctx.lineTo(bp.x + 7, bp.y);
+        ctx.lineTo(bp.x, bp.y + 7);
+        ctx.lineTo(bp.x - 7, bp.y);
+        ctx.closePath();
+        ctx.stroke();
+
+        if (isSel) {
+          const pulseR = 11 + Math.sin(radarTick * 3) * 4;
+          ctx.beginPath();
+          ctx.arc(bp.x, bp.y, pulseR, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+
+        ctx.font = 'bold 10px monospace';
+        ctx.fillText(bp.label, bp.x + 10, bp.y + 3);
+      });
+
+      if (new URLSearchParams(window.location.search).get('capture') !== '1') {
+        requestAnimationFrame(animatePerimeterRadar);
+      }
+    }
+
+    // Click on radar to select bogey
+    document.getElementById('perimeterRadarCanvas').addEventListener('click', (e) => {
+      const rect = e.target.getBoundingClientRect();
+      const scaleX = e.target.width / rect.width;
+      const scaleY = e.target.height / rect.height;
+      const mx = (e.clientX - rect.left) * scaleX;
+      const my = (e.clientY - rect.top) * scaleY;
+      const cx = e.target.width / 2;
+      const cy = e.target.height / 2;
+      const pts = [
+        { idx: 0, x: cx - 32, y: cy - 68 },
+        { idx: 1, x: cx - 108, y: cy + 12 },
+        { idx: 2, x: cx + 4, y: cy - 14 }
+      ];
+      pts.forEach(p => {
+        if (Math.hypot(mx - p.x, my - p.y) < 26) selectBogey(p.idx);
+      });
+    });
+
+    // Synthesize Sonar / RF Anomaly Ping via Web Audio API
+    function playBogeyPing() {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      const freqs = [1420, 888, 528];
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freqs[activeBogeyIndex] || 1420, now);
+      osc.frequency.exponentialRampToValueAtTime(2840, now + 0.18);
+      osc.frequency.exponentialRampToValueAtTime(432, now + 0.55);
+      gain.gain.setValueAtTime(0.22, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.62);
+    }
+
+    window.addEventListener('DOMContentLoaded', initBogeyConsole);
+  </script>
+  <script src="assets/gor9-nav.js"></script>
+</body>
+</html>

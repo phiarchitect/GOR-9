@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STATION DOSSIER & COLLECTOR QSL ARCHIVE • GOR-9 Oort Cloud DX Ledger</title>
+<style>
+  :root {
+    --bg: #05070b;
+    --panel: #0d121d;
+    --panel-alt: #121928;
+    --border: #26334a;
+    --amber: #f0b849;
+    --cyan: #38bdf8;
+    --green: #4ade80;
+    --red: #fb7185;
+    --text: #e2e8f0;
+    --muted: #8b9bb4;
+    --mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: radial-gradient(circle at 50% 0%, #111827 0%, #05070b 75%);
+    color: var(--text);
+    font-family: var(--mono);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .atc-topbar {
+    height: 48px;
+    background: linear-gradient(180deg, #131b2b 0%, #090d15 100%);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  .station-id-title {
+    color: var(--amber);
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+  }
+
+  .nav-mode-tabs { display: flex; gap: 8px; }
+
+  .mode-tab {
+    background: #0e1420;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 6px 12px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: all 0.15s ease;
+  }
+
+  .mode-tab:hover { color: var(--text); border-color: var(--cyan); }
+  .mode-tab.active {
+    background: rgba(240, 184, 73, 0.16);
+    border-color: var(--amber);
+    color: var(--amber);
+  }
+
+  .page-wrap {
+    max-width: 1640px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px 24px 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  /* Station Selector Strip */
+  .selector-strip {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 10px 14px;
+    border-radius: 4px;
+    align-items: center;
+  }
+
+  .selector-pill {
+    background: #141c2c;
+    border: 1px solid #2b3a54;
+    color: var(--muted);
+    padding: 6px 12px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.15s;
+  }
+
+  .selector-pill:hover { color: #fff; border-color: var(--cyan); }
+  .selector-pill.active {
+    background: rgba(240, 184, 73, 0.18);
+    border-color: var(--amber);
+    color: var(--amber);
+  }
+
+  /* Hero Section: Interactive 2-Sided Collector Card + Full Technical Dossier */
+  .dossier-hero {
+    display: grid;
+    grid-template-columns: 500px 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  /* 3D Flip Collector Card */
+  .collector-stage {
+    perspective: 1400px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .collector-card-3d {
+    width: 100%;
+    min-height: 615px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .collector-card-3d.flipped {
+    transform: rotateY(180deg);
+  }
+
+  .card-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    background: linear-gradient(155deg, #161f33 0%, #090d16 55%, #131b2c 100%);
+    border: 2px solid var(--amber);
+    border-radius: 10px;
+    padding: 18px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85), inset 0 0 24px rgba(240, 184, 73, 0.12);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .card-face.back {
+    transform: rotateY(180deg);
+    border-color: var(--cyan);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85), inset 0 0 24px rgba(56, 189, 248, 0.14);
+  }
+
+  .card-top-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(240, 184, 73, 0.35);
+    padding-bottom: 8px;
+  }
+
+  .card-series-tag {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: var(--amber);
+  }
+
+  .card-qsl-id {
+    background: rgba(240, 184, 73, 0.18);
+    border: 1px solid var(--amber);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+
+  .card-title-block {
+    margin: 8px 0;
+  }
+
+  .card-station-name {
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 0.04em;
+  }
+
+  .card-station-sub {
+    font-size: 11px;
+    color: var(--cyan);
+    margin-top: 2px;
+  }
+
+  .card-qsl-art-box {
+    width: 100%;
+    aspect-ratio: 360 / 220;
+    border: 2px solid #2e3e5c;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #000;
+    position: relative;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.7);
+  }
+
+  .card-qsl-art-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    image-rendering: pixelated;
+  }
+
+  .card-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .card-stat-cell {
+    background: rgba(6, 9, 15, 0.85);
+    border: 1px solid #24324b;
+    padding: 7px 9px;
+    border-radius: 4px;
+  }
+
+  .stat-lbl { font-size: 9px; color: var(--muted); text-transform: uppercase; }
+  .stat-val { font-size: 12.5px; font-weight: 800; color: var(--amber); margin-top: 2px; }
+
+  .card-motto-banner {
+    background: rgba(240, 184, 73, 0.09);
+    border-left: 3px solid var(--amber);
+    padding: 8px 10px;
+    font-size: 10.5px;
+    font-style: italic;
+    color: #f8fafc;
+    margin-top: 8px;
+  }
+
+  .card-footer-strip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 9.5px;
+    color: var(--muted);
+    border-top: 1px solid #1e293b;
+    padding-top: 8px;
+  }
+
+  .flip-btn {
+    width: 100%;
+    background: linear-gradient(90deg, #1b263b, #131c2e);
+    border: 1px solid var(--amber);
+    color: var(--amber);
+    padding: 10px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.15s;
+  }
+
+  .flip-btn:hover {
+    background: var(--amber);
+    color: #05070b;
+  }
+
+  /* Right Side of Hero: Full Web Dossier */
+  .dossier-main {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dossier-hdr {
+    background: linear-gradient(90deg, rgba(240,184,73,0.14) 0%, rgba(15,23,42,0.4) 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .dossier-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .dossier-media-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 16px;
+  }
+
+  .dossier-video-box {
+    border: 1px solid #2b3a54;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #000;
+    position: relative;
+    aspect-ratio: 16 / 9;
+  }
+
+  .dossier-video-box video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .audio-rack-card {
+    background: #080b12;
+    border: 1px solid #1e2b42;
+    border-radius: 4px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .audio-track-row {
+    background: #0e1422;
+    border: 1px solid #23314a;
+    padding: 8px 10px;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .audio-track-row label {
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--amber);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .audio-track-row audio {
+    width: 100%;
+    height: 28px;
+  }
+
+  .info-columns {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 16px;
+  }
+
+  .info-box {
+    background: #080b12;
+    border: 1px solid #1e2b42;
+    border-radius: 4px;
+    padding: 14px;
+    font-size: 11.5px;
+    line-height: 1.6;
+  }
+
+  .info-box h3 {
+    font-size: 11px;
+    color: var(--cyan);
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #192438;
+    padding-bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* QSL Collexion Gallery & Raw ghlogs Section */
+  .section-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px;
+  }
+
+  .section-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--amber);
+    letter-spacing: 0.1em;
+    margin-bottom: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .qsl-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+  }
+
+  .qsl-thumb-card {
+    background: #080b12;
+    border: 1px solid #24324a;
+    border-radius: 4px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .qsl-thumb-card:hover {
+    border-color: var(--amber);
+    transform: translateY(-2px);
+  }
+
+  .qsl-thumb-card img {
+    width: 100%;
+    aspect-ratio: 360 / 220;
+    object-fit: cover;
+    display: block;
+    border: 1px solid #2e3d56;
+    margin-bottom: 8px;
+    image-rendering: pixelated;
+  }
+
+  .raw-pre {
+    background: #04060a;
+    border: 1px solid #1e2b40;
+    padding: 16px;
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 1.6;
+    color: #a7f3d0;
+    overflow-x: auto;
+    white-space: pre-wrap;
+  }
+
+  @media (max-width: 1150px) {
+    .dossier-hero { grid-template-columns: 1fr; }
+    .dossier-media-grid { grid-template-columns: 1fr; }
+    .info-columns { grid-template-columns: 1fr; }
+  }
+
+  /* Full-Screen 16:9 CSS Grid Console Optimization & 1080p Readability */
+  html {
+    background-color: #05070b;
+    font-size: 17px;
+  }
+  .atc-topbar {
+    height: 44px;
+    padding: 0 16px;
+    font-size: 13px;
+  }
+  .station-id-title { font-size: 15px; }
+  .mode-tab { font-size: 12px; padding: 6px 12px; }
+  .page-wrap {
+    max-width: none;
+    width: 100%;
+    padding: 10px 16px 40px;
+    gap: 12px;
+  }
+  body.capture-mode {
+    height: 100vh;
+    overflow: hidden;
+  }
+  body.capture-mode .page-wrap {
+    flex: 1;
+    height: calc(100vh - 44px);
+    padding: 10px 16px 14px;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 12px;
+  }
+  .selector-strip {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 12px;
+    padding: 8px 14px;
+    align-items: center;
+  }
+  #station-selector-btns {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    width: 100%;
+  }
+  .selector-pill {
+    font-size: 12px;
+    padding: 8px 10px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .dossier-hero {
+    display: grid;
+    grid-template-columns: 500px 1fr;
+    gap: 16px;
+    align-items: stretch;
+    height: 100%;
+  }
+  .collector-stage {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 100%;
+  }
+  .collector-card-3d {
+    flex: 1;
+    min-height: 0;
+    height: 100%;
+  }
+  .card-face.front > div:first-child {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 8px;
+    min-height: 0;
+  }
+  .card-qsl-art-box {
+    width: 100%;
+    height: auto !important;
+    aspect-ratio: 16 / 10;
+    flex: 0 0 auto;
+    background: #04070d;
+  }
+  .card-qsl-art-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill !important;
+    display: block;
+  }
+  .card-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+  .card-series-tag { font-size: 11.5px; }
+  .card-qsl-id { font-size: 12.5px; }
+  .card-station-name { font-size: 24px; }
+  .card-station-sub { font-size: 12.5px; }
+  .stat-lbl { font-size: 10px; }
+  .stat-val { font-size: 13px; }
+  .card-motto-banner {
+    font-size: 12px;
+    padding: 8px 10px;
+    margin-top: 0;
+  }
+  .card-footer-strip { font-size: 11px; margin-top: 8px; }
+  .flip-btn { font-size: 12.5px; padding: 11px; }
+  .dossier-main {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+  }
+  .dossier-hdr {
+    padding: 9px 16px;
+  }
+  .dossier-body {
+    flex: 1;
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 0;
+  }
+  .dossier-media-grid {
+    display: grid;
+    grid-template-columns: 1.18fr 1fr;
+    gap: 14px;
+    align-items: stretch;
+    flex: 0.92;
+    min-height: 0;
+  }
+  .dossier-video-box {
+    width: 100%;
+    height: 100%;
+    min-height: 210px;
+    max-height: none;
+    aspect-ratio: auto;
+  }
+  #dos-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover !important;
+    display: block;
+  }
+  .audio-rack-card {
+    padding: 11px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 7px;
+    min-height: 0;
+  }
+  .audio-track-row label { font-size: 11px; margin-bottom: 2px; }
+  .audio-track-row audio { height: 27px; }
+  .info-columns {
+    display: grid;
+    grid-template-columns: 1.18fr 1fr;
+    gap: 14px;
+    align-items: stretch;
+    flex: 1.08;
+    min-height: 0;
+  }
+  .info-box {
+    font-size: 12px;
+    line-height: 1.44;
+    padding: 11px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 6px;
+    min-height: 0;
+  }
+  .info-box h3 { font-size: 12px; margin-bottom: 4px; }
+  body.capture-mode .collector-card-3d {
+    transition: none !important;
+  }
+  body.capture-mode .collector-card-3d.flipped {
+    transform: none !important;
+  }
+  body.capture-mode .collector-card-3d.flipped .card-face:not(.back) {
+    display: none !important;
+  }
+  body.capture-mode .collector-card-3d.flipped .card-face.back {
+    transform: none !important;
+    backface-visibility: visible !important;
+  }
+  body.capture-mode #dos-decoder-box,
+  body.capture-mode #dos-worldbuilding-box,
+  body.capture-mode #dos-flow-plates-box,
+  body.capture-mode #dos-logs-panel,
+  body.capture-mode .section-card {
+    display: none !important;
+  }
+</style>
+</head>
+<body>
+
+<header class="atc-topbar">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <span style="background:rgba(244,63,94,0.16);border:1px solid #f43f5e;color:#fda4af;padding:3px 9px;border-radius:3px;font-weight:800;font-size:11.5px;">● ON AIR • 0400 GCT</span>
+    <div class="station-id-title">GOR-9 • GALACTIC OUTPOST RADIO — OORT SECTOR 9 DASHBOARD</div>
+  </div>
+  <nav class="nav-mode-tabs">
+    <a href="index.html" id="back-console-link" class="mode-tab">🎛️ HAUSER MK-IV CONSOLE</a>
+    <a href="propagation.html" class="mode-tab" style="border-color:var(--green);color:var(--green);">🌩️ VAN ALLEN VA-4</a>
+    <a href="euclidean-detector.html" class="mode-tab" style="border-color:var(--amber);color:var(--amber);">📐 VAN ALLEN ED-9 EUCLID</a>
+    <a href="bogey-detector.html" class="mode-tab" style="border-color:#f43f5e;color:#f43f5e;">🛸 BOGEY-9 TRAIL-CAM</a>
+    <a href="celestial-atlas.html" id="nav-celestial-link" class="mode-tab" style="border-color:var(--cyan);color:var(--cyan);">🪐 3D SKY &amp; RELAY ATLAS</a>
+    <a href="station.html" class="mode-tab active">🃏 STATION DOSSIER &amp; QSL CARDS</a>
+    <a href="data/stations.json" target="_blank" class="mode-tab">📄 STATIONS.JSON</a>
+    <a href="data/ghlogs_2736_305.txt" target="_blank" class="mode-tab">📋 RAW LOG (.TXT)</a>
+  </nav>
+</header>
+
+<main class="page-wrap">
+
+  <!-- STATION PRESET SELECTOR STRIP -->
+  <div class="selector-strip">
+    <span style="font-size:12.5px;font-weight:800;color:var(--amber);margin-right:6px;">SELECT INTERCEPTED STATION:</span>
+    <div id="station-selector-btns"></div>
+  </div>
+
+  <!-- HERO: 2-SIDED COLLECTOR CARD + FULL TECHNICAL WEB DOSSIER -->
+  <section class="dossier-hero">
+
+    <!-- LEFT: INTERACTIVE 3D-FLIP STATION COLLECTOR CARD -->
+    <div class="collector-stage">
+      <div class="collector-card-3d" id="collector-card">
+
+        <!-- FRONT FACE: ANIMATED QSL COLLECTOR CARD -->
+        <div class="card-face front">
+          <div>
+            <div class="card-top-meta">
+              <span class="card-series-tag">GOR-9 OORT CLOUD DX SERIES • EPOCH 2736</span>
+              <span class="card-qsl-id" id="card-qsl-num">QSL #0165-RC</span>
+            </div>
+            <div class="card-title-block">
+              <div class="card-station-name" id="card-name">RADIO CORRUGATED</div>
+              <div class="card-station-sub" id="card-sub">SW4-CORR • CALLISTO DOME-4 NIGHT MARKET</div>
+            </div>
+            <div class="card-qsl-art-box">
+              <img id="card-gif" src="assets/qsl/qsl_radio_corrugated.gif" alt="Animated QSL Card">
+            </div>
+            <div class="card-stat-grid">
+              <div class="card-stat-cell">
+                <div class="stat-lbl">FREQUENCY</div>
+                <div class="stat-val" id="card-freq">11,410.0 kHz</div>
+              </div>
+              <div class="card-stat-cell">
+                <div class="stat-lbl">GALACTIC BEARING</div>
+                <div class="stat-val" id="card-pwr" style="color:var(--cyan);">AZ 212.4°</div>
+              </div>
+              <div class="card-stat-cell">
+                <div class="stat-lbl">SINPO / S-MTR</div>
+                <div class="stat-val" id="card-sinpo" style="color:var(--green);">4-3-4-3-4</div>
+              </div>
+              <div class="card-stat-cell">
+                <div class="stat-lbl">TX POWER &amp; BAND</div>
+                <div class="stat-val" id="card-txband" style="color:var(--amber);">350 W • 25m</div>
+              </div>
+              <div class="card-stat-cell">
+                <div class="stat-lbl">FILTER / DOPPLER</div>
+                <div class="stat-val" id="card-doppler" style="color:var(--cyan);">6.0 kHz • +42 Hz</div>
+              </div>
+              <div class="card-stat-cell">
+                <div class="stat-lbl">HAUSER QUALITY</div>
+                <div class="stat-val" id="card-quality" style="color:var(--green);">Q-8.4 • LOCKED</div>
+              </div>
+            </div>
+            <div class="card-motto-banner" id="card-motto">
+              "SOLDER HOT, BROTH HOTTER — NO ROMANCE WITHOUT DILITHIUM"
+            </div>
+            <div id="card-front-log" style="flex:1;background:#05080f;border:1px solid #1e2d45;border-left:3px solid var(--cyan);border-radius:3px;padding:7px 10px;font-size:11px;line-height:1.42;color:#cbd5e1;display:flex;flex-direction:column;justify-content:center;"></div>
+          </div>
+
+          <div class="card-footer-strip">
+            <span id="card-tier" style="color:var(--amber);font-weight:700;">TIER I • #14 OF 351</span>
+            <span id="card-hash">0x8F4E-11410-CORR-G47</span>
+          </div>
+        </div>
+
+        <!-- BACK FACE: TECHNICAL SCHEMATIC, INTERVAL SIGNAL & CIPHER CLUE -->
+        <div class="card-face back">
+          <div style="display:flex;flex-direction:column;flex:1;">
+            <div class="card-top-meta" style="border-color:rgba(56,189,248,0.4);">
+              <span class="card-series-tag" style="color:var(--cyan);">REVERSE • HARDWARE & SIGNAL DOSSIER</span>
+              <span class="card-qsl-id" id="card-back-call" style="border-color:var(--cyan);background:rgba(56,189,248,0.18);">SW4-CORR</span>
+            </div>
+
+            <div style="margin-top:8px;display:flex;flex-direction:column;justify-content:flex-start;flex:1;gap:8px;font-size:12px;line-height:1.45;">
+              <div style="background:#060911;border:1px solid #1e2d45;padding:9px 11px;border-radius:4px;">
+                <div style="color:var(--amber);font-weight:800;font-size:11px;margin-bottom:3px;">TRANSMITTER & POWER ARCHITECTURE</div>
+                <div id="card-back-tx"></div>
+              </div>
+
+              <div style="background:#060911;border:1px solid #1e2d45;padding:9px 11px;border-radius:4px;">
+                <div style="color:var(--cyan);font-weight:800;font-size:11px;margin-bottom:3px;">ANTENNA & FEEDLINE ANOMALY</div>
+                <div id="card-back-anom"></div>
+              </div>
+
+              <div style="background:#060911;border:1px solid #1e2d45;padding:9px 11px;border-radius:4px;">
+                <div style="color:var(--green);font-weight:800;font-size:11px;margin-bottom:3px;">INTERVAL SIGNAL & SSTV PROTOCOL</div>
+                <div id="card-back-is"></div>
+              </div>
+
+              <div style="background:#060911;border:1px solid #1e2d45;padding:9px 11px;border-radius:4px;flex:1;display:flex;flex-direction:column;justify-content:space-between;">
+                <div style="color:var(--cyan);font-weight:800;font-size:11px;margin-bottom:3px;">DEMODULATED CODE & TRANSLATION BUFFER</div>
+                <div id="card-back-dec" style="font-size:11px;color:#93c5fd;display:flex;flex-direction:column;gap:4px;flex:1;justify-content:space-around;"></div>
+              </div>
+
+              <div style="background:rgba(240,184,73,0.1);border:1px dashed var(--amber);padding:9px 11px;border-radius:4px;">
+                <div style="color:var(--amber);font-weight:800;font-size:11px;margin-bottom:3px;">🔍 EMBEDDED STEGANOGRAPHIC / CIPHER LAYER</div>
+                <div id="card-back-clue" style="color:#fde68a;"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer-strip" style="margin-top:8px;">
+            <span id="card-back-signer">Signed: Eng. Chen 'Torch' Wei</span>
+            <span style="color:var(--cyan);">VERIFIED BY HAUSER MK-IV</span>
+          </div>
+        </div>
+
+      </div>
+
+      <button class="flip-btn" onclick="document.getElementById('collector-card').classList.toggle('flipped')">
+        🔄 FLIP COLLECTOR CARD (FRONT QSL ART ↔ BACK HARDWARE & CIPHER SCHEMATIC)
+      </button>
+    </div>
+
+    <!-- RIGHT: STATION WEB DOSSIER -->
+    <div class="dossier-main">
+      <div class="dossier-hdr">
+        <div>
+          <div style="font-size:11.5px;color:var(--amber);font-weight:800;letter-spacing:0.1em;" id="dos-cat">UNLICENSED MARKET PIRATE • PRESET P-01</div>
+          <h1 style="font-size:24px;color:#fff;margin-top:2px;" id="dos-title">Radio Corrugated (11,410.000 kHz AM-W)</h1>
+        </div>
+        <a href="index.html?id=radio-corrugated" id="tune-in-mk4-btn" class="mode-tab active" style="padding:8px 14px;">
+          🎛️ TUNE STATION IN HAUSER MK-IV ↗
+        </a>
+      </div>
+
+      <div class="dossier-body">
+
+        <div class="dossier-media-grid">
+          <div class="dossier-video-box">
+            <video id="dos-video" loop muted playsinline controls poster="assets/plates/cam_sw4_bazaar_start.jpg">
+              <source id="dos-video-src" type="video/mp4">
+            </video>
+          </div>
+
+          <div class="audio-rack-card">
+            <div style="font-size:12px;font-weight:800;color:var(--cyan);letter-spacing:0.08em;">
+              INTERCEPTED AUDIO ARTIFACTS (24 kHz PCM WAV)
+            </div>
+            <div class="audio-track-row">
+              <label><span>1. FULL SHORTWAVE INTERCEPT</span><span id="lbl-dur-int">6.8s</span></label>
+              <audio id="aud-int" controls preload="none"></audio>
+            </div>
+            <div class="audio-track-row">
+              <label><span>2. SIGNATURE INTERVAL SIGNAL</span><span>4.2s</span></label>
+              <audio id="aud-is" controls preload="none"></audio>
+            </div>
+            <div class="audio-track-row">
+              <label><span>3. SUB-BAND SSTV eQSL BURST</span><span>2.0s</span></label>
+              <audio id="aud-sstv" controls preload="none"></audio>
+            </div>
+            <div id="dos-transcript-box" style="flex:1;background:#040811;border:1px solid #1d2b42;border-left:3px solid var(--amber);border-radius:3px;padding:7px 10px;font-size:11.5px;line-height:1.42;color:#cbd5e1;display:flex;flex-direction:column;justify-content:center;"></div>
+          </div>
+        </div>
+
+        <div class="info-columns">
+          <!-- INTERACTIVE GALACTIC POSITION MAP IN DOSSIER -->
+          <div class="info-box" style="display:flex;flex-direction:column;gap:8px;">
+            <h3>
+              <span>GALACTIC POSITION & RELAY VECTOR MAP</span>
+              <span style="color:var(--amber);font-size:11.5px;" id="dos-gal-arm">ORION–CYGNUS SPUR</span>
+            </h3>
+            <div style="width:100%;flex:1;min-height:130px;background:#020408;border:1px solid #1d2b42;border-radius:3px;overflow:hidden;">
+              <canvas id="dos-galaxy-canvas" width="560" height="190" style="width:100%;height:100%;display:block;cursor:crosshair;"></canvas>
+            </div>
+            <div id="dos-origin-html" style="font-size:11.5px;line-height:1.42;"></div>
+          </div>
+
+          <div class="info-box">
+            <h3>TRANSMITTER, ANTENNA & POWER PLANT</h3>
+            <div id="dos-hw-html" style="flex:1;display:flex;flex-direction:column;justify-content:space-around;"></div>
+          </div>
+        </div>
+
+        <div class="info-box" id="dos-decoder-box">
+          <h3>
+            <span>CW / CODE STREAM, TELEMETRY &amp; TRANSLATION ALGORITHM</span>
+            <span id="dos-alg-badge" style="color:var(--amber);font-size:10px;">ALG-01</span>
+          </h3>
+          <div id="dos-decoder-html" style="font-size:11px;line-height:1.55;"></div>
+        </div>
+
+        <div class="info-box" id="dos-worldbuilding-box">
+          <h3>
+            <span>CHARACTERS, VOICES, HABITAT &amp; SERIALIZED DISCOVERY ARC</span>
+            <span id="dos-folder-badge" style="color:var(--amber);font-size:10px;">FOLDER</span>
+          </h3>
+          <div id="dos-worldbuilding-html" style="font-size:11.5px;line-height:1.55;display:flex;flex-direction:column;gap:10px;"></div>
+        </div>
+
+        <div class="info-box" id="dos-flow-plates-box">
+          <h3>
+            <span>FLOW 16:9 SCENE, ARCHITECTURE &amp; ONBOARD CAMERA PLATES</span>
+            <span id="dos-plates-count" style="color:var(--cyan);font-size:10px;">PLATES</span>
+          </h3>
+          <div id="dos-flow-plates-html" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;"></div>
+        </div>
+
+        <div class="info-box" id="dos-logs-panel">
+          <h3>
+            <span>LOG</span>
+            <span id="dos-log-count" style="color:var(--cyan);font-size:10px;">3 ENTRIES</span>
+          </h3>
+          <div id="dos-logs-html" style="color:#a7f3d0;font-size:11px;display:flex;flex-direction:column;gap:8px;"></div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ALL STATIONS QSL COLLEXION GALLERY -->
+  <section class="section-card" id="galaxy-section">
+    <div class="section-title">
+      <span>FEATURED eQSLs FROM THE GOR-9 OORT CLOUD COLLEXION (ANIMATED SSTV STAMPS)</span>
+      <span style="font-size:11px;color:var(--muted);">CLICK ANY CARD TO INSPECT DOSSIER</span>
+    </div>
+    <div class="qsl-gallery-grid" id="qsl-gallery"></div>
+  </section>
+
+  <!-- OUTPOST HARDWARE MANUFACTURERS & BROADCAST UNDERWRITERS -->
+  <section class="section-card">
+    <div class="section-title">
+      <span>OUTPOST NINE HARDWARE MANUFACTURERS &amp; BROADCAST UNDERWRITERS</span>
+      <span style="font-size:11px;color:var(--amber);">OFFICIAL TOWER CONSOLE SUPPLIERS • EPOCH 2736</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <!-- HAUSER DYNAMICS -->
+      <div style="background:#080d16;border:1px solid #25344d;border-left:3px solid var(--cyan);border-radius:4px;padding:12px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <span style="color:var(--cyan);font-weight:800;font-size:13px;">HAUSER DYNAMICS • GANYMEDE PRECISION WORKS</span>
+          <span style="color:var(--amber);font-size:10px;font-weight:700;">EST. 2026 ENID / GANYMEDE</span>
+        </div>
+        <div style="background:#04070d;border:1px solid #1e293b;border-radius:3px;padding:6px 10px;margin-bottom:8px;">
+          <img src="assets/branding/hauser_logo.svg" alt="Hauser Dynamics Vector Emblem" style="width:100%;aspect-ratio:520/180;object-fit:contain;display:block;" />
+        </div>
+        <div style="color:#e2e8f0;font-size:11.5px;line-height:1.5;">
+          Builders of the <b>Hauser MK-IV Wideband Barycentric DX Correlator</b>, <b>Bogey-9 Keplerian Trail-Cam Scanner</b>, Pulsar-Locked VFO Synthesizers, and plug-in Translation Algorithm Cartridges (<code>ALG-01</code>–<code>ALG-04</code>).<br>
+          <span style="color:var(--cyan);font-style:italic;">Motto: "Every Carrier in the Noise — 3 kHz to 1.5 GHz."</span>
+        </div>
+      </div>
+
+      <!-- VAN ALLEN & SONS SWITCHGEAR -->
+      <div style="background:#080d16;border:1px solid #3b2f16;border-left:3px solid var(--amber);border-radius:4px;padding:12px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <span style="color:var(--amber);font-weight:800;font-size:13px;">VAN ALLEN &amp; SONS SWITCHGEAR • CERES FOUNDRY #7</span>
+          <span style="color:var(--green);font-size:10px;font-weight:700;">PROUD BROADCAST SPONSOR</span>
+        </div>
+        <div style="background:#04070d;border:1px solid #3b2f16;border-radius:3px;padding:6px 10px;margin-bottom:8px;">
+          <img src="assets/branding/van_allen_logo.svg" alt="Van Allen & Sons Switchgear Vector Emblem" style="width:100%;aspect-ratio:520/180;object-fit:contain;display:block;" />
+        </div>
+        <div style="color:#e2e8f0;font-size:11.5px;line-height:1.5;">
+          Underwriters of the Space Weather &amp; Power Report and makers of the <b>Van Allen VA-4 Console</b>, <b>Model ED-9 Euclidean Detector</b>, <b>Belt-Master MV-6 Marzelvane Bushings</b>, <b>Ring-Bake CD-400 Corona De-Icers</b>, and <b>Cryo-Toast 900 Dormitory Foot-Warmers</b>.<br>
+          <span style="color:var(--green);font-style:italic;">Motto: "From Radiation Belts to Reactor Beds — If It Arcs, We Clamp It."</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RAW STATION LOG ARCHIVE -->
+  <section class="section-card">
+    <div class="section-title">
+      <span>STATION LOG ARCHIVE</span>
+      <a href="data/ghlogs_2736_305.txt" target="_blank" style="color:var(--cyan);font-size:11px;">OPEN RAW .TXT ↗</a>
+    </div>
+    <pre class="raw-pre" id="raw-ghlogs-box"></pre>
+  </section>
+
+</main>
+
+<script src="data/stations_data.js"></script>
+<script>
+let DATA = window.GOR9_STATIONS_DATA || null;
+let activeStation = null;
+let dosHitBoxes = [];
+let curBeamAz = 212.4;
+let tgtBeamAz = 212.4;
+
+async function initDossier() {
+  if (!DATA) {
+    const r = await fetch('data/stations.json');
+    DATA = await r.json();
+  }
+  const params = new URLSearchParams(window.location.search);
+  const startId = params.get('id') || DATA.presets[0].id;
+  if (params.get('capture') === '1') {
+    document.body.classList.add('capture-mode');
+  }
+  if (params.get('flip') === '1') {
+    const cc = document.getElementById('collector-card');
+    if (cc) cc.classList.add('flipped');
+  }
+
+  renderSelectorButtons();
+  if (params.get('capture') !== '1') {
+    renderQslGallery();
+    renderRawLogs();
+  }
+  selectStation(startId);
+
+  const c = document.getElementById('dos-galaxy-canvas');
+  c.addEventListener('click', e => {
+    const rect = c.getBoundingClientRect();
+    const sx = (e.clientX - rect.left) * (c.width / rect.width);
+    const sy = (e.clientY - rect.top) * (c.height / rect.height);
+    for (const b of dosHitBoxes) {
+      if ((sx - b.x) ** 2 + (sy - b.y) ** 2 <= 144) {
+        selectStation(b.id);
+        return;
+      }
+    }
+  });
+  startDossierGalaxyLoop();
+}
+
+function renderSelectorButtons() {
+  const wrap = document.getElementById('station-selector-btns');
+  wrap.innerHTML = DATA.presets.map(p => `
+    <button class="selector-pill" id="sel-${p.id}" onclick="selectStation('${p.id}')">
+      ${p.preset_slot} • ${p.name} (${p.rf.frequency_khz} kHz)
+    </button>
+  `).join('');
+}
+
+function selectStation(id) {
+  const p = DATA.presets.find(x => x.id === id) || DATA.presets[0];
+  activeStation = p;
+  if (p.galactic) {
+    tgtBeamAz = p.galactic.azimuth_deg;
+    if (new URLSearchParams(window.location.search).get('capture') === '1') {
+      curBeamAz = tgtBeamAz;
+    }
+  }
+
+  document.querySelectorAll('.selector-pill').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById(`sel-${p.id}`);
+  if (btn) btn.classList.add('active');
+
+  document.getElementById('card-qsl-num').textContent = p.qsl.qsl_number;
+  document.getElementById('card-name').textContent = p.name.toUpperCase();
+  document.getElementById('card-sub').textContent = `${p.callsign} • ${p.subtitle.toUpperCase()}`;
+  document.getElementById('card-gif').src = p.qsl.gif_src;
+  document.getElementById('card-freq').textContent = `${p.rf.frequency_khz} kHz ${p.rf.mode}`;
+  document.getElementById('card-pwr').textContent = p.galactic ? `AZ ${p.galactic.azimuth_deg}° (${p.galactic.range_label.split(' ')[0]} ${p.galactic.range_label.split(' ')[1]})` : `${p.rf.tx_power_watts} W`;
+  const s = p.rf.sinpo;
+  document.getElementById('card-sinpo').textContent = `${s.s}-${s.i}-${s.n}-${s.p}-${s.o} (${p.rf.s_meter})`;
+  const txBandEl = document.getElementById('card-txband');
+  if (txBandEl) txBandEl.textContent = `${p.rf.tx_power_watts} W • ${p.rf.band.split(' ')[0]}`;
+  const dopEl = document.getElementById('card-doppler');
+  if (dopEl) dopEl.textContent = `${(p.rf.filter_bw_hz / 1000).toFixed(1)} kHz • ${p.rf.doppler_hz >= 0 ? '+' : ''}${p.rf.doppler_hz} Hz`;
+  const qualEl = document.getElementById('card-quality');
+  if (qualEl) qualEl.textContent = `${p.rf.hauser_index} • VERIFIED`;
+  document.getElementById('card-motto').textContent = `"${p.qsl.motto}"`;
+  const frontLogEl = document.getElementById('card-front-log');
+  if (frontLogEl) {
+    const firstLog = (p.logs && p.logs[0]) ? p.logs[0].entry : '';
+    frontLogEl.innerHTML = `<div style="color:var(--cyan);font-weight:800;font-size:10px;margin-bottom:2px;">QSL SIGNER: ${p.qsl.signer.toUpperCase()}</div><div style="color:#a7f3d0;font-size:10.5px;">${firstLog}</div>`;
+  }
+  document.getElementById('card-tier').textContent = p.qsl.collector_tier;
+  document.getElementById('card-hash').textContent = p.qsl.verification_hash;
+
+  document.getElementById('card-back-call').textContent = p.callsign;
+  document.getElementById('card-back-tx').textContent = p.hardware_dossier.transmitter;
+  document.getElementById('card-back-anom').textContent = p.hardware_dossier.feedline_anomaly;
+  document.getElementById('card-back-is').textContent = `${p.media.interval_signal_name} • Protocol: ${p.qsl.protocol}`;
+  const decSummary = p.decoder ? `
+    <div style="color:var(--amber);font-weight:700;">${p.decoder.algorithm_name}: ${p.decoder.morse_stream}</div>
+    ${(p.decoder.raw_rx_lines || []).slice(0, 2).map(l => `<div style="color:#93c5fd;">▸ ${l}</div>`).join('')}
+    ${(p.decoder.translated_lines || []).slice(0, 2).map(l => `<div style="color:#86efac;">✓ ${l}</div>`).join('')}
+  ` : '';
+  const backDecEl = document.getElementById('card-back-dec');
+  if (backDecEl) backDecEl.innerHTML = decSummary;
+  document.getElementById('card-back-clue').textContent = p.qsl.embedded_clue;
+  document.getElementById('card-back-signer').textContent = p.qsl.signer;
+
+  const trBox = document.getElementById('dos-transcript-box');
+  if (trBox && p.media) {
+    const langs = Array.isArray(p.media.languages) ? p.media.languages.join(' / ') : 'RF';
+    trBox.innerHTML = `<div style="font-size:10.5px;color:var(--amber);font-weight:800;margin-bottom:2px;">INTERVAL SIGNAL: ${p.media.interval_signal_name.toUpperCase()} (${langs})</div><div style="color:#e2e8f0;">${p.media.transcript_excerpt || ''}</div>`;
+  }
+
+  document.getElementById('dos-cat').textContent = `${p.category.toUpperCase()} • PRESET ${p.preset_slot}`;
+  document.getElementById('dos-title').textContent = `${p.name} (${p.rf.frequency_khz} kHz ${p.rf.mode})`;
+  document.getElementById('tune-in-mk4-btn').href = `index.html?id=${p.id}`;
+  const backLink = document.getElementById('back-console-link');
+  if (backLink) backLink.href = `index.html?id=${p.id}`;
+  if (window.updateGor9NavStation) window.updateGor9NavStation(p.id);
+
+  const vid = document.getElementById('dos-video');
+  const vidSrc = document.getElementById('dos-video-src');
+  vid.poster = p.media.poster_src;
+  if (new URLSearchParams(window.location.search).get('capture') !== '1') {
+    vidSrc.src = p.media.video_src;
+    vid.load();
+    vid.play().catch(() => {});
+    document.getElementById('aud-int').src = p.media.audio_intercept_src;
+    document.getElementById('aud-is').src = p.media.interval_signal_src;
+    document.getElementById('aud-sstv').src = p.media.sstv_burst_src;
+  } else {
+    vid.removeAttribute('autoplay');
+  }
+
+  if (p.galactic) {
+    document.getElementById('dos-gal-arm').textContent = `${p.galactic.arm.toUpperCase()} • AZ ${p.galactic.azimuth_deg}°`;
+  }
+
+  document.getElementById('dos-origin-html').innerHTML = `
+    <div><b>Galactic Sector:</b> <span style="color:var(--amber);">${p.galactic ? p.galactic.sector : p.origin.body}</span></div>
+    <div><b>Bearing from GOR-9:</b> <span style="color:var(--cyan);">Azimuth ${p.galactic ? p.galactic.azimuth_deg : 0}° • Plane Inclination ${p.galactic ? p.galactic.elevation_deg : 0}° • Range ${p.galactic ? p.galactic.range_label : p.origin.distance}</span></div>
+    <div><b>Transmitter Site:</b> ${p.origin.site} (${p.origin.coordinates})</div>
+    <div><b>Relay Path:</b> <span style="color:var(--green);">${p.rf.relay_path}</span></div>
+  `;
+
+  document.getElementById('dos-hw-html').innerHTML = `
+    <div><b>Power Rating:</b> <span style="color:var(--amber);">${p.rf.tx_power_label}</span></div>
+    <div><b>Antenna:</b> ${p.rf.antenna}</div>
+    <div><b>GOR-9 Receive Array:</b> <span style="color:var(--cyan);">${p.hardware_dossier.receive_antenna_at_gor9}</span></div>
+    <div style="margin-top:4px;"><b>Transmitter Rig:</b> ${p.hardware_dossier.transmitter}</div>
+    <div style="margin-top:4px;color:var(--muted);"><b>Anomaly Note:</b> ${p.hardware_dossier.feedline_anomaly}</div>
+  `;
+
+  if (p.decoder) {
+    const dec = p.decoder;
+    document.getElementById('dos-alg-badge').textContent = `${dec.has_live_video ? 'LIVE VIDEO + ' : 'NO VIDEO • '}${dec.algorithm_name}`;
+    document.getElementById('dos-decoder-html').innerHTML = `
+      <div style="margin-bottom:6px;color:var(--amber);font-weight:700;">CW / Code Stream: <span style="color:#fff;letter-spacing:0.08em;">${dec.morse_stream}</span></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px;">
+        <div style="background:#050912;border:1px solid #1c293e;padding:8px;border-radius:3px;">
+          <div style="color:var(--cyan);font-weight:800;font-size:10px;margin-bottom:4px;">RAW RECEIVED FRAMES (${dec.signal_type})</div>
+          ${dec.raw_rx_lines.map(l => `<div style="font-size:10px;color:#93c5fd;">▸ ${l}</div>`).join('')}
+        </div>
+        <div style="background:#050912;border:1px solid #1c293e;padding:8px;border-radius:3px;">
+          <div style="color:var(--green);font-weight:800;font-size:10px;margin-bottom:4px;">TRANSLATED OUTPUT (${dec.required_algorithm})</div>
+          ${dec.translated_lines.map(l => `<div style="font-size:10px;color:#86efac;">✓ ${l}</div>`).join('')}
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+        ${dec.telemetry_metrics.map(m => `
+          <div style="background:#060a14;border:1px solid ${m.alert ? 'var(--red)' : '#1e2c44'};padding:6px 8px;border-radius:3px;">
+            <div style="font-size:9px;color:var(--muted);">${m.label}</div>
+            <div style="font-size:12px;font-weight:800;color:${m.alert ? 'var(--amber)' : '#fff'};">${m.value}</div>
+            <div style="font-size:8.5px;color:var(--cyan);">${m.unit}</div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  const wbBox = document.getElementById('dos-worldbuilding-html');
+  const folderBadge = document.getElementById('dos-folder-badge');
+  if (folderBadge) {
+    folderBadge.textContent = p.station_folder ? `stations/${p.station_folder}/` : p.callsign;
+  }
+  if (wbBox) {
+    const wb = p.worldbuilding || {};
+    const chars = p.characters || [];
+    const charCards = chars.map(c => {
+      const hs = c.headshot_src || '';
+      const fb = c.fullbody_src || '';
+      const dryWav = c.voice_sample_dry_src || '';
+      const rfWav = c.voice_sample_rf_src || '';
+      const visualsHtml = (hs || fb) ? `
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:7px;">
+          ${hs ? `
+            <a href="${hs}" target="_blank" title="Open 16:9 Headshot Reference Plate (${hs})" style="display:block;position:relative;border:1px solid #243856;border-radius:3px;overflow:hidden;background:#02050a;text-decoration:none;">
+              <img src="${hs}" alt="${c.name} Headshot" loading="lazy" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block;">
+              <span style="position:absolute;bottom:3px;left:4px;background:rgba(3,7,14,0.86);color:var(--cyan);font-size:8px;font-weight:800;padding:1px 4px;border-radius:2px;border:1px solid rgba(56,189,248,0.35);">HEADSHOT REF ↗</span>
+            </a>
+          ` : ''}
+          ${fb ? `
+            <a href="${fb}" target="_blank" title="Open 16:9 Full-Body Cyclorama Reference Plate (${fb})" style="display:block;position:relative;border:1px solid #243856;border-radius:3px;overflow:hidden;background:#02050a;text-decoration:none;">
+              <img src="${fb}" alt="${c.name} Full-Body" loading="lazy" style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block;">
+              <span style="position:absolute;bottom:3px;left:4px;background:rgba(3,7,14,0.86);color:var(--amber);font-size:8px;font-weight:800;padding:1px 4px;border-radius:2px;border:1px solid rgba(251,191,36,0.35);">FULL-BODY FLOW REF ↗</span>
+            </a>
+          ` : ''}
+        </div>
+      ` : '';
+      const audioHtml = (dryWav || rfWav) ? `
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px;padding-top:6px;border-top:1px dashed #1e2d45;">
+          ${dryWav ? `
+            <div style="background:#030710;border:1px solid #1b2a42;padding:4px 6px;border-radius:3px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;">
+                <span style="font-size:8.5px;font-weight:800;color:var(--cyan);">🎙 DRY STUDIO VOICE (FLOW REF)</span>
+                <a href="${dryWav}" download style="font-size:8px;color:var(--muted);text-decoration:none;">WAV ⬇</a>
+              </div>
+              <audio controls preload="none" src="${dryWav}" style="width:100%;height:24px;"></audio>
+            </div>
+          ` : ''}
+          ${rfWav ? `
+            <div style="background:#030710;border:1px solid #1b2a42;padding:4px 6px;border-radius:3px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;">
+                <span style="font-size:8.5px;font-weight:800;color:var(--amber);">📡 ON-AIR RF INTERCEPT (DSP)</span>
+                <a href="${rfWav}" download style="font-size:8px;color:var(--muted);text-decoration:none;">WAV ⬇</a>
+              </div>
+              <audio controls preload="none" src="${rfWav}" style="width:100%;height:24px;"></audio>
+            </div>
+          ` : ''}
+        </div>
+      ` : '';
+      return `
+      <div style="background:#050912;border:1px solid #1e2d45;border-left:3px solid var(--amber);padding:8px 10px;border-radius:3px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;gap:6px;">
+          <span style="color:var(--amber);font-weight:800;font-size:12px;">${c.name} — <span style="color:var(--cyan);font-weight:600;">${c.role}</span></span>
+          <span style="font-size:9px;color:var(--green);background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.4);padding:1px 6px;border-radius:2px;white-space:nowrap;">${c.species_or_type}</span>
+        </div>
+        ${visualsHtml}
+        <div style="font-size:10.5px;color:#93c5fd;margin-bottom:3px;">
+          <b>Languages:</b> ${c.languages} <i>(${c.dialect_notes})</i>
+        </div>
+        ${c.phonetic_and_conlang_notes ? `
+          <div style="font-size:9.8px;color:#a5b4fc;margin-bottom:3px;">
+            <b>Phonetics &amp; Conlang Spec:</b> ${c.phonetic_and_conlang_notes}
+          </div>
+        ` : ''}
+        <div style="font-size:10px;color:#cbd5e1;margin-bottom:4px;">
+          <b>Voice Profile:</b> <code>${c.voice_profile ? c.voice_profile.tts_voice : ''}</code> • ${c.voice_profile ? c.voice_profile.cadence : ''} • <span style="color:var(--muted);">${c.voice_profile ? c.voice_profile.dsp_chain : ''}</span>
+        </div>
+        <div style="font-size:10.5px;color:#fde68a;font-style:italic;margin-bottom:4px;">"${c.signature_quote}"</div>
+        <div style="font-size:10.5px;color:#e2e8f0;margin-bottom:4px;">${c.bio}</div>
+        ${c.language_sample_transcript ? `
+          <div style="background:#03060c;border:1px solid #18253a;padding:5px 7px;border-radius:3px;font-size:9.8px;color:#cbd5e1;">
+            <span style="color:var(--cyan);font-weight:800;font-size:9px;text-transform:uppercase;">Recorded Voice &amp; Language Sample Transcript:</span><br>
+            <span style="font-style:italic;color:#f1f5f9;">"${c.language_sample_transcript}"</span>
+          </div>
+        ` : ''}
+        ${audioHtml}
+      </div>
+    `;
+    }).join('');
+
+    const arcSteps = (wb.discovery_arc || []).map(b => `
+      <div style="background:#050912;border:1px solid #1c293e;padding:6px 8px;border-radius:3px;">
+        <div style="color:var(--cyan);font-weight:800;font-size:10px;margin-bottom:2px;">${b.stage}</div>
+        <div style="font-size:10.5px;color:#cbd5e1;">${b.summary}</div>
+      </div>
+    `).join('');
+
+    wbBox.innerHTML = `
+      <div style="background:#050912;border:1px solid #1c293e;padding:8px 10px;border-radius:3px;">
+        <div style="color:var(--cyan);font-weight:800;font-size:10.5px;margin-bottom:3px;">HABITAT &amp; LOCAL CULTURE • ${(wb.spectrum_gimmick_title || '').toUpperCase()}</div>
+        <div style="color:#e2e8f0;font-size:11px;">${wb.habitat_and_culture || ''}</div>
+        ${wb.hauser_commentary ? `<div style="margin-top:6px;padding-top:6px;border-top:1px dashed #24344d;color:#fde68a;font-style:italic;font-size:10.5px;"><b>GOR-9 / Glenn Hauser Commentary:</b> "${wb.hauser_commentary}"</div>` : ''}
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:10px;">
+        ${charCards}
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px;">
+        ${arcSteps}
+      </div>
+    `;
+  }
+
+  const fpBox = document.getElementById('dos-flow-plates-html');
+  const fpCount = document.getElementById('dos-plates-count');
+  const rawPlates = [];
+  if (Array.isArray(p.flow_plates)) {
+    p.flow_plates.forEach(item => {
+      if (typeof item === 'string') rawPlates.push({ src: item, role: '16:9 Flow Scene Plate', caption: '' });
+      else if (item && item.src) rawPlates.push(item);
+    });
+  }
+  if (p.media && Array.isArray(p.media.flow_plates)) {
+    p.media.flow_plates.forEach(item => {
+      if (typeof item === 'string') rawPlates.push({ src: item, role: '16:9 Flow Scene / POV Plate', caption: '' });
+      else if (item && item.src) rawPlates.push(item);
+    });
+  }
+  [p.media && p.media.qsl_plate_src, p.media && p.media.qsl_plate_b_src, p.media && p.media.poster_src].filter(Boolean).forEach((s, idx) => {
+    rawPlates.push({ src: s, role: idx === 0 ? 'QSL Keyframe A' : (idx === 1 ? 'QSL Keyframe B' : 'Primary Station Plate'), caption: '' });
+  });
+  (p.characters || []).forEach(c => {
+    if (c.headshot_src) rawPlates.push({ src: c.headshot_src, role: `${c.name} — Headshot Ref`, caption: c.role });
+    if (c.fullbody_src) rawPlates.push({ src: c.fullbody_src, role: `${c.name} — Full-Body Ref`, caption: c.species_or_type });
+  });
+  const seenSrc = new Set();
+  const flowPlates = rawPlates.filter(item => {
+    if (!item || !item.src || seenSrc.has(item.src)) return false;
+    seenSrc.add(item.src);
+    return true;
+  });
+  if (fpCount) fpCount.textContent = `${flowPlates.length} PLATES (16:9 FLOW READY)`;
+  if (fpBox) {
+    fpBox.innerHTML = flowPlates.map((item, i) => {
+      const src = item.src;
+      const fname = src.split('/').pop();
+      const label = item.role || fname;
+      return `
+        <a href="${src}" target="_blank" title="${item.caption || fname}" style="text-decoration:none;background:#050912;border:1px solid #24324a;border-radius:4px;padding:6px;display:flex;flex-direction:column;gap:4px;">
+          <img src="${src}" alt="${fname}" loading="lazy" style="width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:2px;border:1px solid #2e3d56;display:block;">
+          <div style="font-size:9.5px;color:var(--amber);font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${i + 1}. ${label}</div>
+          ${item.caption ? `<div style="font-size:8.5px;color:#94a3b8;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${item.caption}</div>` : `<div style="font-size:8.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${fname}</div>`}
+        </a>
+      `;
+    }).join('');
+  }
+
+  document.getElementById('dos-log-count').textContent = `${p.logs.length} ${p.logs.length === 1 ? 'ENTRY' : 'ENTRIES'}`;
+  document.getElementById('dos-logs-html').innerHTML = p.logs.map((l, idx) => `
+    <div style="background:#050912;border-left:2px solid var(--green);padding:7px 10px;border-radius:2px;">
+      <div style="display:flex;justify-content:space-between;font-size:9.5px;color:var(--amber);font-weight:800;margin-bottom:3px;">
+        <span>ENTRY #0${p.logs.length - idx} • EPOCH ${l.epoch}</span>
+        <span style="color:var(--cyan);">${l.gct}</span>
+      </div>
+      <div>${l.entry}</div>
+    </div>
+  `).join('');
+}
+
+function startDossierGalaxyLoop() {
+  const canvas = document.getElementById('dos-galaxy-canvas');
+  const ctx = canvas.getContext('2d');
+  let t = 0;
+
+  function frame() {
+    t += 0.03;
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width > 0 && rect.height > 0) {
+      const tw = Math.round(rect.width);
+      const th = Math.round(rect.height);
+      if (canvas.width !== tw || canvas.height !== th) {
+        canvas.width = tw;
+        canvas.height = th;
+      }
+    }
+    const W = canvas.width;
+    const H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+    const cx = W * 0.48;
+    const cy = H * 0.52;
+    const maxR = Math.min(W * 0.42, H * 0.44);
+
+    // Spiral arms
+    for (let arm = 0; arm < 4; arm++) {
+      ctx.beginPath();
+      const baseAng = (arm * Math.PI) / 2 + 0.4;
+      for (let s = 0; s < 60; s++) {
+        const u = s / 59.0;
+        const r = u * maxR * 1.1;
+        const ang = baseAng + u * 2.5;
+        const ax = cx + Math.cos(ang) * r * 1.15;
+        const ay = (cy - maxR * 0.45) + Math.sin(ang) * r * 0.75;
+        if (s === 0) ctx.moveTo(ax, ay);
+        else ctx.lineTo(ax, ay);
+      }
+      ctx.strokeStyle = arm === 1 ? 'rgba(56, 189, 248, 0.12)' : 'rgba(240, 184, 73, 0.08)';
+      ctx.lineWidth = 14;
+      ctx.lineCap = 'round';
+      ctx.stroke();
+    }
+
+    // Range rings
+    [0.25, 0.52, 0.76, 0.96].forEach(r => {
+      ctx.beginPath();
+      ctx.arc(cx, cy, maxR * r, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(43, 62, 92, 0.5)';
+      ctx.setLineDash([3, 4]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    });
+
+    // Beam cone
+    let diff = ((tgtBeamAz - curBeamAz + 540) % 360) - 180;
+    curBeamAz = (curBeamAz + diff * 0.12 + 360) % 360;
+    const beamRad = ((curBeamAz - 90) * Math.PI) / 180;
+    const beamGrad = ctx.createRadialGradient(cx, cy, 2, cx, cy, maxR);
+    beamGrad.addColorStop(0, 'rgba(240, 184, 73, 0.35)');
+    beamGrad.addColorStop(1, 'rgba(56, 189, 248, 0.0)');
+    ctx.fillStyle = beamGrad;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, maxR, beamRad - 0.15, beamRad + 0.15);
+    ctx.closePath();
+    ctx.fill();
+
+    dosHitBoxes.length = 0;
+    const cols = { amber: '#f0b849', cyan: '#38bdf8', green: '#4ade80', red: '#fb7185' };
+    DATA.presets.forEach(p => {
+      if (!p.galactic) return;
+      const isAct = activeStation && activeStation.id === p.id;
+      const col = cols[p.status_color] || '#f0b849';
+      const azR = ((p.galactic.azimuth_deg - 90) * Math.PI) / 180;
+      const sx = cx + Math.cos(azR) * (p.galactic.radial_norm * maxR);
+      const sy = cy + Math.sin(azR) * (p.galactic.radial_norm * maxR);
+      dosHitBoxes.push({ id: p.id, x: sx, y: sy });
+
+      ctx.strokeStyle = isAct ? col : 'rgba(139, 155, 180, 0.25)';
+      ctx.lineWidth = isAct ? 1.8 : 1;
+      ctx.beginPath();
+      ctx.moveTo(sx, sy);
+      ctx.lineTo(cx, cy);
+      ctx.stroke();
+
+      ctx.fillStyle = col;
+      ctx.beginPath();
+      ctx.arc(sx, sy, isAct ? 5 : 3, 0, Math.PI * 2);
+      ctx.fill();
+
+      if (isAct) {
+        ctx.strokeStyle = col;
+        ctx.beginPath();
+        ctx.arc(sx, sy, 9 + 2 * Math.sin(t * 4), 0, Math.PI * 2);
+        ctx.stroke();
+      }
+      ctx.fillStyle = isAct ? '#fff' : 'rgba(226,232,240,0.7)';
+      ctx.font = `${isAct ? 'bold ' : ''}8.5px JetBrains Mono, monospace`;
+      ctx.fillText(`${p.preset_slot} ${p.callsign}`, sx + 7, sy + 3);
+    });
+
+    ctx.fillStyle = '#f0b849';
+    ctx.beginPath();
+    ctx.arc(cx, cy, 4.5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillText('GOR-9 (OORT)', cx + 8, cy + 3);
+
+    if (!new URLSearchParams(window.location.search).get('capture')) {
+      requestAnimationFrame(frame);
+    }
+  }
+  frame(1.0);
+}
+
+function renderQslGallery() {
+  const gal = document.getElementById('qsl-gallery');
+  gal.innerHTML = DATA.presets.map((p, i) => `
+    <div class="qsl-thumb-card" onclick="selectStation('${p.id}');window.scrollTo({top:0,behavior:'smooth'});">
+      <img src="${p.qsl.gif_src}" alt="${p.name} QSL">
+      <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:800;color:var(--amber);">
+        <span>${i+1}. ${p.name.toUpperCase()}</span>
+        <span style="color:var(--cyan);">${p.rf.frequency_khz} kHz</span>
+      </div>
+      <div style="font-size:10px;color:var(--muted);margin-top:3px;">
+        ${p.qsl.qsl_number} • ${p.galactic ? p.galactic.arm : ''} • AZ ${p.galactic ? p.galactic.azimuth_deg : 0}°
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderRawLogs() {
+  const lines = [];
+  DATA.presets.forEach(p => {
+    p.logs.forEach(l => lines.push(l.entry));
+  });
+  document.getElementById('raw-ghlogs-box').textContent = lines.join('\n\n');
+}
+
+window.addEventListener('DOMContentLoaded', initDossier);
+</script>
+<script src="assets/gor9-nav.js"></script>
+</body>
+</html>

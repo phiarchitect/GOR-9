@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 180" width="100%" height="100%">
+  <defs>
+    <linearGradient id="vaChassis" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#19212e" />
+      <stop offset="50%" stop-color="#0c1118" />
+      <stop offset="100%" stop-color="#070a0f" />
+    </linearGradient>
+    <linearGradient id="vaBrass" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde68a" />
+      <stop offset="35%" stop-color="#f59e0b" />
+      <stop offset="70%" stop-color="#b45309" />
+      <stop offset="100%" stop-color="#fbbf24" />
+    </linearGradient>
+    <linearGradient id="vaCyan" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.2" />
+      <stop offset="50%" stop-color="#22d3ee" stop-opacity="1.0" />
+      <stop offset="100%" stop-color="#22d3ee" stop-opacity="0.2" />
+    </linearGradient>
+    <filter id="vaGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Outer Cast-Iron & Brass Beveled Plate -->
+  <polygon points="18,6 502,6 514,18 514,162 502,174 18,174 6,162 6,18"
+           fill="url(#vaChassis)" stroke="url(#vaBrass)" stroke-width="3" />
+  <polygon points="24,12 496,12 508,24 508,156 496,168 24,168 12,156 12,24"
+           fill="none" stroke="#334766" stroke-width="1" stroke-dasharray="6,3" />
+
+  <!-- 4 Corner Hex Rivets -->
+  <g fill="#1e293b" stroke="url(#vaBrass)" stroke-width="1.5">
+    <circle cx="24" cy="24" r="6" />
+    <line x1="20" y1="24" x2="28" y2="24" />
+    <circle cx="496" cy="24" r="6" />
+    <line x1="492" y1="24" x2="500" y2="24" />
+    <circle cx="24" cy="156" r="6" />
+    <line x1="20" y1="156" x2="28" y2="156" />
+    <circle cx="496" cy="156" r="6" />
+    <line x1="492" y1="156" x2="500" y2="156" />
+  </g>
+
+  <!-- LEFT EMBLEM: VAN ALLEN DIPOLE RADIATION BELTS + INSULATOR SWITCH -->
+  <g transform="translate(95, 90)">
+    <!-- Outer & Inner Dipole Radiation Belt Toroids (Left & Right Lobes) -->
+    <path d="M 0,-28 C -42,-64 -76,-36 -76,0 C -76,36 -42,64 0,28"
+          fill="none" stroke="#22d3ee" stroke-width="2.6" filter="url(#vaGlow)" />
+    <path d="M 0,-18 C -28,-44 -52,-24 -52,0 C -52,24 -28,44 0,18"
+          fill="none" stroke="#4ade80" stroke-width="1.8" stroke-dasharray="3,2" />
+
+    <path d="M 0,-28 C 42,-64 76,-36 76,0 C 76,36 42,64 0,28"
+          fill="none" stroke="#22d3ee" stroke-width="2.6" filter="url(#vaGlow)" />
+    <path d="M 0,-18 C 28,-44 52,-24 52,0 C 52,24 28,44 0,18"
+          fill="none" stroke="#4ade80" stroke-width="1.8" stroke-dasharray="3,2" />
+
+    <!-- Central Core Planet / Reactor Sphere -->
+    <circle cx="0" cy="0" r="16" fill="#0b1320" stroke="url(#vaBrass)" stroke-width="2.5" />
+
+    <!-- Ribbed Porcelain High-Voltage Marzelvane Insulator Spire -->
+    <line x1="0" y1="-56" x2="0" y2="56" stroke="url(#vaBrass)" stroke-width="3" />
+    <rect x="-10" y="-44" width="20" height="5" rx="2" fill="url(#vaBrass)" />
+    <rect x="-13" y="-34" width="26" height="5" rx="2" fill="url(#vaBrass)" />
+    <rect x="-13" y="29" width="26" height="5" rx="2" fill="url(#vaBrass)" />
+    <rect x="-10" y="39" width="20" height="5" rx="2" fill="url(#vaBrass)" />
+
+    <!-- Central High-Voltage Lightning Arc -->
+    <polygon points="-3,-12 6,-2 0,-2 4,12 -6,1 0,1" fill="#fde68a" />
+  </g>
+
+  <!-- RIGHT TYPOGRAPHY: VINTAGE HEAVY SWITCHGEAR NAMEPLATE -->
+  <g font-family="'JetBrains Mono', 'Courier New', monospace">
+    <text x="190" y="42" fill="#94a3b8" font-size="10" font-weight="700" letter-spacing="2.2">
+      EST. 1958 IOWA CITY • CERES FOUNDRY NO. 7
+    </text>
+
+    <text x="188" y="76" fill="url(#vaBrass)" font-size="27" font-weight="900" letter-spacing="1.5">
+      VAN ALLEN &amp; SONS
+    </text>
+
+    <rect x="190" y="86" width="298" height="22" rx="3" fill="#131f31" stroke="#22d3ee" stroke-width="1" />
+    <text x="198" y="101" fill="#22d3ee" font-size="11.5" font-weight="800" letter-spacing="1.8">
+      SWITCHGEAR &amp; MAGNETOSPHERICS
+    </text>
+
+    <text x="190" y="130" fill="#e2e8f0" font-size="11" font-weight="700" letter-spacing="0.8">
+      MODEL VA-4 • 50 kW DILITHIUM BUS &amp; IONOSONDE
+    </text>
+
+    <text x="190" y="152" fill="#4ade80" font-size="10.5" font-style="italic" font-weight="700" letter-spacing="0.6">
+      "From Radiation Belts to Reactor Beds — If It Arcs, We Clamp It."
+    </text>
+  </g>
+</svg>

@@ -1,0 +1,260 @@
+{
+  "id": "radio-corrugated",
+  "preset_slot": "P-01",
+  "featured_prototype": true,
+  "callsign": "SW4-CORR",
+  "name": "Radio Corrugated",
+  "subtitle": "Callisto Dome-4 Night Market Pirate Broadcaster",
+  "category": "Unlicensed Market Pirate",
+  "status": "LOCKED • LIVE VIDEO + AUDIO",
+  "status_color": "amber",
+  "origin": {
+    "body": "Callisto Dome-4 (Sol-Jovian Corridor via Oort Gate)",
+    "site": "Dome-4 Sub-Level 3 Corrugated Roofline",
+    "coordinates": "14.2° N, 112.8° W (Callisto Synodic Grid)",
+    "distance": "0.66 Light-Years (42,095 AU • Coreward Sol Bearing)",
+    "local_clock": "J-Dome Synodic (21:46:01 Local / 0400 GCT)"
+  },
+  "galactic": {
+    "sector": "Orion Spur • Sol-Jovian Coreward Corridor",
+    "arm": "Orion–Cygnus Spur",
+    "azimuth_deg": 212.4,
+    "elevation_deg": -4.2,
+    "range_ly": 0.665,
+    "range_label": "0.66 ly (42,095 AU)",
+    "radial_norm": 0.36,
+    "relay_nodes": [
+      {
+        "name": "Jovian Magneto-Tail Duct",
+        "az_deg": 210.0,
+        "r_norm": 0.24
+      },
+      {
+        "name": "O.R.S. 351 Polar Halo",
+        "az_deg": 212.4,
+        "r_norm": 0.08
+      }
+    ]
+  },
+  "rf": {
+    "frequency_khz": 11410.0,
+    "measured_khz": 11410.042,
+    "doppler_hz": 42.0,
+    "band": "25m SWBC / Oort Relay Duct",
+    "mode": "AM-W",
+    "filter_bw_hz": 6000,
+    "tx_power_watts": 350,
+    "tx_power_label": "350 W (Unlicensed Sodium-Lamp Bus Tap)",
+    "antenna": "Half-Wave Galvanized Pipe Dipole (Torch-Soldered Live)",
+    "relay_path": "Via O.R.S. 351 Polar Halo + Jovian Magneto-Tail Duct",
+    "sinpo": {
+      "s": 4,
+      "i": 3,
+      "n": 4,
+      "p": 3,
+      "o": 4
+    },
+    "s_meter": "S9+18 dB",
+    "s_meter_pct": 86,
+    "hauser_index": "Q-8.4",
+    "peak_modulation_db": "+18.4 dB [BLOWTORCH SPIKE]",
+    "dx_shorthand": [
+      "OSOB",
+      "PIRATE",
+      "TORCH-MOD",
+      "QSL CONFIRMED"
+    ]
+  },
+  "hardware_dossier": {
+    "transmitter": "Modified surplus Callisto Ice-Harvester PA deck (2x ceramic tetrodes in Class-C AM plate modulation), tapping 440V three-phase power off the Dome-4 streetlamp transformer after 2100 J-Dome time.",
+    "feedline_anomaly": "High standing-wave ratio (SWR 3.8:1) due to noodle-stall grease condensation on the open-wire feeder. At 0401:18 GCT, station engineer climbed onto the corrugated arch with an oxy-acetylene blowtorch to braze the center insulator while the transmitter remained at full carrier—producing an 18.4 dB plasma-arc overmodulation spike heard all the way to the Oort Cloud.",
+    "receive_antenna_at_gor9": "High Basalt Shelf 4-Ring Apex Phased Array (Beam 212.4°)"
+  },
+  "media": {
+    "video_src": "assets/clips/radio_corrugated_blowtorch.mp4",
+    "poster_src": "assets/plates/qsl_plate_radio_corrugated.jpg",
+    "alt_plate_src": "assets/plates/qsl_plate_radio_corrugated_kiss.jpg",
+    "cam_id": "CAM-104 • CALLISTO DOME-4 SEC FEED",
+    "hud_banner": "PEAK OVERMODULATION: +18.4 dB [BLOWTORCH ON DIPOLE]",
+    "audio_intercept_src": "assets/audio/intercept_radio_corrugated.wav",
+    "interval_signal_src": "assets/audio/is_radio_corrugated.wav",
+    "sstv_burst_src": "assets/audio/sstv_radio_corrugated.wav",
+    "interval_signal_name": "Electric Night-Market Lute & Wok-Bell 5-Tone Loop",
+    "languages": [
+      "Port-Cantonese",
+      "Mandarin",
+      "Jovian Dock Patois"
+    ],
+    "transcript_excerpt": "[Warbling pentatonic electric lute] ... 'Aquí Radio Corrugated, eleven-four-ten on your dial! Fresh broth at Stall 19, docking bay three customs sweep delayed—hold the ladder, Chen, I'm hitting the center insulator with the torch—' [CRACKLING PLASMA ARC +18.4 dB]",
+    "qsl_plate_src": "assets/plates/qsl_plate_radio_corrugated.jpg",
+    "qsl_plate_b_src": "assets/plates/qsl_plate_radio_corrugated_kiss.jpg",
+    "flow_plates": [
+      "assets/plates/flow_callisto_market_architecture.jpg",
+      "assets/plates/qsl_plate_radio_corrugated.jpg",
+      "assets/plates/qsl_plate_radio_corrugated_kiss.jpg"
+    ]
+  },
+  "qsl": {
+    "qsl_number": "QSL #0165-RC",
+    "gif_src": "assets/qsl/qsl_radio_corrugated.gif",
+    "protocol": "SSTV-ROBOT24 / SUB-AUDIBLE FSK STAMP (1,900 Hz)",
+    "dimensions": "384×240 • 10-Frame Postcard eQSL GIF",
+    "issue_epoch": "2736.305 • 0401 GCT",
+    "motto": "SOLDER HOT, BROTH HOTTER — NO ROMANCE WITHOUT DILITHIUM",
+    "signer": "Eng. Chen 'Torch' Wei, Chief RF & Noodle Operator",
+    "collector_tier": "TIER I • UNLICENSED BLOWTORCH EDITION (#14 of 351)",
+    "verification_hash": "0x8F4E-11410-CORR-G47",
+    "embedded_clue": "Frame 7 arc-flash duration encodes octal group [3-5-1 / 0-4-7] in sub-carrier phase shift."
+  },
+  "decoder": {
+    "has_live_video": true,
+    "default_view": "video",
+    "signal_type": "AM-W VOICE + SUB-AUDIBLE 1.9 kHz FSK ARC TELEMETRY",
+    "spectrum_style": "am_torch",
+    "required_algorithm": "ALG-03",
+    "algorithm_name": "ALG-03 • JOVIAN DOCK PATOIS & SUB-CARRIER ARC TRANSLATOR",
+    "morse_stream": "-.-. --- .-. .-. / .---- .---- ....- .---- ----- / .- .-. -.-. / ...-- ..... .----",
+    "raw_rx_lines": [
+      "04:01:12.04  AM-CARRIER: 11,410.042 kHz • 60Hz SODIUM BALLAST HUM (-24 dBc)",
+      "04:01:14.80  PATOIS-RX : 'Hoi Stall 19! Ngoh dei gaan-dok Bay 3 customs sweep迟咗!'",
+      "04:01:18.22  PLASMA-ARC: [SWR 3.8:1 -> 1.1:1] +18.4 dB TORCH BRAZE OVERMODULATION",
+      "04:01:19.90  FSK-1900Hz: SUB-BAND OCTAL BURST [0351 : 0047 : 0312] EJECTED"
+    ],
+    "translated_lines": [
+      "[TRANSLATED PATOIS]: 'Stall 19 broth is hot! Docking Bay 3 customs sweep delayed 40 minutes!'",
+      "[HARDWARE EVENT]: Eng. Chen brazed live dipole insulator with oxy-acetylene torch (+18.4 dB spike)",
+      "[DECODED SUB-CARRIER]: Plasma arc duration modulated 1,900 Hz FSK with Octal [351 • 047]",
+      "[CROSS-REFERENCE]: Group 047 matches Trojan L4 Cipher -> Euclid Prop I.34 (Parallelogram Bisection)"
+    ],
+    "telemetry_metrics": [
+      {
+        "label": "FEEDLINE SWR",
+        "value": "3.8 → 1.2",
+        "unit": "LIVE TORCH BRAZE",
+        "pct": 78,
+        "alert": true
+      },
+      {
+        "label": "ARC MODULATION",
+        "value": "+18.4 dB",
+        "unit": "PLASMA OVERMOD",
+        "pct": 94,
+        "alert": true
+      },
+      {
+        "label": "BALLAST HUM",
+        "value": "60.0 Hz",
+        "unit": "440V STREETLAMP TAP",
+        "pct": 60,
+        "alert": false
+      },
+      {
+        "label": "SUB-FSK BAUD",
+        "value": "150 Bd",
+        "unit": "1,900 Hz TONE SHIFT",
+        "pct": 52,
+        "alert": false
+      }
+    ]
+  },
+  "logs": [
+    {
+      "epoch": "2736.305",
+      "gct": "0401 GCT",
+      "entry": "** CALLISTO DOME-4 [non-Oort]. 11410.042 AM, Epoch 2736.305 at 0401 GCT, unlicensed noodle-market broadcaster 'Radio Corrugated' S9+18 dB via Jovian magneto-duct into Oort Sector 9 (Az 212.4°); warbling night-market lute and rapid port chatter in Cantonese/Patois, peaking +18.4 dB right as their engineer hit the rooftop dipole center-insulator with an oxy-acetylene blowtorch. Unsolicited animated eQSL #0165-RC decoded in sub-band FSK tail! (Operator, Asteroid 3-5-1, GOR-9)"
+    },
+    {
+      "epoch": "2736.298",
+      "gct": "0354 GCT",
+      "entry": "** CALLISTO DOME-4. 11410.038 AM, Epoch 2736.298 at 0354 GCT, JBA carrier with heavy 60-Hz sodium-ballast hum until streetlamps dimmed at 0358; S7 music and stall ads, but cut off abruptly at 0412 when harbor patrol swept Sub-Level 3 (Operator, Asteroid 3-5-1, GOR-9)"
+    },
+    {
+      "epoch": "2736.284",
+      "gct": "0405 GCT",
+      "entry": "** CALLISTO DOME-4. 11409.985 AM, Epoch 2736.284 at 0405 GCT, first tentative log of this unlicensed market rig drifting +57 Hz upward as the tetrode PA warmed up; OM announcer reading black-market Grade-B Dilithium barter rates between noodle orders. SINPO 3-3-3-2-3 (Operator, Asteroid 3-5-1, GOR-9)"
+    }
+  ],
+  "station_folder": "sw4-corr_radio-corrugated",
+  "characters": [
+    {
+      "name": "Chen 'Torch' Wei (陳偉)",
+      "role": "Chief RF Engineer, Rooftop Brazier & Co-Host",
+      "species_or_type": "Human (3rd-Gen Callisto Dome Dockworker)",
+      "languages": "Port-Cantonese, Mandarin, Jovian Dock Patois",
+      "dialect_notes": "Rapid-fire Cantonese syntax peppered with Russian/Spanish airlock slang and vacuum-tube part numbers.",
+      "voice_profile": {
+        "tts_voice": "Fenrir (Pitch +2st, Brisk Energetic)",
+        "cadence": "165 WPM, laughing over sizzling broth & 60 Hz transformer hum",
+        "dsp_chain": "300–2800 Hz AM-Wide bandpass + +18.4 dB plasma arc clipping"
+      },
+      "signature_quote": "Hold the mic, Mei-Ling—give me a kiss for luck before I hit the center insulator with the oxy-torch!",
+      "bio": "Former Ganymede ice-harvester radar technician who runs Stall 19 ('Hand-Pulled Beef Broth & Surplus Tetrodes') with his partner Mei-Ling. Built Radio Corrugated out of a salvaged ice-harvester PA deck tapping 440V off the municipal sodium streetlamps after 2100 local time.",
+      "slug": "chen_torch_wei",
+      "headshot_src": "assets/characters/char_chen_torch_wei_headshot.jpg",
+      "fullbody_src": "assets/characters/char_chen_torch_wei_fullbody.jpg",
+      "voice_sample_dry_src": "assets/audio/voices/voice_chen_torch_wei_dry.wav",
+      "voice_sample_rf_src": "assets/audio/voices/voice_chen_torch_wei_rf.wav",
+      "language_sample_transcript": "Wei! Callisto Dome-Four Night Market, Stall Nineteen on eleven-four-ten kilohertz! Hao le, Ah-Mei, pass me the silver-copper brazing rod—watch the plate current climb eighteen decibels when I touch the torch to the radiator!",
+      "phonetic_and_conlang_notes": "Callisto Dome-4 Dock Patois: blends Cantonese/Mandarin night-market exclamations ('Wei!', 'Hao le!') with vacuum-tube RF slang."
+    },
+    {
+      "name": "Mei-Ling Lin (林美玲)",
+      "role": "Night-Market Announcer, Contraband Price Ticker & Co-Host",
+      "species_or_type": "Human (Callisto Dome-4 Native)",
+      "languages": "Port-Cantonese, English, Mandarin, Jovian Dock Patois",
+      "dialect_notes": "Musical, conspiratorial late-night DJ delivery; switches seamlessly between soup specials, romance dedications, and customs patrol warnings.",
+      "voice_profile": {
+        "tts_voice": "Kore / Aoede (Warm, Nimble, Conspiratorial)",
+        "cadence": "155 WPM with electric night-market lute backing",
+        "dsp_chain": "AM plate-modulation warmth + selective ionospheric fade"
+      },
+      "signature_quote": "Aquí Radio Corrugated, eleven-four-ten on your dial! Fresh broth at Stall 19, and no romance without Dilithium!",
+      "bio": "Co-founder of Radio Corrugated and Chen's partner on the corrugated rooftop. Curates the station's legendary pentatonic electric-lute tapes and encodes black-market Grade-B Dilithium barter rates into the nightly noodle menu.",
+      "slug": "ah_mei_zhou",
+      "headshot_src": "assets/characters/char_ah_mei_zhou_headshot.jpg",
+      "fullbody_src": "assets/characters/char_ah_mei_zhou_fullbody.jpg",
+      "voice_sample_dry_src": "assets/audio/voices/voice_ah_mei_zhou_dry.wav",
+      "voice_sample_rf_src": "assets/audio/voices/voice_ah_mei_zhou_rf.wav",
+      "language_sample_transcript": "Lai la, lai la! Fresh star-anise bone broth and hand-pulled noodles at Stall Nineteen! Chen Wei, put down that plasma torch before you splatter twenty kilohertz across the whole market—come kiss the chef first!",
+      "phonetic_and_conlang_notes": "Musical night-market vendor cadence ('Lai la, lai la!') with warm domestic banter over sizzling broth."
+    }
+  ],
+  "worldbuilding": {
+    "habitat_and_culture": "Sub-Level 3 of Callisto Dome-4 is a labyrinth of wet corrugated-iron roofs, venting steam pipes, and neon noodle stalls where independent tug crews trade contraband vacuum tubes and dodge Jovian Authority customs sweeps.",
+    "spectrum_gimmick_title": "Live Blowtorch Plasma-Arc Overmodulation (+18.4 dB) & Rooftop Romance",
+    "hauser_commentary": "Callisto Dome-4 on 11410.042—drifting up 42 Hz every time downstairs fires up the noodle cauldron. Co-hosts Chen and Mei-Ling reading docking-bay contraband prices until 0401, when the carrier jumped 18 dB in a violent plasma buzz right as Chen hit the dipole center-insulator with his blowtorch and kissed Mei-Ling on the roof.",
+    "qsl_postcard_style": "Pirate Couple Rooftop Snapshot Postcard (inspired by Radio Andorra & Voice of Pancho Villa)",
+    "qsl_animation_notes": "2-frame Kodachrome action sequence: Chen and Mei-Ling grin with the blowtorch and noodle bowl, then lean in and kiss on the rooftop while the blowtorch erupts in a cyan-white plasma arc against the copper dipole!",
+    "discovery_arc": [
+      {
+        "stage": "Broadcast 01 (Initial Log)",
+        "summary": "Caught S9+18 dB blowtorch spike at 0401 GCT as Chen brazed the live rooftop dipole and kissed Mei-Ling; decoded octal group [351 • 047] in the arc's sub-band FSK tail."
+      },
+      {
+        "stage": "Broadcast 02 (The Customs Raid)",
+        "summary": "Harbor Patrol cuts power to Sub-Level 3 streetlamps at 0408 GCT; the couple switches to emergency bicycle-dynamo power (18 Watts) while directing listeners to Quarantine Buoy 12."
+      },
+      {
+        "stage": "Broadcast 03 (The Tube Barter)",
+        "summary": "Chen and Mei-Ling offer an autographed Tier-I Blowtorch QSL and three crates of pickled radish to whichever outpost smuggles two 811A oscillator tubes past Buoy 12."
+      }
+    ]
+  },
+  "flow_plates": [
+    {
+      "src": "assets/plates/flow_callisto_market_architecture.jpg",
+      "role": "16:9 Architectural & Street Background Plate (Flow)",
+      "caption": "Callisto Dome-4 Sub-Level 3 Night Market canyon beneath rusted geodesic dome arches, steaming noodle stalls, and rooftop copper dipole arrays."
+    },
+    {
+      "src": "assets/plates/qsl_plate_radio_corrugated.jpg",
+      "role": "16:9 Character Keyframe A (Flow)",
+      "caption": "Chen 'Torch' Wei and Mei-Ling grinning on the corrugated roof with oxy-acetylene blowtorch, vintage chrome mic, and steaming noodle bowl."
+    },
+    {
+      "src": "assets/plates/qsl_plate_radio_corrugated_kiss.jpg",
+      "role": "16:9 Character Keyframe B (Flow)",
+      "caption": "Chen and Mei-Ling kissing on the rooftop as the blowtorch sparks a +18.4 dB cyan-white plasma arc on the live copper dipole."
+    }
+  ]
+}

@@ -1,0 +1,1843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GOR-9 • Worlds, Habitats &amp; Characters Atlas — Deep-Space DX Dossier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+<script src="data/stations_data.js"></script>
+<script src="data/propagation_data.js"></script>
+<script src="data/euclidean_data.js"></script>
+<script src="data/bogeys_data.js"></script>
+<style>
+  :root {
+    --bg0: #05070a;
+    --bg1: #090d13;
+    --bg2: #0f1620;
+    --bg3: #151f2c;
+    --border: #1e2d3f;
+    --border-hi: #2f4763;
+    --cyan: #38e5ff;
+    --cyan-dim: rgba(56, 229, 255, 0.14);
+    --amber: #ffb338;
+    --amber-dim: rgba(255, 179, 56, 0.14);
+    --green: #33ff88;
+    --green-dim: rgba(51, 255, 136, 0.14);
+    --red: #ff4757;
+    --purple: #b87aff;
+    --text: #dce6f2;
+    --text-dim: #8a9eb5;
+    --text-muted: #566b82;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Chakra Petch', sans-serif;
+    --display: 'Orbitron', sans-serif;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: var(--bg0);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+
+  /* Top Navigation Bar */
+  .top-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(5, 7, 10, 0.94);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .brand-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .brand-badge {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 0.95rem;
+    letter-spacing: 0.12em;
+    color: var(--bg0);
+    background: var(--cyan);
+    padding: 4px 10px;
+    border-radius: 3px;
+    text-decoration: none;
+  }
+
+  .brand-title {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--text);
+  }
+
+  .brand-sub {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--text-dim);
+  }
+
+  .nav-mode-tabs {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .mode-tab {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    color: var(--text-dim);
+    background: var(--bg1);
+    border: 1px solid var(--border);
+    padding: 6px 10px;
+    border-radius: 4px;
+    transition: all 0.15s ease;
+  }
+
+  .mode-tab:hover {
+    color: var(--text);
+    border-color: var(--cyan);
+    background: var(--bg2);
+  }
+
+  .mode-tab.active {
+    color: var(--cyan);
+    border-color: var(--cyan);
+    background: var(--cyan-dim);
+    box-shadow: 0 0 12px rgba(56, 229, 255, 0.18);
+  }
+
+  /* Atlas Control Sub-Header */
+  .atlas-header {
+    max-width: 1640px;
+    margin: 0 auto;
+    padding: 22px 24px 14px;
+  }
+
+  .atlas-hero {
+    background: linear-gradient(135deg, rgba(15, 22, 32, 0.95), rgba(9, 13, 19, 0.98));
+    border: 1px solid var(--border-hi);
+    border-radius: 8px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  }
+
+  .atlas-hero-title {
+    font-family: var(--display);
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--cyan);
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+
+  .atlas-hero-desc {
+    font-size: 0.92rem;
+    color: var(--text-dim);
+    max-width: 900px;
+  }
+
+  .atlas-stats-bar {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .stat-pill {
+    background: var(--bg0);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 8px 12px;
+    font-family: var(--mono);
+    text-align: right;
+  }
+
+  .stat-pill .val {
+    font-size: 0.98rem;
+    font-weight: 800;
+    color: var(--amber);
+    display: block;
+  }
+
+  .stat-pill .lbl {
+    font-size: 0.62rem;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+  }
+
+  /* View Mode Tabs + Station Filter Pills */
+  .filter-deck {
+    background: var(--bg1);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: sticky;
+    top: 53px;
+    z-index: 90;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  }
+
+  .view-tabs-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .view-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .view-btn {
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--text-dim);
+    background: var(--bg0);
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .view-btn:hover {
+    color: var(--text);
+    border-color: var(--cyan);
+  }
+
+  .view-btn.active {
+    color: var(--bg0);
+    background: var(--cyan);
+    border-color: var(--cyan);
+    box-shadow: 0 0 14px rgba(56, 229, 255, 0.3);
+  }
+
+  .station-pills-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: 10px;
+  }
+
+  .station-pill-label {
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    margin-right: 4px;
+  }
+
+  .station-pill {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--text-dim);
+    background: var(--bg0);
+    border: 1px solid var(--border);
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.14s ease;
+  }
+
+  .station-pill:hover {
+    color: var(--text);
+    border-color: var(--amber);
+  }
+
+  .station-pill.active {
+    color: var(--amber);
+    background: var(--amber-dim);
+    border-color: var(--amber);
+  }
+
+  .stop-audio-btn {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--red);
+    background: rgba(255, 71, 87, 0.12);
+    border: 1px solid rgba(255, 71, 87, 0.4);
+    padding: 7px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .stop-audio-btn:hover {
+    background: rgba(255, 71, 87, 0.24);
+  }
+
+  /* Main Container */
+  .atlas-container {
+    max-width: 1640px;
+    margin: 0 auto;
+    padding: 12px 24px 64px;
+  }
+
+  /* World Section Card */
+  .world-card {
+    background: var(--bg1);
+    border: 1px solid var(--border-hi);
+    border-radius: 10px;
+    margin-bottom: 32px;
+    overflow: hidden;
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  .world-banner {
+    background: linear-gradient(90deg, rgba(21, 31, 44, 0.98), rgba(9, 13, 19, 0.98));
+    border-bottom: 1px solid var(--border-hi);
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .world-title-group {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .preset-badge {
+    font-family: var(--display);
+    font-size: 0.9rem;
+    font-weight: 900;
+    color: var(--bg0);
+    background: var(--amber);
+    padding: 5px 11px;
+    border-radius: 4px;
+    letter-spacing: 0.08em;
+  }
+
+  .callsign-badge {
+    font-family: var(--mono);
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--cyan);
+    background: var(--cyan-dim);
+    border: 1px solid rgba(56, 229, 255, 0.35);
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+
+  .world-name {
+    font-family: var(--display);
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: 0.04em;
+  }
+
+  .world-subtitle {
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    margin-left: 4px;
+  }
+
+  .rf-badges {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+  }
+
+  .rf-chip {
+    background: var(--bg0);
+    border: 1px solid var(--border);
+    padding: 5px 10px;
+    border-radius: 4px;
+    color: var(--text);
+  }
+
+  .rf-chip.freq {
+    color: var(--green);
+    border-color: rgba(51, 255, 136, 0.35);
+    font-weight: 700;
+  }
+
+  .rf-chip.sinpo {
+    color: var(--amber);
+    border-color: rgba(255, 179, 56, 0.35);
+  }
+
+  .open-receiver-link {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--cyan);
+    text-decoration: none;
+    background: var(--cyan-dim);
+    border: 1px solid var(--cyan);
+    padding: 6px 12px;
+    border-radius: 4px;
+  }
+
+  .open-receiver-link:hover {
+    background: var(--cyan);
+    color: var(--bg0);
+  }
+
+  .world-body {
+    padding: 22px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  /* Top Grid: World Lore + Hardware + Station Audio & QSL */
+  .world-overview-grid {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr 390px;
+    gap: 18px;
+  }
+
+  @media (max-width: 1280px) {
+    .world-overview-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 860px) {
+    .world-overview-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .panel-box {
+    background: var(--bg0);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .panel-hdr {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--cyan);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .kv-grid {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 6px 12px;
+    font-size: 0.83rem;
+  }
+
+  .kv-key {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+
+  .kv-val {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .lore-paragraph {
+    font-size: 0.9rem;
+    color: var(--text);
+    line-height: 1.58;
+    background: rgba(255, 255, 255, 0.02);
+    border-left: 3px solid var(--cyan);
+    padding: 10px 14px;
+    border-radius: 0 5px 5px 0;
+  }
+
+  .hauser-quote {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: #ffd98e;
+    background: rgba(255, 179, 56, 0.07);
+    border: 1px solid rgba(255, 179, 56, 0.28);
+    border-radius: 5px;
+    padding: 10px 12px;
+    line-height: 1.5;
+  }
+
+  .hauser-quote strong {
+    color: var(--amber);
+    display: block;
+    margin-bottom: 4px;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+  }
+
+  /* Station Audio & QSL Column */
+  .qsl-preview-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .qsl-img-frame {
+    position: relative;
+    border: 1px solid var(--amber);
+    border-radius: 6px;
+    overflow: hidden;
+    background: #000;
+    cursor: pointer;
+  }
+
+  .qsl-img-frame img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .qsl-meta-strip {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    background: var(--bg1);
+    padding: 7px 10px;
+    border-top: 1px solid var(--border);
+  }
+
+  .audio-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .audio-row {
+    background: var(--bg1);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 7px 10px;
+  }
+
+  .audio-row-lbl {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--amber);
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .audio-row audio {
+    width: 100%;
+    height: 28px;
+  }
+
+  /* Section Subheaders inside World Card */
+  .sub-section-title {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--amber);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .sub-section-title::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* 16:9 Flow Scene & Camera POV Plates Grid */
+  .flow-plates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 14px;
+  }
+
+  .flow-plate-card {
+    background: var(--bg0);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    overflow: hidden;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .flow-plate-card:hover {
+    border-color: var(--cyan);
+    transform: translateY(-2px);
+  }
+
+  .flow-plate-img-wrap {
+    aspect-ratio: 16 / 9;
+    background: #000;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .flow-plate-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .flow-role-tag {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: rgba(5, 7, 10, 0.86);
+    border: 1px solid rgba(56, 229, 255, 0.45);
+    color: var(--cyan);
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 3px;
+  }
+
+  .flow-plate-caption {
+    padding: 10px 12px;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    flex: 1;
+  }
+
+  /* Characters & Voice Samples Grid */
+  .characters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(520px, 1fr));
+    gap: 18px;
+  }
+
+  @media (max-width: 640px) {
+    .characters-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .char-card {
+    background: var(--bg0);
+    border: 1px solid var(--border-hi);
+    border-radius: 8px;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .char-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+  }
+
+  .char-name {
+    font-family: var(--display);
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--cyan);
+    letter-spacing: 0.04em;
+  }
+
+  .char-role {
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    color: var(--amber);
+    margin-top: 2px;
+  }
+
+  .char-species {
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    color: var(--text-dim);
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 4px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  /* Dual 16:9 Character Plates (Headshot + Full-Body Cyclorama) */
+  .char-plates-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  @media (max-width: 540px) {
+    .char-plates-pair {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .char-plate-box {
+    background: var(--bg1);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+  }
+
+  .char-plate-box:hover {
+    border-color: var(--cyan);
+  }
+
+  .char-plate-box img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
+    background: #000;
+  }
+
+  .char-plate-lbl {
+    font-family: var(--mono);
+    font-size: 0.63rem;
+    color: var(--text-dim);
+    padding: 5px 8px;
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid var(--border);
+  }
+
+  .char-bio {
+    font-size: 0.86rem;
+    color: var(--text);
+    line-height: 1.54;
+  }
+
+  .char-quote {
+    font-style: italic;
+    font-size: 0.84rem;
+    color: #ffe2a8;
+    background: rgba(255, 179, 56, 0.08);
+    border-left: 3px solid var(--amber);
+    padding: 8px 12px;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .char-specs-box {
+    background: var(--bg1);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 10px 12px;
+    font-size: 0.78rem;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .char-specs-row strong {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--cyan);
+    text-transform: uppercase;
+    margin-right: 6px;
+  }
+
+  .char-transcript-box {
+    background: rgba(51, 255, 136, 0.05);
+    border: 1px solid rgba(51, 255, 136, 0.25);
+    border-radius: 5px;
+    padding: 10px 12px;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: #c8ffe0;
+    line-height: 1.5;
+  }
+
+  .char-transcript-box .lbl {
+    font-size: 0.64rem;
+    font-weight: 800;
+    color: var(--green);
+    display: block;
+    margin-bottom: 4px;
+    letter-spacing: 0.06em;
+  }
+
+  .char-audio-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  @media (max-width: 540px) {
+    .char-audio-pair {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .char-audio-cell {
+    background: var(--bg1);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 8px 10px;
+  }
+
+  .char-audio-cell.dry {
+    border-color: rgba(56, 229, 255, 0.35);
+  }
+
+  .char-audio-cell.rf {
+    border-color: rgba(255, 179, 56, 0.35);
+  }
+
+  .char-audio-hdr {
+    font-family: var(--mono);
+    font-size: 0.64rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .char-audio-cell.dry .char-audio-hdr {
+    color: var(--cyan);
+  }
+
+  .char-audio-cell.rf .char-audio-hdr {
+    color: var(--amber);
+  }
+
+  .char-audio-cell audio {
+    width: 100%;
+    height: 30px;
+  }
+
+  /* Discovery Arc & Logs Bottom Row */
+  .arc-logs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+
+  @media (max-width: 960px) {
+    .arc-logs-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .arc-step {
+    background: var(--bg1);
+    border-left: 3px solid var(--purple);
+    padding: 8px 12px;
+    border-radius: 0 4px 4px 0;
+    font-size: 0.82rem;
+  }
+
+  .arc-step strong {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--purple);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .log-entry {
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    color: var(--text-dim);
+    background: var(--bg1);
+    border: 1px solid var(--border);
+    padding: 8px 10px;
+    border-radius: 4px;
+    line-height: 1.48;
+  }
+
+  .log-entry .epoch {
+    color: var(--green);
+    font-weight: 700;
+  }
+
+  /* Lightbox Modal */
+  .lightbox-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(3, 5, 8, 0.92);
+    backdrop-filter: blur(8px);
+    z-index: 999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .lightbox-backdrop.open {
+    display: flex;
+  }
+
+  .lightbox-box {
+    max-width: 1360px;
+    width: 100%;
+    background: var(--bg1);
+    border: 1px solid var(--cyan);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.85);
+  }
+
+  .lightbox-top {
+    padding: 12px 18px;
+    background: var(--bg0);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--cyan);
+  }
+
+  .lightbox-close {
+    background: rgba(255, 71, 87, 0.16);
+    border: 1px solid var(--red);
+    color: var(--red);
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .lightbox-img-container {
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-height: 78vh;
+  }
+
+  .lightbox-img-container img {
+    max-width: 100%;
+    max-height: 78vh;
+    object-fit: contain;
+    display: block;
+  }
+
+  .lightbox-caption {
+    padding: 12px 18px;
+    font-size: 0.88rem;
+    color: var(--text);
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+  <!-- Top Navigation Bar (Standalone Development & Worldbuilding Review Dashboard) -->
+  <header class="top-bar">
+    <div class="brand-group">
+      <span class="brand-badge" style="cursor:default;">GOR-9 • DEV REVIEW</span>
+      <div>
+        <div class="brand-title">WORLDS, HABITATS, CHARACTERS &amp; LORE REVIEW DASHBOARD</div>
+        <div class="brand-sub">DEVELOPMENT &amp; WORLDBUILDING COMPENDIUM • 8 WORLDS • 12 CHARACTERS • 9 OORT NEIGHBORS • MAKERS &amp; PLATES</div>
+      </div>
+    </div>
+    <nav class="nav-mode-tabs" id="top-dev-review-tabs">
+      <button type="button" class="mode-tab active" data-top-view="worlds" onclick="window.switchReviewView('worlds')">🌍 8 WORLDS &amp; LORE</button>
+      <button type="button" class="mode-tab" data-top-view="characters" onclick="window.switchReviewView('characters')">👥 12 CHARACTERS &amp; VOICES</button>
+      <button type="button" class="mode-tab" data-top-view="neighbors" onclick="window.switchReviewView('neighbors')">🪐 9 OORT NEIGHBORS &amp; CERES</button>
+      <button type="button" class="mode-tab" data-top-view="hardware" onclick="window.switchReviewView('hardware')">🏭 MAKERS &amp; ANOMALIES</button>
+      <button type="button" class="mode-tab" data-top-view="plates" onclick="window.switchReviewView('plates')">🎬 16:9 FLOW PLATES</button>
+      <button type="button" class="mode-tab" data-top-view="qsl" onclick="window.switchReviewView('qsl')">🃏 8 eQSL GALLERY</button>
+      <a href="data/stations.json" target="_blank" class="mode-tab">📄 STATIONS.JSON</a>
+    </nav>
+  </header>
+
+  <section class="atlas-header">
+    <div class="atlas-hero">
+      <div>
+        <div class="atlas-hero-title">GALACTIC OUTPOST RADIO • COMPLETE WORLD &amp; CHARACTER COMPENDIUM</div>
+        <div class="atlas-hero-desc">
+          Inspect all 8 intercepted deep-space habitats, transmitter hardware anomalies, Glenn Hauser logbooks, 16:9 Google Flow scene &amp; character reference plates, animated QSL postcards, and playable 24 kHz Dry Studio + Shortwave RF voice &amp; choir recordings.
+        </div>
+      </div>
+      <div class="atlas-stats-bar">
+        <div class="stat-pill">
+          <span class="val" id="stat-worlds">8</span>
+          <span class="lbl">WORLDS / STATIONS</span>
+        </div>
+        <div class="stat-pill">
+          <span class="val" id="stat-chars">12</span>
+          <span class="lbl">CHARACTERS &amp; CHOIRS</span>
+        </div>
+        <div class="stat-pill">
+          <span class="val" id="stat-plates">42</span>
+          <span class="lbl">16:9 FLOW PLATES</span>
+        </div>
+        <div class="stat-pill">
+          <span class="val" id="stat-audio">48</span>
+          <span class="lbl">WAV AUDIO TRACKS</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sticky View Mode & Station Selector Deck -->
+    <div class="filter-deck">
+      <div class="view-tabs-row">
+        <div class="view-tabs" id="view-tabs">
+          <button class="view-btn active" data-view="worlds">🌍 ALL 8 WORLDS &amp; DOSSIERS</button>
+          <button class="view-btn" data-view="characters">👥 CHARACTER &amp; VOICE MATRIX (12)</button>
+          <button class="view-btn" data-view="neighbors">🪐 OORT NEIGHBORS &amp; CERES BASELINE (9)</button>
+          <button class="view-btn" data-view="hardware">🏭 HARDWARE MAKERS &amp; ANOMALIES</button>
+          <button class="view-btn" data-view="plates">🎬 16:9 FLOW PLATES</button>
+          <button class="view-btn" data-view="qsl">🃏 ANIMATED eQSL GALLERY (8)</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <input type="search" id="world-search-input" placeholder="🔍 Filter worlds, characters, lore..." style="background:var(--bg0);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:0.72rem;padding:7px 11px;border-radius:4px;min-width:230px;outline:none;">
+          <button class="stop-audio-btn" id="stop-all-audio-btn">⏹ STOP ALL AUDIO</button>
+        </div>
+      </div>
+      <div class="station-pills-row" id="station-pills-row">
+        <span class="station-pill-label">FILTER BY STATION:</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Container -->
+  <main class="atlas-container" id="atlas-main"></main>
+
+  <!-- Full-Screen Image Lightbox Modal -->
+  <div class="lightbox-backdrop" id="lightbox" onclick="if(event.target===this) closeLightbox()">
+    <div class="lightbox-box">
+      <div class="lightbox-top">
+        <span id="lightbox-title">PLATE PREVIEW</span>
+        <button class="lightbox-close" onclick="closeLightbox()">✕ CLOSE [ESC]</button>
+      </div>
+      <div class="lightbox-img-container">
+        <img id="lightbox-img" src="" alt="Full resolution plate">
+      </div>
+      <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+  </div>
+
+  <script>
+    const DATA = window.GOR9_STATIONS_DATA || { presets: [] };
+    const presets = DATA.presets || [];
+
+    let currentView = 'worlds';
+    let currentStationId = 'ALL';
+
+    function esc(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function collectFlowPlates(p) {
+      const list = [];
+      const seen = new Set();
+      function add(src, role, caption) {
+        if (!src || seen.has(src)) return;
+        seen.add(src);
+        list.push({ src, role: role || '16:9 Flow Reference Plate', caption: caption || '' });
+      }
+      if (Array.isArray(p.flow_plates)) {
+        p.flow_plates.forEach(fp => {
+          if (typeof fp === 'string') add(fp, '16:9 Flow Scene Plate', `${p.name} (${p.callsign})`);
+          else if (fp && fp.src) add(fp.src, fp.role, fp.caption);
+        });
+      }
+      if (p.media && Array.isArray(p.media.flow_plates)) {
+        p.media.flow_plates.forEach(fp => {
+          if (typeof fp === 'string') add(fp, '16:9 Flow Scene Plate', `${p.name} (${p.callsign})`);
+          else if (fp && fp.src) add(fp.src, fp.role, fp.caption);
+        });
+      }
+      if (p.media && p.media.qsl_plate_src) {
+        add(p.media.qsl_plate_src, '16:9 Keyframe Plate A', `${p.name} primary visual keyframe`);
+      }
+      if (p.media && p.media.qsl_plate_b_src) {
+        add(p.media.qsl_plate_b_src, '16:9 Keyframe Plate B', `${p.name} secondary action keyframe`);
+      }
+      return list;
+    }
+
+    function openLightbox(src, title, caption) {
+      const lb = document.getElementById('lightbox');
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox-title').textContent = title || '16:9 GOOGLE FLOW PLATE';
+      document.getElementById('lightbox-caption').textContent = caption || src;
+      lb.classList.add('open');
+    }
+
+    function closeLightbox() {
+      const lb = document.getElementById('lightbox');
+      lb.classList.remove('open');
+      document.getElementById('lightbox-img').src = '';
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    function bindExclusiveAudio() {
+      const audios = document.querySelectorAll('audio');
+      audios.forEach(a => {
+        a.addEventListener('play', () => {
+          audios.forEach(other => {
+            if (other !== a && !other.paused) {
+              other.pause();
+            }
+          });
+        });
+      });
+    }
+
+    document.getElementById('stop-all-audio-btn').addEventListener('click', () => {
+      document.querySelectorAll('audio').forEach(a => {
+        a.pause();
+        a.currentTime = 0;
+      });
+    });
+
+    function renderStationPills() {
+      const row = document.getElementById('station-pills-row');
+      let html = `<span class="station-pill-label">FILTER BY STATION:</span>`;
+      html += `<button class="station-pill ${currentStationId === 'ALL' ? 'active' : ''}" data-st="ALL">ALL 8 WORLDS</button>`;
+      presets.forEach(p => {
+        const active = currentStationId === p.id ? 'active' : '';
+        html += `<button class="station-pill ${active}" data-st="${esc(p.id)}">${esc(p.preset_slot)} • ${esc(p.callsign)} (${esc(p.name)})</button>`;
+      });
+      row.innerHTML = html;
+      row.querySelectorAll('.station-pill').forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentStationId = btn.getAttribute('data-st');
+          renderStationPills();
+          renderMain();
+        });
+      });
+    }
+
+    function renderCharacterCard(c, p, showStationBadge = false) {
+      const vp = c.voice_profile || {};
+      const stationBadgeHtml = showStationBadge
+        ? `<div style="margin-bottom:6px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+             <span class="preset-badge" style="font-size:0.68rem;padding:2px 7px;">${esc(p.preset_slot)}</span>
+             <span class="callsign-badge" style="font-size:0.74rem;padding:2px 7px;">${esc(p.callsign)}</span>
+             <span style="font-family:var(--mono);font-size:0.74rem;color:var(--text-dim);">${esc(p.name)} — ${esc(p.origin?.body || '')}</span>
+           </div>`
+        : '';
+
+      return `
+        <div class="char-card">
+          ${stationBadgeHtml}
+          <div class="char-card-top">
+            <div>
+              <div class="char-name">${esc(c.name)}</div>
+              <div class="char-role">${esc(c.role)}</div>
+            </div>
+            <div class="char-species">${esc(c.species_or_type || 'Resident')}</div>
+          </div>
+
+          <!-- Dual 16:9 Character Reference Plates -->
+          <div class="char-plates-pair">
+            ${c.headshot_src ? `
+              <div class="char-plate-box" data-lb-src="${esc(c.headshot_src)}" data-lb-title="${esc(c.name)} — 16:9 Portrait Keyframe" data-lb-cap="${esc(c.role)} (${esc(p.callsign)} • ${esc(p.name)})">
+                <img src="${esc(c.headshot_src)}" alt="${esc(c.name)} Headshot" loading="lazy">
+                <div class="char-plate-lbl">
+                  <span>16:9 PORTRAIT KEYFRAME</span>
+                  <span style="color:var(--cyan);">🔍 ENLARGE</span>
+                </div>
+              </div>
+            ` : ''}
+            ${c.fullbody_src ? `
+              <div class="char-plate-box" data-lb-src="${esc(c.fullbody_src)}" data-lb-title="${esc(c.name)} — 16:9 Full-Body Cyclorama" data-lb-cap="${esc(c.species_or_type)} • ${esc(c.role)} (${esc(p.callsign)})">
+                <img src="${esc(c.fullbody_src)}" alt="${esc(c.name)} Full Body" loading="lazy">
+                <div class="char-plate-lbl">
+                  <span>16:9 FULL-BODY CYCLORAMA</span>
+                  <span style="color:var(--cyan);">🔍 ENLARGE</span>
+                </div>
+              </div>
+            ` : ''}
+          </div>
+
+          <div class="char-bio">${esc(c.bio)}</div>
+
+          ${c.signature_quote ? `<div class="char-quote">“${esc(c.signature_quote)}”</div>` : ''}
+
+          <div class="char-specs-box">
+            <div class="char-specs-row"><strong>LANGUAGES / DIALECT:</strong> ${esc(c.languages || '—')}</div>
+            ${c.dialect_notes ? `<div class="char-specs-row"><strong>DIALECT NOTES:</strong> ${esc(c.dialect_notes)}</div>` : ''}
+            ${c.phonetic_and_conlang_notes ? `<div class="char-specs-row"><strong>PHONETICS &amp; CONLANG SPEC:</strong> ${esc(c.phonetic_and_conlang_notes)}</div>` : ''}
+            ${vp.tts_voice ? `<div class="char-specs-row"><strong>VOICE CASTING:</strong> ${esc(vp.tts_voice)} • ${esc(vp.cadence || '')}</div>` : ''}
+            ${vp.dsp_chain ? `<div class="char-specs-row"><strong>RF DSP CHAIN:</strong> ${esc(vp.dsp_chain)}</div>` : ''}
+          </div>
+
+          ${c.language_sample_transcript ? `
+            <div class="char-transcript-box">
+              <span class="lbl">🎙️ RECORDED VOICE / CHANT TRANSCRIPT</span>
+              “${esc(c.language_sample_transcript)}”
+            </div>
+          ` : ''}
+
+          <div class="char-audio-pair">
+            ${c.voice_sample_dry_src ? `
+              <div class="char-audio-cell dry">
+                <div class="char-audio-hdr">
+                  <span>🎧 DRY STUDIO MASTER (24 kHz)</span>
+                  <span>CLEAN MIC</span>
+                </div>
+                <audio controls preload="none" src="${esc(c.voice_sample_dry_src)}"></audio>
+              </div>
+            ` : ''}
+            ${c.voice_sample_rf_src ? `
+              <div class="char-audio-cell rf">
+                <div class="char-audio-hdr">
+                  <span>📻 ON-AIR SHORTWAVE RF (QSB+QRN)</span>
+                  <span>${esc(p.rf?.mode || 'HF')}</span>
+                </div>
+                <audio controls preload="none" src="${esc(c.voice_sample_rf_src)}"></audio>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderWorldsView(filteredPresets) {
+      return filteredPresets.map(p => {
+        const wb = p.worldbuilding || {};
+        const rf = p.rf || {};
+        const sp = rf.sinpo || {};
+        const orig = p.origin || {};
+        const hw = p.hardware_dossier || {};
+        const qsl = p.qsl || {};
+        const media = p.media || {};
+        const flowPlates = collectFlowPlates(p);
+        const chars = p.characters || [];
+        const arc = wb.discovery_arc || [];
+        const logs = p.logs || [];
+
+        return `
+          <article class="world-card" id="world-${esc(p.id)}">
+            <div class="world-banner">
+              <div class="world-title-group">
+                <span class="preset-badge">${esc(p.preset_slot)}</span>
+                <span class="callsign-badge">${esc(p.callsign)}</span>
+                <div>
+                  <span class="world-name">${esc(p.name)}</span>
+                  <span class="world-subtitle">— ${esc(p.subtitle)}</span>
+                </div>
+              </div>
+              <div class="rf-badges">
+                <span class="rf-chip freq">${esc(rf.frequency_khz)} kHz (${esc(rf.mode)})</span>
+                <span class="rf-chip sinpo">SINPO ${sp.s}-${sp.i}-${sp.n}-${sp.p}-${sp.o} • ${esc(rf.s_meter)}</span>
+                <span class="rf-chip">${esc(orig.distance || '')}</span>
+                <button type="button" class="open-receiver-link" onclick="window.switchReviewView('characters', '${esc(p.id)}')">👥 CAST &amp; VOICES</button>
+                <button type="button" class="open-receiver-link" onclick="window.switchReviewView('qsl', '${esc(p.id)}')">🃏 eQSL CARD</button>
+              </div>
+            </div>
+
+            <div class="world-body">
+              <!-- Top Overview 3-Column Grid -->
+              <div class="world-overview-grid">
+                <!-- Col 1: Worldbuilding, Habitat & Glenn Hauser Commentary -->
+                <div class="panel-box">
+                  <div class="panel-hdr">
+                    <span>🌍 PLANETARY HABITAT, CULTURE &amp; SPECTRUM GIMMICK</span>
+                    <span>${esc(p.category)}</span>
+                  </div>
+                  <div class="kv-grid">
+                    <div class="kv-key">WORLD / BODY</div>
+                    <div class="kv-val">${esc(orig.body)}</div>
+                    <div class="kv-key">TRANSMIT SITE</div>
+                    <div class="kv-val">${esc(orig.site)}</div>
+                    <div class="kv-key">COORDINATES</div>
+                    <div class="kv-val">${esc(orig.coordinates)}</div>
+                    <div class="kv-key">LOCAL CLOCK</div>
+                    <div class="kv-val">${esc(orig.local_clock)}</div>
+                    <div class="kv-key">LANGUAGES</div>
+                    <div class="kv-val">${esc((media.languages || []).join(' • '))}</div>
+                    <div class="kv-key">GIMMICK</div>
+                    <div class="kv-val" style="color:var(--amber);font-weight:700;">${esc(wb.spectrum_gimmick_title || media.hud_banner)}</div>
+                  </div>
+                  <div class="lore-paragraph">${esc(wb.habitat_and_culture)}</div>
+                  ${wb.hauser_commentary ? `
+                    <div class="hauser-quote">
+                      <strong>🎙️ GLENN HAUSER CORRELATOR LOG COMMENTARY (GOR-9)</strong>
+                      “${esc(wb.hauser_commentary)}”
+                    </div>
+                  ` : ''}
+                </div>
+
+                <!-- Col 2: Transmitter Hardware, Feedline Anomaly & Decoder Summary -->
+                <div class="panel-box">
+                  <div class="panel-hdr">
+                    <span>⚡ TRANSMITTER HARDWARE &amp; ANOMALY DOSSIER</span>
+                    <span>${esc(rf.tx_power_label || '')}</span>
+                  </div>
+                  <div class="kv-grid">
+                    <div class="kv-key">ANTENNA</div>
+                    <div class="kv-val">${esc(rf.antenna)}</div>
+                    <div class="kv-key">RELAY PATH</div>
+                    <div class="kv-val">${esc(rf.relay_path)}</div>
+                    <div class="kv-key">PEAK MOD</div>
+                    <div class="kv-val" style="color:var(--green);font-family:var(--mono);">${esc(rf.peak_modulation_db)}</div>
+                    <div class="kv-key">INTERVAL SIG</div>
+                    <div class="kv-val">${esc(media.interval_signal_name)}</div>
+                  </div>
+                  <div style="font-size:0.83rem;color:var(--text-dim);">
+                    <strong style="color:var(--cyan);font-family:var(--mono);font-size:0.68rem;display:block;margin-bottom:3px;">TRANSMITTER DECK:</strong>
+                    ${esc(hw.transmitter)}
+                  </div>
+                  <div style="font-size:0.83rem;color:var(--text);">
+                    <strong style="color:var(--amber);font-family:var(--mono);font-size:0.68rem;display:block;margin-bottom:3px;">FEEDLINE / PROPAGATION ANOMALY:</strong>
+                    ${esc(hw.feedline_anomaly)}
+                  </div>
+                  ${media.transcript_excerpt ? `
+                    <div class="char-transcript-box" style="margin-top:auto;">
+                      <span class="lbl">📻 ON-AIR INTERCEPT EXCERPT</span>
+                      ${esc(media.transcript_excerpt)}
+                    </div>
+                  ` : ''}
+                </div>
+
+                <!-- Col 3: Animated QSL Postcard + Station Audio Players -->
+                <div class="panel-box">
+                  <div class="panel-hdr">
+                    <span>🃏 ANIMATED eQSL &amp; STATION AUDIO</span>
+                    <span>${esc(qsl.qsl_number || '')}</span>
+                  </div>
+                  <div class="qsl-preview-wrap">
+                    ${qsl.gif_src ? `
+                      <div class="qsl-img-frame" data-lb-src="${esc(qsl.gif_src)}" data-lb-title="${esc(qsl.qsl_number)} — ${esc(p.name)}" data-lb-cap="${esc(qsl.motto)} • Signed by ${esc(qsl.signer)}">
+                        <img src="${esc(qsl.gif_src)}" alt="${esc(p.name)} QSL GIF" loading="lazy">
+                        <div class="qsl-meta-strip">
+                          <div style="color:var(--amber);font-weight:700;">“${esc(qsl.motto)}”</div>
+                          <div>Signed: ${esc(qsl.signer)}</div>
+                          <div style="color:var(--cyan);margin-top:2px;">Clue: ${esc(qsl.embedded_clue)}</div>
+                        </div>
+                      </div>
+                    ` : ''}
+                    <div class="audio-stack">
+                      ${media.audio_intercept_src ? `
+                        <div class="audio-row">
+                          <div class="audio-row-lbl">
+                            <span>📻 FULL ON-AIR RECEIVER INTERCEPT</span>
+                            <span>${esc(rf.frequency_khz)} kHz</span>
+                          </div>
+                          <audio controls preload="none" src="${esc(media.audio_intercept_src)}"></audio>
+                        </div>
+                      ` : ''}
+                      ${media.interval_signal_src ? `
+                        <div class="audio-row">
+                          <div class="audio-row-lbl">
+                            <span>🔔 STATION INTERVAL SIGNAL (IS)</span>
+                            <span>LOOP</span>
+                          </div>
+                          <audio controls preload="none" src="${esc(media.interval_signal_src)}"></audio>
+                        </div>
+                      ` : ''}
+                      ${media.sstv_burst_src ? `
+                        <div class="audio-row">
+                          <div class="audio-row-lbl">
+                            <span>📠 SUB-BAND SSTV / FSK QSL BURST</span>
+                            <span>TELEMETRY</span>
+                          </div>
+                          <audio controls preload="none" src="${esc(media.sstv_burst_src)}"></audio>
+                        </div>
+                      ` : ''}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 16:9 Google Flow Scene, Architecture & Camera POV Plates -->
+              <div>
+                <div class="sub-section-title">🎬 16:9 GOOGLE FLOW SCENE, ARCHITECTURE &amp; CAMERA POV PLATES (${flowPlates.length})</div>
+                <div class="flow-plates-grid">
+                  ${flowPlates.map(fp => `
+                    <div class="flow-plate-card" data-lb-src="${esc(fp.src)}" data-lb-title="${esc(p.callsign)} • ${esc(fp.role)}" data-lb-cap="${esc(fp.caption)}">
+                      <div class="flow-plate-img-wrap">
+                        <img src="${esc(fp.src)}" alt="${esc(fp.role)}" loading="lazy">
+                        <span class="flow-role-tag">${esc(fp.role)}</span>
+                      </div>
+                      <div class="flow-plate-caption">${esc(fp.caption)}</div>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+
+              <!-- Station Characters, Creatures & Choirs -->
+              <div>
+                <div class="sub-section-title">👥 RESIDENT CHARACTERS, CREATURES, CONLANGS &amp; VOICE SAMPLES (${chars.length})</div>
+                <div class="characters-grid">
+                  ${chars.map(c => renderCharacterCard(c, p, false)).join('')}
+                </div>
+              </div>
+
+              <!-- Discovery Arc & Chronological Logs -->
+              <div class="arc-logs-grid">
+                <div class="panel-box">
+                  <div class="panel-hdr">
+                    <span>🧭 3-ACT SERIALIZED DISCOVERY ARC</span>
+                    <span>NARRATIVE PROGRESSION</span>
+                  </div>
+                  ${arc.map(a => `
+                    <div class="arc-step">
+                      <strong>${esc(a.stage)}</strong>
+                      <div>${esc(a.summary)}</div>
+                    </div>
+                  `).join('')}
+                </div>
+                <div class="panel-box">
+                  <div class="panel-hdr">
+                    <span>📓 OPERATOR CHRONOLOGICAL DX LOGBOOK</span>
+                    <span>ASTEROID 3-5-1</span>
+                  </div>
+                  ${logs.map(l => `
+                    <div class="log-entry">
+                      <span class="epoch">[EPOCH ${esc(l.epoch)} • ${esc(l.gct)}]</span> ${esc(l.entry)}
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function renderCharactersMatrixView(filteredPresets) {
+      const cards = [];
+      filteredPresets.forEach(p => {
+        (p.characters || []).forEach(c => {
+          cards.push(renderCharacterCard(c, p, true));
+        });
+      });
+      return `
+        <div class="sub-section-title">👥 ALL CHARACTERS, CREATURES, CHOIRS &amp; VOICE SAMPLES (${cards.length})</div>
+        <div class="characters-grid">
+          ${cards.join('')}
+        </div>
+      `;
+    }
+
+    function renderPlatesGalleryView(filteredPresets) {
+      const items = [];
+      filteredPresets.forEach(p => {
+        const fps = collectFlowPlates(p);
+        fps.forEach(fp => {
+          items.push({
+            src: fp.src,
+            role: `${p.preset_slot} ${p.callsign} • ${fp.role}`,
+            caption: `${p.name}: ${fp.caption}`
+          });
+        });
+        (p.characters || []).forEach(c => {
+          if (c.headshot_src) {
+            items.push({
+              src: c.headshot_src,
+              role: `${p.preset_slot} ${p.callsign} • 16:9 Character Headshot`,
+              caption: `${c.name} (${c.role}) — ${c.species_or_type}`
+            });
+          }
+          if (c.fullbody_src) {
+            items.push({
+              src: c.fullbody_src,
+              role: `${p.preset_slot} ${p.callsign} • 16:9 Full-Body Cyclorama`,
+              caption: `${c.name} (${c.role}) — Full-Body Studio Reference Sheet`
+            });
+          }
+        });
+      });
+
+      return `
+        <div class="sub-section-title">🎬 ALL 16:9 GOOGLE FLOW SCENE, POV &amp; CHARACTER PLATES (${items.length})</div>
+        <div class="flow-plates-grid">
+          ${items.map(it => `
+            <div class="flow-plate-card" data-lb-src="${esc(it.src)}" data-lb-title="${esc(it.role)}" data-lb-cap="${esc(it.caption)}">
+              <div class="flow-plate-img-wrap">
+                <img src="${esc(it.src)}" alt="${esc(it.role)}" loading="lazy">
+                <span class="flow-role-tag">${esc(it.role)}</span>
+              </div>
+              <div class="flow-plate-caption">${esc(it.caption)}</div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function renderQslGalleryView(filteredPresets) {
+      return `
+        <div class="sub-section-title">🃏 ANIMATED POSTCARD eQSL GALLERY (${filteredPresets.length})</div>
+        <div class="flow-plates-grid" style="grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));">
+          ${filteredPresets.map(p => {
+            const qsl = p.qsl || {};
+            const wb = p.worldbuilding || {};
+            const media = p.media || {};
+            return `
+              <div class="panel-box">
+                <div class="panel-hdr">
+                  <span>${esc(p.preset_slot)} • ${esc(p.callsign)} — ${esc(p.name)}</span>
+                  <span style="color:var(--amber);">${esc(qsl.qsl_number)}</span>
+                </div>
+                <div class="qsl-img-frame" data-lb-src="${esc(qsl.gif_src)}" data-lb-title="${esc(qsl.qsl_number)} — ${esc(p.name)}" data-lb-cap="${esc(qsl.motto)}">
+                  <img src="${esc(qsl.gif_src)}" alt="${esc(p.name)} QSL">
+                </div>
+                <div style="font-family:var(--mono);font-size:0.76rem;color:var(--amber);font-weight:700;">“${esc(qsl.motto)}”</div>
+                <div style="font-size:0.82rem;color:var(--text-dim);"><strong>Signer:</strong> ${esc(qsl.signer)}</div>
+                <div style="font-size:0.82rem;color:var(--text-dim);"><strong>Postcard Style:</strong> ${esc(wb.qsl_postcard_style || '')}</div>
+                <div style="font-size:0.82rem;color:var(--text);"><strong>Animation Notes:</strong> ${esc(wb.qsl_animation_notes || '')}</div>
+                <div style="font-family:var(--mono);font-size:0.72rem;color:var(--cyan);"><strong>Embedded Clue:</strong> ${esc(qsl.embedded_clue)}</div>
+                ${media.audio_intercept_src ? `
+                  <div class="audio-row" style="margin-top:auto;">
+                    <div class="audio-row-lbl">
+                      <span>📻 FULL ON-AIR INTERCEPT</span>
+                      <span>${esc(p.rf?.frequency_khz)} kHz</span>
+                    </div>
+                    <audio controls preload="none" src="${esc(media.audio_intercept_src)}"></audio>
+                  </div>
+                ` : ''}
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    function renderNeighborsView(searchQuery) {
+      const neighbors = (DATA.celestial_neighbors || []).filter(n => {
+        if (!searchQuery) return true;
+        const hay = `${n.name} ${n.slot} ${n.callsign} ${n.subtitle} ${n.category} ${n.triangulation_role} ${n.appearance_from_gor9} ${n.lore}`.toLowerCase();
+        return hay.includes(searchQuery);
+      });
+      return `
+        <div class="sub-section-title">🪐 OORT CLOUD SECTOR 9 NEIGHBORS, PLANETARY DISKS &amp; CERES ASTROMETRIC BASELINE (${neighbors.length})</div>
+        <div class="characters-grid">
+          ${neighbors.map(n => `
+            <div class="char-card" style="border-color:${esc(n.hex || 'var(--border-hi)')};">
+              <div class="char-card-top">
+                <div>
+                  <div class="char-name" style="color:${esc(n.hex || 'var(--cyan)')};">${esc(n.slot)} • ${esc(n.name)}</div>
+                  <div class="char-role">${esc(n.callsign)} — ${esc(n.subtitle)}</div>
+                </div>
+                <div class="char-species">${esc(n.category)}</div>
+              </div>
+              <div class="kv-grid" style="background:var(--bg1);padding:10px 12px;border-radius:6px;border:1px solid var(--border);">
+                <div class="kv-key">RANGE</div>
+                <div class="kv-val" style="color:var(--amber);font-family:var(--mono);font-weight:700;">${esc(n.range_label)}</div>
+                <div class="kv-key">SKY BEARING</div>
+                <div class="kv-val" style="font-family:var(--mono);">Az ${esc(n.az_deg)}° • El ${n.local_el_deg >= 0 ? '+' : ''}${esc(n.local_el_deg)}° • Gal Lat ${esc(n.gal_lat_deg)}°</div>
+                <div class="kv-key">OPTICAL DISK</div>
+                <div class="kv-val" style="font-family:var(--mono);">Mag ${esc(n.apparent_mag)} • ${esc(n.apparent_size)}</div>
+                <div class="kv-key">RF / BEACON</div>
+                <div class="kv-val" style="color:var(--cyan);font-family:var(--mono);">${esc(n.freq_label)}</div>
+                <div class="kv-key">BOOTH WINDOW</div>
+                <div class="kv-val">${esc(n.booth_window || '360° Observation Deck')}</div>
+                <div class="kv-key">TRIANGULATION</div>
+                <div class="kv-val" style="color:var(--green);">${esc(n.triangulation_role)}</div>
+              </div>
+              <div class="char-quote">${esc(n.appearance_from_gor9)}</div>
+              <div class="char-bio">${esc(n.lore)}</div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:8px;border-top:1px solid var(--border);">
+                <span style="font-family:var(--mono);font-size:0.7rem;color:var(--text-dim);">ID: ${esc(n.id)} • Δθ Ceres: ${esc(n.sep_ceres_deg)}°</span>
+                <span style="font-family:var(--mono);font-size:0.7rem;color:var(--cyan);">RADIAL SHELL: ${esc(n.radial_norm)}</span>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function renderHardwareView(searchQuery) {
+      const prop = window.GOR9_PROP_DATA || {};
+      const euclid = window.GOR9_EUCLID_DATA || { detections: [] };
+      const bogeys = window.GOR9_BOGEYS_DATA || { sightings: [] };
+      const catalog = prop.manufacturer_catalog || [];
+      const euclidList = [...(euclid.detections || []), ...(euclid.coming_next ? [euclid.coming_next] : [])];
+      const bogeyList = bogeys.sightings || [];
+
+      return `
+        <div class="sub-section-title">🏭 BOOTH HARDWARE MANUFACTURERS — HAUSER DYNAMICS &amp; VAN ALLEN &amp; SONS SWITCHGEAR</div>
+        <div class="characters-grid" style="margin-bottom:28px;">
+          <div class="char-card" style="border-color:var(--amber);">
+            <div class="char-card-top">
+              <div>
+                <div class="char-name" style="color:var(--amber);">HAUSER DYNAMICS • SHORTWAVE &amp; PERIMETER DIVISION</div>
+                <div class="char-role">Makers of the Hauser MK-IV Wideband Receiver &amp; Bogey-9 Perimeter Sentinel</div>
+              </div>
+              <div class="char-species">PRIMARY RF BENCH</div>
+            </div>
+            <div class="char-bio">
+              Founded in homage to legendary shortwave DX chronicler Glenn Hauser, Hauser Dynamics builds vacuum-hardened wideband superheterodyne receivers, 100 Hz BFO product detectors, and plug-in neural-heuristic translation cartridges (ALG-01 through ALG-04) capable of pulling 3-watt QRP beacons out of cosmic background noise.
+            </div>
+            <div class="char-specs-box">
+              <div class="char-specs-row"><strong>CONSOLE 1 (HAUSER MK-IV):</strong> Dual-conversion wideband receiver (0.1–30 MHz + 1,420 MHz H-I Maser Downconverter), 8 preset slots, live waterfall &amp; SINPO correlator.</div>
+              <div class="char-specs-row"><strong>CONSOLE 5 (HAUSER BOGEY-9):</strong> 9-gate optical/LIDAR perimeter motion-trap and UAP kinematic analyzer around Acheron Chasm Rim.</div>
+            </div>
+          </div>
+
+          <div class="char-card" style="border-color:var(--cyan);">
+            <div class="char-card-top">
+              <div>
+                <div class="char-name" style="color:var(--cyan);">VAN ALLEN &amp; SONS SWITCHGEAR (CERES FOUNDRY #7)</div>
+                <div class="char-role">${esc(prop.manufacturer || 'Est. 1958 Iowa City • Relocated 2412 to Ceres Foundry #7')}</div>
+              </div>
+              <div class="char-species">HEAVY SWITCHGEAR</div>
+            </div>
+            <div class="char-quote">${esc(prop.motto || '"From Radiation Belts to Reactor Beds — If It Arcs, We Clamp It."')}</div>
+            <div class="char-specs-box">
+              ${catalog.map(item => `
+                <div class="char-specs-row"><strong>${esc(item.model)} (${esc(item.category)}):</strong> ${esc(item.role)} — <em>${esc(item.quirk)}</em></div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+
+        <div class="sub-section-title">📐 VAN ALLEN ED-9 • EUCLIDEAN GEOMETRIC INTELLIGENCE DETECTIONS (${euclidList.length})</div>
+        <div class="characters-grid" style="margin-bottom:28px;">
+          ${euclidList.map(d => `
+            <div class="char-card">
+              <div class="char-card-top">
+                <div>
+                  <div class="char-name">${esc(d.proposition)} (${esc(d.g_index)}) — ${esc(d.title)}</div>
+                  <div class="char-role">${esc(d.subtitle)}</div>
+                </div>
+                <div class="char-species">${esc(d.code)}</div>
+              </div>
+              ${d.plate_src ? `
+                <div class="char-plate-box" data-lb-src="${esc(d.plate_src)}" data-lb-title="${esc(d.proposition)} — ${esc(d.title)}" data-lb-cap="${esc(d.enunciation)}">
+                  <img src="${esc(d.plate_src)}" alt="${esc(d.title)}" loading="lazy">
+                </div>
+              ` : ''}
+              <div class="char-quote">“${esc(d.enunciation)}”</div>
+              <div class="char-bio">${esc(d.narrative || '')}</div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;">
+                <span style="font-family:var(--mono);font-size:0.7rem;color:var(--amber);">${esc(d.status_badge)}</span>
+                <span style="font-family:var(--mono);font-size:0.7rem;color:var(--cyan);">${esc(d.g_index)}</span>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="sub-section-title">🛸 HAUSER BOGEY-9 • PERIMETER TRAIL-CAM UAP SIGHTINGS (${bogeyList.length})</div>
+        <div class="characters-grid">
+          ${bogeyList.map(b => `
+            <div class="char-card">
+              <div class="char-card-top">
+                <div>
+                  <div class="char-name">${esc(b.slot)} • ${esc(b.title)}</div>
+                  <div class="char-role">${esc(b.cam_id)}</div>
+                </div>
+                <div class="char-species">${esc(b.classification)}</div>
+              </div>
+              <div class="char-plates-pair">
+                ${b.plate_src ? `
+                  <div class="char-plate-box" data-lb-src="${esc(b.plate_src)}" data-lb-title="${esc(b.title)}" data-lb-cap="${esc(b.subtitle)}">
+                    <img src="${esc(b.plate_src)}" alt="${esc(b.title)}" loading="lazy">
+                    <div class="char-plate-lbl"><span>STILL KEYFRAME</span><span style="color:var(--cyan);">🔍 ENLARGE</span></div>
+                  </div>
+                ` : ''}
+                ${b.burst_gif_src ? `
+                  <div class="char-plate-box" data-lb-src="${esc(b.burst_gif_src)}" data-lb-title="${esc(b.title)} — 8-Frame Burst" data-lb-cap="${esc(b.kinematics?.keplerian_fit || '')}">
+                    <img src="${esc(b.burst_gif_src)}" alt="${esc(b.title)} Burst" loading="lazy">
+                    <div class="char-plate-lbl"><span>8-FRAME MOTION BURST</span><span style="color:var(--amber);">GIF</span></div>
+                  </div>
+                ` : ''}
+              </div>
+              <div class="char-bio">${esc(b.narrative)}</div>
+              <div class="char-specs-box">
+                <div class="char-specs-row"><strong>KINEMATICS:</strong> ${esc(b.kinematics?.keplerian_fit)} • Velocity: ${esc(b.kinematics?.velocity_kms)}</div>
+                <div class="char-specs-row"><strong>REACTOR &amp; RF COUPLING:</strong> -${esc(b.coupling?.dilithium_bus_drain_kw)} kW Bus Drain • ${esc(b.coupling?.hauser_rf_effect)}</div>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;">
+                <span style="font-family:var(--mono);font-size:0.7rem;color:var(--amber);">${esc(b.code)}</span>
+                <span style="font-family:var(--mono);font-size:0.7rem;color:var(--cyan);">${esc(b.cam_id)}</span>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function bindLightboxTriggers() {
+      document.querySelectorAll('[data-lb-src]').forEach(el => {
+        el.addEventListener('click', () => {
+          openLightbox(
+            el.getAttribute('data-lb-src'),
+            el.getAttribute('data-lb-title'),
+            el.getAttribute('data-lb-cap')
+          );
+        });
+      });
+    }
+
+    function updateStats() {
+      let charCount = 0;
+      let plateCount = 0;
+      let audioCount = 0;
+      presets.forEach(p => {
+        const chars = p.characters || [];
+        charCount += chars.length;
+        plateCount += collectFlowPlates(p).length + chars.length * 2;
+        if (p.media?.audio_intercept_src) audioCount++;
+        if (p.media?.interval_signal_src) audioCount++;
+        if (p.media?.sstv_burst_src) audioCount++;
+        chars.forEach(c => {
+          if (c.voice_sample_dry_src) audioCount++;
+          if (c.voice_sample_rf_src) audioCount++;
+        });
+      });
+      document.getElementById('stat-worlds').textContent = presets.length;
+      document.getElementById('stat-chars').textContent = charCount;
+      document.getElementById('stat-plates').textContent = plateCount;
+      document.getElementById('stat-audio').textContent = audioCount;
+    }
+
+    let searchQuery = '';
+    const searchInput = document.getElementById('world-search-input');
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        searchQuery = (e.target.value || '').trim().toLowerCase();
+        renderMain();
+      });
+    }
+
+    function renderMain() {
+      const main = document.getElementById('atlas-main');
+      const stationFiltered = currentStationId === 'ALL'
+        ? presets
+        : presets.filter(p => p.id === currentStationId || p.preset_slot === currentStationId);
+
+      const filtered = !searchQuery ? stationFiltered : stationFiltered.filter(p => {
+        const blob = JSON.stringify(p).toLowerCase();
+        return blob.includes(searchQuery);
+      });
+
+      if (currentView === 'worlds') {
+        main.innerHTML = renderWorldsView(filtered);
+      } else if (currentView === 'characters') {
+        main.innerHTML = renderCharactersMatrixView(filtered);
+      } else if (currentView === 'neighbors') {
+        main.innerHTML = renderNeighborsView(searchQuery);
+      } else if (currentView === 'hardware') {
+        main.innerHTML = renderHardwareView(searchQuery);
+      } else if (currentView === 'plates') {
+        main.innerHTML = renderPlatesGalleryView(filtered);
+      } else if (currentView === 'qsl') {
+        main.innerHTML = renderQslGalleryView(filtered);
+      }
+
+      bindLightboxTriggers();
+      bindExclusiveAudio();
+    }
+
+    window.switchReviewView = function (viewName, stationId) {
+      if (stationId) {
+        currentStationId = stationId;
+        renderStationPills();
+      }
+      currentView = viewName;
+      document.querySelectorAll('#view-tabs .view-btn').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-view') === viewName);
+      });
+      document.querySelectorAll('#top-dev-review-tabs .mode-tab[data-top-view]').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-top-view') === viewName);
+      });
+      renderMain();
+    };
+
+    document.querySelectorAll('#view-tabs .view-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        window.switchReviewView(btn.getAttribute('data-view'));
+      });
+    });
+
+    // Support URL query ?station=... or ?id=... or ?view=...
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('station') || params.get('id')) {
+      const requested = params.get('station') || params.get('id');
+      if ( presets.some(p => p.id === requested || p.preset_slot === requested) ) {
+        const match = presets.find(p => p.id === requested || p.preset_slot === requested);
+        currentStationId = match ? match.id : 'ALL';
+      }
+    }
+    if (params.get('view')) {
+      const v = params.get('view');
+      if (['worlds', 'characters', 'neighbors', 'hardware', 'plates', 'qsl'].includes(v)) {
+        currentView = v;
+        document.querySelectorAll('#view-tabs .view-btn').forEach(b => {
+          b.classList.toggle('active', b.getAttribute('data-view') === v);
+        });
+        document.querySelectorAll('#top-dev-review-tabs .mode-tab[data-top-view]').forEach(b => {
+          b.classList.toggle('active', b.getAttribute('data-top-view') === v);
+        });
+      }
+    }
+
+    updateStats();
+    renderStationPills();
+    renderMain();
+  </script>
+</body>
+</html>

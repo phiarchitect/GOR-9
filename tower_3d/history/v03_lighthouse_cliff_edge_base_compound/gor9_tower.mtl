@@ -1,0 +1,122 @@
+newmtl mat0
+Kd 0.1400 0.1600 0.2000
+
+newmtl mat1
+Kd 0.0900 0.1000 0.1300
+
+newmtl mat2
+Kd 0.1800 0.2100 0.2600
+
+newmtl mat3
+Kd 0.1600 0.1900 0.2300
+
+newmtl mat4
+Kd 0.2800 0.3200 0.3800
+
+newmtl mat5
+Kd 1.0000 0.6500 0.1800
+
+newmtl mat6
+Kd 0.7600 0.5600 0.2400
+
+newmtl mat7
+Kd 0.4400 0.4900 0.5600
+
+newmtl mat8
+Kd 0.1900 0.2200 0.2600
+
+newmtl mat9
+Kd 1.0000 0.1800 0.1400
+
+newmtl mat10
+Kd 0.2400 0.2700 0.3100
+
+newmtl mat11
+Kd 0.2200 0.9200 1.0000
+
+newmtl mat12
+Kd 0.7200 0.4200 0.2200
+
+newmtl mat13
+Kd 0.1300 0.1500 0.1800
+
+newmtl mat14
+Kd 0.1100 0.1300 0.1600
+
+newmtl mat15
+Kd 0.3500 0.6200 0.7800
+
+newmtl mat16
+Kd 1.0000 0.5200 0.1200
+
+newmtl mat17
+Kd 1.0000 1.0000 1.0000
+map_Kd mk4_3b_video.png
+
+newmtl mat18
+Kd 1.0000 1.0000 1.0000
+map_Kd mk4_3a_decoder.png
+
+newmtl mat19
+Kd 1.0000 1.0000 1.0000
+map_Kd hauser_dynamics_logo.jpg
+
+newmtl mat20
+Kd 1.0000 1.0000 1.0000
+map_Kd va4_1b_squall.png
+
+newmtl mat21
+Kd 1.0000 1.0000 1.0000
+map_Kd mk4_3c_atlas.png
+
+newmtl mat22
+Kd 1.0000 1.0000 1.0000
+map_Kd van_allen_switchgear_logo.jpg
+
+newmtl mat23
+Kd 1.0000 1.0000 1.0000
+map_Kd ed9_4d_step4.png
+
+newmtl mat24
+Kd 1.0000 1.0000 1.0000
+map_Kd ed9_4b_step1.png
+
+newmtl mat25
+Kd 1.0000 1.0000 1.0000
+map_Kd bogey_4a_frame6.png
+
+newmtl mat26
+Kd 1.0000 1.0000 1.0000
+map_Kd bogey_4a_nvg.png
+
+newmtl mat27
+Kd 1.0000 1.0000 1.0000
+map_Kd dos_3a_n24.png
+
+newmtl mat28
+Kd 1.0000 1.0000 1.0000
+map_Kd dos_3d_octal_back.png
+
+newmtl mat29
+Kd 1.0000 1.0000 1.0000
+map_Kd mk4_3c_spectrum.png
+
+newmtl mat30
+Kd 1.0000 1.0000 1.0000
+map_Kd va4_1a_comet.png
+
+newmtl mat31
+Kd 1.0000 1.0000 1.0000
+map_Kd va4_2b_stepdown.png
+
+newmtl mat32
+Kd 1.0000 1.0000 1.0000
+map_Kd ed9_5a_rhombus.png
+
+newmtl mat33
+Kd 1.0000 1.0000 1.0000
+map_Kd qsl_plate_radio_corrugated_kiss.jpg
+
+newmtl mat34
+Kd 0.6500 0.9800 1.0000
+

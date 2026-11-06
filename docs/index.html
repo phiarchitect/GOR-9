@@ -1,0 +1,3103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HAUSER MK-IV • Deep-Space Wideband DX Correlator • GOR-9 Oort Cloud</title>
+<style>
+  :root {
+    --chassis: #07090e;
+    --bezel: #0d111a;
+    --panel: #101622;
+    --panel-well: #080b12;
+    --border-hi: #2b384e;
+    --border-lo: #1a2232;
+    --amber: #f0b849;
+    --amber-dim: rgba(240, 184, 73, 0.16);
+    --cyan: #38bdf8;
+    --cyan-dim: rgba(56, 189, 248, 0.15);
+    --green: #4ade80;
+    --green-dim: rgba(74, 222, 128, 0.15);
+    --red: #fb7185;
+    --red-dim: rgba(251, 113, 133, 0.18);
+    --text: #e2e8f0;
+    --muted: #8b9bb4;
+    --dim: #52627a;
+    --mono: 'JetBrains Mono', 'Fira Code', 'SFMono-Regular', Consolas, monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: radial-gradient(circle at 50% 0%, #111827 0%, #05070b 75%);
+    color: var(--text);
+    font-family: var(--mono);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  /* Top ATC Flight-Deck Master Bus Bar */
+  .atc-topbar {
+    height: 48px;
+    background: linear-gradient(180deg, #131b2b 0%, #090d15 100%);
+    border-bottom: 1px solid var(--border-hi);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+    z-index: 50;
+  }
+
+  .brand-cluster {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .on-air-badge {
+    background: var(--red-dim);
+    border: 1px solid var(--red);
+    color: #fecdd3;
+    padding: 3px 9px;
+    font-weight: 800;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 2px;
+  }
+
+  .on-air-led {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--red);
+    box-shadow: 0 0 8px var(--red);
+    animation: pulseLed 1.3s infinite ease-in-out;
+  }
+
+  @keyframes pulseLed {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.25; }
+  }
+
+  .station-id-title {
+    color: var(--amber);
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+  }
+
+  .bus-telemetry {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: var(--muted);
+    font-size: 11px;
+  }
+
+  .bus-pill {
+    background: var(--panel-well);
+    border: 1px solid var(--border-lo);
+    padding: 4px 10px;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .bus-pill b.amber { color: var(--amber); }
+  .bus-pill b.cyan { color: var(--cyan); }
+  .bus-pill b.green { color: var(--green); }
+
+  .nav-mode-tabs {
+    display: flex;
+    gap: 8px;
+  }
+
+  .mode-tab {
+    background: #0e1420;
+    border: 1px solid var(--border-hi);
+    color: var(--muted);
+    padding: 6px 11px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .mode-tab:hover {
+    color: var(--text);
+    border-color: var(--cyan);
+  }
+
+  .mode-tab.active {
+    background: var(--amber-dim);
+    border-color: var(--amber);
+    color: var(--amber);
+    box-shadow: inset 0 0 12px rgba(240, 184, 73, 0.2);
+  }
+
+  /* Main Chassis Container */
+  .chassis-wrap {
+    flex: 1;
+    padding: 12px 16px;
+    max-width: 1920px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* Hardware Rack Header: Tactile Preset Buttons + VFO Synthesizer + Spectrum Waterfall */
+  .hauser-top-rack {
+    display: grid;
+    grid-template-columns: 360px 330px 1fr;
+    gap: 12px;
+    background: linear-gradient(180deg, #121826 0%, #0b0f18 100%);
+    border: 1px solid var(--border-hi);
+    border-radius: 4px;
+    padding: 10px 12px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 12px 32px rgba(0,0,0,0.65);
+  }
+
+  .rack-module {
+    background: var(--panel-well);
+    border: 1px solid var(--border-lo);
+    border-radius: 3px;
+    padding: 9px 11px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+
+  .module-label {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.11em;
+    color: var(--muted);
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #161f2e;
+    padding-bottom: 4px;
+    margin-bottom: 6px;
+  }
+
+  .module-label span.tag {
+    color: var(--amber);
+    font-size: 9.5px;
+  }
+
+  /* Tactile Illuminated Preset Matrix (3x2 Physical Keys) */
+  .preset-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+    flex: 1;
+  }
+
+  .preset-key {
+    background: linear-gradient(180deg, #1b2436 0%, #101622 100%);
+    border: 1px solid #2e3d56;
+    border-bottom: 3px solid #090d14;
+    border-radius: 3px;
+    padding: 6px 8px;
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--mono);
+    color: var(--text);
+    transition: all 0.12s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+
+  .preset-key:hover {
+    border-color: var(--cyan);
+    transform: translateY(-1px);
+  }
+
+  .preset-key.active {
+    background: linear-gradient(180deg, #2b2415 0%, #19150d 100%);
+    border-color: var(--amber);
+    border-bottom: 2px solid var(--amber);
+    box-shadow: 0 0 14px rgba(240, 184, 73, 0.28), inset 0 0 10px rgba(240, 184, 73, 0.15);
+  }
+
+  .preset-key-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 9.5px;
+    font-weight: 800;
+  }
+
+  .preset-slot-id {
+    color: var(--amber);
+    background: rgba(240, 184, 73, 0.14);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  .preset-led {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #334155;
+  }
+
+  .preset-key.active .preset-led {
+    background: var(--amber);
+    box-shadow: 0 0 8px var(--amber);
+  }
+
+  .preset-freq {
+    font-size: 11.5px;
+    font-weight: 800;
+    color: #fff;
+    margin-top: 2px;
+  }
+
+  .preset-name {
+    font-size: 9px;
+    color: var(--muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Center Module: VFO Frequency Synthesizer & Metallic Jog-Wheel */
+  .vfo-readout-box {
+    background: #04060a;
+    border: 1px solid #24324a;
+    padding: 7px 11px;
+    border-radius: 2px;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.9);
+    margin-bottom: 6px;
+  }
+
+  .vfo-main-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .vfo-digits {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--amber);
+    letter-spacing: 0.04em;
+    text-shadow: 0 0 12px rgba(240, 184, 73, 0.45);
+  }
+
+  .vfo-mode-badge {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--cyan);
+    background: var(--cyan-dim);
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    padding: 2px 6px;
+    border-radius: 2px;
+  }
+
+  .vfo-sub-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 9.5px;
+    color: var(--muted);
+    margin-top: 3px;
+    border-top: 1px dashed #192334;
+    padding-top: 3px;
+  }
+
+  .vfo-controls-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .vfo-wheel-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+  }
+
+  .vfo-wheel {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, #2a3446, #526077, #1c2433, #475569, #2a3446);
+    border: 3px solid #141b28;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.8), inset 0 0 6px rgba(255,255,255,0.2);
+    position: relative;
+    cursor: grab;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .vfo-wheel::after {
+    content: '';
+    position: absolute;
+    inset: 9px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #334155, #0f172a);
+    border: 1px solid #475569;
+  }
+
+  .vfo-dimple {
+    position: absolute;
+    top: 13px;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    margin-left: -3px;
+    border-radius: 50%;
+    background: var(--amber);
+    box-shadow: 0 0 6px var(--amber);
+    z-index: 3;
+  }
+
+  .filter-bank {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .mini-btn-row {
+    display: flex;
+    gap: 4px;
+  }
+
+  .mini-hw-btn {
+    flex: 1;
+    background: #121927;
+    border: 1px solid #28354c;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 700;
+    padding: 4px 4px;
+    cursor: pointer;
+    border-radius: 2px;
+    text-align: center;
+  }
+
+  .mini-hw-btn.active {
+    background: var(--cyan-dim);
+    border-color: var(--cyan);
+    color: var(--cyan);
+  }
+
+  /* Right Top Module: Live Dual Spectrum & Waterfall Canvas */
+  .waterfall-wrap {
+    position: relative;
+    flex: 1;
+    min-height: 130px;
+    background: #030508;
+    border: 1px solid #223049;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  #waterfall-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .wf-overlay-top {
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    right: 10px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: var(--cyan);
+    pointer-events: none;
+    text-shadow: 0 1px 4px #000;
+  }
+
+  .wf-cursor-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: rgba(244, 63, 94, 0.85);
+    box-shadow: 0 0 10px var(--red);
+    left: 50%;
+    transition: left 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+  }
+
+  .wf-passband {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 44px;
+    margin-left: -22px;
+    background: rgba(240, 184, 73, 0.11);
+    border-left: 1px dashed rgba(240, 184, 73, 0.5);
+    border-right: 1px dashed rgba(240, 184, 73, 0.5);
+    left: 50%;
+    transition: left 0.55s cubic-bezier(0.22, 1, 0.36, 1), width 0.25s ease, margin-left 0.25s ease;
+    pointer-events: none;
+  }
+
+  /* Main 3-Column Deck Below Top Rack */
+  .hauser-main-deck {
+    display: grid;
+    grid-template-columns: 1.18fr 1.02fr 0.90fr;
+    gap: 12px;
+    flex: 1;
+    min-height: 560px;
+  }
+
+  .deck-bay {
+    background: linear-gradient(180deg, #101622 0%, #0a0e17 100%);
+    border: 1px solid var(--border-hi);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.6);
+  }
+
+  .bay-hdr {
+    height: 34px;
+    background: linear-gradient(90deg, rgba(240, 184, 73, 0.12) 0%, rgba(16, 22, 34, 0.4) 100%);
+    border-bottom: 1px solid var(--border-hi);
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: var(--amber);
+  }
+
+  .bay-hdr-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 9.5px;
+    color: var(--cyan);
+  }
+
+  .bay-body {
+    flex: 1;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  /* Left Bay: Live Remote Video Feed + Audio Intercept Transport + Envelope Scope */
+  .video-viewport {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #020306;
+    border: 1px solid #2b3952;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  #station-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .crt-scanlines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 2px,
+      rgba(0, 0, 0, 0.25) 3px,
+      rgba(0, 0, 0, 0.25) 4px
+    );
+    pointer-events: none;
+    z-index: 4;
+  }
+
+  .video-hud-top {
+    position: absolute;
+    top: 8px;
+    left: 10px;
+    right: 10px;
+    display: flex;
+    justify-content: space-between;
+    z-index: 6;
+    pointer-events: none;
+  }
+
+  .hud-tag {
+    background: rgba(6, 9, 15, 0.85);
+    border: 1px solid rgba(240, 184, 73, 0.55);
+    color: var(--amber);
+    font-size: 10px;
+    font-weight: 800;
+    padding: 3px 8px;
+    letter-spacing: 0.07em;
+  }
+
+  .hud-tag.live {
+    border-color: var(--red);
+    color: #fda4af;
+  }
+
+  .video-hud-bottom {
+    position: absolute;
+    bottom: 8px;
+    left: 10px;
+    right: 10px;
+    background: rgba(6, 9, 15, 0.88);
+    border: 1px solid var(--border-hi);
+    border-left: 3px solid var(--amber);
+    padding: 6px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 6;
+    font-size: 10.5px;
+  }
+
+  /* Multi-Mode Viewport Switcher & Signal/Code/Telemetry Screen */
+  .viewport-mode-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+    background: #070b12;
+    border: 1px solid var(--border-lo);
+    padding: 5px 8px;
+    border-radius: 3px;
+  }
+
+  .vp-tab-group {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .vp-tab-btn {
+    background: #101724;
+    border: 1px solid #28364f;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 800;
+    padding: 4px 8px;
+    border-radius: 2px;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    transition: all 0.12s ease;
+  }
+
+  .vp-tab-btn:hover {
+    border-color: var(--cyan);
+    color: #fff;
+  }
+
+  .vp-tab-btn.active {
+    background: rgba(56, 189, 248, 0.16);
+    border-color: var(--cyan);
+    color: var(--cyan);
+    box-shadow: 0 0 8px rgba(56, 189, 248, 0.25);
+  }
+
+  .vp-carrier-pill {
+    font-size: 9px;
+    font-weight: 800;
+    padding: 3px 7px;
+    border-radius: 2px;
+    letter-spacing: 0.06em;
+  }
+
+  .vp-carrier-pill.no-vid {
+    background: rgba(244, 63, 94, 0.15);
+    border: 1px solid var(--red);
+    color: #fda4af;
+  }
+
+  .vp-carrier-pill.has-vid {
+    background: rgba(74, 222, 128, 0.14);
+    border: 1px solid var(--green);
+    color: var(--green);
+  }
+
+  #signal-decoder-screen {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 25%, #091322 0%, #03060c 100%);
+    z-index: 5;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 8px;
+    gap: 6px;
+    font-family: var(--mono);
+  }
+
+  .decoder-top-spectrum {
+    position: relative;
+    width: 100%;
+    height: 34%;
+    min-height: 82px;
+    background: #02050a;
+    border: 1px solid #1e2d44;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  #signal-decoder-screen.full-spectrum-mode .decoder-top-spectrum {
+    height: 84%;
+  }
+
+  #signal-decoder-screen.full-spectrum-mode .decoder-mid-section,
+  #signal-decoder-screen.full-spectrum-mode .decoder-telem-strip {
+    display: none;
+  }
+
+  #panel-spectrum-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .cw-ticker-strip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #050a12;
+    border: 1px solid #1f2e46;
+    padding: 4px 8px;
+    border-radius: 2px;
+    font-size: 10px;
+    overflow: hidden;
+  }
+
+  .cw-key-led {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #2b384e;
+    flex-shrink: 0;
+    transition: background 0.05s ease, box-shadow 0.05s ease;
+  }
+
+  .cw-key-led.on {
+    background: var(--amber);
+    box-shadow: 0 0 10px var(--amber);
+  }
+
+  .cw-morse-scroll {
+    color: var(--amber);
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    white-space: nowrap;
+    overflow: hidden;
+    flex: 1;
+  }
+
+  .decoder-mid-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .rx-pane {
+    background: rgba(4, 8, 15, 0.92);
+    border: 1px solid #1d2b42;
+    border-radius: 2px;
+    padding: 6px 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+
+  .rx-pane-hdr {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 8.5px;
+    font-weight: 800;
+    color: var(--muted);
+    border-bottom: 1px solid #141f31;
+    padding-bottom: 3px;
+    margin-bottom: 4px;
+    letter-spacing: 0.06em;
+  }
+
+  .rx-lines-list {
+    font-size: 9.2px;
+    line-height: 1.42;
+    color: #93c5fd;
+    overflow-y: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .rx-lines-list.translated {
+    color: #86efac;
+  }
+
+  .rx-lines-list.garbled {
+    color: #fda4af;
+  }
+
+  .alg-selector-row {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+    padding-top: 4px;
+    border-top: 1px solid #141f31;
+  }
+
+  .alg-chip {
+    background: #0d1522;
+    border: 1px solid #26354d;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 8.5px;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+
+  .alg-chip:hover {
+    border-color: var(--amber);
+    color: #fff;
+  }
+
+  .alg-chip.active {
+    background: rgba(240, 184, 73, 0.18);
+    border-color: var(--amber);
+    color: var(--amber);
+  }
+
+  .alg-chip.matched {
+    background: rgba(74, 222, 128, 0.18);
+    border-color: var(--green);
+    color: var(--green);
+  }
+
+  .decoder-telem-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+  }
+
+  .telem-gauge-card {
+    background: #050912;
+    border: 1px solid #1c293e;
+    border-radius: 2px;
+    padding: 4px 6px;
+  }
+
+  .telem-gauge-card.alert {
+    border-color: rgba(244, 63, 94, 0.6);
+    background: rgba(244, 63, 94, 0.07);
+  }
+
+  .tg-top {
+    display: flex;
+    justify-content: space-between;
+    font-size: 8px;
+    color: var(--muted);
+    font-weight: 700;
+  }
+
+  .tg-val {
+    font-size: 11px;
+    font-weight: 800;
+    color: #fff;
+    margin: 1px 0;
+  }
+
+  .telem-gauge-card.alert .tg-val {
+    color: var(--amber);
+  }
+
+  .tg-bar {
+    height: 3px;
+    background: #141e30;
+    border-radius: 1px;
+    overflow: hidden;
+    margin-top: 2px;
+  }
+
+  .tg-fill {
+    height: 100%;
+    background: var(--cyan);
+  }
+
+  .telem-gauge-card.alert .tg-fill {
+    background: var(--red);
+  }
+
+  /* Audio Audition & Demodulator Transport Bar */
+  .audio-transport-box {
+    background: var(--panel-well);
+    border: 1px solid var(--border-lo);
+    padding: 8px 10px;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .transport-btns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  .audition-btn {
+    background: linear-gradient(180deg, #1b2538 0%, #101724 100%);
+    border: 1px solid #33435e;
+    color: var(--text);
+    padding: 7px 8px;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    transition: all 0.15s ease;
+  }
+
+  .audition-btn:hover {
+    border-color: var(--amber);
+    color: var(--amber);
+  }
+
+  .audition-btn.playing {
+    background: rgba(74, 222, 128, 0.18);
+    border-color: var(--green);
+    color: var(--green);
+    box-shadow: 0 0 12px rgba(74, 222, 128, 0.25);
+  }
+
+  .envelope-scope-wrap {
+    height: 54px;
+    background: #030508;
+    border: 1px solid #1e2a3f;
+    position: relative;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  #scope-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .transcript-box {
+    background: #070a10;
+    border: 1px solid var(--border-lo);
+    padding: 8px 10px;
+    font-size: 10.5px;
+    line-height: 1.48;
+    color: #cbd5e1;
+    border-left: 3px solid var(--cyan);
+    flex: 1;
+  }
+
+  /* Center Bay: GALAXY ASTROMETRY MAP + SINPO MATRIX + S-METER */
+  .galaxy-map-module {
+    background: #03060c;
+    border: 1px solid #25354f;
+    border-radius: 3px;
+    padding: 8px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .galaxy-canvas-wrap {
+    position: relative;
+    width: 100%;
+    height: 238px;
+    background: #020408;
+    border: 1px solid #1b283d;
+    border-radius: 2px;
+    overflow: hidden;
+    cursor: crosshair;
+  }
+
+  #galaxy-map-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .gal-telem-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    font-size: 9.5px;
+  }
+
+  .gal-cell {
+    background: #080c14;
+    border: 1px solid #182334;
+    padding: 4px 6px;
+    border-radius: 2px;
+  }
+
+  .gal-cell .k { color: var(--muted); font-size: 8.5px; }
+  .gal-cell .v { color: var(--cyan); font-weight: 800; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  .smeter-panel {
+    background: #05080e;
+    border: 1px solid #243147;
+    padding: 8px 10px;
+    border-radius: 3px;
+  }
+
+  .smeter-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 5px;
+  }
+
+  .smeter-val {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--green);
+  }
+
+  .hauser-idx-badge {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--amber);
+    background: var(--amber-dim);
+    border: 1px solid rgba(240, 184, 73, 0.4);
+    padding: 2px 7px;
+    border-radius: 2px;
+  }
+
+  .smeter-bar-track {
+    height: 11px;
+    background: #0c121d;
+    border: 1px solid #222e42;
+    display: grid;
+    grid-template-columns: repeat(20, 1fr);
+    gap: 2px;
+    padding: 2px;
+  }
+
+  .smeter-seg {
+    background: #172030;
+    transition: background 0.25s ease;
+  }
+
+  .smeter-seg.on-green { background: var(--green); box-shadow: 0 0 5px rgba(74,222,128,0.5); }
+  .smeter-seg.on-amber { background: var(--amber); box-shadow: 0 0 5px rgba(240,184,73,0.5); }
+  .smeter-seg.on-red { background: var(--red); box-shadow: 0 0 6px rgba(251,113,133,0.6); }
+
+  /* 5-Column SINPO Bar Gauges */
+  .sinpo-matrix {
+    background: var(--panel-well);
+    border: 1px solid var(--border-lo);
+    padding: 8px 10px;
+    border-radius: 3px;
+  }
+
+  .sinpo-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .sinpo-col {
+    background: #05080d;
+    border: 1px solid #1c2638;
+    padding: 5px 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    border-radius: 2px;
+  }
+
+  .sinpo-letter {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--amber);
+  }
+
+  .sinpo-bars {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 2px;
+    width: 100%;
+    padding: 0 5px;
+  }
+
+  .sinpo-step {
+    height: 4px;
+    background: #161f2e;
+    border-radius: 1px;
+  }
+
+  .sinpo-step.lit {
+    background: var(--cyan);
+    box-shadow: 0 0 5px rgba(56, 189, 248, 0.45);
+  }
+
+  .sinpo-num {
+    font-size: 12px;
+    font-weight: 800;
+    color: #fff;
+  }
+
+  .sinpo-desc {
+    font-size: 8px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .specs-table {
+    background: var(--panel-well);
+    border: 1px solid var(--border-lo);
+    padding: 8px 10px;
+    border-radius: 3px;
+    font-size: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+  }
+
+  .spec-row {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #141c2b;
+    padding-bottom: 3px;
+    gap: 8px;
+  }
+
+  .spec-k { color: var(--muted); flex-shrink: 0; }
+  .spec-v { color: var(--text); font-weight: 700; text-align: right; }
+
+  /* Right Bay: In-Stream SSTV QSL Card Decoder & DX Logbook */
+  .qsl-decoder-frame {
+    background: #04060a;
+    border: 1px solid #2b3952;
+    border-radius: 3px;
+    padding: 8px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .qsl-img-container {
+    width: 100%;
+    aspect-ratio: 360 / 220;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--amber);
+    background: #000;
+  }
+
+  #qsl-gif-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    image-rendering: pixelated;
+  }
+
+  #sstv-wipe-curtain {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 0%;
+    background: repeating-linear-gradient(
+      0deg,
+      #05080f 0px,
+      #0d1526 4px,
+      #1b2842 8px
+    );
+    border-top: 2px solid var(--green);
+    box-shadow: 0 -4px 14px var(--green);
+    z-index: 5;
+    pointer-events: none;
+    transition: height 0.08s linear;
+  }
+
+  .qsl-meta-strip {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 6px;
+    font-size: 9.5px;
+    color: var(--muted);
+  }
+
+  .dossier-cta-btn {
+    width: 100%;
+    margin-top: 7px;
+    background: linear-gradient(90deg, rgba(240, 184, 73, 0.22) 0%, rgba(56, 189, 248, 0.18) 100%);
+    border: 1px solid var(--amber);
+    color: var(--amber);
+    padding: 8px 10px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: block;
+  }
+
+  .dossier-cta-btn:hover {
+    background: var(--amber);
+    color: #05070b;
+    box-shadow: 0 0 18px rgba(240, 184, 73, 0.45);
+  }
+
+  .ghlog-terminal {
+    background: #04070c;
+    border: 1px solid #1e2b40;
+    border-radius: 3px;
+    padding: 9px 11px;
+    font-size: 10px;
+    line-height: 1.48;
+    color: #a7f3d0;
+    font-family: var(--mono);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-height: 255px;
+  }
+
+  .ghlog-hdr {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--amber);
+    font-weight: 800;
+    margin-bottom: 6px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #162234;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+  }
+
+  #ghlog-entry-text {
+    overflow-y: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding-right: 4px;
+  }
+
+  .log-entry-item {
+    background: rgba(10, 17, 28, 0.75);
+    border-left: 2px solid var(--green);
+    padding: 5px 8px;
+    border-radius: 2px;
+  }
+
+  .log-entry-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 8.5px;
+    color: var(--amber);
+    font-weight: 800;
+    margin-bottom: 2px;
+  }
+
+  .log-add-row {
+    display: flex;
+    gap: 5px;
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px solid #162234;
+  }
+
+  .log-add-input {
+    flex: 1;
+    background: #080e18;
+    border: 1px solid #24344d;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 9.5px;
+    padding: 4px 7px;
+    border-radius: 2px;
+    outline: none;
+  }
+
+  .log-add-input:focus {
+    border-color: var(--cyan);
+  }
+
+  /* Modals (Galaxy Fullscreen Atlas & ATC Tower Room) */
+  .modal-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(3, 5, 10, 0.9);
+    backdrop-filter: blur(6px);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .modal-backdrop.open { display: flex; }
+
+  .modal-card {
+    max-width: 1400px;
+    width: 100%;
+    background: #0b101b;
+    border: 1px solid var(--amber);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.95);
+  }
+
+  .tower-img-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+
+  .tower-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .hotspot {
+    position: absolute;
+    background: rgba(8, 12, 20, 0.86);
+    border: 1px solid var(--amber);
+    color: var(--amber);
+    padding: 5px 10px;
+    font-size: 10.5px;
+    font-weight: 800;
+    border-radius: 2px;
+    box-shadow: 0 0 15px rgba(240, 184, 73, 0.35);
+  }
+
+  @media (max-width: 1280px) {
+    .hauser-top-rack { grid-template-columns: 1fr; }
+    .hauser-main-deck { grid-template-columns: 1fr; }
+  }
+
+  /* Full-Screen 16:9 CSS Grid Console Optimization & 1080p Readability */
+  html {
+    background-color: #05070b;
+    font-size: 17px;
+  }
+  body {
+    height: 100vh;
+    overflow: hidden;
+  }
+  .atc-topbar {
+    height: 44px;
+    padding: 0 16px;
+    font-size: 13px;
+  }
+  .station-id-title { font-size: 15px; }
+  .bus-telemetry { font-size: 12px; gap: 12px; }
+  .mode-tab { font-size: 12px; padding: 6px 11px; }
+  .chassis-wrap {
+    max-width: none;
+    width: 100%;
+    height: calc(100vh - 44px);
+    padding: 8px 14px 12px;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 10px;
+  }
+  .hauser-top-rack {
+    grid-template-columns: 400px 360px 1fr;
+    padding: 8px 12px;
+    gap: 12px;
+    align-items: stretch;
+  }
+  .rack-module { padding: 8px 10px; }
+  .module-label { font-size: 11.5px; }
+  .module-label span.tag { font-size: 11px; }
+  .preset-key { padding: 5px 8px; }
+  .preset-key-top { font-size: 11px; }
+  .preset-freq { font-size: 13px; }
+  .preset-name { font-size: 10.5px; }
+  .vfo-digits { font-size: 26px; }
+  .vfo-mode-badge { font-size: 12px; }
+  .vfo-sub-row { font-size: 11px; }
+  .mini-hw-btn { font-size: 10.5px; padding: 5px 6px; }
+  .waterfall-wrap { height: 126px; min-height: 126px; }
+  .wf-overlay-top { font-size: 11.5px; }
+  .hauser-main-deck {
+    grid-template-columns: 1.18fr 1.02fr 0.92fr;
+    gap: 12px;
+    align-items: stretch;
+    min-height: 0;
+    height: 100%;
+  }
+  .deck-bay { height: 100%; min-height: 0; }
+  .bay-hdr { height: 32px; padding: 0 12px; font-size: 12px; }
+  .bay-hdr-right { font-size: 11px; }
+  .bay-body { padding: 9px 11px; gap: 8px; min-height: 0; }
+  .vp-tab-btn { font-size: 11px; padding: 5px 9px; }
+  .vp-carrier-pill { font-size: 10.5px; }
+  .video-viewport {
+    width: 100%;
+    flex: 1.25;
+    min-height: 225px;
+    height: auto;
+    aspect-ratio: auto;
+  }
+  .hud-tag { font-size: 11px; }
+  .video-hud-bottom { font-size: 12px; }
+  .cw-ticker-strip { font-size: 11.5px; }
+  .rx-pane-hdr { font-size: 10.5px; }
+  .rx-lines-list { font-size: 11px; line-height: 1.45; }
+  .alg-chip { font-size: 10px; padding: 3px 7px; }
+  .tg-top { font-size: 9.5px; }
+  .tg-val { font-size: 12.5px; }
+  .audition-btn { font-size: 11.5px; padding: 8px 10px; }
+  .envelope-scope-wrap { height: 42px; }
+  .transcript-box {
+    padding: 8px 10px;
+    font-size: 12px;
+    line-height: 1.45;
+    flex: 0.75;
+  }
+  .galaxy-map-module { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+  .galaxy-canvas-wrap { flex: 1; height: auto; min-height: 180px; }
+  #galaxy-map-canvas { height: 100%; width: 100%; display: block; }
+  .gal-telem-strip { font-size: 11px; }
+  .gal-cell .k { font-size: 10px; }
+  .gal-cell .v { font-size: 12px; }
+  .smeter-val { font-size: 16px; }
+  .hauser-idx-badge { font-size: 12px; }
+  .sinpo-letter { font-size: 12px; }
+  .sinpo-num { font-size: 13px; }
+  .sinpo-desc { font-size: 9.5px; }
+  .specs-table { font-size: 11.5px; justify-content: flex-start; gap: 6px; padding: 7px 10px; flex: 0; }
+  .qsl-img-container {
+    width: 100%;
+    height: auto !important;
+    aspect-ratio: 16 / 10;
+    background: #04070d;
+  }
+  .qsl-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill !important;
+    display: block;
+  }
+  .qsl-meta-strip { font-size: 11px; }
+  .dossier-cta-btn { font-size: 11.5px; padding: 8px 10px; }
+  .ghlog-terminal {
+    padding: 8px 10px;
+    font-size: 11.5px;
+    line-height: 1.45;
+    max-height: none;
+    flex: 1;
+  }
+  .ghlog-hdr { font-size: 11.5px; }
+  .log-entry-meta { font-size: 10.5px; }
+  #ghlog-entry-text { max-height: none; overflow-y: auto; }
+  .modal-backdrop {
+    padding: 12px 16px 14px;
+  }
+  .modal-card {
+    max-width: none !important;
+    width: 100% !important;
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr;
+  }
+  .hotspot {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP ATC FLIGHT-DECK MASTER BUS BAR: OVERALL GOR-9 DASHBOARD -->
+<header class="atc-topbar">
+  <div class="brand-cluster">
+    <div class="on-air-badge"><span class="on-air-led"></span> ON AIR • 0400 GCT</div>
+    <div class="station-id-title">GOR-9 • GALACTIC OUTPOST RADIO — OORT SECTOR 9 DASHBOARD</div>
+  </div>
+
+  <div class="bus-telemetry">
+    <div class="bus-pill">DEVICE: <b class="amber">HAUSER MK-IV DX CORRELATOR</b></div>
+    <div class="bus-pill">REACTOR #2: <b class="amber">48.4 kW (91.4%)</b></div>
+    <div class="bus-pill">CLOCK: <b class="green">PSR B1937+21</b></div>
+  </div>
+
+  <nav class="nav-mode-tabs">
+    <a href="index.html" class="mode-tab active">🎛️ HAUSER MK-IV</a>
+    <a href="propagation.html" class="mode-tab" style="border-color:var(--green);color:var(--green);">🌩️ VAN ALLEN VA-4</a>
+    <a href="euclidean-detector.html" class="mode-tab" style="border-color:var(--amber);color:var(--amber);">📐 VAN ALLEN ED-9 EUCLID</a>
+    <a href="bogey-detector.html" class="mode-tab" style="border-color:#f43f5e;color:#f43f5e;">🛸 BOGEY-9 TRAIL-CAM</a>
+    <a href="celestial-atlas.html" id="nav-celestial-link" class="mode-tab" style="border-color:var(--cyan);color:var(--cyan);">🪐 3D SKY &amp; RELAY ATLAS</a>
+    <button class="mode-tab" onclick="toggleGalaxyModal(true)">🌌 2D VECTOR MODAL</button>
+    <a href="station.html" id="nav-dossier-link" class="mode-tab">🃏 STATION DOSSIER &amp; QSL</a>
+    <button class="mode-tab" onclick="toggleTowerModal(true)">🗼 ATC TOWER &amp; MAKERS</button>
+  </nav>
+</header>
+
+<!-- MAIN HAUSER MK-IV INSTRUMENT CHASSIS -->
+<main class="chassis-wrap">
+
+  <!-- TOP RACK: PRESET MATRIX + VFO SYNTHESIZER + LIVE WATERFALL SPECTROGRAM -->
+  <section class="hauser-top-rack">
+
+    <!-- MODULE 1: TACTILE ILLUMINATED PRESET BANK (P-01 .. P-06) -->
+    <div class="rack-module">
+      <div class="module-label">
+        <span>TACTILE STATION PRESET MATRIX</span>
+        <span class="tag">BANK A • GALACTIC DX</span>
+      </div>
+      <div class="preset-grid" id="preset-grid"></div>
+    </div>
+
+    <!-- MODULE 2: VFO SYNTHESIZER & METALLIC JOG WHEEL -->
+    <div class="rack-module">
+      <div class="module-label">
+        <span>HAUSER MK-IV • BARYCENTRIC VFO SYNTHESIZER</span>
+        <span class="tag" id="vfo-lock-tag">PLL LOCKED</span>
+      </div>
+
+      <div class="vfo-readout-box">
+        <div class="vfo-main-row">
+          <div class="vfo-digits" id="vfo-freq-display">11,410.000</div>
+          <div class="vfo-mode-badge" id="vfo-mode-display">AM-W</div>
+        </div>
+        <div class="vfo-sub-row">
+          <span>MEASURED: <b id="vfo-meas-display" style="color:var(--text);">11,410.042 kHz</b></span>
+          <span>DOPPLER Δf: <b id="vfo-dopp-display" style="color:var(--cyan);">+42.0 Hz</b></span>
+        </div>
+      </div>
+
+      <div class="vfo-controls-row">
+        <div class="vfo-wheel-wrap">
+          <div class="vfo-wheel" id="vfo-wheel" onclick="nudgeVfo()" title="Click to fine-tune VFO vernier">
+            <div class="vfo-dimple"></div>
+          </div>
+          <span style="font-size:8.5px;color:var(--muted);">VERNIER .001</span>
+        </div>
+
+        <div class="filter-bank">
+          <div style="font-size:9px;color:var(--muted);font-weight:700;">DEMODULATION MODE</div>
+          <div class="mini-btn-row" id="mode-btn-row">
+            <button class="mini-hw-btn" data-mode="AM-W">AM-W</button>
+            <button class="mini-hw-btn" data-mode="USB">USB</button>
+            <button class="mini-hw-btn" data-mode="CW/USB">CW</button>
+            <button class="mini-hw-btn" data-mode="H-I FSK">H-I</button>
+            <button class="mini-hw-btn" data-mode="DRM-9">DRM-9</button>
+          </div>
+          <div style="font-size:9px;color:var(--muted);font-weight:700;margin-top:2px;">IF CRYSTAL FILTER PASSBAND</div>
+          <div class="mini-btn-row" id="bw-btn-row">
+            <button class="mini-hw-btn" data-bw="500">500 Hz</button>
+            <button class="mini-hw-btn" data-bw="2400">2.4 kHz</button>
+            <button class="mini-hw-btn" data-bw="6000">6.0 kHz</button>
+            <button class="mini-hw-btn" data-bw="15000">15 kHz</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 3: LIVE DUAL-TRACE SPECTRUM & WATERFALL SPECTROGRAM -->
+    <div class="rack-module">
+      <div class="module-label">
+        <span>WIDEBAND FFT SPECTRUM & PHOSPHOR WATERFALL CORRELATOR</span>
+        <span class="tag" id="wf-band-label">25m SWBC / OORT RELAY DUCT</span>
+      </div>
+      <div class="waterfall-wrap">
+        <canvas id="waterfall-canvas" width="920" height="135"></canvas>
+        <div class="wf-overlay-top">
+          <span>SPAN: ±25.0 kHz • NOISE FLOOR: -118 dBm</span>
+          <span id="wf-peak-label" style="color:var(--amber);">PEAK CARRIER: +18.4 dB</span>
+        </div>
+        <div class="wf-passband" id="wf-passband"></div>
+        <div class="wf-cursor-line" id="wf-cursor"></div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- MAIN 3-COLUMN INSTRUMENT DECK -->
+  <section class="hauser-main-deck">
+
+    <!-- COLUMN 1: LIVE REMOTE VIDEO FEED + AUDIO INTERCEPT TRANSPORT -->
+    <div class="deck-bay">
+      <div class="bay-hdr">
+        <span id="cam-hdr-title">REMOTE VISUAL TELEMETRY • CAM-104</span>
+        <div class="bay-hdr-right">
+          <span id="cam-origin-badge">CALLISTO DOME-4</span>
+        </div>
+      </div>
+      <div class="bay-body">
+        <!-- VIEWPORT MODE SWITCHER BAR -->
+        <div class="viewport-mode-bar">
+          <div class="vp-tab-group">
+            <button class="vp-tab-btn" id="vp-btn-decoder" onclick="setViewportMode('decoder')">📟 CODE &amp; TELEMETRY DECODER</button>
+            <button class="vp-tab-btn" id="vp-btn-spectrum" onclick="setViewportMode('spectrum')">📈 3D SPECTRUM &amp; PHASE SCAN</button>
+            <button class="vp-tab-btn active" id="vp-btn-video" onclick="setViewportMode('video')">📺 OPTICAL / CAM FEED</button>
+          </div>
+          <span class="vp-carrier-pill has-vid" id="vp-carrier-status">VIDEO CARRIER: LOCKED</span>
+        </div>
+
+        <div class="video-viewport">
+          <video id="station-video" autoplay loop muted playsinline poster="assets/plates/cam_sw4_bazaar_start.jpg">
+            <source id="station-video-src" src="assets/clips/radio_corrugated_blowtorch.mp4" type="video/mp4">
+          </video>
+
+          <!-- NO-VIDEO SIGNAL SPECTRUM, CW CODE, TELEMETRY & TRANSLATION TERMINAL -->
+          <div id="signal-decoder-screen">
+            <div class="decoder-top-spectrum">
+              <canvas id="panel-spectrum-canvas" width="640" height="190"></canvas>
+            </div>
+
+            <div class="cw-ticker-strip">
+              <span class="cw-key-led" id="cw-key-led"></span>
+              <span style="color:var(--cyan);font-weight:800;font-size:9px;flex-shrink:0;" id="cw-mode-tag">CW/FSK STREAM:</span>
+              <div class="cw-morse-scroll" id="cw-morse-ticker">•••— •••— •••— / —•• • / — —— —••••— —• ••——— ••••—</div>
+            </div>
+
+            <div class="decoder-mid-section">
+              <!-- LEFT PANE: RAW RECEIVED CODE / TELEMETRY PACKETS -->
+              <div class="rx-pane">
+                <div class="rx-pane-hdr">
+                  <span>RAW DEMODULATED SYMBOL / PACKET BUFFER</span>
+                  <span style="color:var(--amber);" id="rx-sig-type-lbl">CW + FSK</span>
+                </div>
+                <div class="rx-lines-list" id="rx-raw-list"></div>
+              </div>
+
+              <!-- RIGHT PANE: TRANSLATION & DECRYPTION ALGORITHM OUTPUT -->
+              <div class="rx-pane">
+                <div class="rx-pane-hdr">
+                  <span id="alg-active-title">TRANSLATION ALGORITHM OUTPUT</span>
+                  <span id="alg-lock-badge" style="color:var(--green);">LOCKED</span>
+                </div>
+                <div class="rx-lines-list translated" id="rx-translated-list"></div>
+                <div class="alg-selector-row" id="alg-selector-row">
+                  <button class="alg-chip" data-alg="RAW" onclick="selectTranslationAlg('RAW')">RAW HEX/CW</button>
+                  <button class="alg-chip" data-alg="ALG-01" onclick="selectTranslationAlg('ALG-01')">ALG-01 MORSE/FR</button>
+                  <button class="alg-chip" data-alg="ALG-02" onclick="selectTranslationAlg('ALG-02')">ALG-02 BASE8→EUCLID</button>
+                  <button class="alg-chip" data-alg="ALG-03" onclick="selectTranslationAlg('ALG-03')">ALG-03 MING/PATOIS</button>
+                  <button class="alg-chip" data-alg="ALG-04" onclick="selectTranslationAlg('ALG-04')">ALG-04 TELEMETRY</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- BOTTOM 4-CHANNEL TELEMETRY GAUGE STRIP -->
+            <div class="decoder-telem-strip" id="decoder-telem-strip"></div>
+          </div>
+
+          <div class="crt-scanlines"></div>
+          <div class="video-hud-top" id="video-hud-top-overlay">
+            <div class="hud-tag live" id="vid-cam-id">● LIVE INSET • CAM-104</div>
+            <div class="hud-tag" id="vid-clock-id">21:46:01 J-DOME • 0400 GCT</div>
+          </div>
+          <div class="video-hud-bottom" id="video-hud-bottom-overlay">
+            <span id="vid-hud-banner" style="color:var(--amber);font-weight:800;">PEAK OVERMODULATION: +18.4 dB [BLOWTORCH ON DIPOLE]</span>
+            <span id="vid-dist-label" style="color:var(--cyan);font-size:10px;">0.66 ly</span>
+          </div>
+        </div>
+
+        <!-- AUDIO DEMODULATOR & AUDITION TRANSPORT -->
+        <div class="audio-transport-box">
+          <div class="module-label" style="margin-bottom:2px;">
+            <span>SHORTWAVE AUDIO DEMODULATOR & INTERVAL SIGNAL AUDITION</span>
+            <span class="tag" id="audio-status-label">READY</span>
+          </div>
+          <div class="transport-btns">
+            <button class="audition-btn" id="btn-play-intercept" onclick="playStationAudio('intercept')">
+              ▶ PLAY INTERCEPT
+            </button>
+            <button class="audition-btn" id="btn-play-is" onclick="playStationAudio('is')">
+              ♪ INTERVAL SIGNAL
+            </button>
+            <button class="audition-btn" id="btn-play-sstv" onclick="playStationAudio('sstv')">
+              ⚡ DECODE SSTV QSL
+            </button>
+          </div>
+          <div class="envelope-scope-wrap">
+            <canvas id="scope-canvas" width="600" height="54"></canvas>
+          </div>
+        </div>
+
+        <!-- INTERCEPT TRANSCRIPT & LANGUAGE LOG -->
+        <div class="transcript-box">
+          <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--amber);font-weight:800;margin-bottom:3px;">
+            <span id="is-title-label">INTERVAL SIGNAL: ELECTRIC NIGHT-MARKET LUTE</span>
+            <span id="lang-label" style="color:var(--cyan);">LANG: PORT-CANTONESE / MANDARIN</span>
+          </div>
+          <div id="transcript-text"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLUMN 2: GALACTIC ASTROMETRY MAP + SINPO MATRIX + S-METER -->
+    <div class="deck-bay">
+      <div class="bay-hdr">
+        <span>GALACTIC ASTROMETRY, CERES TRIANGULATION &amp; SIGNAL QUALITY</span>
+        <div class="bay-hdr-right">
+          <a href="celestial-atlas.html" id="open-celestial-btn" class="mini-hw-btn active" style="padding:2px 7px;text-decoration:none;border-color:var(--cyan);color:var(--cyan);">🪐 3D SKY ATLAS ↗</a>
+          <button class="mini-hw-btn active" style="padding:2px 7px;" onclick="toggleGalaxyModal(true)">⛶ EXPAND</button>
+        </div>
+      </div>
+      <div class="bay-body">
+
+        <!-- INTERACTIVE GALAXY & OORT ASTROMETRY VECTOR MAP -->
+        <div class="galaxy-map-module">
+          <div class="module-label" style="margin-bottom:2px;">
+            <span>MILKY WAY, CERES BASELINE &amp; OORT RELAY VECTOR MAP</span>
+            <span class="tag" id="gal-arm-tag">ORION–CYGNUS SPUR</span>
+          </div>
+          <div class="galaxy-canvas-wrap" title="Click any plotted station on the Galaxy Map to tune the Hauser MK-IV">
+            <canvas id="galaxy-map-canvas" width="540" height="238"></canvas>
+          </div>
+          <div class="gal-telem-strip">
+            <div class="gal-cell">
+              <div class="k">BEAM AZIMUTH (l)</div>
+              <div class="v" id="gal-az-val" style="color:var(--amber);">212.4°</div>
+            </div>
+            <div class="gal-cell">
+              <div class="k">PLANE INCL (b)</div>
+              <div class="v" id="gal-el-val">-4.2°</div>
+            </div>
+            <div class="gal-cell">
+              <div class="k">RADIAL RANGE</div>
+              <div class="v" id="gal-rng-val" style="color:var(--green);">0.66 ly</div>
+            </div>
+            <div class="gal-cell">
+              <div class="k">SPIRAL SECTOR</div>
+              <div class="v" id="gal-sec-val">Orion Spur</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- S-METER & HAUSER INDEX -->
+        <div class="smeter-panel">
+          <div class="smeter-top">
+            <div>
+              <span style="font-size:9px;color:var(--muted);font-weight:700;margin-right:8px;">CARRIER S-METER:</span>
+              <span class="smeter-val" id="smeter-text">S9+18 dB</span>
+            </div>
+            <div class="hauser-idx-badge" id="hauser-idx-text">HAUSER INDEX: H-8.4</div>
+          </div>
+          <div class="smeter-bar-track" id="smeter-WaitTrack"></div>
+        </div>
+
+        <!-- 5-COLUMN SINPO MATRIX -->
+        <div class="sinpo-matrix">
+          <div class="module-label" style="margin-bottom:2px;">
+            <span>ITU / OORT SINPO RECEPTION MERIT</span>
+            <span class="tag" id="sinpo-code-tag">SINPO 4-3-4-3-4</span>
+          </div>
+          <div class="sinpo-grid" id="sinpo-grid"></div>
+        </div>
+
+        <!-- COMPACT HARDWARE SPECS + SINGLE HAUSER DYNAMICS VECTOR LOGO -->
+        <div style="display:grid;grid-template-columns:1.15fr 0.95fr;gap:8px;align-items:stretch;">
+          <div class="specs-table" style="margin:0;">
+            <div class="spec-row">
+              <span class="spec-k">TX RIG</span>
+              <span class="spec-v" id="spec-power" style="color:var(--amber);">350 W (Sodium-Lamp Bus Tap)</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-k">ANTENNA</span>
+              <span class="spec-v" id="spec-ant">Half-Wave Galvanized Pipe Dipole</span>
+            </div>
+            <div class="spec-row" style="border-bottom:none;padding-bottom:0;">
+              <span class="spec-k">RX BEAM</span>
+              <span class="spec-v" id="spec-rx" style="color:var(--cyan);">4-Ring Apex Phased Array</span>
+            </div>
+          </div>
+          <div style="background:#04070d;border:1px solid #24344d;border-radius:3px;padding:4px 6px;display:flex;align-items:center;justify-content:center;">
+            <img src="assets/branding/hauser_logo.svg" alt="Hauser Dynamics Vector Nameplate" style="width:100%;aspect-ratio:520/180;object-fit:contain;display:block;" />
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- COLUMN 3: IN-STREAM SSTV QSL CARD DECODER & RAW DX LOGBOOK -->
+    <div class="deck-bay">
+      <div class="bay-hdr">
+        <span>IN-STREAM SSTV eQSL VERIFICATION BAY</span>
+        <div class="bay-hdr-right">
+          <span id="qsl-num-hdr">QSL #0165-RC</span>
+        </div>
+      </div>
+      <div class="bay-body">
+
+        <div class="qsl-decoder-frame">
+          <div class="qsl-img-container">
+            <img id="qsl-gif-img" src="assets/qsl/qsl_radio_corrugated.gif" alt="Station Animated QSL Card">
+            <div id="sstv-wipe-curtain"></div>
+          </div>
+          <div class="qsl-meta-strip">
+            <span id="qsl-proto-text">SSTV-ROBOT24 / SUB-BAND FSK</span>
+            <span id="qsl-tier-text" style="color:var(--amber);font-weight:700;">TIER I • #14 OF 351</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+            <a href="station.html?id=radio-corrugated" id="open-dossier-btn" class="dossier-cta-btn">
+              🃏 STATION DOSSIER &amp; QSL ↗
+            </a>
+            <a href="celestial-atlas.html?id=radio-corrugated" id="open-sky-qsl-btn" class="dossier-cta-btn" style="border-color:var(--amber);color:var(--amber);background:rgba(240,184,73,0.1);">
+              🪐 3D SKY &amp; RELAY VECTOR ↗
+            </a>
+          </div>
+        </div>
+
+        <!-- STATION LOG (MULTIPLE ENTRIES) -->
+        <div class="ghlog-terminal">
+          <div class="ghlog-hdr">
+            <span>LOG</span>
+            <span id="log-count-badge" style="color:var(--cyan);font-size:8.5px;">3 ENTRIES</span>
+          </div>
+          <div id="ghlog-entry-text"></div>
+          <div class="log-add-row">
+            <input type="text" id="quick-log-input" class="log-add-input" placeholder="Append operator log entry..." onkeydown="if(event.key==='Enter')addQuickLogEntry()" />
+            <button class="mini-hw-btn active" style="flex:0;padding:3px 8px;" onclick="addQuickLogEntry()">+ LOG</button>
+          </div>
+          <div style="margin-top:6px;padding-top:5px;border-top:1px dashed #1e293b;color:var(--cyan);font-size:9.5px;" id="qsl-clue-text"></div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<!-- FULLSCREEN GALACTIC SIGNAL ATLAS MODAL -->
+<div id="galaxy-modal" class="modal-backdrop" onclick="if(event.target===this)toggleGalaxyModal(false)">
+  <div class="modal-card">
+    <div class="bay-hdr" style="height:40px;padding:0 18px;">
+      <span>GALACTIC ASTROMETRY, CERES BASELINE &amp; OORT RELAY VECTOR ATLAS • CLICK ANY STATION NODE TO TUNE HAUSER MK-IV</span>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <a href="celestial-atlas.html" id="modal-celestial-btn" class="mini-hw-btn active" style="flex:0;padding:4px 12px;text-decoration:none;border-color:var(--cyan);color:var(--cyan);">🪐 OPEN 3D &amp; SKY NAVIGATOR ↗</a>
+        <button class="mini-hw-btn active" style="flex:0;padding:4px 12px;" onclick="toggleGalaxyModal(false)">✕ CLOSE [ESC]</button>
+      </div>
+    </div>
+    <div style="padding:14px 18px;background:#04070d;display:grid;grid-template-rows:1fr auto;gap:12px;height:100%;">
+      <div style="position:relative;width:100%;height:100%;min-height:0;border:1px solid #26354d;background:#020408;">
+        <canvas id="galaxy-modal-canvas" width="1560" height="680" style="width:100%;height:100%;display:block;cursor:crosshair;"></canvas>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);">
+        <span>ORIGIN HUB: <b style="color:var(--amber);">GOR-9 • ASTEROID 3-5-1 (OORT SECTOR 9)</b></span>
+        <span>TRIANGULATION BASELINE: <b style="color:var(--amber);">CERES FOUNDRY #7 (Az 272.0° • 1,840 AU)</b></span>
+        <span>PULSAR METRONOME: <b style="color:var(--green);">PSR B1937+21 (Az 057.5° • 11,700 ly • 641.928 Hz)</b></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ATC TOWER ROOM & MANUFACTURER NAMEPLATES MODAL -->
+<div id="tower-modal" class="modal-backdrop" onclick="if(event.target===this)toggleTowerModal(false)">
+  <div class="modal-card">
+    <div class="bay-hdr" style="height:40px;padding:0 18px;">
+      <span>GOR-9 DASHBOARD • OCTAGONAL ATC TOWER CONTROL DECK &amp; HARDWARE MANUFACTURERS</span>
+      <button class="mini-hw-btn active" style="flex:0;padding:4px 12px;" onclick="toggleTowerModal(false)">✕ CLOSE [ESC]</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1.45fr 1fr;gap:14px;padding:14px;background:#05080f;height:100%;min-height:0;">
+      <div class="tower-img-wrap" style="height:100%;min-height:0;aspect-ratio:auto;border:1px solid #2b3a54;border-radius:4px;overflow:hidden;">
+        <img src="assets/plates/tower_atc_console_room.jpg" alt="GOR-9 ATC Tower Control Room" style="width:100%;height:100%;object-fit:cover;">
+        <div class="hotspot" style="top:10%;left:22%;">OVERHEAD SPECTRUM &amp; OORT RELAY BUS</div>
+        <div class="hotspot" style="bottom:20%;left:30%;border-color:var(--cyan);color:var(--cyan);">HAUSER DYNAMICS • HAUSER MK-IV CORRELATOR</div>
+        <div class="hotspot" style="bottom:18%;right:8%;border-color:var(--green);color:var(--green);">VAN ALLEN &amp; SONS • VA-4 WEATHER &amp; DILITHIUM BUS</div>
+        <div class="hotspot" style="bottom:12%;left:4%;">EXTERIOR CAM-00A &amp; O.R.S. 351 FEEDS</div>
+      </div>
+      <div style="display:grid;grid-template-rows:1fr 1fr;gap:14px;min-height:0;">
+        <div style="display:flex;flex-direction:column;justify-content:space-between;gap:10px;background:#0a101b;border:1px solid #25344d;border-left:4px solid var(--cyan);padding:14px;border-radius:4px;min-height:0;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="color:var(--cyan);font-weight:800;font-size:14px;">HAUSER DYNAMICS • GANYMEDE PRECISION WORKS</span>
+            <span style="color:var(--amber);font-size:11px;font-weight:800;">EST. 2026</span>
+          </div>
+          <div style="background:#04070d;border:1px solid #1e293b;border-radius:4px;padding:8px 12px;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;">
+            <img src="assets/branding/hauser_logo.svg" alt="Hauser Dynamics Vector Emblem" style="width:100%;max-height:100%;aspect-ratio:520/180;object-fit:contain;display:block;" />
+          </div>
+          <div style="color:#e2e8f0;font-size:12.5px;line-height:1.45;">
+            Builders of the <b>Hauser MK-IV Barycentric DX Correlator</b>, <b>Bogey-9 Keplerian Trail-Cam Scanner</b>, Pulsar-Locked VFO Synthesizers, and Translation Algorithm Cartridges (<code>ALG-01</code>–<code>ALG-04</code>).
+          </div>
+          <div style="color:var(--amber);font-size:12px;font-style:italic;font-weight:700;">"Every Carrier in the Noise — 3 kHz to 1.5 GHz."</div>
+        </div>
+        <div style="display:flex;flex-direction:column;justify-content:space-between;gap:10px;background:#0a101b;border:1px solid #3b2f16;border-left:4px solid var(--amber);padding:14px;border-radius:4px;min-height:0;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="color:var(--amber);font-weight:800;font-size:14px;">VAN ALLEN &amp; SONS SWITCHGEAR • CERES FOUNDRY #7</span>
+            <span style="color:var(--green);font-size:11px;font-weight:800;">UNDERWRITER</span>
+          </div>
+          <div style="background:#04070d;border:1px solid #3b2f16;border-radius:4px;padding:8px 12px;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;">
+            <img src="assets/branding/van_allen_logo.svg" alt="Van Allen & Sons Vector Emblem" style="width:100%;max-height:100%;aspect-ratio:520/180;object-fit:contain;display:block;" />
+          </div>
+          <div style="color:#e2e8f0;font-size:12.5px;line-height:1.45;">
+            Makers of the <b>Van Allen VA-4 Weather Desk</b>, <b>Model ED-9 Euclidean Detector</b>, <b>Belt-Master MV-6 Surge Clamps</b>, and <b>Cryo-Toast 900 Foot-Warmers</b>.
+          </div>
+          <div style="color:var(--green);font-size:12px;font-style:italic;font-weight:700;">"From Radiation Belts to Reactor Beds — If It Arcs, We Clamp It."</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="data/stations_data.js"></script>
+<script>
+let STATIONS_DATA = window.GOR9_STATIONS_DATA || null;
+let currentStation = null;
+let vfoAngle = 0;
+let displayedAzimuth = 212.4;
+let targetAzimuth = 212.4;
+let audioCtx = null;
+let activeAudioEl = null;
+let analyserNode = null;
+let audioSourceMap = new WeakMap();
+let galaxyHitBoxes = [];
+let modalGalaxyHitBoxes = [];
+let currentViewportMode = 'video'; // 'decoder', 'spectrum', 'video'
+let currentSelectedAlg = 'ALG-03';
+let panelSpecTick = 0;
+let morseScrollOffset = 0;
+
+async function initConsole() {
+  if (!STATIONS_DATA) {
+    try {
+      const resp = await fetch('data/stations.json');
+      STATIONS_DATA = await resp.json();
+    } catch (e) {
+      console.warn('Could not load stations.json', e);
+    }
+  }
+  if (!STATIONS_DATA) return;
+
+  renderPresetButtons();
+  const params = new URLSearchParams(window.location.search);
+  const startId = params.get('id') || STATIONS_DATA.presets[0].id;
+  selectPreset(startId);
+  if (params.get('mode')) {
+    setViewportMode(params.get('mode'));
+  }
+  if (params.get('alg')) {
+    selectTranslationAlg(params.get('alg'));
+  }
+  if (params.get('modal') === 'galaxy') {
+    toggleGalaxyModal(true);
+  } else if (params.get('modal') === 'tower') {
+    toggleTowerModal(true);
+  }
+  if (params.get('sstv') === 'instant') {
+    const curtain = document.getElementById('sstv-wipe-curtain');
+    if (curtain) {
+      curtain.style.transition = 'none';
+      curtain.style.height = '0%';
+    }
+  }
+  setupGalaxyCanvasClicks();
+  startWaterfallLoop();
+  startScopeLoop();
+  startGalaxyMapLoop();
+  startPanelSpectrumLoop();
+}
+
+function renderPresetButtons() {
+  const grid = document.getElementById('preset-grid');
+  grid.innerHTML = '';
+  STATIONS_DATA.presets.forEach((p) => {
+    const btn = document.createElement('button');
+    btn.className = 'preset-key';
+    btn.id = `preset-btn-${p.id}`;
+    btn.onclick = () => selectPreset(p.id);
+    btn.innerHTML = `
+      <div class="preset-key-top">
+        <span class="preset-slot-id">${p.preset_slot}</span>
+        <span style="color:var(--muted);">${p.callsign}</span>
+        <span class="preset-led"></span>
+      </div>
+      <div class="preset-freq">${formatFreq(p.rf.frequency_khz)}</div>
+      <div class="preset-name">${p.name}</div>
+    `;
+    grid.appendChild(btn);
+  });
+}
+
+function formatFreq(khz) {
+  if (khz >= 100000) {
+    return (khz / 1000).toFixed(3) + ' MHz';
+  }
+  return khz.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 3 }) + ' kHz';
+}
+
+function selectPreset(stationId) {
+  const p = STATIONS_DATA.presets.find(x => x.id === stationId) || STATIONS_DATA.presets[0];
+  currentStation = p;
+
+  document.querySelectorAll('.preset-key').forEach(b => b.classList.remove('active'));
+  const activeBtn = document.getElementById(`preset-btn-${p.id}`);
+  if (activeBtn) activeBtn.classList.add('active');
+
+  vfoAngle += 135;
+  document.getElementById('vfo-wheel').style.transform = `rotate(${vfoAngle}deg)`;
+
+  const idx = STATIONS_DATA.presets.indexOf(p);
+  const cursorPct = 20 + idx * 12;
+  document.getElementById('wf-cursor').style.left = `${cursorPct}%`;
+  document.getElementById('wf-passband').style.left = `${cursorPct}%`;
+  const bwPx = p.rf.filter_bw_hz <= 600 ? 22 : p.rf.filter_bw_hz <= 3000 ? 42 : p.rf.filter_bw_hz <= 7000 ? 68 : 115;
+  document.getElementById('wf-passband').style.width = `${bwPx}px`;
+  document.getElementById('wf-passband').style.marginLeft = `${-bwPx / 2}px`;
+
+  document.getElementById('vfo-freq-display').innerHTML = `${formatFreq(p.rf.frequency_khz)}`;
+  document.getElementById('vfo-mode-display').textContent = p.rf.mode;
+  document.getElementById('vfo-meas-display').textContent = formatFreq(p.rf.measured_khz);
+  const doppSign = p.rf.doppler_hz >= 0 ? '+' : '';
+  document.getElementById('vfo-dopp-display').textContent = `${doppSign}${p.rf.doppler_hz} Hz`;
+  document.getElementById('wf-band-label').textContent = p.rf.band.toUpperCase();
+  document.getElementById('wf-peak-label').textContent = p.rf.peak_modulation_db;
+
+  document.querySelectorAll('#mode-btn-row .mini-hw-btn').forEach(b => {
+    b.classList.toggle('active', p.rf.mode.includes(b.dataset.mode.split(' ')[0]));
+  });
+  document.querySelectorAll('#bw-btn-row .mini-hw-btn').forEach(b => {
+    b.classList.toggle('active', Number(b.dataset.bw) === p.rf.filter_bw_hz);
+  });
+
+  // Update Galactic Astrometry Readouts
+  if (p.galactic) {
+    targetAzimuth = p.galactic.azimuth_deg;
+    document.getElementById('gal-arm-tag').textContent = p.galactic.arm.toUpperCase();
+    document.getElementById('gal-az-val').textContent = `${p.galactic.azimuth_deg.toFixed(1)}°`;
+    const elSign = p.galactic.elevation_deg >= 0 ? '+' : '';
+    document.getElementById('gal-el-val').textContent = `${elSign}${p.galactic.elevation_deg.toFixed(1)}°`;
+    document.getElementById('gal-rng-val').textContent = p.galactic.range_label;
+    document.getElementById('gal-sec-val').textContent = p.galactic.arm;
+  }
+
+  // Update Video Feed & Signal Decoder Terminal
+  const vid = document.getElementById('station-video');
+  const vidSrc = document.getElementById('station-video-src');
+  vid.poster = p.media.poster_src;
+  const isCapture = new URLSearchParams(window.location.search).get('capture') === '1';
+  if (isCapture) {
+    vid.removeAttribute('autoplay');
+    vidSrc.removeAttribute('src');
+  } else if (vidSrc.getAttribute('src') !== p.media.video_src) {
+    vidSrc.setAttribute('src', p.media.video_src);
+    vid.load();
+    vid.play().catch(() => {});
+  }
+  document.getElementById('cam-hdr-title').textContent = `SIGNAL & VISUAL CORRELATOR • ${p.media.cam_id.split('•')[0].trim()}`;
+  document.getElementById('cam-origin-badge').textContent = p.origin.body.split('(')[0].trim().toUpperCase();
+  document.getElementById('vid-cam-id').textContent = p.decoder && !p.decoder.has_live_video ? `⚠ ARCHIVAL RECON • ${p.media.cam_id}` : `● LIVE • ${p.media.cam_id}`;
+  document.getElementById('vid-clock-id').textContent = p.origin.local_clock;
+  document.getElementById('vid-hud-banner').textContent = p.media.hud_banner;
+  document.getElementById('vid-dist-label').textContent = p.galactic ? p.galactic.range_label : p.origin.distance;
+
+  renderSignalDecoderScreen(p);
+
+  document.getElementById('is-title-label').textContent = `INTERVAL SIGNAL: ${p.media.interval_signal_name.toUpperCase()}`;
+  document.getElementById('lang-label').textContent = `LANG: ${p.media.languages.join(' / ').toUpperCase()}`;
+  document.getElementById('transcript-text').textContent = p.media.transcript_excerpt;
+
+  document.getElementById('smeter-text').textContent = p.rf.s_meter;
+  document.getElementById('hauser-idx-text').textContent = `QUALITY INDEX: ${p.rf.hauser_index}`;
+  renderSMeterBar(p.rf.s_meter_pct);
+  renderSinpoMatrix(p.rf.sinpo);
+
+  document.getElementById('spec-power').textContent = p.rf.tx_power_label;
+  document.getElementById('spec-ant').textContent = p.rf.antenna;
+  document.getElementById('spec-rx').textContent = p.hardware_dossier.receive_antenna_at_gor9;
+
+  triggerSstvDecode(p.qsl.gif_src);
+  document.getElementById('qsl-num-hdr').textContent = p.qsl.qsl_number;
+  document.getElementById('qsl-proto-text').textContent = p.qsl.protocol;
+  document.getElementById('qsl-tier-text').textContent = p.qsl.collector_tier;
+  document.getElementById('open-dossier-btn').href = `station.html?id=${p.id}`;
+  const navDossier = document.getElementById('nav-dossier-link');
+  if (navDossier) navDossier.href = `station.html?id=${p.id}`;
+  const skyQslBtn = document.getElementById('open-sky-qsl-btn');
+  if (skyQslBtn) skyQslBtn.href = `celestial-atlas.html?id=${p.id}`;
+  const celNav = document.getElementById('nav-celestial-link');
+  if (celNav) celNav.href = `celestial-atlas.html?id=${p.id}`;
+  const celOpen = document.getElementById('open-celestial-btn');
+  if (celOpen) celOpen.href = `celestial-atlas.html?id=${p.id}`;
+  const celModal = document.getElementById('modal-celestial-btn');
+  if (celModal) celModal.href = `celestial-atlas.html?id=${p.id}`;
+  if (window.updateGor9NavStation) window.updateGor9NavStation(p.id);
+
+  renderStationLogs(p);
+  document.getElementById('qsl-clue-text').textContent = `🔍 EMBEDDED SIGNAL LAYER: ${p.qsl.embedded_clue}`;
+
+  stopActiveAudio();
+}
+
+function renderStationLogs(p) {
+  const logs = p.logs || [];
+  const countEl = document.getElementById('log-count-badge');
+  if (countEl) countEl.textContent = `${logs.length} ${logs.length === 1 ? 'ENTRY' : 'ENTRIES'}`;
+  document.getElementById('ghlog-entry-text').innerHTML = logs.map((l, idx) => `
+    <div class="log-entry-item">
+      <div class="log-entry-meta">
+        <span>ENTRY #0${logs.length - idx} • EPOCH ${l.epoch}</span>
+        <span style="color:var(--cyan);">${l.gct}</span>
+      </div>
+      <div>${l.entry}</div>
+    </div>
+  `).join('');
+}
+
+function addQuickLogEntry() {
+  const input = document.getElementById('quick-log-input');
+  if (!input || !currentStation) return;
+  const text = input.value.trim();
+  if (!text) return;
+  currentStation.logs.unshift({
+    epoch: '2736.305',
+    gct: '0416 GCT',
+    entry: `** ${currentStation.origin.body.split('(')[0].trim().toUpperCase()}. ${formatFreq(currentStation.rf.measured_khz)} ${currentStation.rf.mode}, ${text} (Operator, Asteroid 3-5-1, GOR-9)`
+  });
+  input.value = '';
+  renderStationLogs(currentStation);
+}
+
+function setViewportMode(mode) {
+  currentViewportMode = mode;
+  document.getElementById('vp-btn-decoder').classList.toggle('active', mode === 'decoder');
+  document.getElementById('vp-btn-spectrum').classList.toggle('active', mode === 'spectrum');
+  document.getElementById('vp-btn-video').classList.toggle('active', mode === 'video');
+
+  const decScreen = document.getElementById('signal-decoder-screen');
+  const hudTop = document.getElementById('video-hud-top-overlay');
+  const hudBot = document.getElementById('video-hud-bottom-overlay');
+
+  if (mode === 'video') {
+    decScreen.style.display = 'none';
+    decScreen.classList.remove('full-spectrum-mode');
+    hudTop.style.display = 'flex';
+    hudBot.style.display = 'flex';
+  } else if (mode === 'spectrum') {
+    decScreen.style.display = 'flex';
+    decScreen.classList.add('full-spectrum-mode');
+    hudTop.style.display = 'none';
+    hudBot.style.display = 'none';
+  } else {
+    decScreen.style.display = 'flex';
+    decScreen.classList.remove('full-spectrum-mode');
+    hudTop.style.display = 'none';
+    hudBot.style.display = 'none';
+  }
+}
+
+function renderSignalDecoderScreen(p) {
+  const dec = p.decoder;
+  if (!dec) return;
+
+  const statusPill = document.getElementById('vp-carrier-status');
+  if (dec.has_live_video) {
+    statusPill.textContent = 'VIDEO CARRIER: LOCKED';
+    statusPill.className = 'vp-carrier-pill has-vid';
+    document.getElementById('vp-btn-video').textContent = '📺 LIVE CAM FEED';
+  } else {
+    statusPill.textContent = 'NO VIDEO • CW / TELEMETRY';
+    statusPill.className = 'vp-carrier-pill no-vid';
+    document.getElementById('vp-btn-video').textContent = '📺 ARCHIVAL OPTIC';
+  }
+
+  // Populate Raw RX Stream
+  document.getElementById('rx-sig-type-lbl').textContent = p.rf.mode;
+  document.getElementById('rx-raw-list').innerHTML = dec.raw_rx_lines
+    .map(line => `<div><span style="color:var(--amber);">▸</span> ${line}</div>`)
+    .join('');
+
+  // Populate 4-channel Telemetry Strip
+  const telemStrip = document.getElementById('decoder-telem-strip');
+  telemStrip.innerHTML = dec.telemetry_metrics.map(m => `
+    <div class="telem-gauge-card ${m.alert ? 'alert' : ''}">
+      <div class="tg-top">
+        <span>${m.label}</span>
+        <span>${m.alert ? '⚠' : '●'}</span>
+      </div>
+      <div class="tg-val">${m.value}</div>
+      <div style="font-size:7.5px;color:var(--muted);">${m.unit}</div>
+      <div class="tg-bar"><div class="tg-fill" style="width:${m.pct}%;"></div></div>
+    </div>
+  `).join('');
+
+  // Select station's required translation algorithm by default
+  selectTranslationAlg(dec.required_algorithm);
+
+  // Switch to station's default view ('decoder' when no video carrier, 'video' when live video)
+  setViewportMode(dec.default_view || (dec.has_live_video ? 'video' : 'decoder'));
+}
+
+function selectTranslationAlg(algId) {
+  currentSelectedAlg = algId;
+  const p = currentStation;
+  if (!p || !p.decoder) return;
+  const dec = p.decoder;
+
+  document.querySelectorAll('#alg-selector-row .alg-chip').forEach(btn => {
+    const bAlg = btn.getAttribute('data-alg');
+    btn.classList.remove('active', 'matched');
+    if (bAlg === algId) {
+      btn.classList.add(algId === dec.required_algorithm ? 'matched' : 'active');
+    }
+  });
+
+  const outList = document.getElementById('rx-translated-list');
+  const titleEl = document.getElementById('alg-active-title');
+  const badgeEl = document.getElementById('alg-lock-badge');
+
+  if (algId === 'RAW') {
+    titleEl.textContent = 'UNTRANSLATED SYMBOL BUFFER (SELECT ALGORITHM)';
+    badgeEl.textContent = 'TRANSLATION REQUIRED';
+    badgeEl.style.color = 'var(--amber)';
+    outList.className = 'rx-lines-list garbled';
+    outList.innerHTML = `
+      <div>⚠ [RAW BYPASS]: Translation cartridge disengaged.</div>
+      <div>▸ MORSE / CODE: ${dec.morse_stream}</div>
+      <div>▸ REQUIRED CARTRIDGE: Click [${dec.required_algorithm}] below to run ${dec.algorithm_name}.</div>
+    `;
+  } else if (algId === dec.required_algorithm) {
+    titleEl.textContent = dec.algorithm_name;
+    badgeEl.textContent = '✓ ALGORITHM LOCKED';
+    badgeEl.style.color = 'var(--green)';
+    outList.className = 'rx-lines-list translated';
+    outList.innerHTML = dec.translated_lines
+      .map(line => `<div><span style="color:var(--green);">✓</span> ${line}</div>`)
+      .join('');
+  } else {
+    titleEl.textContent = `${algId} • PARITY / LEXICON MISMATCH`;
+    badgeEl.textContent = '⚠ RADIX FAULT';
+    badgeEl.style.color = 'var(--red)';
+    outList.className = 'rx-lines-list garbled';
+    outList.innerHTML = `
+      <div>⚠ [${algId} MISMATCH]: Cannot decode ${dec.signal_type} with ${algId}.</div>
+      <div>▸ GARBLED OUTPUT: 0x7F4A ░░▒▓ [SYNTAX/RADIX COLLISION] ▓▒░░ 0x351E</div>
+      <div style="color:var(--amber);">▸ HINT: Engage [${dec.required_algorithm}] (${dec.algorithm_name}) to translate this station.</div>
+    `;
+  }
+}
+
+function startPanelSpectrumLoop() {
+  const canvas = document.getElementById('panel-spectrum-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  function frame() {
+    panelSpecTick += 1;
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width > 0 && rect.height > 0) {
+      const tw = Math.round(rect.width);
+      const th = Math.round(rect.height);
+      if (canvas.width !== tw || canvas.height !== th) {
+        canvas.width = tw;
+        canvas.height = th;
+      }
+    }
+    const W = canvas.width;
+    const H = canvas.height;
+    const p = currentStation;
+
+    ctx.fillStyle = '#02050a';
+    ctx.fillRect(0, 0, W, H);
+
+    // Subtle graticule grid
+    ctx.strokeStyle = 'rgba(38, 56, 84, 0.38)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < W; x += 64) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+    }
+    for (let y = 0; y < H; y += 38) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    }
+
+    if (p && p.decoder) {
+      const style = p.decoder.spectrum_style;
+      const specW = W - 155; // Leave right 150px for Lissajous / Constellation scope
+
+      // Passband filter box
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.06)';
+      ctx.fillRect(specW * 0.28, 12, specW * 0.44, H - 24);
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.35)';
+      ctx.strokeRect(specW * 0.28, 12, specW * 0.44, H - 24);
+
+      // Draw Spectrum Trace
+      ctx.beginPath();
+      for (let x = 6; x < specW - 6; x += 3) {
+        const u = x / specW;
+        let amp = 0.12 + Math.random() * 0.08;
+
+        if (style === 'cw_narrow') {
+          // Sharp CW peak with periodic -165 Hz fauna bend
+          const bend = Math.sin(panelSpecTick * 0.05) > 0.6 ? -0.045 : 0;
+          const d = Math.abs(u - (0.5 + bend));
+          const keyOn = (Math.floor(panelSpecTick / 8) % 3 !== 0) ? 1.0 : 0.25;
+          amp += Math.exp(-d * d * 1800) * 0.78 * keyOn;
+          amp += Math.exp(-Math.pow(u - 0.62, 2) * 900) * 0.32;
+        } else if (style === 'hi_maser') {
+          // Ultra-narrow 21cm H-I maser line with Doppler marker
+          const d = Math.abs(u - 0.44);
+          amp += Math.exp(-d * d * 2800) * 0.84;
+          amp += Math.exp(-Math.pow(u - 0.56, 2) * 1600) * 0.42;
+        } else if (style === 'octal_fsk') {
+          // Base-8 Octal multi-tone FSK + 641.9 Hz pulsar sideband
+          const activeTone = (Math.floor(panelSpecTick / 12) % 8) * 0.035 + 0.36;
+          amp += Math.exp(-Math.pow(u - activeTone, 2) * 2200) * 0.82;
+          amp += Math.exp(-Math.pow(u - 0.25, 2) * 1900) * 0.48;
+        } else if (style === 'qrp_scatter') {
+          // Weak 3-watt QRP SSB with shimmering cometary scatter
+          const d = Math.abs(u - 0.5);
+          if (d < 0.14) {
+            amp += (0.35 + 0.28 * Math.sin(x * 0.25 + panelSpecTick * 0.18)) * Math.cos(d * 10);
+          }
+        } else if (style === 'splatter_60khz') {
+          // Huge ±30 kHz splatter + 60 kV arc spikes
+          const arcFlash = (panelSpecTick % 32 < 4) ? 0.35 : 0;
+          amp += Math.exp(-Math.pow(u - 0.5, 2) * 35) * (0.62 + Math.random() * 0.25) + arcFlash * Math.random();
+        } else {
+          // AM-W with blowtorch spike
+          const d = Math.abs(u - 0.5);
+          amp += Math.exp(-d * d * 1800) * 0.75 + Math.exp(-d * d * 95) * 0.38;
+        }
+
+        const py = H - 14 - Math.min(0.92, amp) * (H - 32);
+        if (x === 6) ctx.moveTo(x, py);
+        else ctx.lineTo(x, py);
+      }
+      ctx.strokeStyle = '#4ade80';
+      ctx.lineWidth = 1.8;
+      ctx.stroke();
+
+      // Fill under spectrum
+      ctx.lineTo(specW - 6, H - 14);
+      ctx.lineTo(6, H - 14);
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(74, 222, 128, 0.12)';
+      ctx.fill();
+
+      // Labels on Spectrum
+      ctx.font = 'bold 10px monospace';
+      ctx.fillStyle = '#38bdf8';
+      ctx.fillText(`SPECTRUM SCAN: ${p.decoder.signal_type}`, 12, 18);
+      ctx.fillStyle = '#f0b849';
+      ctx.fillText(`FC: ${formatFreq(p.rf.measured_khz)} (Δf ${p.rf.doppler_hz} Hz)`, 12, H - 4);
+
+      // Right-hand Lissajous XY Phase / Constellation Scope
+      const lx = specW + 8;
+      const ly = 10;
+      const lw = W - lx - 8;
+      const lh = H - 20;
+      const lcx = lx + lw / 2;
+      const lcy = ly + lh / 2;
+      const lr = Math.min(lw, lh) * 0.36;
+
+      ctx.fillStyle = '#040811';
+      ctx.fillRect(lx, ly, lw, lh);
+      ctx.strokeStyle = '#263854';
+      ctx.strokeRect(lx, ly, lw, lh);
+
+      ctx.beginPath();
+      ctx.arc(lcx, lcy, lr, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.22)';
+      ctx.stroke();
+
+      // Lissajous trace (3:5 ratio for M33, Base-8 constellation for Octal, etc.)
+      ctx.beginPath();
+      for (let t = 0; t < Math.PI * 2; t += 0.06) {
+        let px, py;
+        if (style === 'hi_maser') {
+          px = lcx + Math.sin(3 * t + panelSpecTick * 0.04) * lr;
+          py = lcy + Math.sin(5 * t) * lr;
+        } else if (style === 'octal_fsk') {
+          px = lcx + Math.cos(t * 4 + panelSpecTick * 0.03) * lr * Math.cos(t);
+          py = lcy + Math.sin(t * 4 + panelSpecTick * 0.03) * lr * Math.cos(t);
+        } else {
+          px = lcx + Math.sin(t + panelSpecTick * 0.06) * lr;
+          py = lcy + Math.sin(2 * t + 0.6) * lr * 0.85;
+        }
+        if (t === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.strokeStyle = '#f0b849';
+      ctx.lineWidth = 1.4;
+      ctx.stroke();
+
+      ctx.fillStyle = '#8b9bb4';
+      ctx.font = 'bold 8.5px monospace';
+      ctx.fillText('PHASE / LISSAJOUS', lx + 8, ly + 12);
+
+      // Update Morse / CW Keyer Strip & LED
+      if (panelSpecTick % 6 === 0) {
+        const morseStr = p.decoder.morse_stream + '   •   ';
+        morseScrollOffset = (morseScrollOffset + 1) % morseStr.length;
+        const rotated = morseStr.slice(morseScrollOffset) + morseStr.slice(0, morseScrollOffset);
+        const tickerEl = document.getElementById('cw-morse-ticker');
+        if (tickerEl) tickerEl.textContent = rotated;
+        const ch = rotated[0];
+        const ledEl = document.getElementById('cw-key-led');
+        if (ledEl) ledEl.classList.toggle('on', ch === '.' || ch === '-' || ch === '•' || ch === '—');
+      }
+    }
+
+      if (!new URLSearchParams(window.location.search).get('capture')) {
+        requestAnimationFrame(frame);
+      }
+  }
+  frame();
+}
+
+function renderSMeterBar(pct) {
+  const track = document.getElementById('smeter-WaitTrack');
+  track.innerHTML = '';
+  const litCount = Math.round((pct / 100) * 20);
+  for (let i = 0; i < 20; i++) {
+    const seg = document.createElement('div');
+    seg.className = 'smeter-seg';
+    if (i < litCount) {
+      if (i < 12) seg.classList.add('on-green');
+      else if (i < 16) seg.classList.add('on-amber');
+      else seg.classList.add('on-red');
+    }
+    track.appendChild(seg);
+  }
+}
+
+function renderSinpoMatrix(sinpo) {
+  const code = `${sinpo.s}-${sinpo.i}-${sinpo.n}-${sinpo.p}-${sinpo.o}`;
+  document.getElementById('sinpo-code-tag').textContent = `SINPO ${code}`;
+  const cols = [
+    { k: 'S', val: sinpo.s, desc: 'Signal' },
+    { k: 'I', val: sinpo.i, desc: 'Interf' },
+    { k: 'N', val: sinpo.n, desc: 'Noise' },
+    { k: 'P', val: sinpo.p, desc: 'Prop' },
+    { k: 'O', val: sinpo.o, desc: 'Overall' }
+  ];
+  const grid = document.getElementById('sinpo-grid');
+  grid.innerHTML = cols.map(c => {
+    let bars = '';
+    for (let s = 1; s <= 5; s++) {
+      bars += `<div class="sinpo-step ${s <= c.val ? 'lit' : ''}"></div>`;
+    }
+    return `
+      <div class="sinpo-col">
+        <span class="sinpo-letter">${c.k}</span>
+        <div class="sinpo-bars">${bars}</div>
+        <span class="sinpo-num">${c.val}</span>
+        <span class="sinpo-desc">${c.desc}</span>
+      </div>
+    `;
+  }).join('');
+}
+
+function triggerSstvDecode(gifSrc) {
+  const img = document.getElementById('qsl-gif-img');
+  const curtain = document.getElementById('sstv-wipe-curtain');
+  img.src = gifSrc;
+  curtain.style.transition = 'none';
+  curtain.style.height = '100%';
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      curtain.style.transition = 'height 0.55s steps(14, end)';
+      curtain.style.height = '0%';
+    });
+  });
+}
+
+function nudgeVfo() {
+  vfoAngle += 28;
+  document.getElementById('vfo-wheel').style.transform = `rotate(${vfoAngle}deg)`;
+}
+
+function stopActiveAudio() {
+  if (activeAudioEl) {
+    activeAudioEl.pause();
+    activeAudioEl.currentTime = 0;
+    activeAudioEl = null;
+  }
+  document.querySelectorAll('.audition-btn').forEach(b => b.classList.remove('playing'));
+  document.getElementById('audio-status-label').textContent = 'READY';
+}
+
+function playStationAudio(kind) {
+  if (!currentStation) return;
+  stopActiveAudio();
+
+  let src = currentStation.media.audio_intercept_src;
+  let btnId = 'btn-play-intercept';
+  let statusTxt = 'PLAYING INTERCEPT';
+  if (kind === 'is') {
+    src = currentStation.media.interval_signal_src;
+    btnId = 'btn-play-is';
+    statusTxt = 'PLAYING INTERVAL SIGNAL';
+  } else if (kind === 'sstv') {
+    src = currentStation.media.sstv_burst_src;
+    btnId = 'btn-play-sstv';
+    statusTxt = 'DECODING SSTV BURST';
+    triggerSstvDecode(currentStation.qsl.gif_src);
+  }
+
+  const audio = new Audio(src);
+  activeAudioEl = audio;
+  document.getElementById(btnId).classList.add('playing');
+  document.getElementById('audio-status-label').textContent = statusTxt;
+
+  try {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      analyserNode = audioCtx.createAnalyser();
+      analyserNode.fftSize = 256;
+    }
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    if (!audioSourceMap.has(audio)) {
+      const node = audioCtx.createMediaElementSource(audio);
+      node.connect(analyserNode);
+      analyserNode.connect(audioCtx.destination);
+      audioSourceMap.set(audio, node);
+    }
+  } catch (e) {}
+
+  audio.onended = () => {
+    document.querySelectorAll('.audition-btn').forEach(b => b.classList.remove('playing'));
+    document.getElementById('audio-status-label').textContent = 'LOCKED';
+    activeAudioEl = null;
+  };
+  audio.play().catch(err => console.warn('Audio play blocked:', err));
+}
+
+/* =========================================================================
+   GALACTIC ASTROMETRY & OORT RELAY VECTOR MAP RENDERER
+   ========================================================================= */
+function setupGalaxyCanvasClicks() {
+  const c1 = document.getElementById('galaxy-map-canvas');
+  c1.addEventListener('click', e => handleGalaxyClick(e, c1, galaxyHitBoxes));
+
+  const c2 = document.getElementById('galaxy-modal-canvas');
+  c2.addEventListener('click', e => handleGalaxyClick(e, c2, modalGalaxyHitBoxes));
+}
+
+function handleGalaxyClick(e, canvas, boxes) {
+  const rect = canvas.getBoundingClientRect();
+  const sx = (e.clientX - rect.left) * (canvas.width / rect.width);
+  const sy = (e.clientY - rect.top) * (canvas.height / rect.height);
+  for (const b of boxes) {
+    const dx = sx - b.x;
+    const dy = sy - b.y;
+    if (dx * dx + dy * dy <= (b.r + 8) * (b.r + 8)) {
+      selectPreset(b.id);
+      return;
+    }
+  }
+}
+
+function drawGalaxyAstrometry(canvas, hitBoxesOut, t, isLarge) {
+  const rect = canvas.getBoundingClientRect();
+  if (rect.width > 0 && rect.height > 0) {
+    const tw = Math.round(rect.width);
+    const th = Math.round(rect.height);
+    if (canvas.width !== tw || canvas.height !== th) {
+      canvas.width = tw;
+      canvas.height = th;
+    }
+  }
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width;
+  const H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  // Reserve right 16% for Galactic Plane Elevation (b) Cross-Section Bar
+  const elevW = isLarge ? 150 : 76;
+  const mapW = W - elevW;
+  const cx = mapW * 0.50;
+  const cy = H * 0.52;
+  const maxR = Math.min(mapW * 0.45, H * 0.44);
+
+  // Background deep-space radial glow
+  const bgGrad = ctx.createRadialGradient(cx, cy - maxR * 0.35, 4, cx, cy, maxR * 1.25);
+  bgGrad.addColorStop(0, 'rgba(38, 28, 16, 0.42)');
+  bgGrad.addColorStop(0.45, 'rgba(12, 22, 38, 0.35)');
+  bgGrad.addColorStop(1, '#020408');
+  ctx.fillStyle = bgGrad;
+  ctx.fillRect(0, 0, mapW, H);
+
+  // Draw Stylized Milky Way Spiral Arms (centered around Galactic Core at 0° top-ish or offset)
+  const coreX = cx;
+  const coreY = cy - maxR * 0.55;
+  ctx.save();
+  for (let arm = 0; arm < 4; arm++) {
+    ctx.beginPath();
+    const baseAng = (arm * Math.PI) / 2 + 0.4;
+    for (let s = 0; s < 90; s++) {
+      const u = s / 89.0;
+      const r = u * maxR * 1.15;
+      const ang = baseAng + u * 2.6;
+      const ax = coreX + Math.cos(ang) * r * 1.15;
+      const ay = coreY + Math.sin(ang) * r * 0.78;
+      if (s === 0) ctx.moveTo(ax, ay);
+      else ctx.lineTo(ax, ay);
+    }
+    ctx.strokeStyle = arm === 1 ? 'rgba(56, 189, 248, 0.13)' : 'rgba(240, 184, 73, 0.09)';
+    ctx.lineWidth = isLarge ? 26 : 14;
+    ctx.lineCap = 'round';
+    ctx.stroke();
+  }
+  ctx.restore();
+
+  // Galactic Center (Sagittarius A* at 0° North Bearing)
+  const sgrGrad = ctx.createRadialGradient(coreX, coreY, 1, coreX, coreY, isLarge ? 28 : 16);
+  sgrGrad.addColorStop(0, 'rgba(255, 230, 150, 0.95)');
+  sgrGrad.addColorStop(0.4, 'rgba(240, 184, 73, 0.35)');
+  sgrGrad.addColorStop(1, 'rgba(240, 184, 73, 0)');
+  ctx.fillStyle = sgrGrad;
+  ctx.beginPath();
+  ctx.arc(coreX, coreY, isLarge ? 28 : 16, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = 'rgba(240, 184, 73, 0.75)';
+  ctx.font = `${isLarge ? 10 : 8}px JetBrains Mono, monospace`;
+  ctx.fillText('SGR A* (CORE 000°)', coreX + (isLarge ? 14 : 8), coreY + 3);
+
+  // Logarithmic Range Rings Centered on GOR-9 (Oort Cloud Sector 9)
+  const rings = [
+    { r: 0.25, lbl: 'OORT SHELL (<1 ly)' },
+    { r: 0.52, lbl: 'ORION SPUR (500 ly)' },
+    { r: 0.76, lbl: 'PERSEUS ARM (3 kpc)' },
+    { r: 0.96, lbl: 'HALO / M-33 (2.7 Mly)' }
+  ];
+  rings.forEach(rg => {
+    ctx.beginPath();
+    ctx.arc(cx, cy, maxR * rg.r, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(43, 62, 92, 0.55)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([3, 4]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = 'rgba(139, 155, 180, 0.55)';
+    ctx.font = `${isLarge ? 10 : 7.5}px JetBrains Mono, monospace`;
+    ctx.fillText(rg.lbl, cx + 4, cy - maxR * rg.r + (isLarge ? 12 : 9));
+  });
+
+  // Azimuth Crosshairs (0°, 90°, 180°, 270°)
+  for (let a = 0; a < 360; a += 45) {
+    const rad = ((a - 90) * Math.PI) / 180;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + Math.cos(rad) * maxR, cy + Math.sin(rad) * maxR);
+    ctx.strokeStyle = a % 90 === 0 ? 'rgba(56, 189, 248, 0.22)' : 'rgba(43, 56, 78, 0.18)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+
+  // Reference Pulsar PSR B1937+21 (Vulpecula Metronome @ Az 57.5°)
+  const psrRad = ((57.5 - 90) * Math.PI) / 180;
+  const psrX = cx + Math.cos(psrRad) * maxR * 0.82;
+  const psrY = cy + Math.sin(psrRad) * maxR * 0.82;
+  ctx.strokeStyle = 'rgba(74, 222, 128, 0.35)';
+  ctx.setLineDash([2, 3]);
+  ctx.beginPath();
+  ctx.moveTo(cx, cy);
+  ctx.lineTo(psrX, psrY);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  const psrPulse = 3 + 2.5 * Math.abs(Math.sin(t * 8.0));
+  ctx.strokeStyle = '#4ade80';
+  ctx.beginPath();
+  ctx.arc(psrX, psrY, psrPulse, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.fillStyle = '#4ade80';
+  ctx.font = `${isLarge ? 10 : 7.5}px JetBrains Mono, monospace`;
+  ctx.fillText('PSR B1937+21', psrX + 6, psrY - 3);
+
+  // Plot Primary Triangulation Reference Anchor: CERES FOUNDRY #7 (Az 272.0°, 1,840 AU) & Oort Neighbors
+  const ceresRad = ((272.0 - 90) * Math.PI) / 180;
+  const ceresX = cx + Math.cos(ceresRad) * maxR * 0.22;
+  const ceresY = cy + Math.sin(ceresRad) * maxR * 0.22;
+
+  const solRad = ((212.4 - 90) * Math.PI) / 180;
+  const solX = cx + Math.cos(solRad) * maxR * 0.19;
+  const solY = cy + Math.sin(solRad) * maxR * 0.19;
+
+  const persRad = ((148.5 - 90) * Math.PI) / 180;
+  const persX = cx + Math.cos(persRad) * maxR * 0.14;
+  const persY = cy + Math.sin(persRad) * maxR * 0.14;
+
+  // Draw Triangulation Baseline Triangle: GOR-9 <-> CERES FOUNDRY #7 <-> ACTIVE STATION
+  if (currentStation && currentStation.galactic) {
+    const actAzR = ((currentStation.galactic.azimuth_deg - 90) * Math.PI) / 180;
+    const actX = cx + Math.cos(actAzR) * (currentStation.galactic.radial_norm * maxR);
+    const actY = cy + Math.sin(actAzR) * (currentStation.galactic.radial_norm * maxR);
+
+    ctx.save();
+    ctx.fillStyle = 'rgba(240, 184, 73, 0.06)';
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(ceresX, ceresY);
+    ctx.lineTo(actX, actY);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.strokeStyle = 'rgba(240, 184, 73, 0.55)';
+    ctx.lineWidth = isLarge ? 1.5 : 1.1;
+    ctx.setLineDash([4, 3]);
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(ceresX, ceresY);
+    ctx.lineTo(actX, actY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    if (isLarge && currentStation.galactic.triangulation) {
+      const mx = (ceresX + actX) * 0.5;
+      const my = (ceresY + actY) * 0.5;
+      ctx.fillStyle = '#fbbf24';
+      ctx.font = '9.5px JetBrains Mono, monospace';
+      ctx.fillText(`Δθ CERES ${currentStation.galactic.sep_ceres_deg}° • π=${currentStation.galactic.triangulation.parallax_arcsec}`, mx + 6, my - 4);
+    }
+    ctx.restore();
+  }
+
+  // Draw Ceres Foundry #7 Node
+  ctx.fillStyle = '#fbbf24';
+  ctx.beginPath();
+  ctx.arc(ceresX, ceresY, isLarge ? 4.5 : 3.2, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = '#fde68a';
+  ctx.font = `bold ${isLarge ? 9.5 : 7.2}px JetBrains Mono, monospace`;
+  ctx.fillText('CERES #7 (BASE)', ceresX - (isLarge ? 92 : 66), ceresY - (isLarge ? 6 : 4));
+
+  // Draw Sol & Persephone Nodes
+  ctx.fillStyle = '#fef08a';
+  ctx.beginPath();
+  ctx.arc(solX, solY, isLarge ? 3.5 : 2.5, 0, Math.PI * 2);
+  ctx.fill();
+  if (isLarge) {
+    ctx.fillText('SOL (1,842 AU)', solX - 78, solY + 12);
+  }
+
+  ctx.fillStyle = '#2dd4bf';
+  ctx.beginPath();
+  ctx.arc(persX, persY, isLarge ? 3.8 : 2.6, 0, Math.PI * 2);
+  ctx.fill();
+  if (isLarge) {
+    ctx.fillStyle = '#5eead4';
+    ctx.fillText('PERSEPHONE (0.18 AU)', persX + 6, persY + 10);
+  }
+
+  // Smoothly slew displayedAzimuth toward targetAzimuth
+  let diff = ((targetAzimuth - displayedAzimuth + 540) % 360) - 180;
+  displayedAzimuth = (displayedAzimuth + diff * 0.12 + 360) % 360;
+
+  // Draw Active Receive Phased-Array Beam Cone from GOR-9
+  const beamRad = ((displayedAzimuth - 90) * Math.PI) / 180;
+  const coneSpread = 0.15;
+  const beamGrad = ctx.createRadialGradient(cx, cy, 2, cx, cy, maxR);
+  beamGrad.addColorStop(0, 'rgba(240, 184, 73, 0.38)');
+  beamGrad.addColorStop(0.7, 'rgba(56, 189, 248, 0.12)');
+  beamGrad.addColorStop(1, 'rgba(56, 189, 248, 0.0)');
+  ctx.fillStyle = beamGrad;
+  ctx.beginPath();
+  ctx.moveTo(cx, cy);
+  ctx.arc(cx, cy, maxR, beamRad - coneSpread, beamRad + coneSpread);
+  ctx.closePath();
+  ctx.fill();
+
+  // Plot All Stations & Relay Hop Paths
+  hitBoxesOut.length = 0;
+  const colorLookup = {
+    amber: '#f0b849',
+    cyan: '#38bdf8',
+    green: '#4ade80',
+    red: '#fb7185'
+  };
+
+  STATIONS_DATA.presets.forEach(p => {
+    if (!p.galactic) return;
+    const isAct = currentStation && currentStation.id === p.id;
+    const col = colorLookup[p.status_color] || '#f0b849';
+    const azR = ((p.galactic.azimuth_deg - 90) * Math.PI) / 180;
+    const rPx = p.galactic.radial_norm * maxR;
+    const sx = cx + Math.cos(azR) * rPx;
+    const sy = cy + Math.sin(azR) * rPx;
+
+    hitBoxesOut.push({ id: p.id, x: sx, y: sy, r: isLarge ? 14 : 9 });
+
+    // Build path points: Station -> Relay Nodes -> GOR-9
+    const pathPts = [{ x: sx, y: sy }];
+    (p.galactic.relay_nodes || []).forEach(rn => {
+      const rnRad = ((rn.az_deg - 90) * Math.PI) / 180;
+      pathPts.push({
+        x: cx + Math.cos(rnRad) * (rn.r_norm * maxR),
+        y: cy + Math.sin(rnRad) * (rn.r_norm * maxR),
+        name: rn.name
+      });
+    });
+    pathPts.push({ x: cx, y: cy });
+
+    // Draw vector path
+    ctx.beginPath();
+    pathPts.forEach((pt, idx) => {
+      if (idx === 0) ctx.moveTo(pt.x, pt.y);
+      else ctx.lineTo(pt.x, pt.y);
+    });
+    ctx.strokeStyle = isAct ? col : 'rgba(139, 155, 180, 0.25)';
+    ctx.lineWidth = isAct ? (isLarge ? 2.2 : 1.6) : 1;
+    ctx.stroke();
+
+    // If active station, animate signal packets traveling from station inward to GOR-9!
+    if (isAct) {
+      for (let pk = 0; pk < 3; pk++) {
+        const u = ((t * 0.55 + pk / 3) % 1.0);
+        const totalSegs = pathPts.length - 1;
+        const segFloat = u * totalSegs;
+        const segIdx = Math.min(totalSegs - 1, Math.floor(segFloat));
+        const segFrac = segFloat - segIdx;
+        const p0 = pathPts[segIdx];
+        const p1 = pathPts[segIdx + 1];
+        const px = p0.x + (p1.x - p0.x) * segFrac;
+        const py = p0.y + (p1.y - p0.y) * segFrac;
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(px, py, isLarge ? 3.5 : 2.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      // Draw intermediate relay node diamonds
+      pathPts.slice(1, -1).forEach(rnPt => {
+        ctx.fillStyle = '#38bdf8';
+        ctx.fillRect(rnPt.x - 3, rnPt.y - 3, 6, 6);
+        if (isLarge && rnPt.name) {
+          ctx.fillStyle = 'rgba(56, 189, 248, 0.85)';
+          ctx.font = '10px JetBrains Mono, monospace';
+          ctx.fillText(`↳ ${rnPt.name}`, rnPt.x + 7, rnPt.y + 3);
+        }
+      });
+    }
+
+    // Station Node Marker & Target Reticle
+    ctx.fillStyle = col;
+    ctx.beginPath();
+    ctx.arc(sx, sy, isAct ? (isLarge ? 6 : 4.5) : (isLarge ? 4 : 3), 0, Math.PI * 2);
+    ctx.fill();
+
+    if (isAct) {
+      const retR = (isLarge ? 13 : 9) + 2.5 * Math.sin(t * 4.0);
+      ctx.strokeStyle = col;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.arc(sx, sy, retR, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+
+    // Label
+    ctx.fillStyle = isAct ? '#ffffff' : 'rgba(226, 232, 240, 0.72)';
+    ctx.font = `${isAct ? 'bold ' : ''}${isLarge ? 11 : 8.5}px JetBrains Mono, monospace`;
+    const lblOffset = sx >= cx ? (isLarge ? 10 : 7) : -(isLarge ? 85 : 58);
+    const lblYOffset = p.preset_slot === 'P-06' ? -(isLarge ? 22 : 12) : 3;
+    ctx.fillText(`${p.preset_slot} ${p.callsign}`, sx + lblOffset, sy + lblYOffset);
+    if (isLarge) {
+      ctx.fillStyle = col;
+      ctx.font = '10px JetBrains Mono, monospace';
+      ctx.fillText(`${p.name} (${p.galactic.range_label})`, sx + lblOffset, sy + lblYOffset + 13);
+    }
+  });
+
+  // Draw Central Hub: GOR-9 (Oort Sector 9)
+  ctx.fillStyle = '#f0b849';
+  ctx.beginPath();
+  ctx.arc(cx, cy, isLarge ? 6 : 4.5, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = '#ffffff';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.arc(cx, cy, isLarge ? 10 : 7, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.fillStyle = '#f0b849';
+  ctx.font = `bold ${isLarge ? 11 : 8.5}px JetBrains Mono, monospace`;
+  ctx.fillText('GOR-9 (OORT)', cx + (isLarge ? 13 : 9), cy + 3);
+
+  // =======================================================================
+  // RIGHT SIDEBAR: GALACTIC PLANE ELEVATION (b = -35° .. +35°) CROSS-SECTION
+  // =======================================================================
+  const ex0 = mapW;
+  ctx.fillStyle = '#050912';
+  ctx.fillRect(ex0, 0, elevW, H);
+  ctx.strokeStyle = '#1e2c42';
+  ctx.beginPath();
+  ctx.moveTo(ex0, 0);
+  ctx.lineTo(ex0, H);
+  ctx.stroke();
+
+  ctx.fillStyle = 'rgba(139, 155, 180, 0.85)';
+  ctx.font = `bold ${isLarge ? 10 : 8}px JetBrains Mono, monospace`;
+  ctx.fillText('GAL LAT (b)', ex0 + 8, isLarge ? 18 : 13);
+
+  const midY = H * 0.52;
+  const spanY = H * 0.38;
+
+  // Galactic Plane 0° Line
+  ctx.strokeStyle = 'rgba(240, 184, 73, 0.45)';
+  ctx.setLineDash([3, 3]);
+  ctx.beginPath();
+  ctx.moveTo(ex0 + 6, midY);
+  ctx.lineTo(W - 6, midY);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = 'rgba(240, 184, 73, 0.7)';
+  ctx.font = `${isLarge ? 9.5 : 7.5}px JetBrains Mono, monospace`;
+  ctx.fillText('0° PLANE', ex0 + 8, midY - 4);
+
+  // Plot each station's elevation (b) relative to Galactic Plane
+  STATIONS_DATA.presets.forEach(p => {
+    if (!p.galactic) return;
+    const isAct = currentStation && currentStation.id === p.id;
+    const col = colorLookup[p.status_color] || '#f0b849';
+    const bDeg = Math.max(-35, Math.min(35, p.galactic.elevation_deg));
+    const py = midY - (bDeg / 35.0) * spanY;
+    const px = ex0 + elevW * 0.42;
+
+    if (isAct) {
+      ctx.strokeStyle = col;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(ex0 + 8, midY);
+      ctx.lineTo(px, py);
+      ctx.stroke();
+    }
+
+    ctx.fillStyle = isAct ? col : 'rgba(139, 155, 180, 0.45)';
+    ctx.beginPath();
+    ctx.arc(px, py, isAct ? (isLarge ? 5 : 4) : 2.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    if (isAct || isLarge) {
+      ctx.fillStyle = isAct ? '#ffffff' : 'rgba(139, 155, 180, 0.7)';
+      ctx.font = `${isAct ? 'bold ' : ''}${isLarge ? 9.5 : 7.5}px JetBrains Mono, monospace`;
+      const sign = p.galactic.elevation_deg >= 0 ? '+' : '';
+      ctx.fillText(`${p.preset_slot} ${sign}${p.galactic.elevation_deg}°`, px + 7, py + 3);
+    }
+  });
+}
+
+function startGalaxyMapLoop() {
+  const c1 = document.getElementById('galaxy-map-canvas');
+  const c2 = document.getElementById('galaxy-modal-canvas');
+  const isCapture = new URLSearchParams(window.location.search).get('capture') === '1';
+  let t = 0.5;
+  function tick() {
+    t += 0.03;
+    if (STATIONS_DATA) {
+      if (isCapture) displayedAzimuth = targetAzimuth;
+      drawGalaxyAstrometry(c1, galaxyHitBoxes, t, false);
+      if (document.getElementById('galaxy-modal').classList.contains('open')) {
+        drawGalaxyAstrometry(c2, modalGalaxyHitBoxes, t, true);
+      }
+    }
+    if (!isCapture) requestAnimationFrame(tick);
+  }
+  tick();
+}
+
+/* Live Dual-Layer Spectrum & Waterfall Canvas Loop */
+function startWaterfallLoop() {
+  const canvas = document.getElementById('waterfall-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width;
+  const H = canvas.height;
+  const specH = 50;
+  const wfY = specH + 2;
+  const wfH = H - wfY;
+  const isCapture = new URLSearchParams(window.location.search).get('capture') === '1';
+
+  const wfBuf = document.createElement('canvas');
+  wfBuf.width = W;
+  wfBuf.height = wfH;
+  const bctx = wfBuf.getContext('2d');
+  bctx.fillStyle = '#030508';
+  bctx.fillRect(0, 0, W, wfH);
+
+  let t = 0;
+  function stepWaterfall() {
+    t += 0.04;
+    bctx.drawImage(wfBuf, 0, 0, W, wfH - 1, 0, 1, W, wfH - 1);
+
+    ctx.fillStyle = '#04070d';
+    ctx.fillRect(0, 0, W, specH);
+
+    ctx.strokeStyle = 'rgba(43, 56, 78, 0.35)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < W; x += 92) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, specH); ctx.stroke();
+    }
+    ctx.beginPath(); ctx.moveTo(0, specH / 2); ctx.lineTo(W, specH / 2); ctx.stroke();
+
+    const activeIdx = currentStation ? STATIONS_DATA.presets.indexOf(currentStation) : 0;
+
+    ctx.beginPath();
+    ctx.moveTo(0, specH);
+    for (let x = 0; x < W; x++) {
+      let val = 0.12 + 0.08 * Math.random() + 0.04 * Math.sin(x * 0.07 + t);
+      for (let k = 0; k < 6; k++) {
+        const cx = (0.20 + k * 0.12) * W;
+        const dist = Math.abs(x - cx);
+        const bw = k === activeIdx ? 16 : 8;
+        if (dist < bw * 2.5) {
+          const boost = k === activeIdx ? 0.72 + 0.15 * Math.sin(t * 5.0) : 0.38;
+          val += boost * Math.exp(-(dist * dist) / (2 * bw * bw));
+        }
+      }
+      val = Math.min(0.98, Math.max(0.05, val));
+      const py = specH - val * (specH - 6);
+      ctx.lineTo(x, py);
+
+      const r = val > 0.65 ? 245 : val > 0.35 ? Math.floor(val * 320) : 12;
+      const g = val > 0.65 ? Math.floor(190 + (val - 0.65) * 180) : val > 0.25 ? Math.floor(val * 240) : Math.floor(val * 90);
+      const b = val > 0.5 ? Math.floor((val - 0.5) * 300) : Math.floor(40 + val * 190);
+      bctx.fillStyle = `rgb(${r},${g},${b})`;
+      bctx.fillRect(x, 0, 1, 1);
+    }
+    ctx.lineTo(W, specH);
+    ctx.closePath();
+    const grad = ctx.createLinearGradient(0, 0, 0, specH);
+    grad.addColorStop(0, 'rgba(240, 184, 73, 0.55)');
+    grad.addColorStop(1, 'rgba(56, 189, 248, 0.05)');
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    ctx.strokeStyle = '#f0b849';
+    ctx.lineWidth = 1.4;
+    ctx.stroke();
+
+    ctx.drawImage(wfBuf, 0, wfY);
+  }
+
+  for (let i = 0; i < wfH; i++) stepWaterfall();
+
+  function frame() {
+    stepWaterfall();
+    if (!isCapture) requestAnimationFrame(frame);
+  }
+  if (!isCapture) requestAnimationFrame(frame);
+}
+
+/* Audio Envelope / Lissajous Oscilloscope Loop */
+function startScopeLoop() {
+  const canvas = document.getElementById('scope-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width;
+  const H = canvas.height;
+  const timeData = new Uint8Array(128);
+  const isCapture = new URLSearchParams(window.location.search).get('capture') === '1';
+  let phase = 0.6;
+
+  function drawScope() {
+    phase += 0.08;
+    ctx.fillStyle = isCapture ? '#030508' : 'rgba(3, 5, 8, 0.38)';
+    ctx.fillRect(0, 0, W, H);
+
+    ctx.strokeStyle = 'rgba(30, 42, 63, 0.6)';
+    ctx.beginPath();
+    ctx.moveTo(0, H / 2);
+    ctx.lineTo(W, H / 2);
+    ctx.stroke();
+
+    let useAnalyser = false;
+    if (analyserNode && activeAudioEl) {
+      analyserNode.getByteTimeDomainData(timeData);
+      for (let i = 0; i < timeData.length; i++) {
+        if (Math.abs(timeData[i] - 128) > 2) { useAnalyser = true; break; }
+      }
+    }
+
+    ctx.beginPath();
+    ctx.strokeStyle = activeAudioEl ? '#4ade80' : '#38bdf8';
+    ctx.lineWidth = 1.8;
+
+    for (let x = 0; x < W; x++) {
+      let y = H / 2;
+      if (useAnalyser) {
+        const idx = Math.floor((x / W) * timeData.length);
+        const v = (timeData[idx] - 128) / 128.0;
+        y = H / 2 + v * (H * 0.42);
+      } else {
+        const env = activeAudioEl ? 18 : 9;
+        y = H / 2 + Math.sin(x * 0.06 + phase * 2.2) * Math.cos(x * 0.015 - phase) * env + (Math.random() - 0.5) * 3;
+      }
+      if (x === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    if (!isCapture) requestAnimationFrame(drawScope);
+  }
+  drawScope();
+}
+
+function toggleGalaxyModal(show) {
+  document.getElementById('galaxy-modal').classList.toggle('open', show);
+}
+
+function toggleTowerModal(show) {
+  document.getElementById('tower-modal').classList.toggle('open', show);
+}
+
+window.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    toggleGalaxyModal(false);
+    toggleTowerModal(false);
+  }
+});
+
+window.addEventListener('DOMContentLoaded', initConsole);
+</script>
+<script src="assets/gor9-nav.js"></script>
+</body>
+</html>

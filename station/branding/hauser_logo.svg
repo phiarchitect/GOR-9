@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 180" width="100%" height="100%">
+  <defs>
+    <linearGradient id="hdGunmetal" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#060a12" />
+    </linearGradient>
+    <linearGradient id="hdChrome" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc" />
+      <stop offset="40%" stop-color="#cbd5e1" />
+      <stop offset="70%" stop-color="#64748b" />
+      <stop offset="100%" stop-color="#e2e8f0" />
+    </linearGradient>
+    <linearGradient id="hdAmber" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="50%" stop-color="#fde68a" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+    <filter id="hdGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2.2" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Precision Machined Anodized Gunmetal & Satin Chrome Chassis Plate -->
+  <rect x="6" y="6" width="508" height="168" rx="8"
+        fill="url(#hdGunmetal)" stroke="url(#hdChrome)" stroke-width="2.5" />
+  <rect x="13" y="13" width="494" height="154" rx="5"
+        fill="none" stroke="#38bdf8" stroke-width="0.8" stroke-opacity="0.45" />
+
+  <!-- 4 Knurled Socket Cap Instrument Screws -->
+  <g fill="#0f172a" stroke="url(#hdChrome)" stroke-width="1.5">
+    <circle cx="24" cy="24" r="5.5" />
+    <circle cx="24" cy="24" r="2" fill="#94a3b8" />
+    <circle cx="496" cy="24" r="5.5" />
+    <circle cx="496" cy="24" r="2" fill="#94a3b8" />
+    <circle cx="24" cy="156" r="5.5" />
+    <circle cx="24" cy="156" r="2" fill="#94a3b8" />
+    <circle cx="496" cy="156" r="5.5" />
+    <circle cx="496" cy="156" r="2" fill="#94a3b8" />
+  </g>
+
+  <!-- LEFT EMBLEM: KNURLED VFO VERNIER RETICLE & HETERODYNE CARRIER WAVE -->
+  <g transform="translate(95, 90)">
+    <!-- Outer Knurled Bezel Ring -->
+    <circle cx="0" cy="0" r="60" fill="#050811" stroke="url(#hdChrome)" stroke-width="3" />
+    <circle cx="0" cy="0" r="54" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="2,4" />
+    <circle cx="0" cy="0" r="46" fill="#070d19" stroke="#1e3a5f" stroke-width="1.2" />
+
+    <!-- Vernier Crosshair Graticule -->
+    <line x1="-44" y1="0" x2="44" y2="0" stroke="#334155" stroke-width="1" />
+    <line x1="0" y1="-44" x2="0" y2="44" stroke="#f43f5e" stroke-width="1.2" stroke-opacity="0.85" />
+
+    <!-- Glowing Cyan Carrier Envelope + Amber Sine Wave -->
+    <path d="M -42,0 Q -31,-32 -21,0 T 0,0 T 21,0 T 42,0"
+          fill="none" stroke="#38bdf8" stroke-width="2.5" filter="url(#hdGlow)" />
+    <path d="M -42,0 Q -31,26 -21,0 T 0,0 T 21,0 T 42,0"
+          fill="none" stroke="#f59e0b" stroke-width="1.8" stroke-opacity="0.9" />
+
+    <!-- Center Phase-Lock Jewel -->
+    <circle cx="0" cy="0" r="4.5" fill="#4ade80" filter="url(#hdGlow)" />
+  </g>
+
+  <!-- RIGHT TYPOGRAPHY: HAUSER DYNAMICS PRECISION TELEMETRY -->
+  <g font-family="'JetBrains Mono', 'Courier New', monospace">
+    <text x="184" y="42" fill="#38bdf8" font-size="10" font-weight="700" letter-spacing="2.2">
+      EST. 2026 ENID • GANYMEDE ORBITAL PRECISION WORKS
+    </text>
+
+    <text x="182" y="76" fill="url(#hdChrome)" font-size="27" font-weight="900" letter-spacing="2.0">
+      HAUSER DYNAMICS
+    </text>
+
+    <rect x="184" y="86" width="304" height="22" rx="3" fill="#131c2e" stroke="#f59e0b" stroke-width="1" />
+    <text x="192" y="101" fill="url(#hdAmber)" font-size="11.5" font-weight="800" letter-spacing="1.6">
+      WIDEBAND BARYCENTRIC RF CORRELATORS
+    </text>
+
+    <text x="184" y="130" fill="#e2e8f0" font-size="11" font-weight="700" letter-spacing="0.8">
+      MODEL HAUSER MK-IV • PULSAR-LOCKED SYNTHESIZER
+    </text>
+
+    <text x="184" y="152" fill="#38bdf8" font-size="10.5" font-style="italic" font-weight="700" letter-spacing="0.8">
+      "Every Carrier in the Noise — 3 kHz to 1.5 GHz."
+    </text>
+  </g>
+</svg>

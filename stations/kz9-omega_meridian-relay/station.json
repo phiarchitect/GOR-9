@@ -1,0 +1,217 @@
+{
+  "id": "kz9-omega",
+  "preset_slot": "P-06",
+  "featured_prototype": false,
+  "callsign": "KZ9-OMEGA",
+  "name": "Relay Station KZ9-OMEGA",
+  "subtitle": "Meridian Plateau High-Power Sector Relay (60 kV Squall)",
+  "category": "Sector Trunk Relay",
+  "status": "SPLATTER ±30 kHz • DRM FAULT",
+  "status_color": "red",
+  "origin": {
+    "body": "Asteroid 19-Meridian (Sagittarius-Coreward Trunk Hop #1)",
+    "site": "Meridian Plateau Ridge • Twin Parabolic Array",
+    "coordinates": "Gal Lon 018.6°, Gal Lat -01.4° (Meridian Ridge)",
+    "distance": "0.022 Light-Years (1,420 AU • Coreward Trunk Hop)",
+    "local_clock": "0400 GCT (Engulfed in Triboelectric Squall)"
+  },
+  "galactic": {
+    "sector": "Sagittarius–Coreward Trunk Corridor • Meridian Plateau",
+    "arm": "Local Oort Trunk (Toward Sgr A* Core)",
+    "azimuth_deg": 18.6,
+    "elevation_deg": -1.4,
+    "range_ly": 0.022,
+    "range_label": "1,420 AU (0.022 ly)",
+    "radial_norm": 0.16,
+    "relay_nodes": []
+  },
+  "rf": {
+    "frequency_khz": 7140.0,
+    "measured_khz": 7140.31,
+    "doppler_hz": 310.0,
+    "band": "41m Sector Trunk Relay",
+    "mode": "DRM-9",
+    "filter_bw_hz": 15000,
+    "tx_power_watts": 50000,
+    "tx_power_label": "50 kW (Dilithium Bus — Capacitor Fault)",
+    "antenna": "Twin 18m Parabolic Dishes + Lattice Mast",
+    "relay_path": "Direct Sector 9 Trunk Line (Splattering ±30 kHz)",
+    "sinpo": {
+      "s": 2,
+      "i": 3,
+      "n": 2,
+      "p": 2,
+      "o": 2
+    },
+    "s_meter": "S9+40 dB (SPLATTER)",
+    "s_meter_pct": 96,
+    "hauser_index": "Q-4.2",
+    "peak_modulation_db": "60 kV FEEDHORN ARC • 60 kHz BANDWIDTH SPLATTER",
+    "dx_shorthand": [
+      "SPLATTER ±30kHz",
+      "NOV CITED",
+      "60kV ARC",
+      "WINDHOWL"
+    ]
+  },
+  "hardware_dossier": {
+    "transmitter": "50 kW Continental-Apex Dilithium Trunk Transmitter. Currently cited by the Sector 9 Spectrum Bureau for splattering a 60-kHz-wide signal across 7,110–7,170 kHz due to a ruptured oil capacitor and 60 kV triboelectric dust arcing.",
+    "feedline_anomaly": "60-kilovolt silicate dust squall is leaping directly from the right dish feedhorn to the lattice mast, inducing +4.8° phase-wobble in the #4 Marzelvane bushing and long hours of S9+40 dead-air windhowl.",
+    "receive_antenna_at_gor9": "Attenuated -20 dB Pad on Apex Ring #1 (Az 018.6°)"
+  },
+  "media": {
+    "video_src": "assets/clips/radio_corrugated_blowtorch.mp4",
+    "poster_src": "assets/plates/flow_kz9_mast_pov_a.jpg",
+    "alt_plate_src": "assets/plates/flow_kz9_mast_pov_b.jpg",
+    "cam_id": "KZ9-OMEGA • TOWER #1 HIGH-MAST INSPECTION CAM",
+    "hud_banner": "60 kV TRIBOELECTRIC ARC • BANDWIDTH SPLATTER: 60.0 kHz",
+    "audio_intercept_src": "assets/audio/intercept_kz9_omega.wav",
+    "interval_signal_src": "assets/audio/is_kz9_omega.wav",
+    "sstv_burst_src": "assets/audio/sstv_kz9_omega.wav",
+    "interval_signal_name": "60 kV Plasma Arc Snap & Dead-Air Silicate Windhowl",
+    "languages": [
+      "DRM-9 Telemetry Framing",
+      "Triboelectric Windhowl"
+    ],
+    "transcript_excerpt": "[S9+40 DEAD-AIR SILICATE WINDHOWL] ... [60 kV CYAN PLASMA ARC SNAP] ... 'KZ9-OMEGA AUTOMATIC FAULT ID: MARZELVANE #4 PHASE WOBBLE +4.8 DEG...'",
+    "qsl_plate_src": "assets/plates/flow_kz9_mast_pov_a.jpg",
+    "qsl_plate_b_src": "assets/plates/flow_kz9_mast_pov_b.jpg",
+    "flow_plates": [
+      "assets/plates/flow_kz9_mast_pov_a.jpg",
+      "assets/plates/flow_kz9_mast_pov_b.jpg"
+    ]
+  },
+  "qsl": {
+    "qsl_number": "QSL #0409-KZ9",
+    "gif_src": "assets/qsl/qsl_kz9_omega.gif",
+    "protocol": "FAULT-TELEMETRY AUTO-EJECT STAMP",
+    "dimensions": "384×240 • 10-Frame Postcard eQSL GIF",
+    "issue_epoch": "2736.305 • 0400 GCT",
+    "motto": "50 KILOWATTS THROUGH THE DUST — MIND THE 60 kHz SPLATTER",
+    "signer": "Automated Fault Logger • Meridian Plateau",
+    "collector_tier": "TIER II • FCC/SECTOR VIOLATION NOTICE EDITION (#99 of 250)",
+    "verification_hash": "0x7140-KZ9O-ARC60KV",
+    "embedded_clue": "Arc discharge intervals match the quarantine hold clock at Buoy 12."
+  },
+  "decoder": {
+    "has_live_video": false,
+    "default_view": "decoder",
+    "signal_type": "DRM-9 FAULT TELEMETRY + 60 kHz SPLATTER + CW AUTO-ID",
+    "spectrum_style": "splatter_60khz",
+    "required_algorithm": "ALG-04",
+    "algorithm_name": "ALG-04 • DRM-9 FAULT DIAGNOSTIC & SPLATTER UNPACKER",
+    "morse_stream": "-.- --.. ----. -....- --- -- . --. .- / ..-. .- ..- .-.. - / -- .- .-. --.. . .-.. ...- .- -. . / ....-",
+    "raw_rx_lines": [
+      "04:00:04.12  CW-FAULT: —•— ——•• ————•  —•—• •—•—• •—•• —  [NOV-2736-88 CITED]",
+      "04:00:06.85  DRM9-HEX: [0x7140] BW_OCCUPIED=60.4kHz (7110-7170 kHz SPLATTER)",
+      "04:00:09.10  ARC-DET : FEEDHORN_R -> MAST_LATTICE = 60.2 kV TRIBOELECTRIC SNAP",
+      "04:00:12.44  MECH-TLM: MARZELVANE_BUSHING_04 PHASE_WOBBLE = +4.82° [OIL_CAP_RUPTURE]"
+    ],
+    "translated_lines": [
+      "[SPECTRUM CITATION]: Station KZ9-OMEGA splattering ±30 kHz across 41m band due to blown filter capacitor",
+      "[HIGH-VOLTAGE HAZARD]: 60.2 kV silicate dust discharge arcing across right parabolic dish feedhorn every 4.2s",
+      "[MECHANICAL TELEMETRY]: #4 Hydrocoptic Marzelvane bushing exhibiting +4.82° phase wobble under wind load",
+      "[HIDDEN RELAY TIMING]: Arc snap intervals synchronize with Quarantine Hold Buoy 12 telemetry window"
+    ],
+    "telemetry_metrics": [
+      {
+        "label": "SPLATTER BW",
+        "value": "60.4 kHz",
+        "unit": "7110–7170 kHz",
+        "pct": 98,
+        "alert": true
+      },
+      {
+        "label": "FEEDHORN ARC",
+        "value": "60.2 kV",
+        "unit": "SILICATE SQUALL",
+        "pct": 94,
+        "alert": true
+      },
+      {
+        "label": "MARZELVANE #4",
+        "value": "+4.82°",
+        "unit": "PHASE WOBBLE",
+        "pct": 82,
+        "alert": true
+      },
+      {
+        "label": "CARRIER LEVEL",
+        "value": "S9+40 dB",
+        "unit": "50 kW DILITHIUM",
+        "pct": 96,
+        "alert": false
+      }
+    ]
+  },
+  "logs": [
+    {
+      "epoch": "2736.305",
+      "gct": "0400 GCT",
+      "entry": "** MERIDIAN PLATEAU. 7140.310 DRM-9, Epoch 2736.305 at 0400 GCT, Relay KZ9-OMEGA (Az 018.6°, 1,420 AU) engulfed in a 60 kV electrostatic dust squall; S9+40 of dead-air windhowl and plasma arc snaps, slurping out ±30 kHz (7110-7170) due to a blown oil capacitor and #4 Marzelvane phase-wobble (+4.8°). SINPO 2-3-2-2-2 (Operator, Asteroid 3-5-1, GOR-9)"
+    },
+    {
+      "epoch": "2736.296",
+      "gct": "0352 GCT",
+      "entry": "** MERIDIAN PLATEAU. 7140.190 DRM-9, Epoch 2736.296 at 0352 GCT, Sector 9 Spectrum Bureau issued Notice of Violation NOV-2736-88 to KZ9-OMEGA after its PA oil filter capacitor ruptured, widening its 41m trunk passband from 15 kHz to 60.4 kHz (Operator, Asteroid 3-5-1, GOR-9)"
+    },
+    {
+      "epoch": "2736.281",
+      "gct": "0410 GCT",
+      "entry": "** MERIDIAN PLATEAU. 7140.000 DRM-9, Epoch 2736.281 at 0410 GCT, prior to the silicate squall, KZ9-OMEGA was relaying inner-ring cargo manifests at S9+25 dB before telemetry began flagging +1.9° wobble on the #4 Marzelvane bushing (Operator, Asteroid 3-5-1, GOR-9)"
+    }
+  ],
+  "station_folder": "kz9-omega_meridian-relay",
+  "characters": [
+    {
+      "name": "Harlan 'Sparky' Vance (via Remote DRM-9 Fault Logger)",
+      "role": "Remote Relay Telemetry & Fault Auditor",
+      "species_or_type": "Human (Continental-Apex Field Contractor)",
+      "languages": "Midwestern American English + DRM-9 Hex Fault Framing",
+      "dialect_notes": "Dry, exhausted deadpan voice recorded onto the automated fault-telemetry channel between 60 kV plasma arc snaps and S9+40 silicate windhowl.",
+      "voice_profile": {
+        "tts_voice": "Orus (Dry Weary Engineer)",
+        "cadence": "125 WPM interrupted by 60 kV arc discharges every 4.2 seconds",
+        "dsp_chain": "60 kHz wide splatter distortion + triboelectric static crashes"
+      },
+      "signature_quote": "KZ9-Omega automated fault log: the #4 Belt-Master marzelvane bushing is wobbling four-point-eight degrees, the oil capacitor is ruptured, and we are splattering sixty kilohertz across the whole forty-one-meter band. Do not send further citations.",
+      "bio": "Monitors unstaffed Meridian Plateau Trunk Hop #1 via its tower-mounted inspection camera during a six-week planetary silicate dust storm while waiting for replacement filter capacitors impounded at Quarantine Buoy 12.",
+      "slug": "harlon_vance",
+      "headshot_src": "assets/characters/char_harlon_vance_headshot.jpg",
+      "fullbody_src": "assets/characters/char_harlon_vance_fullbody.jpg",
+      "voice_sample_dry_src": "assets/audio/voices/voice_harlon_vance_dry.wav",
+      "voice_sample_rf_src": "assets/audio/voices/voice_harlon_vance_rf.wav",
+      "language_sample_transcript": "This is Chief Engineer Harlon Vance at Meridian Relay KZ9-Omega on seventy-one-forty. Do not cite us for sixty-kilohertz splatter! We are in a Force-Nine silicate dust storm, the marzelvane bushings are wobbling four point eight degrees, and Tower One just took a sixty-kilovolt arc!",
+      "phonetic_and_conlang_notes": "Corporate High-Voltage Switchgear Jargon ('marzelvane bushings', 'sixty-kilohertz splatter', 'ceramic standoff')."
+    }
+  ],
+  "worldbuilding": {
+    "habitat_and_culture": "The Meridian Silicate Plateau on planet Aurelia-IV is a vast, unstaffed desert plain where boiling ochre dust storms generate 60-kilovolt triboelectric potentials across exposed antenna steelwork. The only camera on site is bolted high up on the main relay tower looking down across its ceramic feedline insulators.",
+    "spectrum_gimmick_title": "50 kW Capacitor Rupture Splattering ±30 kHz (WTWW / Radio Havana Windhowl Homage)",
+    "hauser_commentary": "Automated Relay KZ9-Omega on 7140—cited by the Spectrum Bureau for coming on early and splattering a 60-kHz-wide signal from 7110 to 7170 because of a ruptured capacitor and a 60 kV dust squall arcing across the tower's ceramic insulators. Mostly S9+40 of dead-air silicate windhowl.",
+    "qsl_postcard_style": "Corporate Hardware Underwriter & Tower-Cam Telemetry Card (Van Allen Switchgear)",
+    "qsl_animation_notes": "Seen from the high mast-mounted inspection camera on Tower #1: a blinding 60 kV cyan plasma arc leaps from the parabolic dish below right into the foreground ceramic insulator with a shower of sparks and a red 'NOV CITED: ±30 kHz SPLATTER' stamp!",
+    "discovery_arc": [
+      {
+        "stage": "Broadcast 01 (Initial Log)",
+        "summary": "Cited for 60 kHz bandwidth splatter and +4.8° marzelvane bushing wobble as tower-cam captures 60 kV arcs hitting the foreground insulator."
+      },
+      {
+        "stage": "Broadcast 02 (The Broken Phaser Lobe)",
+        "summary": "Directional night-pattern phaser fails completely, accidentally beaming internal Syndicate customs audio 42,000 AU backward into GOR-9's lap."
+      }
+    ]
+  },
+  "flow_plates": [
+    {
+      "src": "assets/plates/flow_kz9_mast_pov_a.jpg",
+      "role": "16:9 Onboard Tower-Mast Inspection Cam Keyframe A (Flow)",
+      "caption": "Shot FROM the high-mounted inspection camera bolted to Tower #1 of Relay KZ9-OMEGA, showing the tower's own steel cross-bracing, copper grounding strap, and ceramic standoff insulators looking down at the twin 18m dishes as an ochre silicate dust wall rolls in."
+    },
+    {
+      "src": "assets/plates/flow_kz9_mast_pov_b.jpg",
+      "role": "16:9 Onboard Tower-Mast Inspection Cam Keyframe B (Flow)",
+      "caption": "As the silicate dust storm engulfs the plateau below, a blinding 60 kV cyan-white plasma arc leaps from the lower parabolic dish right into the foreground ceramic standoff insulator, showering orange sparks!"
+    }
+  ]
+}

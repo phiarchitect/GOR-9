@@ -1,0 +1,238 @@
+{
+  "id": "trojan-octal",
+  "preset_slot": "P-04",
+  "featured_prototype": false,
+  "callsign": "E08-OCTAL",
+  "name": "Trojan L4 'Three-Five-Octal'",
+  "subtitle": "Unlisted Base-8 Numbers Station & Cipher Beacon",
+  "category": "Numbers Station / Cipher",
+  "status": "NO VIDEO • BASE-8 CIPHER",
+  "status_color": "red",
+  "origin": {
+    "body": "Perseus-Trojan Lagrange Swarm L4 (Shard #624-Hektor)",
+    "site": "Unmarked Carbonaceous Cavity Array",
+    "coordinates": "Gal Lon 318.4°, Gal Lat +02.1° (L4 Libration Zone)",
+    "distance": "2,480 Light-Years (Perseus Gap Bearing 318.4°)",
+    "local_clock": "GCT Pulsar Direct (No Local Solar Day)"
+  },
+  "galactic": {
+    "sector": "Perseus Arm Inner Rim • L4 Trojan Shard Swarm",
+    "arm": "Perseus Arm",
+    "azimuth_deg": 318.4,
+    "elevation_deg": 2.1,
+    "range_ly": 2480.0,
+    "range_label": "2,480 ly (0.76 kpc)",
+    "radial_norm": 0.72,
+    "relay_nodes": [
+      {
+        "name": "Ceres-North Shadow Relay",
+        "az_deg": 315.0,
+        "r_norm": 0.42
+      }
+    ]
+  },
+  "rf": {
+    "frequency_khz": 6440.0,
+    "measured_khz": 6440.0,
+    "doppler_hz": 0.0,
+    "band": "46m Out-of-Band ('No-No' Boundary Channel)",
+    "mode": "USB-OCT",
+    "filter_bw_hz": 2400,
+    "tx_power_watts": 1200,
+    "tx_power_label": "1.2 kW (Pulsed Capacitor Bank)",
+    "antenna": "Slot-Cut Basalt Cavity Radiator",
+    "relay_path": "Perseus Gap Waveguide + Oort Cometary Scatter",
+    "sinpo": {
+      "s": 4,
+      "i": 2,
+      "n": 4,
+      "p": 4,
+      "o": 3
+    },
+    "s_meter": "S9+10 dB",
+    "s_meter_pct": 78,
+    "hauser_index": "H-9.2",
+    "peak_modulation_db": "641.9 Hz SUB-AUDIBLE HETERODYNE [SAH]",
+    "dx_shorthand": [
+      "NO-NO FREQ",
+      "NUMBERS",
+      "QRM-JAM",
+      "SAH-641Hz"
+    ]
+  },
+  "hardware_dossier": {
+    "transmitter": "Zero-drift pulsar-disciplined USB exciter operating on 6,440.000 kHz—a restricted boundary channel between utility and broadcast allocations.",
+    "feedline_anomaly": "Transmits Mon/Wed/Fri/Sun only at 0355–0415 GCT. Curiously, on Thursdays—when E08-OCTAL is off the air—an automated Syndicate noise-jammer on Ceres still fires up at 0355 GCT to jam the empty frequency.",
+    "receive_antenna_at_gor9": "East/West Null Loop (Nulling Jammer at 272°, Main Lobe 318.4°)"
+  },
+  "media": {
+    "video_src": "assets/clips/m33_drift_buoy.mp4",
+    "poster_src": "assets/plates/flow_hektor_canyon_architecture.jpg",
+    "alt_plate_src": "assets/plates/flow_hektor_canyon_architecture.jpg",
+    "cam_id": "OCTAL-8 • BASE-8 CIPHER & MANIFEST CORRELATOR",
+    "hud_banner": "NO VIDEO CARRIER • BASE-8 NUMBERS STREAM: 047 • 312 • 771 • 351",
+    "audio_intercept_src": "assets/audio/intercept_trojan_octal.wav",
+    "interval_signal_src": "assets/audio/is_trojan_octal.wav",
+    "sstv_burst_src": "assets/audio/sstv_trojan_octal.wav",
+    "interval_signal_name": "Ascending 5-Note Lydian Glockenspiel + 641.9 Hz Pulsar Hum",
+    "languages": [
+      "Synthesized Mandarin/Spanish Hybrid",
+      "Base-8 Octal Groups"
+    ],
+    "transcript_excerpt": "[5-note glockenspiel chime x3] 'Attention: Three-Five-Octal. Three-Five-Octal. Group count eight: 047... 312... 771... 351... 015... 220...' (Decoded manifest: 6.0 metric tons of pork-chive dumpling wrappers + octal shift key 13.)",
+    "qsl_plate_src": "assets/plates/flow_hektor_canyon_architecture.jpg",
+    "qsl_plate_b_src": "assets/plates/flow_hektor_canyon_architecture.jpg",
+    "flow_plates": [
+      "assets/plates/flow_hektor_canyon_architecture.jpg"
+    ]
+  },
+  "qsl": {
+    "qsl_number": "QSL #0008-OCT",
+    "gif_src": "assets/qsl/qsl_trojan_octal.gif",
+    "protocol": "UNSOLICITED PHANTOM BURST (NO RETURN ADDRESS)",
+    "dimensions": "384×240 • 10-Frame Postcard eQSL GIF",
+    "issue_epoch": "2736.305 • 0404 GCT",
+    "motto": "EIGHT DIGITS IN THE DOUGH • SIX METRIC TONS IN THE HOLD",
+    "signer": "UNSIGNED [STAMPED WITH OCTAL SHIFT KEY 015₈ = 13₁₀]",
+    "collector_tier": "TIER S • PHANTOM NUMBERS eQSL (#8 of 64)",
+    "verification_hash": "0x0644-OCT8-351-015",
+    "embedded_clue": "Octal shift key 015 (decimal 13) unlocks the Sector 9 Quarantine Buoy 12 cargo manifest."
+  },
+  "decoder": {
+    "has_live_video": false,
+    "default_view": "decoder",
+    "signal_type": "BASE-8 OCTAL NUMBERS + CW KEYER + 641.9 Hz PULSAR SAH",
+    "spectrum_style": "octal_fsk",
+    "required_algorithm": "ALG-02",
+    "algorithm_name": "ALG-02 • BASE-8 OCTAL NUMBERS & CARGO MANIFEST DECRYPTOR",
+    "morse_stream": "----- ....- --... / ...-- .---- ..--- / --... --... .---- / ...-- ..... .---- / ----- .---- .....",
+    "raw_rx_lines": [
+      "04:04:00.00  IS-GLOCK: [5-NOTE LYDIAN CHIME x3] • SAH SUB-TONE = 641.928 Hz",
+      "04:04:03.12  YL-VOICE: 'ATTENTION: THREE-FIVE-OCTAL • GROUP COUNT EIGHT'",
+      "04:04:06.50  OCTAL-RX: 047  •  312  •  771  •  351  •  015  •  220  •  144  •  015",
+      "04:04:10.05  QRM-NULL: CERES SYNDICATE JAMMER NULLED -34 dB ON BEARING 272.0°"
+    ],
+    "translated_lines": [
+      "[MANIFEST DECRYPT]: '6.0 Metric Tons Pork & Chive Dumpling Wrappers (8 pleats per 351g dough)'",
+      "[SECTOR CIPHER KEY]: Octal Group 015₈ (Decimal Shift Key = 13) -> Unlocks Sector 9 Log Cipher",
+      "[COORDINATE PAYLOAD]: Group 351₈ -> Asteroid 3-5-1 (Outpost Nine) • Group 771₈ -> M33-771 Relic Maser Sync",
+      "[JAMMER ANOMALY]: Automated Ceres Syndicate jammer fires at 0355 GCT even on scheduled silent Thursdays"
+    ],
+    "telemetry_metrics": [
+      {
+        "label": "CIPHER RADIX",
+        "value": "BASE-8",
+        "unit": "3-DIGIT OCTAL GRPS",
+        "pct": 80,
+        "alert": true
+      },
+      {
+        "label": "PULSAR SAH LOCK",
+        "value": "641.93 Hz",
+        "unit": "PSR B1937+21 SYNC",
+        "pct": 100,
+        "alert": false
+      },
+      {
+        "label": "JAMMER NULL",
+        "value": "-34.0 dB",
+        "unit": "CERES QRM @ 272°",
+        "pct": 72,
+        "alert": true
+      },
+      {
+        "label": "OCTAL SHIFT KEY",
+        "value": "KEY = 13",
+        "unit": "6.0t DUMPLING CARGO",
+        "pct": 92,
+        "alert": true
+      }
+    ]
+  },
+  "logs": [
+    {
+      "epoch": "2736.305",
+      "gct": "0404 GCT",
+      "entry": "** TROJAN L4 [Perseus Rim]. 6440.000 USB, Epoch 2736.305 at 0404 GCT, unlicensed numbers station 'Three-Five-Octal' S9+10 on a no-no boundary frequency (Az 318.4°, 2,480 ly); YL synth voice reading 3-digit base-8 groups (claimed by L4 miners to be dumpling recipes). Note: yesterday (its day off), strong automated jamming still came on at 0355 GCT over an empty channel! (Operator, Asteroid 3-5-1, GOR-9)"
+    },
+    {
+      "epoch": "2736.301",
+      "gct": "0355 GCT",
+      "entry": "** TROJAN L4. 6440.000 USB, Epoch 2736.301 at 0355 GCT, E08-OCTAL silent on its scheduled off-day, yet the automated Ceres Syndicate noise-jammer still fired up at 0355 sharp on bearing 272.0° to jam the empty frequency for 20 minutes! (Operator, Asteroid 3-5-1, GOR-9)"
+    },
+    {
+      "epoch": "2736.289",
+      "gct": "0400 GCT",
+      "entry": "** TROJAN L4. 6440.000 USB, Epoch 2736.289 at 0400 GCT, ascending 5-note Lydian glockenspiel interval signal locked to a 641.928 Hz pulsar sub-tone; octal group [047 • 034] correlated with Euclid Prop I.34 parallelogram bisection (Operator, Asteroid 3-5-1, GOR-9)"
+    }
+  ],
+  "station_folder": "e08-octal_vulpecula-buzzer",
+  "characters": [
+    {
+      "name": "Synthesizer Unit 'YL-8' (The Octal Voice)",
+      "role": "Automated Base-8 Cipher Reader",
+      "species_or_type": "1990s ROM Speech Chip (Spanish/Mandarin Hybrid Phonemes)",
+      "languages": "Base-8 Octal Digits (0–7) in Hybrid Mandarin/Spanish",
+      "dialect_notes": "Cold, hypnotic, uninflected female voice reading 3-digit octal groups over a 641.928 Hz pulsar hum.",
+      "voice_profile": {
+        "tts_voice": "Kore (Flat Monotone Cipher Filter)",
+        "cadence": "60 WPM rhythmic 3-digit groups following 5-note Lydian glockenspiel",
+        "dsp_chain": "USB narrowband 2.4 kHz + 641.9 Hz sub-audible heterodyne"
+      },
+      "signature_quote": "Attention: Three-Five-Octal. Group count eight: 047... 312... 771... 351... 015...",
+      "bio": "The public face of E08-OCTAL on the restricted 6,440 kHz boundary channel. Because its optical tonewheel broke in 2719, the operators have to hold a live studio condenser mic up to a mechanical glockenspiel and speaker box.",
+      "slug": "yl8_octal",
+      "headshot_src": "assets/plates/flow_hektor_canyon_architecture.jpg",
+      "fullbody_src": "assets/plates/flow_hektor_canyon_architecture.jpg",
+      "voice_sample_dry_src": "assets/audio/voices/voice_yl8_octal_dry.wav",
+      "voice_sample_rf_src": "assets/audio/voices/voice_yl8_octal_rf.wav",
+      "language_sample_transcript": "Atención: Tres, Cinco, Octal. Attention: Three, Five, Octal. Group count eight. Zero-four-seven. Three-one-two. Seven-seven-one. Three-five-one. Zero-one-five. Fin de transmisión.",
+      "phonetic_and_conlang_notes": "Bilingual Spanish/English Base-8 (Octal 0–7) cryptographic numbers-station cadence."
+    },
+    {
+      "name": "'Old Liang' & 'Arturo' (The Open-Mic Caretakers)",
+      "role": "Bickering Bunker Custodians & Dumpling Makers",
+      "species_or_type": "Humans (Retired L4 Lagrange Cipher Clerks)",
+      "languages": "Shandong Mandarin & Porteño Spanish",
+      "dialect_notes": "Muffled background arguments, coughing, clanking space-heaters, and whistling tea-kettles accidentally picked up whenever they forget to mute the glockenspiel mic.",
+      "voice_profile": {
+        "tts_voice": "Puck & Orus (Muffled Room-Mic Distance Filter)",
+        "cadence": "Grumpy domestic bickering behind the deadly-serious numbers broadcast",
+        "dsp_chain": "High-pass room reverb + kettle whistle @ 2,150 Hz"
+      },
+      "signature_quote": "[Behind the cipher voice]: 'Arturo, turn off the kettle, the red mic light is on!' — 'No, eight pleats per wrapper, three-five-one grams of dough!'",
+      "bio": "Stationed inside Canyon Bunker #624-Hektor for twenty years with six metric tons of frozen dumpling wrappers and a code-book they use to coordinate tax-free provisions across Sector 9.",
+      "slug": "liang_and_arturo",
+      "headshot_src": "assets/characters/char_liang_and_arturo_headshot.jpg",
+      "fullbody_src": "assets/characters/char_liang_and_arturo_fullbody.jpg",
+      "voice_sample_dry_src": "assets/audio/voices/voice_liang_and_arturo_dry.wav",
+      "voice_sample_rf_src": "assets/audio/voices/voice_liang_and_arturo_rf.wav",
+      "language_sample_transcript": "Arturo, apaga la pava, the red microphone light is on! Qué micrófono ni ocho cuartos, Old Liang! I told you, eight pleats per dumpling wrapper, three-hundred-fifty-one grams of dough!",
+      "phonetic_and_conlang_notes": "Bunker Caretaker Spanglish: domestic Porteño Spanish & English argument accidentally broadcast behind the octal cipher."
+    }
+  ],
+  "worldbuilding": {
+    "habitat_and_culture": "Hidden inside a terraced basalt canyon bunker beneath a giant curtain antenna array on Hektor. Like Russia's UVB-76 ('The Buzzer') and Cuba's HM01, the station mixes eerie cryptographic numbers with accidental live-mic comedy from the two old caretakers living inside the transmitter room.",
+    "spectrum_gimmick_title": "Out-of-Band Base-8 Numbers + Accidental Open Studio Mic (UVB-76 Homage)",
+    "hauser_commentary": "On the no-no boundary frequency of 6440 USB, 'Three-Five-Octal' was sending its usual base-eight groups—until 0404 GCT, when the studio mic picked up someone kicking a metal space-heater, a tea-kettle whistling, and a muffled voice muttering 'no, eight pleats per wrapper.'",
+    "qsl_postcard_style": "Stark Cryptic Trefoil Emblem & Buff Cardstock Card (inspired by Red Mercury Labs & 4VEH Haiti)",
+    "qsl_animation_notes": "The 3-5-1 trefoil blades flash while octal groups typewrite across the center; on Frame 5 an open-mic whistling tea-kettle pops up before a red 'STAMPED: KEY 015' rubber stamp slams over it.",
+    "discovery_arc": [
+      {
+        "stage": "Broadcast 01 (Initial Log)",
+        "summary": "Decoded octal manifest for 6.0 metric tons of pork-chive dumpling wrappers + octal shift key 015 (decimal 13)."
+      },
+      {
+        "stage": "Broadcast 02 (The Open-Mic Incident)",
+        "summary": "At 0404 GCT, Old Liang drops the mechanical glockenspiel mallet; for 45 seconds listeners hear a whistling kettle and an argument about Quarantine Buoy 12."
+      }
+    ]
+  },
+  "flow_plates": [
+    {
+      "src": "assets/plates/flow_hektor_canyon_architecture.jpg",
+      "role": "16:9 Canyon Bunker & Curtain-Antenna Background Plate (Flow)",
+      "caption": "Brutalist concrete-and-steel terraced mining canyon on Shard #624-Hektor, crowned by the high-power shortwave curtain antenna array on the canyon rim."
+    }
+  ]
+}

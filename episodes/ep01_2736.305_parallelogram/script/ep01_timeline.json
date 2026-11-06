@@ -1,115 +1,131 @@
 {
-  "episode": "GOR-9 \u2022 Episode 01 (2560x1440 QHD Reboot)",
+  "broadcast": "GOR-9 \u2022 Broadcast 01 (2560x1440 QHD \u2014 4-Console Edition)",
+  "galactic_epoch": "2736.305",
+  "galactic_time": "0400 GCT (Pulsar B1937+21 Barycentric Standard)",
   "sample_rate": 24000,
-  "total_duration_sec": 179.12,
+  "total_duration_sec": 310.07,
   "segments": [
     {
       "id": "seg0_cold_open",
       "console": "CAM-00",
-      "title": "CAM-00 \u2022 HIGH BASALT SHELF TOWER OUTPOST",
+      "title": "CAM-00 \u2022 HIGH BASALT SHELF TOWER & ATC CONTROL ROOM",
       "start_sec": 0.0,
-      "end_sec": 17.32,
-      "voice_start_sec": 0.92,
-      "ding_lock_sec": 4.3,
-      "subtitle": "This is GOR-9. This is GOR-9 [ding-ding] Galactic Outpost Radio, broadcasting from the High Basalt Shelf on Asteroid 3-5-1 in Sector 9."
+      "end_sec": 21.47,
+      "voice_start_sec": 0.85,
+      "ding_lock_sec": 4.18,
+      "subtitle": "This is GOR-9. This is GOR-9 [ding-ding] Galactic Outpost Radio, broadcasting from the High Basalt Shelf Tower on Asteroid 3-5-1, 42,100 AU out in Oort Cloud Sector 9. 14,285 kHz USB. 0400 Galactic Coordinated."
     },
     {
       "id": "seg1_weather",
-      "console": "METEO-9",
-      "title": "CONSOLE 1 \u2022 METEO-9 \u2022 SECTOR 9 MAGNETOSPHERIC RADAR",
-      "start_sec": 17.32,
-      "end_sec": 40.73,
-      "subtitle": "Space Weather, with emphasis on Sector 9. Coreward lanes are calm\u2014solar flux 174, K-index 2. Locally, an electrostatic dust squall on the Meridian Plateau has engulfed Relay KZ9-OMEGA (60 kV arcing, marzelvane #4 phase-wobble, SINPO 2-3-2-2-2)."
+      "console": "VAN-ALLEN-VA4",
+      "title": "CONSOLE 1 \u2022 VAN ALLEN VA-4 \u2022 OORT PROPAGATION & SPACE WEATHER",
+      "start_sec": 21.47,
+      "end_sec": 51.48,
+      "subtitle": "On the Van Allen VA-4 Propagation and Power Console\u2014brought to you by Van Allen and Sons Switchgear: Comet K-4's ion tail opens a 24 MHz skip corridor to the Jovian moons; a 60 kV triboelectric dust squall at Relay KZ9-Omega arcs across the #4 Belt-Master marzelvane bushing (SINPO 2-3-2-2-2)."
     },
     {
       "id": "seg2_econ",
-      "console": "ECON-9",
-      "title": "CONSOLE 2 \u2022 ECON-9 \u2022 CERES SPOT EXCHANGE & REACTOR STEP-DOWN",
-      "start_sec": 40.73,
-      "end_sec": 64.99,
-      "subtitle": "Outpost Economics: Grade-B Deuterium pellets +4% following Quarry 44-K dragline slowdown. Reactor #2 stepping down to 12 kW after midnight. Supply tender held at Quarantine Buoy 12 ('fermented brine tubers')."
+      "console": "VAN-ALLEN-BUS",
+      "title": "CONSOLE 1B \u2022 VAN ALLEN VA-4 \u2022 50 kW DILITHIUM POWER BUS",
+      "start_sec": 51.48,
+      "end_sec": 86.14,
+      "subtitle": "On the Dilithium Bus: Grade-B Dilithium pellets +4% on the Ceres Exchange (Quarry 44-K slowdown). With the Van Allen Ring-Bake corona de-icer pulling +4.5 kW, Reactor #2 steps down to 12 kW after midnight (plug in Van Allen Cryo-Toast foot-warmers). Tender held at Quarantine Buoy 12 ('fermented brine tubers')."
     },
     {
       "id": "seg3_hauser",
       "console": "HAUSER-MK4",
-      "title": "CONSOLE 3 \u2022 HAUSER MK-IV CORRELATOR \u2022 DX LOGS",
-      "start_sec": 64.99,
-      "end_sec": 102.74,
+      "title": "CONSOLE 2 \u2022 HAUSER DYNAMICS MK-IV \u2022 GALAXY ATLAS & DECODER",
+      "start_sec": 86.14,
+      "end_sec": 167.93,
       "sub_views": [
         {
           "id": "3a_titan_n24",
           "freq_khz": 3890.0,
-          "label": "3,890 kHz CW \u2022 TITAN-MINOR BUOY N-24",
-          "start_sec": 64.99,
-          "end_sec": 80.46,
-          "vignette_start_sec": 73.29,
-          "vignette_end_sec": 75.69,
-          "subtitle": "On the Hauser Correlator: Titan-Minor, 3,890 kHz. Hydrographic Buoy N-24 reciting methane tide tables, while migratory silt-striders rub against the guy-wires, detuning the whip antenna."
+          "label": "P-02 \u2022 3,890 kHz CW \u2022 TITAN-MINOR BUOY N-24",
+          "start_sec": 86.14,
+          "end_sec": 111.28,
+          "vignette_start_sec": 99.24,
+          "vignette_end_sec": 101.64,
+          "subtitle": "Turning to the Hauser Dynamics MK-IV Receiver: Preset Two\u2014Titan-Minor, 3,890 kHz. Hydrographic Buoy N-24 is transmitting methane tide telemetry, though migratory silt-striders rubbing against the guy-wires just detuned the whip antenna by 18 Hz. eQSL #0882 logged."
         },
         {
           "id": "3b_callisto_bazaar",
           "freq_khz": 11410.0,
-          "label": "11,410 kHz AM \u2022 CALLISTO DOME-4 'RADIO CORRUGATED'",
-          "start_sec": 80.46,
-          "end_sec": 91.97,
-          "vignette_start_sec": 86.08,
-          "vignette_end_sec": 88.48,
-          "subtitle": "Callisto Dome Four, 11,410 kHz. Unlicensed noodle-market broadcaster Radio Corrugated, peaking right as their engineer hit the dipole with a blowtorch."
+          "label": "P-01 \u2022 11,410 kHz AM \u2022 CALLISTO DOME-4 'RADIO CORRUGATED'",
+          "start_sec": 111.28,
+          "end_sec": 126.62,
+          "vignette_start_sec": 118.74,
+          "vignette_end_sec": 121.14,
+          "subtitle": "Preset One\u2014Callisto Dome Four, 11,410 kHz. Unlicensed noodle-market broadcaster Radio Corrugated, peaking at S9+10 right as their engineer hit the rooftop dipole with a blowtorch."
         },
         {
           "id": "3c_m33_buoy",
           "freq_khz": 1420405.0,
-          "label": "1,420.405 MHz \u2022 INTERGALACTIC M-33 DRIFT BUOY",
-          "start_sec": 91.97,
-          "end_sec": 102.74,
-          "subtitle": "And Intergalactic, M-33: a 700-year-old drift-buoy still issuing small-craft warnings for an ammonia sea that evaporated in the Ming Dynasty."
+          "label": "P-03 \u2022 1,420.405 MHz \u2022 EXTRAGALACTIC M-33 DRIFT BUOY [ALG-02]",
+          "start_sec": 126.62,
+          "end_sec": 151.28,
+          "subtitle": "Preset Three\u2014extragalactic, 1,420 MHz on the hydrogen line toward M-33. No video carrier\u2014just a relativistic Doppler Lissajous on the spectrum scan. Translation Algorithm 02 decodes Buoy M-33-771: still issuing small-craft advisories for an ammonia sea that evaporated during the Ming Dynasty."
+        },
+        {
+          "id": "3d_trojan_octal",
+          "freq_khz": 6925.0,
+          "label": "P-04 \u2022 6,925 kHz USB \u2022 TROJAN OCTAL NUMBERS STATION [ALG-03]",
+          "start_sec": 151.28,
+          "end_sec": 167.93,
+          "subtitle": "And on Preset Four, 6,925 kHz in the Jupiter Trojans: an encrypted base-8 numbers station where Algorithm 03 just decoded six metric tons of pork-chive dumpling wrappers\u2014plus an octal shift key of 13 for those tracking the sector cipher in the station log."
         }
       ]
     },
     {
       "id": "seg4_euclid",
-      "console": "EUCLID-9",
-      "title": "CONSOLE 4 \u2022 EUCLID-9 \u2022 THE UNSUSPECTING PARALLELOGRAM (I.34 / G.47)",
-      "start_sec": 102.74,
-      "end_sec": 141.36,
+      "console": "VAN-ALLEN-ED9",
+      "title": "CONSOLE 3 BOGEY-9 TRAIL-CAM & CONSOLE 4 VAN ALLEN ED-9 EUCLIDEAN DETECTOR",
+      "start_sec": 167.93,
+      "end_sec": 265.46,
       "steps": [
         {
-          "id": "4a_sighting",
-          "start_sec": 102.74,
-          "end_sec": 121.32,
-          "subtitle": "Euclid Signal Detector alert (03:12 UTC): inside unmanned Brine Evaporation Vat 19 on Callisto-South, Frame 7 locked onto an unsuspecting parallelogram in the salt crust."
+          "id": "4a_bogey_trailcam",
+          "start_sec": 167.93,
+          "end_sec": 197.48,
+          "subtitle": "Bogey-9 Perimeter Trail-Cam (03:41 GCT): Trail-Cam One on the Acheron North Rim triggered an 8-frame burst on a mirror-chrome cylinder drifting at 14 m/s before executing a 90\u00b0 vertical snap-turn at 140g with zero thruster plume (blamed on a vented Mess Hall thermos flask)."
         },
         {
-          "id": "4b_construction",
-          "start_sec": 121.32,
-          "end_sec": 133.1,
-          "subtitle": "Opposite sides parallel to 0.0002 arcsec (AB || CD, AC || BD)\u2014and somebody drew the diameter BC, bisecting the sludge into two congruent triangles (Euclid I.34 / G.47)."
+          "id": "4b_ed9_sighting",
+          "start_sec": 197.48,
+          "end_sec": 230.05,
+          "subtitle": "Van Allen ED-9 Euclidean Detector\u2014searching for geometric intelligence across the universe: our 12-tube Hough Transform correlator locked onto a single 99.998% synthetic signature in Callisto-South Brine Evaporation Vat 19: the Unsuspecting Parallelogram."
         },
         {
-          "id": "4c_punchline",
-          "start_sec": 133.1,
-          "end_sec": 141.36,
-          "subtitle": "The Water Board claims a motorized mud-rake lost a cotter pin and dragged sideways. It's always a broken cotter pin, folks."
+          "id": "4c_ed9_proof",
+          "start_sec": 230.05,
+          "end_sec": 252.0,
+          "subtitle": "Under inspection-beam sweep Frame 7, four salt-crust ridges form parallelogram ABDC (Euclid I.34 / G.47): opposite sides AB || CD and AC || BD hold parallel to 0.0002 arcsec, while diameter BC bisects the sludge into two congruent triangles."
+        },
+        {
+          "id": "4d_ed9_punchline",
+          "start_sec": 252.0,
+          "end_sec": 265.46,
+          "subtitle": "Seven minutes after our Van Allen detector logged the Proposition 34 proof, the Callisto Water Board scrubbed the archive and blamed a motorized mud-rake that lost a cotter pin. That is one remarkably well-educated mud-rake, folks."
         }
       ]
     },
     {
       "id": "seg5_signoff",
       "console": "SCHED-9",
-      "title": "CONSOLE 5 \u2022 SCHED-9 & SIGN-OFF -> CAM-00 TOWER",
-      "start_sec": 141.36,
-      "cam00_return_sec": 151.838,
-      "closing_ding_sec": 157.87,
-      "end_sec": 159.12,
-      "subtitle": "On the next broadcast: an unlicensed numbers station in the Trojans reciting dumpling recipes in base-8, and a suspected rhombus aboard an ice-hauler. From Asteroid 3-5-1 in Sector 9, this is GOR-9\u2014your eye to the cosmos, ear to the vacuum."
+      "title": "COMING NEXT, VAN ALLEN UNDERWRITER & CAM-00D SIGN-OFF",
+      "start_sec": 265.46,
+      "cam00_return_sec": 280.03,
+      "closing_ding_sec": 288.52,
+      "end_sec": 290.07,
+      "subtitle": "On the next broadcast: an uninspected Dilithium barge rendezvous in the tail of Comet K-Four, and a suspected rhombus aboard a bulk ice-hauler. This broadcast is underwritten by Van Allen and Sons Switchgear\u2014from radiation belts to reactor beds, if it arcs, we clamp it. From Asteroid 3-5-1 in Oort Cloud Sector 9, this is GOR-9\u2014your eye to the cosmos, ear to the vacuum."
     },
     {
       "id": "seg6_outro",
       "console": "ORS-351",
       "title": "O.R.S. 351 \u2022 ORBITAL SATELLITE DOWNLINK & END CARDS",
-      "start_sec": 159.12,
-      "end_sec": 179.12,
-      "subtitle": "Remember, a like indication on your listening apparatus gives us three kilowatts, and a subscription gets us one step closer to upgrading our marzelvane emitters."
+      "start_sec": 290.07,
+      "end_sec": 310.07,
+      "subtitle": "Remember, a like indication on your listening apparatus gives us three kilowatts of Dilithium reserve, and a subscription gets us one step closer to shielding our marzelvane emitters."
     }
   ]
 }

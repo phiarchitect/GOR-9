@@ -1,0 +1,215 @@
+{
+  "id": "radio-free-hektor",
+  "station_folder": "rfh-hop_radio-free-hektor",
+  "preset_slot": "P-07",
+  "featured_prototype": false,
+  "callsign": "RFH-HOP",
+  "name": "Radio Free Hektor",
+  "subtitle": "Trojan L4 Frequency-Hopping Accordion Rebel Crawler",
+  "category": "Frequency-Hopping Pirate",
+  "status": "HOPPING ±5 kHz • JAMMER LATE",
+  "status_color": "green",
+  "origin": {
+    "body": "Trojan L4 Asteroid Swarm (Shard #624-Hektor)",
+    "site": "Mobile Silicate Blast-Crawler 'Balkan Star' (Crater-to-Crater)",
+    "coordinates": "Gal Lon 319.1°, Gal Lat +02.4° (Mobile Crawler Track)",
+    "distance": "2,482 Light-Years (Perseus-Trojan Corridor)",
+    "local_clock": "Mon/Wed/Fri/Sun Only (Thursdays Off for Mahjong)"
+  },
+  "galactic": {
+    "sector": "Perseus Arm Inner Rim • L4 Trojan Shard Swarm",
+    "arm": "Perseus Arm",
+    "azimuth_deg": 322.0,
+    "elevation_deg": 2.4,
+    "range_ly": 2482.0,
+    "range_label": "2,482 ly (0.76 kpc)",
+    "radial_norm": 0.75,
+    "relay_nodes": [
+      {
+        "name": "Ceres Jammer (90s Late)",
+        "az_deg": 316.0,
+        "r_norm": 0.44
+      }
+    ]
+  },
+  "rf": {
+    "frequency_khz": 6445.0,
+    "measured_khz": 6445.0,
+    "doppler_hz": -15.0,
+    "band": "46m Hopping Trench (6440 → 6445 → 6435 kHz)",
+    "mode": "USB-HOP",
+    "filter_bw_hz": 2800,
+    "tx_power_watts": 180,
+    "tx_power_label": "180 W (Crawler Diesel-Cell Alternator)",
+    "antenna": "4.5m Spring-Loaded Whip on Crawler Engine Hood",
+    "relay_path": "Perseus Waveguide (Evading Ceres Noise-Blanketer)",
+    "sinpo": {
+      "s": 4,
+      "i": 4,
+      "n": 4,
+      "p": 3,
+      "o": 4
+    },
+    "s_meter": "S8 / S9",
+    "s_meter_pct": 74,
+    "hauser_index": "H-9.4",
+    "peak_modulation_db": "QSY ±5 kHz EVERY 6 MIN [JAMMER MISSED]",
+    "dx_shorthand": [
+      "FREQ-HOP",
+      "PIRATE",
+      "THU-GHOST-JAM",
+      "ACCORDION"
+    ]
+  },
+  "hardware_dossier": {
+    "transmitter": "180-watt surplus blast-crawler transceiver modified with a three-crystal rotary turret switch (`6440 / 6445 / 6435 kHz`) bolted next to the driver's clutch.",
+    "feedline_anomaly": "Every 6 minutes Zora clicks the crystal turret to hop ±5 kHz ahead of the Ceres Syndicate's automated noise-jammer, which takes 90 seconds to retune its cavity filters. Hilariously, on Thursdays—when the crew takes the night off—the Syndicate jammer still fires up at 0355 GCT to jam 6440 kHz for 20 minutes of empty vacuum.",
+    "receive_antenna_at_gor9": "East/West Null Loop (Tracking 6435–6445 kHz Hop Window)"
+  },
+  "media": {
+    "video_src": "assets/clips/m33_drift_buoy.mp4",
+    "poster_src": "assets/plates/qsl_plate_radio_free_hektor.jpg",
+    "alt_plate_src": "assets/plates/qsl_plate_radio_free_hektor_b.jpg",
+    "qsl_plate_src": "assets/plates/qsl_plate_radio_free_hektor.jpg",
+    "qsl_plate_b_src": "assets/plates/qsl_plate_radio_free_hektor_b.jpg",
+    "cam_id": "HOP-TRACKER • 6440/6445/6435 kHz & JAMMER OFFSET",
+    "hud_banner": "QSY HOP ACTIVE: 6445.0 kHz • SYNDICATE JAMMER STUCK ON 6440.0 kHz",
+    "audio_intercept_src": "assets/audio/intercept_radio_free_hektor.wav",
+    "interval_signal_src": "assets/audio/is_radio_free_hektor.wav",
+    "sstv_burst_src": "assets/audio/sstv_radio_free_hektor.wav",
+    "interval_signal_name": "Balkan Electric Accordion Polka Riff + Turret Click",
+    "languages": [
+      "Serbo-Croatian Miner Patois",
+      "English",
+      "Union Cipher"
+    ],
+    "transcript_excerpt": "[Lively red accordion polka] 'Attention Shard 624! Syndicate jammer warming up on 6440—everybody turn your VFO up five kilohertz to 6445 on the count of three—CLICK!' [JAMMER ROARS ON OLD FREQUENCY]"
+  },
+  "flow_plates": [
+    {
+      "src": "assets/plates/flow_hektor_canyon_architecture.jpg",
+      "role": "16:9 Canyon City & Crawler Switchback Background Plate (Flow)",
+      "caption": "Deep terraced basalt canyon city on Hektor with a yellow tracked blast-crawler descending the canyon switchback beneath the rim curtain array."
+    },
+    {
+      "src": "assets/plates/qsl_plate_radio_free_hektor.jpg",
+      "role": "16:9 Character Keyframe A (Flow)",
+      "caption": "Zora 'Bellows' Kovač sitting on yellow tracked Crawler X-74 playing her red accordion."
+    },
+    {
+      "src": "assets/plates/qsl_plate_radio_free_hektor_b.jpg",
+      "role": "16:9 Character Keyframe B (Flow)",
+      "caption": "Zora throwing both gloved hands up in a huge laugh and wave as the crawler whip antenna blazes green/gold on 6445 kHz."
+    }
+  ],
+  "qsl": {
+    "qsl_number": "QSL #0074-RFH",
+    "gif_src": "assets/qsl/qsl_radio_free_hektor.gif",
+    "protocol": "FREQUENCY-AGILE 3-HOP SSTV STAMP",
+    "dimensions": "384×240 • 10-Frame Postcard eQSL GIF",
+    "issue_epoch": "2736.305 • 0406 GCT",
+    "motto": "HOP FASTER THAN THE JAMMER — THURSDAYS OFF FOR MAHJONG",
+    "signer": "Zora 'Bellows' Kovač, Crawler X-74 Blast-Engineers Union",
+    "collector_tier": "TIER I • 3-HOP REBEL EDITION (#19 of 100)",
+    "verification_hash": "0x6445-RFH-HOP3-X74",
+    "embedded_clue": "Hop intervals (6m, 10m, 16m) and Thursday ghost-jamming expose the Ceres Syndicate's fixed cron timer."
+  },
+  "decoder": {
+    "has_live_video": false,
+    "default_view": "decoder",
+    "signal_type": "3-CRYSTAL HOPPING USB + ACCORDION INTERVAL + JAMMER TELEMETRY",
+    "spectrum_style": "octal_fsk",
+    "required_algorithm": "ALG-02",
+    "algorithm_name": "ALG-02 • FREQUENCY-HOP TRACKER & UNION MANIFEST TRANSLATOR",
+    "morse_stream": ".-. ..-. .... / --.- ... -.-- / -.... ....- ....- ..... / .--- .- -- / -- .. ... ...",
+    "raw_rx_lines": [
+      "04:00:02.00  HOP-01  : 6,440.000 kHz USB • ZORA ACCORDION ID + BLAST SCHEDULE",
+      "04:05:58.40  QSY-CMD : 'Turret click +5 kHz -> 6,445.000 kHz NOW!'",
+      "04:06:01.15  JAM-LAG : CERES JAMMER FIRED ON OLD FREQ (6,440.0 kHz) — 90s LATE!",
+      "04:06:10.00  THU-NOTE: THURSDAY OFF-AIR LOG CONFIRMS 20m EMPTY-CHANNEL JAMMING"
+    ],
+    "translated_lines": [
+      "[HOP TRACKER]: Radio Free Hektor jumped 6440 -> 6445 kHz at 0406 GCT with zero packet loss",
+      "[JAMMER ANALYSIS]: Ceres Syndicate noise-blanketer locked onto 6440 kHz 90 seconds after QSY",
+      "[UNION BULLETIN]: Quarry 44-K dragline slowdown extended until Dilithium hazard pay increases 8%",
+      "[GHOST JAMMING]: On silent Thursdays, Syndicate AI still jams empty 6440 kHz from 0355–0415 GCT"
+    ],
+    "telemetry_metrics": [
+      {
+        "label": "ACTIVE HOP",
+        "value": "6445 kHz",
+        "unit": "+5 kHz TURRET QSY",
+        "pct": 85,
+        "alert": false
+      },
+      {
+        "label": "JAMMER LAG",
+        "value": "90.0 sec",
+        "unit": "STUCK ON 6440 kHz",
+        "pct": 92,
+        "alert": true
+      },
+      {
+        "label": "CRAWLER PWR",
+        "value": "180 W",
+        "unit": "X-74 ALTERNATOR",
+        "pct": 60,
+        "alert": false
+      },
+      {
+        "label": "THU JAMMING",
+        "value": "EMPTY CH",
+        "unit": "AI CRON BUG",
+        "pct": 98,
+        "alert": true
+      }
+    ]
+  },
+  "characters": [
+    {
+      "name": "Zora 'Bellows' Kovač",
+      "role": "Crawler X-74 Operator, Accordionist & Rebel Announcer",
+      "species_or_type": "Human (Retired Silicate Blast-Engineer)",
+      "languages": "Serbo-Croatian, English, Trojan Miner Patois",
+      "dialect_notes": "Boisterous, fearless laugh; punctuates every union bulletin and frequency hop with a triumphant Balkan accordion chord.",
+      "voice_profile": {
+        "tts_voice": "Kore / Aoede (Boisterous Slavic Accent)",
+        "cadence": "150 WPM over live red Welmeister accordion riffs",
+        "dsp_chain": "180W mobile whip USB + rotary crystal turret click"
+      },
+      "signature_quote": "Ceres Syndicate jammer is warming up its tubes on 6440, comrades—reach for the big knob and hop up five kilohertz with Zora!",
+      "bio": "After thirty years setting shaped charges in Silicate Quarry 44-K, Zora requisitioned Crawler X-74, bolted a 3-crystal hopping exciter to the dashboard, and began broadcasting union news and accordion requests across the Perseus-Trojan gap.",
+      "slug": "zora_kovac",
+      "headshot_src": "assets/characters/char_zora_kovac_headshot.jpg",
+      "fullbody_src": "assets/characters/char_zora_kovac_fullbody.jpg",
+      "voice_sample_dry_src": "assets/audio/voices/voice_zora_kovac_dry.wav",
+      "voice_sample_rf_src": "assets/audio/voices/voice_zora_kovac_rf.wav",
+      "language_sample_transcript": "Dobro jutro, slobodna braćo na Hektoru! Good morning free miners of Shard Six-Two-Four, this is Zora on Radio Free Hektor! I see the Ceres jammer warming up on sixty-four-forty—too slow, boys! Hold onto your accordion, we're hopping to sixty-four-forty-five right now!",
+      "phonetic_and_conlang_notes": "Trojan L4 Rebel Patois: Balkan Serbo-Croatian greetings ('Dobro jutro, slobodna braćo!') mixed with frequency-hopping pirate calls."
+    }
+  ],
+  "worldbuilding": {
+    "habitat_and_culture": "Crawler X-74 rumbles continuously along the terraced canyon switchbacks of Hektor so the Ceres Syndicate's direction-finding loops can never triangulate the same ridge twice.",
+    "spectrum_gimmick_title": "Manual 3-Crystal Frequency Hopping (±5 kHz) & Thursday Ghost-Jamming (North Korea 7200 kHz Homage)",
+    "hauser_commentary": "In the L4 Trojans, 'Radio Free Hektor' opened on 6440 USB with Zora's accordion, hopped to 6445 at 0406 to shake the Ceres noise-blanketer, and hopped to 6435 at 0412. And as usual on Thursdays—their night off—the automated Syndicate jammer still roared on at 0355 to fiercely jam twenty minutes of pure vacuum.",
+    "qsl_postcard_style": "Retro Gouache Pirate Crawler & Accordion Postcard (inspired by Radio Spaceshuttle International)",
+    "qsl_animation_notes": "2-frame character animation: Zora plays her red accordion on Crawler X-74, then throws both gloved hands up in a huge laugh as the whip antenna blazes green/gold and the frequency badge hops ahead of the red Jammer crosshair!",
+    "discovery_arc": [
+      {
+        "stage": "Broadcast 01 (Initial Log)",
+        "summary": "Logged 3-step frequency hop (6440/6445/6435 kHz) and documented the Thursday 0355 GCT ghost-jamming on an empty channel."
+      },
+      {
+        "stage": "Broadcast 02 (The Jammer Harmonic)",
+        "summary": "Zora tricks the Syndicate jammer into chasing her onto 6450 kHz, accidentally jamming the Syndicate's own automated ore-barge dispatch channel!"
+      }
+    ]
+  },
+  "logs": [
+    {
+      "epoch": "2736.305",
+      "gct": "0406 GCT",
+      "entry": "** TROJAN L4 [Perseus Rim]. 6440 -> 6445 -> 6435 USB, Epoch 2736.305 at 0400-0418 GCT, mobile rebel pirate 'Radio Free Hektor' (180W on Crawler X-74); YL Zora playing live accordion and calling a +5 kHz QSY every 6 minutes while the automated Ceres Syndicate noise-jammer lumbered 90 seconds behind her! Note: on Thursday (their scheduled mahjong night off), the Syndicate jammer still came on at 0355 GCT to jam an empty frequency! (Operator, Asteroid 3-5-1, GOR-9)"
+    }
+  ]
+}

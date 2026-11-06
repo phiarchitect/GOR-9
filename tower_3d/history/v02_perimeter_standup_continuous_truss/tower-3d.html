@@ -1,0 +1,1797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GOR-9 · 3D Relay Tower, Marzelvane Emitters & Octagonal Broadcast Booth</title>
+  <style>
+    :root {
+      --bg-deep: #05080d;
+      --panel-bg: rgba(9, 15, 24, 0.86);
+      --panel-border: rgba(56, 232, 255, 0.32);
+      --amber: #ffae2b;
+      --amber-dim: rgba(255, 174, 43, 0.22);
+      --cyan: #38e8ff;
+      --cyan-dim: rgba(56, 232, 255, 0.18);
+      --crimson: #ff3b30;
+      --text-main: #e6f2ff;
+      --text-muted: #8aa4bf;
+      --font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg-deep);
+      color: var(--text-main);
+      font-family: var(--font-mono);
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      user-select: none;
+    }
+
+    #canvas-container {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+    }
+
+    /* Top Station Navigation Bar */
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 46px;
+      background: rgba(6, 10, 16, 0.92);
+      border-bottom: 1px solid var(--panel-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      z-index: 20;
+      backdrop-filter: blur(8px);
+    }
+
+    .brand-cluster {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .on-air-pill {
+      background: rgba(255, 59, 48, 0.18);
+      border: 1px solid var(--crimson);
+      color: #ff6961;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      padding: 3px 9px;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-shadow: 0 0 8px rgba(255, 59, 48, 0.65);
+    }
+
+    .on-air-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--crimson);
+      box-shadow: 0 0 8px var(--crimson);
+      animation: pulse-dot 1.4s infinite ease-in-out;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.85); }
+    }
+
+    .station-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--amber);
+      letter-spacing: 0.08em;
+    }
+
+    .station-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 11px;
+      padding: 5px 10px;
+      border: 1px solid rgba(138, 164, 191, 0.22);
+      border-radius: 3px;
+      background: rgba(12, 20, 32, 0.7);
+      transition: all 0.15s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--cyan);
+      border-color: var(--cyan);
+      background: var(--cyan-dim);
+    }
+
+    .nav-links a.active {
+      color: var(--amber);
+      border-color: var(--amber);
+      background: var(--amber-dim);
+      font-weight: 700;
+    }
+
+    /* Left HUD: Camera Presets & Marzelvane Controls */
+    .hud-left {
+      position: fixed;
+      top: 60px;
+      left: 16px;
+      width: 325px;
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 5px;
+      padding: 12px 14px;
+      z-index: 15;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65);
+    }
+
+    .hud-section-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      color: var(--cyan);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(56, 232, 255, 0.2);
+      padding-bottom: 4px;
+    }
+
+    .cam-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-bottom: 12px;
+    }
+
+    .cam-btn {
+      background: rgba(14, 24, 38, 0.85);
+      border: 1px solid rgba(56, 232, 255, 0.25);
+      color: var(--text-main);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-align: left;
+      padding: 6px 9px;
+      border-radius: 3px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.14s ease;
+    }
+
+    .cam-btn:hover {
+      border-color: var(--cyan);
+      background: var(--cyan-dim);
+    }
+
+    .cam-btn.active {
+      border-color: var(--amber);
+      background: var(--amber-dim);
+      color: var(--amber);
+      font-weight: 700;
+    }
+
+    .cam-key {
+      font-size: 10px;
+      padding: 1px 5px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
+    }
+
+    .toggle-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .toggle-btn {
+      flex: 1 1 46%;
+      background: rgba(16, 26, 40, 0.85);
+      border: 1px solid rgba(255, 174, 43, 0.35);
+      color: var(--amber);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 5px 7px;
+      border-radius: 3px;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .toggle-btn:hover {
+      background: var(--amber-dim);
+    }
+
+    /* Right HUD: Active Console & Marzelvane Emitter Telemetry */
+    .hud-right {
+      position: fixed;
+      top: 60px;
+      right: 16px;
+      width: 345px;
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 5px;
+      padding: 12px 14px;
+      z-index: 15;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65);
+    }
+
+    .console-card-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--amber);
+      margin-bottom: 3px;
+    }
+
+    .console-card-mfg {
+      font-size: 10px;
+      color: var(--cyan);
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    .console-preview-wrap {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #020408;
+      border: 1px solid rgba(56, 232, 255, 0.35);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 8px;
+      position: relative;
+    }
+
+    .console-preview-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .console-desc {
+      font-size: 11px;
+      line-height: 1.45;
+      color: var(--text-muted);
+      margin-bottom: 9px;
+    }
+
+    .console-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .action-link {
+      flex: 1;
+      text-align: center;
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 6px 8px;
+      border-radius: 3px;
+      background: var(--cyan-dim);
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
+      cursor: pointer;
+    }
+
+    .action-link.secondary {
+      background: var(--amber-dim);
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+
+    .telemetry-list {
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(56, 232, 255, 0.18);
+      font-size: 10.5px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      row-gap: 4px;
+      color: var(--text-muted);
+    }
+
+    .telemetry-val {
+      color: var(--text-main);
+      font-weight: 700;
+    }
+
+    .telemetry-val.cyan { color: var(--cyan); }
+    .telemetry-val.amber { color: var(--amber); }
+
+    /* Bottom Controls Hint Bar */
+    .hud-bottom {
+      position: fixed;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(6, 11, 18, 0.88);
+      border: 1px solid rgba(56, 232, 255, 0.28);
+      border-radius: 4px;
+      padding: 6px 16px;
+      font-size: 11px;
+      color: var(--text-muted);
+      z-index: 15;
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      white-space: nowrap;
+    }
+
+    .hud-bottom span strong {
+      color: var(--amber);
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Station Navigation -->
+  <header class="top-nav">
+    <div class="brand-cluster">
+      <div class="on-air-pill"><span class="on-air-dot"></span>ON AIR • 0400 GCT</div>
+      <div>
+        <div class="station-title">RELAY STATION GOR-9 · ASTEROID 3-5-1</div>
+        <div class="station-sub">OCTAGONAL ATC BROADCAST BOOTH &amp; 4-RING MARZELVANE EMITTER ARRAY</div>
+      </div>
+    </div>
+    <nav class="nav-links">
+      <a href="index.html">1 · HAUSER MK-IV</a>
+      <a href="propagation.html">2 · VAN ALLEN VA-4</a>
+      <a href="euclidean-detector.html">3 · EUCLID ED-9</a>
+      <a href="bogey-detector.html">4 · BOGEY-9 UAP</a>
+      <a href="station.html">5 · STATION DOSSIER</a>
+      <a href="tower-3d.html" class="active">6 · 3D TOWER &amp; BOOTH</a>
+    </nav>
+  </header>
+
+  <!-- Left HUD: Camera Presets -->
+  <aside class="hud-left" id="hud-left">
+    <div class="hud-section-title">
+      <span>CAMERA PRESETS</span>
+      <span>KEYS 1–7</span>
+    </div>
+    <div class="cam-grid" id="cam-buttons">
+      <button class="cam-btn active" data-cam="operator_pov">
+        <span>1 · Operator POV (Mic &amp; Consoles)</span>
+        <span class="cam-key">[1]</span>
+      </button>
+      <button class="cam-btn" data-cam="booth_wide">
+        <span>2 · Booth Wide (Over-the-Shoulder)</span>
+        <span class="cam-key">[2]</span>
+      </button>
+      <button class="cam-btn" data-cam="mic_desk_closeup">
+        <span>3 · Broadcast Mic, Logbook &amp; Key</span>
+        <span class="cam-key">[3]</span>
+      </button>
+      <button class="cam-btn" data-cam="starboard_consoles">
+        <span>4 · Starboard SETI &amp; UAP (ED-9 / Bogey)</span>
+        <span class="cam-key">[4]</span>
+      </button>
+      <button class="cam-btn" data-cam="port_dossier">
+        <span>5 · Port Dossier &amp; Galaxy Atlas</span>
+        <span class="cam-key">[5]</span>
+      </button>
+      <button class="cam-btn" data-cam="exterior_tower">
+        <span>6 · Exterior Tower &amp; Marzelvane Array</span>
+        <span class="cam-key">[6]</span>
+      </button>
+      <button class="cam-btn" data-cam="marzelvane_crown">
+        <span>7 · Marzelvane Emitters (4-Ring Crown)</span>
+        <span class="cam-key">[7]</span>
+      </button>
+    </div>
+
+    <div class="hud-section-title">
+      <span>STATION &amp; EMITTER CONTROLS</span>
+      <span>LIVE</span>
+    </div>
+    <div class="toggle-row">
+      <button class="toggle-btn" id="btn-cycle-screens">CYCLE CONSOLE STATES</button>
+      <button class="toggle-btn" id="btn-pulse-marzel">MARZELVANE BURST</button>
+      <button class="toggle-btn" id="btn-toggle-hud">HIDE HUD [H]</button>
+      <button class="toggle-btn" id="btn-auto-orbit">AUTO-ORBIT: OFF</button>
+    </div>
+  </aside>
+
+  <!-- Right HUD: Selected Console / Marzelvane Telemetry -->
+  <aside class="hud-right" id="hud-right">
+    <div class="hud-section-title">
+      <span>ACTIVE CONSOLE BAY</span>
+      <span id="console-bay-tag">BAY 01 · CENTER-PORT</span>
+    </div>
+    <div class="console-card-title" id="console-title">Hauser MK-IV Wideband DX Correlator</div>
+    <div class="console-card-mfg" id="console-mfg">HAUSER DYNAMICS · BARYCENTRICPLL SYNTHESIZER</div>
+    <div class="console-preview-wrap">
+      <img id="console-preview-img" src="assets/consoles/mk4_3b_video.png" alt="Console Preview" />
+    </div>
+    <div class="console-desc" id="console-desc">
+      Primary shortwave &amp; deep-space telemetry receiver with dual-trace oscilloscope, waterfall FFT spectrum, and live slow-scan video demodulator.
+    </div>
+    <div class="console-actions">
+      <a class="action-link" id="console-open-link" href="index.html">OPEN LIVE CONSOLE ↗</a>
+      <button class="action-link secondary" id="console-focus-btn">FOCUS CAMERA</button>
+    </div>
+
+    <div class="telemetry-list">
+      <span>ANTENNA ARRAY:</span>
+      <span class="telemetry-val cyan">4-RING MARZELVANE EMITTERS</span>
+      <span>RING RADII:</span>
+      <span class="telemetry-val">6.5m · 10.5m · 14.5m · 18.8m</span>
+      <span>CORONA BUS:</span>
+      <span class="telemetry-val amber">52.4 kW DILITHIUM LOCK</span>
+      <span>BOOTH ELEVATION:</span>
+      <span class="telemetry-val">+16.0m ABOVE ACHERON CRAG</span>
+      <span>BROADCAST MIC:</span>
+      <span class="telemetry-val">HAUSER CM-78 SHOCK-MOUNT</span>
+    </div>
+  </aside>
+
+  <!-- Bottom Hint Bar -->
+  <div class="hud-bottom" id="hud-bottom">
+    <span><strong>LMB DRAG</strong> Orbit Camera</span>
+    <span><strong>RMB DRAG</strong> Pan</span>
+    <span><strong>WHEEL</strong> Zoom</span>
+    <span><strong>CLICK MONITOR</strong> Inspect Console Bay</span>
+    <span><strong>KEYS 1–7</strong> Camera Views</span>
+  </div>
+
+  <div id="canvas-container"></div>
+
+  <script type="module">
+    import * as THREE from './assets/vendor/three.module.js';
+    import { OrbitControls } from './assets/vendor/OrbitControls.js';
+
+    // ── Console Bay Metadata & Textures (Mounted around Outside Octagon Walls) ──
+    // Coordinate convention: Y is UP, -Z is NORTH (0 deg yaw), +X is EAST (+90 deg yaw)
+    const CONSOLE_BAYS = [
+      {
+        id: 'mk4',
+        tag: 'NORTH WALL · MASTER BROADCAST DESK',
+        title: 'Hauser MK-IV Wideband DX Correlator & Mic Rig',
+        mfg: 'HAUSER DYNAMICS · BARYCENTRIC PLL SYNTHESIZER',
+        href: 'index.html',
+        screens: [
+          'assets/consoles/mk4_3b_video.png',
+          'assets/consoles/mk4_3a_decoder.png',
+          'assets/consoles/mk4_3c_spectrum.png',
+        ],
+        auxScreen: 'assets/consoles/mk4_3a_decoder.png',
+        badge: 'assets/plates/hauser_dynamics_logo.jpg',
+        desc: 'Primary shortwave & deep-space telemetry receiver on the North perimeter standup desk, flanked by the articulated Hauser CM-78 studio boom microphone and station logbook.',
+        wallAngleDeg: 0,
+        width: 3.48,
+        isMasterMic: true,
+      },
+      {
+        id: 'va4',
+        tag: 'NORTH-EAST WALL · SPACE WEATHER & REACTOR BUS',
+        title: 'Van Allen VA-4 Propagation & Dilithium Bus',
+        mfg: 'VAN ALLEN & SONS SWITCHGEAR · PEBBLE-BED REACTOR BUS',
+        href: 'propagation.html',
+        screens: [
+          'assets/consoles/va4_1b_squall.png',
+          'assets/consoles/va4_1a_comet.png',
+          'assets/consoles/va4_2b_stepdown.png',
+        ],
+        auxScreen: 'assets/consoles/mk4_3c_atlas.png',
+        badge: 'assets/plates/van_allen_switchgear_logo.jpg',
+        desc: 'Heliospheric ion-squall forecaster, oblique MUF/LUF sounding chart, Galactic Signal Atlas, and 52.4 kW Pebble-Bed Dilithium Reactor high-voltage bus controller.',
+        wallAngleDeg: 45,
+        width: 3.38,
+        isMasterMic: false,
+      },
+      {
+        id: 'ed9',
+        tag: 'EAST WALL · GEOMETRIC SETI CORRELATOR',
+        title: 'Van Allen ED-9 Euclidean Geometric Detector',
+        mfg: 'VAN ALLEN & SONS SWITCHGEAR · SETI INVARIANT CORRELATOR',
+        href: 'euclidean-detector.html',
+        screens: [
+          'assets/consoles/ed9_4d_step4.png',
+          'assets/consoles/ed9_4b_step1.png',
+          'assets/consoles/ed9_5a_rhombus.png',
+        ],
+        auxScreen: 'assets/consoles/ed9_4b_step1.png',
+        badge: 'assets/plates/van_allen_switchgear_logo.jpg',
+        desc: 'Synthesizes compass-and-straightedge geometric proofs (Proposition I.34 / G.47 parallelogram invariants) from non-random belt telemetry and laser beacons.',
+        wallAngleDeg: 90,
+        width: 3.38,
+        isMasterMic: false,
+      },
+      {
+        id: 'bogey',
+        tag: 'SOUTH-EAST WALL · PERIMETER TRAIL-CAM',
+        title: 'Bogey-9 Perimeter Trail-Cam & UAP Correlator',
+        mfg: 'HAUSER DYNAMICS · OPTICAL & RADAR SENTINEL',
+        href: 'bogey-detector.html',
+        screens: [
+          'assets/consoles/bogey_4a_frame6.png',
+          'assets/consoles/bogey_4a_nvg.png',
+          'assets/consoles/bogey_4a_gif.png',
+        ],
+        auxScreen: 'assets/consoles/bogey_4a_nvg.png',
+        badge: 'assets/plates/hauser_dynamics_logo.jpg',
+        desc: 'Motion-triggered perimeter trail-camera monitoring the Acheron Polar Chasm and the 4 concentric Marzelvane Emitter rings for anomalous UAP transit signatures.',
+        wallAngleDeg: 135,
+        width: 3.38,
+        isMasterMic: false,
+      },
+      {
+        id: 'dossier',
+        tag: 'NORTH-WEST WALL · STATION REGISTRY & eQSL',
+        title: 'Station Dossier & 2-Sided eQSL Collector Archive',
+        mfg: 'HAUSER DYNAMICS · GALACTIC RELAY REGISTRY',
+        href: 'station.html',
+        screens: [
+          'assets/consoles/dos_3a_n24.png',
+          'assets/consoles/dos_3d_octal_back.png',
+          'assets/consoles/tower_modal.png',
+        ],
+        auxScreen: 'assets/consoles/dos_3d_octal_back.png',
+        badge: 'assets/plates/hauser_dynamics_logo.jpg',
+        desc: 'Complete station registry for all 9 Belt & Outer-System transmissions, hydrographic buoy dossiers, and verified 2-sided QSL collector cards.',
+        wallAngleDeg: -45,
+        width: 3.38,
+        isMasterMic: false,
+      },
+      {
+        id: 'spectrum_west',
+        tag: 'WEST WALL · 3D SPECTRUM & COMET TELEMETRY',
+        title: 'Wideband 3D Waterfall & Comet C/2184-K2 Monitor',
+        mfg: 'HAUSER DYNAMICS · AUXILIARY TELEMETRY WALL',
+        href: 'index.html',
+        screens: [
+          'assets/consoles/mk4_3c_spectrum.png',
+          'assets/consoles/va4_1a_comet.png',
+          'assets/consoles/va4_2b_stepdown.png',
+        ],
+        auxScreen: 'assets/consoles/va4_1a_comet.png',
+        badge: 'assets/plates/hauser_dynamics_logo.jpg',
+        desc: 'Port-side standup perimeter console displaying real-time 3D FFT phase spectrograms and cometary plasma-tail occultation logs.',
+        wallAngleDeg: -90,
+        width: 3.38,
+        isMasterMic: false,
+      },
+    ];
+
+    // ── Three.js Scene, Renderer & Camera Setup ──────────────────────
+    // Coordinate convention: Y is UP, -Z is NORTH (forward out the main booth windows), +X is STARBOARD (East)
+    const container = document.getElementById('canvas-container');
+    const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.18;
+    container.appendChild(renderer.domElement);
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x04070d);
+    scene.fog = new THREE.FogExp2(0x050912, 0.0022);
+
+    const camera = new THREE.PerspectiveCamera(56, window.innerWidth / window.innerHeight, 0.05, 900);
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.06;
+    controls.maxDistance = 260;
+    controls.minDistance = 0.35;
+
+    const texLoader = new THREE.TextureLoader();
+    function loadTex(url) {
+      const t = texLoader.load(url);
+      t.colorSpace = THREE.SRGBColorSpace;
+      t.anisotropy = 8;
+      return t;
+    }
+
+    const BOOTH_Y = 16.0; // Booth floor elevation in meters above Acheron basalt shelf
+
+    // ── Lighting ─────────────────────────────────────────────────────
+    const ambientLight = new THREE.AmbientLight(0x3a5270, 1.35);
+    scene.add(ambientLight);
+
+    // Warm 2700K tungsten booth interior illumination
+    const boothWarmLight = new THREE.PointLight(0xffa940, 4.8, 18, 1.2);
+    boothWarmLight.position.set(0, BOOTH_Y + 3.6, -1.2);
+    scene.add(boothWarmLight);
+
+    const deskFillLight = new THREE.PointLight(0xffc470, 2.2, 8, 1.4);
+    deskFillLight.position.set(0, BOOTH_Y + 1.85, -2.0);
+    scene.add(deskFillLight);
+
+    // Cherenkov Cyan Marzelvane Emitter crown light at y = 46.5m
+    const marzelLight = new THREE.PointLight(0x38e8ff, 12.0, 75, 1.1);
+    marzelLight.position.set(0, 46.5, 0);
+    scene.add(marzelLight);
+
+    // Emerald aurora rim directional light
+    const auroraDir = new THREE.DirectionalLight(0x45e6b8, 1.25);
+    auroraDir.position.set(-40, 80, -60);
+    scene.add(auroraDir);
+
+    const sunRimDir = new THREE.DirectionalLight(0x9ab8ff, 0.95);
+    sunRimDir.position.set(50, 40, 50);
+    scene.add(sunRimDir);
+
+    // ── Materials ────────────────────────────────────────────────────
+    const matBasalt = new THREE.MeshStandardMaterial({
+      color: 0x1a1f28,
+      roughness: 0.9,
+      metalness: 0.12,
+      flatShading: true,
+    });
+    const matSteel = new THREE.MeshStandardMaterial({
+      color: 0x455060,
+      roughness: 0.42,
+      metalness: 0.82,
+    });
+    const matSteelDark = new THREE.MeshStandardMaterial({
+      color: 0x222832,
+      roughness: 0.48,
+      metalness: 0.78,
+    });
+    const matDeskHull = new THREE.MeshStandardMaterial({
+      color: 0x262d38,
+      roughness: 0.45,
+      metalness: 0.72,
+    });
+    const matDeskTrim = new THREE.MeshStandardMaterial({
+      color: 0x151920,
+      roughness: 0.36,
+      metalness: 0.75,
+    });
+    const matBrass = new THREE.MeshStandardMaterial({
+      color: 0xc8963e,
+      roughness: 0.28,
+      metalness: 0.9,
+    });
+    const matAmberGlow = new THREE.MeshBasicMaterial({ color: 0xffaa2b });
+    const matCyanGlow = new THREE.MeshBasicMaterial({ color: 0x38e8ff });
+    const matCyanCore = new THREE.MeshBasicMaterial({ color: 0xb8f8ff });
+    const matCrimsonGlow = new THREE.MeshBasicMaterial({ color: 0xff3b30 });
+    const matGlass = new THREE.MeshPhysicalMaterial({
+      color: 0x68b8e8,
+      transparent: true,
+      opacity: 0.12,
+      roughness: 0.08,
+      metalness: 0.1,
+      depthWrite: false,
+    });
+
+    // Helper: create a strut cylinder between two Vector3 points
+    function addStrut(parent, pA, pB, radius, material, radialSegs = 6) {
+      const vec = new THREE.Vector3().subVectors(pB, pA);
+      const len = vec.length();
+      if (len < 1e-4) return null;
+      const geom = new THREE.CylinderGeometry(radius, radius, len, radialSegs);
+      const mesh = new THREE.Mesh(geom, material);
+      mesh.position.copy(pA).addScaledVector(vec, 0.5);
+      mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), vec.clone().normalize());
+      parent.add(mesh);
+      return mesh;
+    }
+
+    // ═════════════════════════════════════════════════════════════════
+    // 1. DEEP-SPACE MILKY WAY SKYBOX & DRIFTING ASTEROID BELT
+    // ═════════════════════════════════════════════════════════════════
+    const skyGroup = new THREE.Group();
+    scene.add(skyGroup);
+
+    // Panoramic Milky Way & Aurora dome
+    const skyTex = loadTex('assets/plates/cam00_sky_plate_clean.jpg');
+    const skyDome = new THREE.Mesh(
+      new THREE.SphereGeometry(380, 40, 28),
+      new THREE.MeshBasicMaterial({
+        map: skyTex,
+        side: THREE.BackSide,
+        fog: false,
+      })
+    );
+    skyDome.rotation.y = Math.PI * 0.5;
+    skyGroup.add(skyDome);
+
+    // Crisp Starfield Points
+    const starCount = 2400;
+    const starPos = new Float32Array(starCount * 3);
+    const starCol = new Float32Array(starCount * 3);
+    for (let i = 0; i < starCount; i++) {
+      const r = 180 + Math.random() * 170;
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos(2 * Math.random() - 1);
+      starPos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+      starPos[i * 3 + 1] = r * Math.cos(phi);
+      starPos[i * 3 + 2] = r * Math.sin(phi) * Math.sin(theta);
+      const tint = Math.random();
+      starCol[i * 3] = tint > 0.7 ? 1.0 : 0.75;
+      starCol[i * 3 + 1] = tint > 0.3 ? 0.92 : 0.82;
+      starCol[i * 3 + 2] = tint < 0.5 ? 1.0 : 0.75;
+    }
+    const starGeom = new THREE.BufferGeometry();
+    starGeom.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+    starGeom.setAttribute('color', new THREE.BufferAttribute(starCol, 3));
+    const starPoints = new THREE.Points(
+      starGeom,
+      new THREE.PointsMaterial({ size: 0.9, vertexColors: true, fog: false })
+    );
+    skyGroup.add(starPoints);
+
+    // Drifting 3D Main-Belt Asteroids outside the windows
+    const driftingAsteroids = [];
+    for (let i = 0; i < 18; i++) {
+      const rad = 1.4 + Math.random() * 3.8;
+      const astGeom = new THREE.DodecahedronGeometry(rad, 1);
+      const posAttr = astGeom.attributes.position;
+      for (let v = 0; v < posAttr.count; v++) {
+        const vx = posAttr.getX(v);
+        const vy = posAttr.getY(v);
+        const vz = posAttr.getZ(v);
+        const n = 0.82 + 0.34 * Math.sin(vx * 2.1 + i) * Math.cos(vy * 1.9 - vz);
+        posAttr.setXYZ(v, vx * n, vy * n * 0.78, vz * n);
+      }
+      astGeom.computeVertexNormals();
+      const astMesh = new THREE.Mesh(astGeom, matBasalt);
+      const dist = 36 + Math.random() * 75;
+      const ang = -Math.PI * 0.85 + Math.random() * Math.PI * 1.7;
+      astMesh.position.set(
+        Math.sin(ang) * dist,
+        BOOTH_Y - 8 + Math.random() * 44,
+        -Math.cos(ang) * dist
+      );
+      skyGroup.add(astMesh);
+      driftingAsteroids.push({
+        mesh: astMesh,
+        rx: (Math.random() - 0.5) * 0.004,
+        ry: (Math.random() - 0.5) * 0.006,
+      });
+    }
+
+    // ═════════════════════════════════════════════════════════════════
+    // 2. ASTEROID 3-5-1 COLUMNAR BASALT CLIFF ("ACHERON POLAR CHASM")
+    // ═════════════════════════════════════════════════════════════════
+    const cragGroup = new THREE.Group();
+    scene.add(cragGroup);
+
+    const columns = [
+      [0, 0, 12.5, 18.0, 0.0, 8],
+      [-9.0, 5.0, 7.2, 22.0, -1.2, 6],
+      [9.5, 4.5, 6.8, 21.0, -0.8, 6],
+      [-7.5, -8.0, 7.0, 24.0, -1.5, 6],
+      [8.0, -7.5, 7.5, 23.0, -1.0, 6],
+      [-16.0, -1.5, 6.5, 26.0, -3.5, 6],
+      [16.5, -1.0, 6.2, 26.0, -3.2, 6],
+      [0.0, 14.0, 7.0, 25.0, -2.5, 6],
+      [0.0, -14.5, 6.5, 28.0, -4.0, 6],
+    ];
+    columns.forEach(([cx, cz, rad, h, yTop, sides]) => {
+      const g = new THREE.CylinderGeometry(rad, rad * 1.15, h, sides);
+      const m = new THREE.Mesh(g, matBasalt);
+      m.position.set(cx, yTop - h * 0.5, cz);
+      m.rotation.y = 0.25;
+      cragGroup.add(m);
+    });
+
+    // Octagonal reinforced anchor pad at y = 0
+    const padMesh = new THREE.Mesh(
+      new THREE.CylinderGeometry(7.2, 7.6, 0.75, 8),
+      matSteelDark
+    );
+    padMesh.position.y = 0.1;
+    padMesh.rotation.y = Math.PI / 8;
+    cragGroup.add(padMesh);
+
+    // ═════════════════════════════════════════════════════════════════
+    // 3. CONTINUOUS STEEL LATTICE TOWER STRUCTURE (y = 0.0m to +52.0m)
+    //    Runs UNINTERRUPTED right through the floor and ceiling of the
+    //    Octagonal Broadcast Booth!
+    // ═════════════════════════════════════════════════════════════════
+    const towerGroup = new THREE.Group();
+    scene.add(towerGroup);
+
+    const towerLevels = [
+      [0.0, 4.20],
+      [4.0, 3.60],
+      [8.0, 3.05],
+      [12.0, 2.55],
+      [BOOTH_Y, 2.10],        // Booth Floor (y = 16.0m)
+      [BOOTH_Y + 2.6, 1.88],  // Mid-Booth Structural Truss Ring (y = 18.6m)
+      [BOOTH_Y + 5.2, 1.68],  // Booth Ceiling Penetration (y = 21.2m)
+      [26.0, 1.45],
+      [31.0, 1.25],
+      [36.0, 1.05],
+      [41.0, 0.88],
+      [46.5, 0.72],           // Marzelvane Emitter Hub
+      [52.0, 0.52],
+    ];
+    for (let lv = 0; lv < towerLevels.length - 1; lv++) {
+      const [y0, r0] = towerLevels[lv];
+      const [y1, r1] = towerLevels[lv + 1];
+      const inBooth = y0 >= BOOTH_Y - 0.1 && y1 <= BOOTH_Y + 5.3;
+      const legRad = y0 < BOOTH_Y ? 0.19 : inBooth ? 0.135 : 0.14;
+      const girtRad = y0 < BOOTH_Y ? 0.13 : inBooth ? 0.085 : 0.09;
+      const diagRad = y0 < BOOTH_Y ? 0.095 : inBooth ? 0.060 : 0.07;
+
+      const signs = [[-1, -1], [1, -1], [1, 1], [-1, 1]];
+      const c0 = signs.map(([sx, sz]) => new THREE.Vector3(r0 * sx, y0, r0 * sz));
+      const c1 = signs.map(([sx, sz]) => new THREE.Vector3(r1 * sx, y1, r1 * sz));
+      for (let i = 0; i < 4; i++) {
+        const ni = (i + 1) % 4;
+        addStrut(towerGroup, c0[i], c1[i], legRad, matSteel);
+        addStrut(towerGroup, c1[i], c1[ni], girtRad, matSteelDark);
+        addStrut(towerGroup, c0[i], c1[ni], diagRad, matSteelDark);
+        addStrut(towerGroup, c0[ni], c1[i], diagRad, matSteelDark);
+      }
+    }
+    // Continuous central octagonal waveguide & helical bus column (y = 0.0m through booth to y = 44.0m)
+    addStrut(
+      towerGroup,
+      new THREE.Vector3(0, 0, 0),
+      new THREE.Vector3(0, 44.0, 0),
+      0.24,
+      matSteelDark,
+      8
+    );
+    // Glowing Cherenkov waveguide bus conduits along the 4 cardinal faces of the core inside the booth
+    [0, 90, 180, 270].forEach((deg) => {
+      const rad = THREE.MathUtils.degToRad(deg);
+      const wx = 0.28 * Math.cos(rad);
+      const wz = 0.28 * Math.sin(rad);
+      addStrut(
+        towerGroup,
+        new THREE.Vector3(wx, BOOTH_Y, wz),
+        new THREE.Vector3(wx, BOOTH_Y + 5.2, wz),
+        0.025,
+        matCyanGlow,
+        8
+      );
+    });
+
+    // ═════════════════════════════════════════════════════════════════
+    // 4. CANTILEVERED OCTAGONAL ATC BROADCAST BOOTH (y = +16.0m to +21.6m)
+    //    Window sill at y = BOOTH_Y + 1.56m so the standup perimeter
+    //    consoles sit snugly around the outside walls just under the windows!
+    // ═════════════════════════════════════════════════════════════════
+    const boothGroup = new THREE.Group();
+    scene.add(boothGroup);
+
+    const yFloor = BOOTH_Y;
+    const ySill = BOOTH_Y + 1.56;
+    const yEave = BOOTH_Y + 4.40;
+    const yRoof = BOOTH_Y + 5.20;
+
+    const rCatwalk = 7.45;
+    const rFloor = 5.60;
+    const rSill = 5.82;
+    const rEave = 6.60;
+
+    // Catwalk & Interior Floor Deck
+    const catwalkDeck = new THREE.Mesh(
+      new THREE.CylinderGeometry(rCatwalk, rCatwalk, 0.26, 8),
+      matSteelDark
+    );
+    catwalkDeck.position.y = yFloor - 0.13;
+    catwalkDeck.rotation.y = Math.PI / 8;
+    boothGroup.add(catwalkDeck);
+
+    const interiorFloor = new THREE.Mesh(
+      new THREE.CylinderGeometry(rFloor, rFloor, 0.08, 8),
+      new THREE.MeshStandardMaterial({ color: 0x171b22, roughness: 0.65, metalness: 0.35 })
+    );
+    interiorFloor.position.y = yFloor + 0.04;
+    interiorFloor.rotation.y = Math.PI / 8;
+    boothGroup.add(interiorFloor);
+
+    function octRingPts(radius, y) {
+      const pts = [];
+      for (let i = 0; i < 8; i++) {
+        const ang = (2 * Math.PI * i) / 8 + Math.PI / 8;
+        pts.push(new THREE.Vector3(radius * Math.cos(ang), y, radius * Math.sin(ang)));
+      }
+      return pts;
+    }
+
+    const cwPts = octRingPts(rCatwalk - 0.1, yFloor);
+    const flPts = octRingPts(rFloor, yFloor);
+    const sillPts = octRingPts(rSill, ySill);
+    const eavePts = octRingPts(rEave, yEave);
+    const roofCapPts = octRingPts(2.38, yRoof + 0.42);
+
+    for (let i = 0; i < 8; i++) {
+      const ni = (i + 1) % 8;
+      const ang = (2 * Math.PI * i) / 8 + Math.PI / 8;
+      // Under-deck cantilevered support struts tied back to the continuous tower legs
+      addStrut(
+        boothGroup,
+        new THREE.Vector3(2.25 * Math.cos(ang), yFloor - 2.6, 2.25 * Math.sin(ang)),
+        cwPts[i].clone().setY(yFloor - 0.24),
+        0.16,
+        matSteel
+      );
+      // Catwalk safety posts & twin rails
+      const postTop = cwPts[i].clone().setY(yFloor + 1.1);
+      const nextTop = cwPts[ni].clone().setY(yFloor + 1.1);
+      addStrut(boothGroup, cwPts[i], postTop, 0.045, matSteel);
+      addStrut(boothGroup, postTop, nextTop, 0.038, matSteel);
+      addStrut(
+        boothGroup,
+        cwPts[i].clone().setY(yFloor + 0.55),
+        cwPts[ni].clone().setY(yFloor + 0.55),
+        0.028,
+        matSteelDark
+      );
+
+      // Sloped structural window mullions & horizontal transceiver bar
+      addStrut(boothGroup, flPts[i], sillPts[i], 0.12, matSteelDark);
+      addStrut(boothGroup, sillPts[i], eavePts[i], 0.11, matSteelDark);
+      addStrut(boothGroup, sillPts[i], sillPts[ni], 0.09, matSteelDark);
+      addStrut(boothGroup, eavePts[i], eavePts[ni], 0.12, matSteelDark);
+
+      const midA = sillPts[i].clone().lerp(eavePts[i], 0.72);
+      const midB = sillPts[ni].clone().lerp(eavePts[ni], 0.72);
+      addStrut(boothGroup, midA, midB, 0.04, matSteelDark);
+
+      // Interior ceiling truss ribs + warm amber light bars
+      addStrut(boothGroup, eavePts[i], roofCapPts[i], 0.095, matSteel);
+      const lightA = eavePts[i].clone().multiplyScalar(0.82).setY(yEave - 0.06);
+      const lightB = eavePts[ni].clone().multiplyScalar(0.82).setY(yEave - 0.06);
+      addStrut(boothGroup, lightA, lightB, 0.04, matAmberGlow);
+
+      // Outer Octagonal Knee-Wall Bulkhead between flPts (y=0) and sillPts (y=+1.56m)
+      const kneeShape = new THREE.BufferGeometry().setFromPoints([
+        flPts[i], flPts[ni], sillPts[ni],
+        flPts[i], sillPts[ni], sillPts[i],
+      ]);
+      kneeShape.computeVertexNormals();
+      const kneeMat = new THREE.MeshStandardMaterial({
+        color: 0x1c222c,
+        roughness: 0.55,
+        metalness: 0.65,
+        side: THREE.DoubleSide,
+      });
+      boothGroup.add(new THREE.Mesh(kneeShape, kneeMat));
+
+      // Outward-canting observation glass panes above the window sill
+      const midZ = 0.5 * (sillPts[i].z + sillPts[ni].z);
+      if (midZ < 2.8) {
+        const glassGeom = new THREE.BufferGeometry().setFromPoints([
+          sillPts[i], sillPts[ni], eavePts[ni],
+          sillPts[i], eavePts[ni], eavePts[i],
+        ]);
+        glassGeom.computeVertexNormals();
+        boothGroup.add(new THREE.Mesh(glassGeom, matGlass));
+      }
+    }
+
+    // Pitched Octagonal Roof
+    const roofCone = new THREE.Mesh(
+      new THREE.CylinderGeometry(2.3, rEave + 0.35, yRoof - yEave + 0.45, 8),
+      matSteelDark
+    );
+    roofCone.position.y = 0.5 * (yEave + yRoof + 0.45);
+    roofCone.rotation.y = Math.PI / 8;
+    boothGroup.add(roofCone);
+
+    // Rooftop "GOR-9" Illuminated Neon Sign (steady amber GOR- + blinking 9)
+    function createGor9Sign(zOffset, rotY) {
+      const signGroup = new THREE.Group();
+      signGroup.position.set(0, yRoof + 0.95, zOffset);
+      signGroup.rotation.y = rotY;
+
+      const frame = new THREE.Mesh(
+        new THREE.BoxGeometry(6.8, 1.65, 0.18),
+        matSteelDark
+      );
+      signGroup.add(frame);
+
+      const makeSignMesh = (text, xPos, w, isNine) => {
+        const c = document.createElement('canvas');
+        c.width = isNine ? 160 : 480;
+        c.height = 160;
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#090d14';
+        ctx.fillRect(0, 0, c.width, c.height);
+        ctx.font = 'bold 118px monospace';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.shadowColor = '#ff8811';
+        ctx.shadowBlur = 22;
+        ctx.fillStyle = '#ffae2b';
+        ctx.fillText(text, c.width / 2, c.height / 2 + 4);
+        const tex = new THREE.CanvasTexture(c);
+        tex.colorSpace = THREE.SRGBColorSpace;
+        const mat = new THREE.MeshBasicMaterial({ map: tex });
+        const m = new THREE.Mesh(new THREE.PlaneGeometry(w, 1.38), mat);
+        m.position.set(xPos, 0, 0.11);
+        signGroup.add(m);
+        return mat;
+      };
+
+      makeSignMesh('GOR-', -0.82, 4.4, false);
+      const nineMat = makeSignMesh('9', 2.15, 1.45, true);
+      boothGroup.add(signGroup);
+      return nineMat;
+    }
+    const nineMatNorth = createGor9Sign(-5.3, Math.PI);
+    const nineMatSouth = createGor9Sign(5.3, 0);
+
+    // ═════════════════════════════════════════════════════════════════
+    // 5. UPPER EXCITER COLLARS & THE 4 CONCENTRIC "MARZELVANE EMITTER" RINGS
+    // ═════════════════════════════════════════════════════════════════
+    const mastGroup = new THREE.Group();
+    scene.add(mastGroup);
+
+    // Two intermediate circular waveguide exciter collars at y = 33.0m and 38.5m
+    [[33.0, 3.2], [38.5, 2.6]].forEach(([excY, excR]) => {
+      const collar = new THREE.Mesh(
+        new THREE.TorusGeometry(excR, 0.15, 10, 36),
+        matSteel
+      );
+      collar.rotation.x = Math.PI / 2;
+      collar.position.y = excY;
+      mastGroup.add(collar);
+
+      const glowCollar = new THREE.Mesh(
+        new THREE.TorusGeometry(excR, 0.07, 8, 36),
+        matCyanGlow
+      );
+      glowCollar.rotation.x = Math.PI / 2;
+      glowCollar.position.y = excY + 0.16;
+      mastGroup.add(glowCollar);
+
+      for (let s = 0; s < 8; s++) {
+        const a = (2 * Math.PI * s) / 8;
+        addStrut(
+          mastGroup,
+          new THREE.Vector3(0, excY, 0),
+          new THREE.Vector3(excR * Math.cos(a), excY, excR * Math.sin(a)),
+          0.055,
+          matSteelDark
+        );
+      }
+    });
+
+    // Central Cherenkov spire at crown (y = 44m to 57.5m)
+    addStrut(
+      mastGroup,
+      new THREE.Vector3(0, 44.0, 0),
+      new THREE.Vector3(0, 56.5, 0),
+      0.24,
+      matSteel,
+      12
+    );
+    addStrut(
+      mastGroup,
+      new THREE.Vector3(0, 53.0, 0),
+      new THREE.Vector3(0, 57.8, 0),
+      0.14,
+      matCyanCore,
+      12
+    );
+
+    // 4 Tensioned Guy-Wires anchored to basalt mooring bollards
+    const guyAnchors = [
+      [-14.5, -1.5, -11.5],
+      [14.5, -1.2, -11.5],
+      [13.5, -1.8, 12.5],
+      [-13.5, -1.6, 12.5],
+    ];
+    guyAnchors.forEach(([ax, ay, az], idx) => {
+      const sx = idx === 0 || idx === 3 ? -1 : 1;
+      const sz = idx === 0 || idx === 1 ? -1 : 1;
+      addStrut(
+        mastGroup,
+        new THREE.Vector3(ax, ay, az),
+        new THREE.Vector3(1.05 * sx, 36.0, 1.05 * sz),
+        0.04,
+        matSteelDark,
+        4
+      );
+      const bollard = new THREE.Mesh(new THREE.BoxGeometry(0.95, 1.1, 0.95), matBrass);
+      bollard.position.set(ax, ay + 0.15, az);
+      mastGroup.add(bollard);
+    });
+
+    // ── THE 4 CONCENTRIC "MARZELVANE EMITTER" RINGS (y = +46.5m) ──────
+    const marzelGroup = new THREE.Group();
+    const MARZEL_Y = 46.5;
+    marzelGroup.position.y = MARZEL_Y;
+    scene.add(marzelGroup);
+
+    const marzelRings = [];
+    const marzelSpecs = [
+      { r: 6.5, tube: 0.36, speed: 1.8 },
+      { r: 10.5, tube: 0.34, speed: -1.3 },
+      { r: 14.5, tube: 0.32, speed: 1.0 },
+      { r: 18.8, tube: 0.32, speed: -0.75 },
+    ];
+
+    marzelSpecs.forEach(({ r, tube }, idx) => {
+      const carrier = new THREE.Mesh(
+        new THREE.TorusGeometry(r, tube, 14, 64),
+        matSteelDark
+      );
+      carrier.rotation.x = Math.PI / 2;
+      marzelGroup.add(carrier);
+
+      const glowMatTop = new THREE.MeshBasicMaterial({ color: 0x38e8ff });
+      const glowTop = new THREE.Mesh(
+        new THREE.TorusGeometry(r, tube * 0.46, 10, 64),
+        glowMatTop
+      );
+      glowTop.rotation.x = Math.PI / 2;
+      glowTop.position.y = tube * 0.85;
+      marzelGroup.add(glowTop);
+
+      const glowMatBot = new THREE.MeshBasicMaterial({ color: 0x9cf6ff });
+      const glowBot = new THREE.Mesh(
+        new THREE.TorusGeometry(r, tube * 0.40, 10, 64),
+        glowMatBot
+      );
+      glowBot.rotation.x = Math.PI / 2;
+      glowBot.position.y = -tube * 0.85;
+      marzelGroup.add(glowBot);
+
+      marzelRings.push({ r, glowMatTop, glowMatBot, phaseOffset: idx * 0.85 });
+    });
+
+    const numSpokes = 16;
+    const outerMarzelR = marzelSpecs[marzelSpecs.length - 1].r;
+    for (let i = 0; i < numSpokes; i++) {
+      const ang = (2 * Math.PI * i) / numSpokes;
+      const ca = Math.cos(ang);
+      const sa = Math.sin(ang);
+      addStrut(
+        marzelGroup,
+        new THREE.Vector3(0.65 * ca, 0, 0.65 * sa),
+        new THREE.Vector3(outerMarzelR * ca, 0, outerMarzelR * sa),
+        0.085,
+        matSteel
+      );
+      marzelSpecs.forEach(({ r }) => {
+        const node = new THREE.Mesh(
+          new THREE.BoxGeometry(0.64, 0.92, 0.64),
+          i % 2 === 0 ? matAmberGlow : matBrass
+        );
+        node.position.set(r * ca, 0, r * sa);
+        node.rotation.y = -ang;
+        marzelGroup.add(node);
+      });
+      if (i % 2 === 0) {
+        addStrut(
+          marzelGroup,
+          new THREE.Vector3(0.45 * ca, 6.5, 0.45 * sa),
+          new THREE.Vector3(outerMarzelR * ca, 0, outerMarzelR * sa),
+          0.05,
+          matCyanGlow
+        );
+        addStrut(
+          marzelGroup,
+          new THREE.Vector3(0.75 * ca, -6.0, 0.75 * sa),
+          new THREE.Vector3(14.5 * ca, 0, 14.5 * sa),
+          0.05,
+          matSteel
+        );
+      }
+    }
+
+    // ═════════════════════════════════════════════════════════════════
+    // 6. PERIMETER STANDUP CONSOLES AROUND THE OUTSIDE OCTAGON WALLS
+    //    Mounted flush against the outer octagonal knee-walls (r_wall = 5.15m),
+    //    at standup desk height (y = +1.05m), tucked directly under the
+    //    panoramic window sills (y_sill = +1.56m)!
+    // ═════════════════════════════════════════════════════════════════
+    const consolesGroup = new THREE.Group();
+    scene.add(consolesGroup);
+
+    const clickableScreens = [];
+
+    CONSOLE_BAYS.forEach((bay, bayIdx) => {
+      const bayGroup = new THREE.Group();
+      const angRad = THREE.MathUtils.degToRad(bay.wallAngleDeg);
+      const rWall = 5.15;
+      // At wallAngleDeg = 0 (North), position is (0, BOOTH_Y, -5.15), facing inward (+Z)
+      bayGroup.position.set(Math.sin(angRad) * rWall, BOOTH_Y, -Math.cos(angRad) * rWall);
+      bayGroup.rotation.y = -angRad;
+      consolesGroup.add(bayGroup);
+
+      const w = bay.width;
+      const zFront = bay.isMasterMic ? 1.18 : 0.96;
+
+      // Local console coordinates:
+      // z = 0 is the outer octagon knee-wall; +Z points INWARD toward the booth center & operator; +Y is UP
+      // 1. Recessed lower equipment pedestal (y = 0.04..0.98, z = -0.10..+0.62)
+      const pedestal = new THREE.Mesh(
+        new THREE.BoxGeometry(w, 0.94, 0.72),
+        matDeskHull
+      );
+      pedestal.position.set(0, 0.51, 0.26);
+      bayGroup.add(pedestal);
+
+      // Chrome footrest bar along lower pedestal (y = 0.24, z = +0.72)
+      addStrut(
+        bayGroup,
+        new THREE.Vector3(-w * 0.46, 0.24, 0.72),
+        new THREE.Vector3(w * 0.46, 0.24, 0.72),
+        0.024,
+        matSteel,
+        12
+      );
+
+      // Standup counter top slab (y = 0.98..1.05, z = -0.12..zFront)
+      const deskDepth = zFront + 0.12;
+      const deskTop = new THREE.Mesh(
+        new THREE.BoxGeometry(w + 0.06, 0.07, deskDepth),
+        matDeskTrim
+      );
+      deskTop.position.set(0, 1.015, -0.12 + deskDepth * 0.5);
+      bayGroup.add(deskTop);
+
+      // Warm amber illuminated wrist bolster along front standup edge (z = zFront)
+      const bolster = new THREE.Mesh(
+        new THREE.BoxGeometry(w + 0.06, 0.045, 0.055),
+        matAmberGlow
+      );
+      bolster.position.set(0, 1.045, zFront);
+      bayGroup.add(bolster);
+
+      // 2. Low-Profile Sloped Monitor Wedge Cabinet TUCKED UNDER THE WINDOW SILL (y = 1.05..1.55)
+      //    Front bottom edge at (y = 1.05, z = +0.44), sloping back to window sill at (y = 1.55, z = -0.12)
+      const slopeDy = 1.55 - 1.05;
+      const slopeDz = 0.44 - (-0.12);
+      const slopeLen = Math.hypot(slopeDy, slopeDz);
+      const slopeTilt = Math.atan2(slopeDz, slopeDy);
+
+      const cabinetBox = new THREE.Mesh(
+        new THREE.BoxGeometry(w, slopeLen, 0.24),
+        matDeskHull
+      );
+      const ny = Math.sin(slopeTilt);
+      const nz = Math.cos(slopeTilt);
+      cabinetBox.position.set(0, 1.30 - 0.125 * ny, 0.16 - 0.125 * nz);
+      cabinetBox.rotation.x = -slopeTilt;
+      bayGroup.add(cabinetBox);
+
+      // 3. Twin Side-by-Side 16:9 Console Screens on the sloped under-window wedge
+      const scrGap = 0.06;
+      const scrW = (w - 0.24 - scrGap) * 0.5;
+      const scrH = slopeLen * 0.86;
+      const scrY = 1.30 + 0.012 * ny;
+      const scrZ = 0.16 + 0.012 * nz;
+
+      // Left Primary Screen
+      const mainTex = loadTex(bay.screens[0]);
+      const screenMat = new THREE.MeshBasicMaterial({ map: mainTex });
+      const leftScreen = new THREE.Mesh(
+        new THREE.PlaneGeometry(scrW, scrH),
+        screenMat
+      );
+      leftScreen.position.set(-(scrGap * 0.5 + scrW * 0.5), scrY, scrZ);
+      leftScreen.rotation.x = -slopeTilt;
+      leftScreen.userData = { bayIndex: bayIdx, bay };
+      bayGroup.add(leftScreen);
+      clickableScreens.push(leftScreen);
+      bay.screenMat = screenMat;
+      bay.screenStateIdx = 0;
+
+      // Right Companion Screen
+      const auxTex = loadTex(bay.auxScreen);
+      const rightScreen = new THREE.Mesh(
+        new THREE.PlaneGeometry(scrW, scrH),
+        new THREE.MeshBasicMaterial({ map: auxTex })
+      );
+      rightScreen.position.set(scrGap * 0.5 + scrW * 0.5, scrY, scrZ);
+      rightScreen.rotation.x = -slopeTilt;
+      rightScreen.userData = { bayIndex: bayIdx, bay };
+      bayGroup.add(rightScreen);
+      clickableScreens.push(rightScreen);
+
+      // 4. Physical Rotary Tuning Knobs & Illuminated Pushbuttons on standup apron
+      if (!bay.isMasterMic) {
+        [-w * 0.36, -w * 0.18, w * 0.18, w * 0.36].forEach((kx) => {
+          const knob = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.042, 0.048, 0.055, 16),
+            matBrass
+          );
+          knob.position.set(kx, 1.075, 0.60);
+          bayGroup.add(knob);
+        });
+        for (let bi = 0; bi < 8; bi++) {
+          const bx = -w * 0.38 + bi * (w * 0.108);
+          const btn = new THREE.Mesh(
+            new THREE.BoxGeometry(0.055, 0.028, 0.042),
+            bi % 2 === 0 ? matCyanGlow : matAmberGlow
+          );
+          btn.position.set(bx, 1.06, 0.76);
+          bayGroup.add(btn);
+        }
+      }
+
+      // 5. Riveted Manufacturer Nameplate on recessed pedestal front skirt
+      const badgeTex = loadTex(bay.badge);
+      const badgeMesh = new THREE.Mesh(
+        new THREE.PlaneGeometry(0.84, 0.22),
+        new THREE.MeshBasicMaterial({ map: badgeTex })
+      );
+      badgeMesh.position.set(0, 0.78, 0.625);
+      bayGroup.add(badgeMesh);
+    });
+
+    // ═════════════════════════════════════════════════════════════════
+    // 7. STANDUP BROADCAST MIC RIG, DESK PROPS & ROLLING STOOLS
+    //    Mounted on the North Perimeter Standup Desk (y = +1.05m, z = -5.15..-3.97)
+    // ═════════════════════════════════════════════════════════════════
+    const propsGroup = new THREE.Group();
+    propsGroup.position.y = BOOTH_Y;
+    scene.add(propsGroup);
+
+    const yDesk = 1.05;
+
+    // 1. Articulated Broadcast Studio Boom Arm & Shock-Mounted Condenser Microphone
+    const boomBase = new THREE.Vector3(-0.58, yDesk, -4.58);
+    const boomElbow = new THREE.Vector3(-0.36, yDesk + 0.52, -4.34);
+    const micTop = new THREE.Vector3(-0.06, yDesk + 0.38, -4.14);
+
+    const basePedestal = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.058, 0.068, 0.09, 16),
+      matBrass
+    );
+    basePedestal.position.copy(boomBase).add(new THREE.Vector3(0, 0.045, 0));
+    propsGroup.add(basePedestal);
+
+    addStrut(propsGroup, boomBase, boomElbow, 0.018, matSteel, 10);
+    addStrut(
+      propsGroup,
+      boomBase.clone().add(new THREE.Vector3(0.032, 0, 0)),
+      boomElbow.clone().add(new THREE.Vector3(0.032, 0, 0)),
+      0.013,
+      matSteelDark,
+      10
+    );
+    const elbowJoint = new THREE.Mesh(new THREE.SphereGeometry(0.036, 12, 12), matBrass);
+    elbowJoint.position.copy(boomElbow);
+    propsGroup.add(elbowJoint);
+    addStrut(propsGroup, boomElbow, micTop, 0.016, matSteel, 10);
+
+    // Classic Side-Address Broadcast Condenser Microphone Capsule + "ON AIR" Tally Ring + Spider Shock Cradle
+    const micCapsule = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.042, 0.042, 0.21, 20),
+      matBrass
+    );
+    micCapsule.position.copy(micTop).add(new THREE.Vector3(0, -0.10, 0));
+    propsGroup.add(micCapsule);
+
+    const micGrille = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.044, 0.044, 0.08, 20),
+      matSteel
+    );
+    micGrille.position.copy(micTop).add(new THREE.Vector3(0, -0.13, 0));
+    propsGroup.add(micGrille);
+
+    const tallyRing = new THREE.Mesh(
+      new THREE.TorusGeometry(0.047, 0.011, 10, 24),
+      matCrimsonGlow
+    );
+    tallyRing.rotation.x = Math.PI / 2;
+    tallyRing.position.copy(micTop).add(new THREE.Vector3(0, -0.045, 0));
+    propsGroup.add(tallyRing);
+
+    [-0.09, -0.15].forEach((dy) => {
+      const shockRing = new THREE.Mesh(
+        new THREE.TorusGeometry(0.072, 0.007, 8, 24),
+        matSteel
+      );
+      shockRing.rotation.x = Math.PI / 2;
+      shockRing.position.copy(micTop).add(new THREE.Vector3(0, dy, 0));
+      propsGroup.add(shockRing);
+    });
+
+    // 2. Open Spiral-Bound Station Logbook & 2-Sided eQSL Collector Cards on clear standup desk space
+    const logbookTex = loadTex('assets/consoles/dos_3d_octal_back.png');
+    const logbookMesh = new THREE.Mesh(
+      new THREE.PlaneGeometry(0.52, 0.36),
+      new THREE.MeshBasicMaterial({ map: logbookTex })
+    );
+    logbookMesh.rotation.x = -Math.PI / 2;
+    logbookMesh.position.set(-0.09, yDesk + 0.006, -4.25);
+    propsGroup.add(logbookMesh);
+
+    const qslFrontTex = loadTex('assets/plates/qsl_plate_radio_corrugated_kiss.jpg');
+    const qslFrontMesh = new THREE.Mesh(
+      new THREE.PlaneGeometry(0.34, 0.22),
+      new THREE.MeshBasicMaterial({ map: qslFrontTex })
+    );
+    qslFrontMesh.rotation.x = -Math.PI / 2;
+    qslFrontMesh.rotation.z = 0.14;
+    qslFrontMesh.position.set(-0.66, yDesk + 0.006, -4.21);
+    propsGroup.add(qslFrontMesh);
+
+    // 3. Brass Straight Morse Key ("GO-9 SWL 1978")
+    const morseBase = new THREE.Mesh(new THREE.BoxGeometry(0.17, 0.032, 0.24), matBrass);
+    morseBase.position.set(0.37, yDesk + 0.016, -4.20);
+    propsGroup.add(morseBase);
+    addStrut(
+      propsGroup,
+      new THREE.Vector3(0.37, yDesk + 0.04, -4.28),
+      new THREE.Vector3(0.37, yDesk + 0.06, -4.04),
+      0.013,
+      matBrass
+    );
+    const morsePaddle = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.036, 0.036, 0.02, 16),
+      matDeskTrim
+    );
+    morsePaddle.position.set(0.37, yDesk + 0.07, -4.04);
+    propsGroup.add(morsePaddle);
+
+    // 4. Weighted Barycentric VFO Jog Wheel
+    const vfoDial = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.092, 0.098, 0.06, 24),
+      matSteel
+    );
+    vfoDial.position.set(0.64, yDesk + 0.03, -4.24);
+    propsGroup.add(vfoDial);
+    const vfoRing = new THREE.Mesh(
+      new THREE.TorusGeometry(0.088, 0.009, 8, 24),
+      matCyanGlow
+    );
+    vfoRing.rotation.x = Math.PI / 2;
+    vfoRing.position.set(0.64, yDesk + 0.062, -4.24);
+    propsGroup.add(vfoRing);
+
+    // 5. "GALACTIC OUTPOST 9" Insulated Stainless Mug
+    const mugBody = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.054, 0.052, 0.15, 20),
+      matSteelDark
+    );
+    mugBody.position.set(0.92, yDesk + 0.075, -4.14);
+    propsGroup.add(mugBody);
+    const mugRim = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.056, 0.056, 0.022, 20),
+      matAmberGlow
+    );
+    mugRim.position.set(0.92, yDesk + 0.145, -4.14);
+    propsGroup.add(mugRim);
+
+    // 6. 3 Tall Rolling Broadcast/Drafting Stools with Chrome Foot-Rings & 5-Caster Bases
+    function addRollingStool(sx, sz, rotY) {
+      const stool = new THREE.Group();
+      stool.position.set(sx, 0, sz);
+      stool.rotation.y = rotY;
+      propsGroup.add(stool);
+
+      // Pneumatic center column (up to tall standup-stool seat height y = +0.76m)
+      addStrut(stool, new THREE.Vector3(0, 0.06, 0), new THREE.Vector3(0, 0.76, 0), 0.038, matSteel, 12);
+
+      // Signature chrome circular foot-ring at y = +0.28m
+      const footRing = new THREE.Mesh(
+        new THREE.TorusGeometry(0.22, 0.014, 10, 28),
+        matSteel
+      );
+      footRing.rotation.x = Math.PI / 2;
+      footRing.position.y = 0.28;
+      stool.add(footRing);
+
+      for (let sp = 0; sp < 4; sp++) {
+        const a = (Math.PI * sp) / 2;
+        addStrut(
+          stool,
+          new THREE.Vector3(0, 0.28, 0),
+          new THREE.Vector3(0.22 * Math.cos(a), 0.28, 0.22 * Math.sin(a)),
+          0.009,
+          matSteelDark
+        );
+      }
+
+      // 5-star caster legs + rolling wheels
+      for (let li = 0; li < 5; li++) {
+        const la = (2 * Math.PI * li) / 5;
+        const lx = 0.34 * Math.cos(la);
+        const lz = 0.34 * Math.sin(la);
+        addStrut(
+          stool,
+          new THREE.Vector3(0, 0.11, 0),
+          new THREE.Vector3(lx, 0.05, lz),
+          0.022,
+          matSteel
+        );
+        const caster = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.028, 0.028, 0.04, 12),
+          matDeskTrim
+        );
+        caster.position.set(lx, 0.025, lz);
+        stool.add(caster);
+      }
+
+      // Round padded swivel seat cushion at y = +0.77m
+      const seat = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.22, 0.21, 0.07, 24),
+        matDeskTrim
+      );
+      seat.position.y = 0.775;
+      stool.add(seat);
+
+      const seatPiping = new THREE.Mesh(
+        new THREE.TorusGeometry(0.21, 0.014, 8, 24),
+        matAmberGlow
+      );
+      seatPiping.rotation.x = Math.PI / 2;
+      seatPiping.position.y = 0.805;
+      stool.add(seatPiping);
+
+      // Low ergonomic lumbar support crescent
+      addStrut(stool, new THREE.Vector3(0, 0.78, 0.20), new THREE.Vector3(0, 0.96, 0.22), 0.02, matSteel);
+      const lumbar = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.11, 0.06), matDeskHull);
+      lumbar.position.set(0, 0.96, 0.21);
+      stool.add(lumbar);
+    }
+
+    addRollingStool(0.32, -3.35, 0);                 // Stool 1 at North Master Broadcast Mic & MK-IV bay
+    addRollingStool(2.35, -2.35, -Math.PI * 0.25);   // Stool 2 at North-East Van Allen VA-4 bay
+    addRollingStool(-2.35, -2.35, Math.PI * 0.25);   // Stool 3 at North-West Station Dossier bay
+
+    // ═════════════════════════════════════════════════════════════════
+    // 8. CAMERA PRESETS & INTERACTIVE HUD LOGIC
+    // ═════════════════════════════════════════════════════════════════
+    const CAMERA_PRESETS = {
+      operator_pov: {
+        pos: new THREE.Vector3(-0.15, BOOTH_Y + 1.68, -2.45),
+        target: new THREE.Vector3(0.15, BOOTH_Y + 1.26, -4.65),
+        fov: 58,
+        bayIdx: 0,
+      },
+      booth_wide: {
+        pos: new THREE.Vector3(-2.75, BOOTH_Y + 2.25, -0.35),
+        target: new THREE.Vector3(1.15, BOOTH_Y + 1.25, -2.85),
+        fov: 62,
+        bayIdx: 1,
+      },
+      mic_desk_closeup: {
+        pos: new THREE.Vector3(0.22, BOOTH_Y + 1.48, -3.15),
+        target: new THREE.Vector3(-0.08, BOOTH_Y + 1.16, -4.35),
+        fov: 46,
+        bayIdx: 0,
+      },
+      starboard_consoles: {
+        pos: new THREE.Vector3(0.65, BOOTH_Y + 1.68, -1.25),
+        target: new THREE.Vector3(4.25, BOOTH_Y + 1.28, -1.85),
+        fov: 54,
+        bayIdx: 2,
+      },
+      port_dossier: {
+        pos: new THREE.Vector3(-0.65, BOOTH_Y + 1.68, -1.25),
+        target: new THREE.Vector3(-3.65, BOOTH_Y + 1.28, -3.45),
+        fov: 54,
+        bayIdx: 4,
+      },
+      exterior_tower: {
+        pos: new THREE.Vector3(28.0, 22.0, 56.0),
+        target: new THREE.Vector3(0.0, 26.5, 0.0),
+        fov: 48,
+        bayIdx: 1,
+      },
+      marzelvane_crown: {
+        pos: new THREE.Vector3(19.5, 59.5, 29.0),
+        target: new THREE.Vector3(0.0, 46.5, 0.0),
+        fov: 48,
+        bayIdx: 1,
+      },
+    };
+
+    let activeCamKey = 'operator_pov';
+    let camLerpAlpha = 1.0;
+    const camStartPos = new THREE.Vector3();
+    const camStartTarget = new THREE.Vector3();
+    const camEndPos = new THREE.Vector3();
+    const camEndTarget = new THREE.Vector3();
+
+    function selectConsoleBay(idx) {
+      const bay = CONSOLE_BAYS[idx];
+      if (!bay) return;
+      document.getElementById('console-bay-tag').textContent = bay.tag;
+      document.getElementById('console-title').textContent = bay.title;
+      document.getElementById('console-mfg').textContent = bay.mfg;
+      document.getElementById('console-preview-img').src = bay.screens[bay.screenStateIdx];
+      document.getElementById('console-desc').textContent = bay.desc;
+      document.getElementById('console-open-link').href = bay.href;
+      document.getElementById('console-focus-btn').onclick = () => {
+        if (idx === 0 || idx === 1) setCameraPreset('operator_pov');
+        else if (idx === 2 || idx === 3) setCameraPreset('starboard_consoles');
+        else setCameraPreset('port_dossier');
+      };
+    }
+
+    function setCameraPreset(key, instant = false) {
+      const preset = CAMERA_PRESETS[key];
+      if (!preset) return;
+      activeCamKey = key;
+      document.querySelectorAll('.cam-btn').forEach((b) => {
+        b.classList.toggle('active', b.dataset.cam === key);
+      });
+      camera.fov = preset.fov;
+      camera.updateProjectionMatrix();
+      if ( typeof preset.bayIdx === 'number' ) {
+        selectConsoleBay(preset.bayIdx);
+      }
+      if (instant) {
+        camera.position.copy(preset.pos);
+        controls.target.copy(preset.target);
+        controls.update();
+        camLerpAlpha = 1.0;
+      } else {
+        camStartPos.copy(camera.position);
+        camStartTarget.copy(controls.target);
+        camEndPos.copy(preset.pos);
+        camEndTarget.copy(preset.target);
+        camLerpAlpha = 0.0;
+      }
+    }
+
+    // Bind camera preset buttons
+    document.querySelectorAll('.cam-btn').forEach((btn) => {
+      btn.addEventListener('click', () => setCameraPreset(btn.dataset.cam));
+    });
+
+    // Keyboard shortcuts 1..7 and H
+    const presetOrder = [
+      'operator_pov',
+      'booth_wide',
+      'mic_desk_closeup',
+      'starboard_consoles',
+      'port_dossier',
+      'exterior_tower',
+      'marzelvane_crown',
+    ];
+    window.addEventListener('keydown', (e) => {
+      if (e.key >= '1' && e.key <= '7') {
+        setCameraPreset(presetOrder[parseInt(e.key, 10) - 1]);
+      } else if (e.key.toLowerCase() === 'h') {
+        toggleHud();
+      }
+    });
+
+    // Cycle Console Screen States
+    document.getElementById('btn-cycle-screens').addEventListener('click', () => {
+      CONSOLE_BAYS.forEach((bay) => {
+        bay.screenStateIdx = (bay.screenStateIdx + 1) % bay.screens.length;
+        bay.screenMat.map = loadTex(bay.screens[bay.screenStateIdx]);
+        bay.screenMat.needsUpdate = true;
+      });
+      const currentPreset = CAMERA_PRESETS[activeCamKey];
+      selectConsoleBay(currentPreset ? currentPreset.bayIdx : 0);
+    });
+
+    // Marzelvane Burst button
+    let marzelBurstTimer = 0;
+    document.getElementById('btn-pulse-marzel').addEventListener('click', () => {
+      marzelBurstTimer = 2.5;
+      setCameraPreset('marzelvane_crown');
+    });
+
+    // Hide/Show HUD
+    let hudVisible = true;
+    function toggleHud() {
+      hudVisible = !hudVisible;
+      document.getElementById('hud-left').style.display = hudVisible ? 'block' : 'none';
+      document.getElementById('hud-right').style.display = hudVisible ? 'block' : 'none';
+      document.getElementById('hud-bottom').style.display = hudVisible ? 'flex' : 'none';
+    }
+    document.getElementById('btn-toggle-hud').addEventListener('click', toggleHud);
+
+    // Auto-Orbit toggle
+    document.getElementById('btn-auto-orbit').addEventListener('click', (e) => {
+      controls.autoRotate = !controls.autoRotate;
+      controls.autoRotateSpeed = 0.85;
+      e.currentTarget.textContent = `AUTO-ORBIT: ${controls.autoRotate ? 'ON' : 'OFF'}`;
+    });
+
+    // Raycasting on console monitors
+    const raycaster = new THREE.Raycaster();
+    const pointer = new THREE.Vector2();
+    renderer.domElement.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0) return;
+      pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
+      pointer.y = -(e.clientY / window.innerHeight) * 2 + 1;
+      raycaster.setFromCamera(pointer, camera);
+      const hits = raycaster.intersectObjects(clickableScreens, false);
+      if (hits.length > 0) {
+        const { bayIndex } = hits[0].object.userData;
+        selectConsoleBay(bayIndex);
+      }
+    });
+
+    // URL query parameter ?cam=... support for automated high-res screenshots
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialCam = urlParams.get('cam') || 'operator_pov';
+    setCameraPreset(CAMERA_PRESETS[initialCam] ? initialCam : 'operator_pov', true);
+    window.setCameraPreset = (k) => setCameraPreset(k, true);
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // ═════════════════════════════════════════════════════════════════
+    // 9. ANIMATION LOOP (MARZELVANE CORONA PULSES, NEON SIGN & ASTEROIDS)
+    // ═════════════════════════════════════════════════════════════════
+    const clock = new THREE.Clock();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const dt = clock.getDelta();
+      const t = clock.getElapsedTime();
+
+      // Smooth camera preset transition
+      if (camLerpAlpha < 1.0) {
+        camLerpAlpha = Math.min(1.0, camLerpAlpha + dt * 2.4);
+        const s = camLerpAlpha * camLerpAlpha * (3 - 2 * camLerpAlpha);
+        camera.position.lerpVectors(camStartPos, camEndPos, s);
+        controls.target.lerpVectors(camStartTarget, camEndTarget, s);
+      }
+
+      // Outward-traveling Cherenkov corona wave across the 4 Concentric Marzelvane Emitter Rings
+      const burstBoost = marzelBurstTimer > 0 ? 1.8 : 1.0;
+      if (marzelBurstTimer > 0) marzelBurstTimer = Math.max(0, marzelBurstTimer - dt);
+
+      marzelRings.forEach((ring) => {
+        const wave = 0.5 + 0.5 * Math.sin(t * 3.2 * burstBoost - ring.phaseOffset);
+        ring.glowMatTop.color.setRGB(
+          0.18 + 0.45 * wave,
+          0.82 + 0.18 * wave,
+          1.0
+        );
+        ring.glowMatBot.color.setRGB(
+          0.35 + 0.55 * wave,
+          0.92 + 0.08 * wave,
+          1.0
+        );
+      });
+      marzelLight.intensity = 10.0 + 4.5 * Math.sin(t * 3.2);
+
+      // Rooftop "GOR-9" neon sign: steady "GOR-" with intermittent blinking "9"
+      const flicker = Math.sin(t * 7.5) * Math.sin(t * 2.3) > -0.55 ? 1.0 : 0.24;
+      nineMatNorth.color.setRGB(flicker, flicker * 0.85, flicker * 0.5);
+      nineMatSouth.color.setRGB(flicker, flicker * 0.85, flicker * 0.5);
+
+      // Slowly tumble distant main-belt asteroids
+      driftingAsteroids.forEach((a) => {
+        a.mesh.rotation.x += a.rx;
+        a.mesh.rotation.y += a.ry;
+      });
+
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  </script>
+</body>
+</html>

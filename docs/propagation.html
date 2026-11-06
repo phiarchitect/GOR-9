@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GOR-9 • VAN ALLEN VA-4 Space Weather, Oort Propagation &amp; Dilithium Bus Console</title>
+  <script src="data/propagation_data.js"></script>
+  <style>
+    :root {
+      --bg-void: #04070b;
+      --bg-chassis: #0b1018;
+      --bg-panel: #101722;
+      --bg-well: #060a10;
+      --border-metal: #223046;
+      --border-bezel: #334766;
+      --amber: #f59e0b;
+      --amber-glow: rgba(245, 158, 11, 0.25);
+      --cyan: #22d3ee;
+      --cyan-glow: rgba(34, 211, 238, 0.25);
+      --green: #4ade80;
+      --green-glow: rgba(74, 222, 128, 0.25);
+      --red: #f43f5e;
+      --red-glow: rgba(244, 63, 94, 0.28);
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+      --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-void);
+      background-image:
+        radial-gradient(circle at 20% 0%, rgba(74, 222, 128, 0.07) 0%, transparent 50%),
+        radial-gradient(circle at 85% 95%, rgba(245, 158, 11, 0.07) 0%, transparent 50%),
+        linear-gradient(180deg, #04060a 0%, #090d15 100%);
+      color: var(--text-main);
+      font-family: var(--sans);
+      min-height: 100vh;
+      padding: 12px;
+      overflow-x: hidden;
+    }
+
+    /* TOP NAV BAR */
+    .station-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(90deg, #0a0f18 0%, #131d2d 50%, #0a0f18 100%);
+      border: 1px solid var(--border-metal);
+      border-bottom: 2px solid var(--green);
+      border-radius: 6px;
+      padding: 10px 16px;
+      margin-bottom: 12px;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.65);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .brand-cluster {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-badge {
+      background: rgba(74, 222, 128, 0.14);
+      color: var(--green);
+      border: 1px solid var(--green);
+      font-family: var(--mono);
+      font-weight: 800;
+      font-size: 0.88rem;
+      padding: 5px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.08em;
+      text-shadow: 0 0 8px var(--green-glow);
+    }
+
+    .brand-title {
+      font-family: var(--mono);
+      font-size: 0.94rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+    }
+
+    .brand-sub {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .telemetry-pills {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .t-pill {
+      background: rgba(6, 10, 15, 0.88);
+      border: 1px solid var(--border-metal);
+      border-radius: 4px;
+      padding: 5px 9px;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .t-pill .lbl { color: var(--text-dim); }
+    .val-green { color: var(--green); font-weight: 700; }
+    .val-amber { color: var(--amber); font-weight: 700; }
+    .val-cyan { color: var(--cyan); font-weight: 700; }
+    .val-red { color: var(--red); font-weight: 700; }
+
+    .nav-links {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      text-decoration: none;
+      font-family: var(--mono);
+      font-size: 0.73rem;
+      font-weight: 700;
+      padding: 7px 11px;
+      border-radius: 4px;
+      border: 1px solid var(--border-bezel);
+      background: #151f2e;
+      color: var(--text-main);
+      transition: all 0.15s ease;
+    }
+
+    .nav-btn:hover, .nav-btn.active {
+      border-color: var(--green);
+      color: #04080e;
+      background: var(--green);
+      box-shadow: 0 0 12px var(--green-glow);
+    }
+
+    /* MAIN PROP-IV CHASSIS */
+    .prop-chassis {
+      background: linear-gradient(180deg, #131b28 0%, #0b1018 100%);
+      border: 2px solid #28364d;
+      border-radius: 10px;
+      padding: 14px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 18px 48px rgba(0, 0, 0, 0.85);
+    }
+
+    /* WEATHER REGIME BAR */
+    .regime-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      background: #080d14;
+      border: 1px solid var(--border-metal);
+      border-radius: 6px;
+      padding: 9px 12px;
+      margin-bottom: 14px;
+    }
+
+    .regime-title {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--cyan);
+      letter-spacing: 0.08em;
+    }
+
+    .regime-btns {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .regime-btn {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 6px 11px;
+      border-radius: 4px;
+      border: 1px solid #2b3b54;
+      background: #131c2b;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.14s ease;
+    }
+
+    .regime-btn:hover {
+      border-color: var(--cyan);
+      color: #fff;
+    }
+
+    .regime-btn.active {
+      border-color: var(--amber);
+      color: var(--amber);
+      background: rgba(245, 158, 11, 0.15);
+      box-shadow: 0 0 12px var(--amber-glow);
+    }
+
+    /* 3-COLUMN CONSOLE DECK */
+    .prop-grid {
+      display: grid;
+      grid-template-columns: 365px 1fr 380px;
+      gap: 14px;
+      align-items: start;
+    }
+
+    @media (max-width: 1340px) {
+      .prop-grid { grid-template-columns: 1fr; }
+    }
+
+    .rack-panel {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-metal);
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 12px;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.45);
+    }
+
+    .rack-panel:last-child { margin-bottom: 0; }
+
+    .panel-hdr {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      padding-bottom: 6px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    /* POLAR RADAR */
+    .polar-wrap {
+      background: #03060b;
+      border: 2px solid #233249;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    #propPolarCanvas {
+      width: 100%;
+      height: 300px;
+      display: block;
+      cursor: crosshair;
+    }
+
+    /* CORRIDOR LIST */
+    .corridor-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .corridor-btn {
+      background: linear-gradient(180deg, #172030 0%, #0f1622 100%);
+      border: 1px solid #28364f;
+      border-radius: 5px;
+      padding: 8px 10px;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.12s ease;
+    }
+
+    .corridor-btn:hover {
+      border-color: var(--cyan);
+    }
+
+    .corridor-btn.active {
+      border-color: var(--green);
+      background: linear-gradient(180deg, #10261e 0%, #0a1714 100%);
+      box-shadow: 0 0 12px rgba(74, 222, 128, 0.2);
+    }
+
+    .corr-top {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--mono);
+      font-size: 0.71rem;
+      font-weight: 800;
+      margin-bottom: 2px;
+    }
+
+    .corr-sub {
+      font-family: var(--mono);
+      font-size: 0.66rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* CENTER MONITOR: OBLIQUE IONOGRAM & MUF/LUF ANALYZER */
+    .ionogram-wrap {
+      background: #03060b;
+      border: 2px solid #283952;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    #ionogramCanvas {
+      width: 100%;
+      height: 290px;
+      display: block;
+    }
+
+    .muf-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .muf-card {
+      background: var(--bg-well);
+      border: 1px solid var(--border-metal);
+      border-radius: 5px;
+      padding: 8px 10px;
+      font-family: var(--mono);
+    }
+
+    .muf-card .k {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      margin-bottom: 3px;
+    }
+
+    .muf-card .v {
+      font-size: 1.02rem;
+      font-weight: 800;
+    }
+
+    .advisory-box {
+      background: #070c14;
+      border: 1px solid var(--border-metal);
+      border-left: 3px solid var(--green);
+      border-radius: 4px;
+      padding: 10px 12px;
+      font-size: 0.83rem;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+
+    .bulletin-terminal {
+      background: #04080e;
+      border: 1px solid #1e2d44;
+      border-radius: 4px;
+      padding: 10px 12px;
+      font-family: var(--mono);
+      font-size: 0.76rem;
+      line-height: 1.55;
+      color: #a7f3d0;
+    }
+
+    /* RIGHT RACK: SPACE WEATHER INDICES & DILITHIUM REACTOR #2 BUS */
+    .indices-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .idx-cell {
+      background: var(--bg-well);
+      border: 1px solid var(--border-metal);
+      border-radius: 5px;
+      padding: 8px 10px;
+      font-family: var(--mono);
+    }
+
+    .idx-cell .lbl {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+    }
+
+    .idx-cell .num {
+      font-size: 1.1rem;
+      font-weight: 800;
+      margin: 2px 0;
+    }
+
+    .idx-cell .sub {
+      font-size: 0.64rem;
+      color: var(--text-muted);
+    }
+
+    /* DILITHIUM REACTOR GAUGES */
+    .pellet-hopper-box {
+      background: #070b12;
+      border: 1px solid #26354d;
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 10px;
+      font-family: var(--mono);
+    }
+
+    .bar-track {
+      width: 100%;
+      height: 10px;
+      background: #141e30;
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 5px 0;
+    }
+
+    .bar-fill {
+      height: 100%;
+      transition: width 0.25s ease;
+    }
+
+    .switch-bank {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-bottom: 10px;
+    }
+
+    .bus-switch-btn {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 8px 10px;
+      border-radius: 4px;
+      border: 1px solid #2b3b55;
+      background: #131c2b;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.14s ease;
+    }
+
+    .bus-switch-btn.on {
+      border-color: var(--amber);
+      background: rgba(245, 158, 11, 0.16);
+      color: var(--amber);
+      box-shadow: 0 0 10px var(--amber-glow);
+    }
+
+    .spot-market-card {
+      background: rgba(34, 211, 238, 0.06);
+      border: 1px dashed rgba(34, 211, 238, 0.4);
+      border-radius: 4px;
+      padding: 6px 8px;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      line-height: 1.35;
+      color: var(--cyan);
+    }
+
+    /* Full-Screen 16:9 CSS Grid Console Optimization & 1080p Readability */
+    html {
+      background-color: #04070b;
+      font-size: 17px;
+    }
+    body {
+      height: 100vh;
+      overflow: hidden;
+      padding: 8px 14px 12px;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 8px;
+    }
+    .station-topbar {
+      padding: 6px 12px;
+      margin-bottom: 0;
+      gap: 6px 12px;
+    }
+    .brand-title { font-size: 0.94rem; }
+    .brand-sub { font-size: 0.7rem; }
+    .t-pill { font-size: 0.72rem; padding: 4px 8px; }
+    .nav-btn { font-size: 0.72rem; padding: 5px 9px; }
+    .prop-chassis {
+      padding: 8px 12px;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 8px;
+      height: 100%;
+      min-height: 0;
+    }
+    .regime-bar {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      padding: 6px 12px;
+      margin-bottom: 0;
+      align-items: center;
+    }
+    .regime-title { font-size: 0.78rem; }
+    .regime-btns {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      width: 100%;
+    }
+    .regime-btn {
+      font-size: 0.74rem;
+      padding: 6px 8px;
+      text-align: center;
+    }
+    .prop-grid {
+      grid-template-columns: 390px 1fr 425px;
+      gap: 10px;
+      align-items: stretch;
+      height: 100%;
+      min-height: 0;
+    }
+    .prop-grid > section {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      height: 100%;
+      min-height: 0;
+    }
+    .rack-panel {
+      padding: 8px 10px;
+      margin-bottom: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    .prop-grid > section > .rack-panel:last-child {
+      flex: 1;
+      justify-content: flex-start;
+      gap: 6px;
+    }
+    .panel-hdr {
+      font-size: 0.74rem;
+      padding-bottom: 4px;
+      margin-bottom: 6px;
+    }
+    .polar-wrap {
+      flex: 1;
+      min-height: 230px;
+      display: flex;
+      flex-direction: column;
+    }
+    #propPolarCanvas {
+      flex: 1;
+      height: 100%;
+      max-height: none;
+      width: 100%;
+      display: block;
+    }
+    .ionogram-wrap {
+      flex: 1;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 0;
+    }
+    #ionogramCanvas {
+      flex: 1;
+      height: 100%;
+      max-height: none;
+      width: 100%;
+      display: block;
+    }
+    .corridor-list {
+      gap: 5px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .corridor-btn {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 5px 9px;
+    }
+    .c-row1 { font-size: 0.76rem; }
+    .c-row2 { font-size: 0.7rem; }
+    .muf-stats-grid { margin-top: 6px; margin-bottom: 0; gap: 8px; }
+    .muf-card { padding: 6px 8px; }
+    .muf-card .k { font-size: 0.66rem; }
+    .muf-card .v { font-size: 1.05rem; }
+    .advisory-box { margin-top: 6px; margin-bottom: 0; padding: 7px 10px; font-size: 0.78rem; line-height: 1.38; }
+    .bulletin-terminal { margin-top: 6px; padding: 7px 10px; font-size: 0.75rem; line-height: 1.38; }
+    .indices-grid { gap: 5px; margin-bottom: 0; }
+    .idx-cell { padding: 5px 7px; }
+    .idx-cell .lbl { font-size: 0.65rem; }
+    .idx-cell .num { font-size: 0.94rem; margin: 1px 0; }
+    .idx-cell .sub { font-size: 0.63rem; }
+    .pellet-hopper-box { padding: 6px 8px; margin-bottom: 0; }
+    .switch-bank { gap: 4px; margin-bottom: 0; }
+    .bus-switch-btn { padding: 5px 8px; font-size: 0.71rem; }
+    .spot-market-card { font-size: 0.68rem; line-height: 1.32; padding: 5px 8px; }
+  </style>
+</head>
+<body>
+
+  <!-- TOP ATC BAR: OVERALL GOR-9 DASHBOARD -->
+  <header class="station-topbar">
+    <div class="brand-cluster">
+      <div class="brand-badge">ON AIR • 0400 GCT</div>
+      <div>
+        <div class="brand-title">GOR-9 • GALACTIC OUTPOST RADIO — OORT SECTOR 9 DASHBOARD</div>
+        <div class="brand-sub">ACTIVE DEVICE: VAN ALLEN VA-4 • OORT WEATHER, PROPAGATION &amp; DILITHIUM BUS (Van Allen &amp; Sons Switchgear)</div>
+      </div>
+    </div>
+
+    <div class="telemetry-pills">
+      <div class="t-pill">
+        <span class="lbl">10.7cm FLUX:</span>
+        <span class="val-amber" id="topSfuPill">148.2 SFU</span>
+      </div>
+      <div class="t-pill">
+        <span class="lbl">SECTOR K-INDEX:</span>
+        <span class="val-green" id="topKpPill">Kp 3.0 (QUIET)</span>
+      </div>
+      <div class="t-pill">
+        <span class="lbl">DUST CHARGE:</span>
+        <span class="val-cyan" id="topChargePill">8.4 kV</span>
+      </div>
+      <div class="t-pill">
+        <span class="lbl">REACTOR #2 BUS:</span>
+        <span class="val-amber" id="topBusPill">48.4 kW (91.4%)</span>
+      </div>
+    </div>
+
+    <nav class="nav-links">
+      <a href="index.html" class="nav-btn">🎛 HAUSER MK-IV</a>
+      <a href="propagation.html" class="nav-btn active">🌩️ VAN ALLEN VA-4</a>
+      <a href="euclidean-detector.html" class="nav-btn" style="border-color:var(--amber);color:var(--amber);">📐 VAN ALLEN ED-9 EUCLID</a>
+      <a href="bogey-detector.html" class="nav-btn">🛸 BOGEY-9 TRAIL-CAM</a>
+      <a href="celestial-atlas.html" class="nav-btn" style="border-color:var(--cyan);color:var(--cyan);">🪐 3D SKY &amp; RELAY ATLAS</a>
+      <a href="station.html" class="nav-btn">🃏 STATION DOSSIER &amp; CARDS</a>
+      <a href="data/ghlogs_2736_305.txt" target="_blank" class="nav-btn">📜 RAW LOG (.TXT)</a>
+    </nav>
+  </header>
+
+  <main class="prop-chassis">
+    <!-- SPACE WEATHER REGIME SIMULATOR STRIP -->
+    <div class="regime-bar">
+      <span class="regime-title">⚡ VAN ALLEN VA-4 SPACE WEATHER REGIME SIMULATOR:</span>
+      <div class="regime-btns" id="regimeBtnContainer"></div>
+    </div>
+
+    <div class="prop-grid">
+      <!-- LEFT COLUMN: 360° MAGNETOSPHERIC POLAR RADAR & CORRIDOR SELECTOR -->
+      <section>
+        <div class="rack-panel">
+          <div class="panel-hdr">
+            <span>360° OORT MAGNETOSPHERIC &amp; COMETARY ION RADAR</span>
+            <span style="color:var(--green);" id="polarBeamLbl">BEAM AZ 212.4°</span>
+          </div>
+          <div class="polar-wrap">
+            <canvas id="propPolarCanvas" width="420" height="330"></canvas>
+          </div>
+        </div>
+
+        <div class="rack-panel">
+          <div class="panel-hdr">
+            <span>GALACTIC PROPAGATION CORRIDORS (CLICK TO PROBE)</span>
+            <span style="color:var(--cyan);">MUF / LUF</span>
+          </div>
+          <div class="corridor-list" id="corridorList"></div>
+        </div>
+      </section>
+
+      <!-- CENTER COLUMN: OBLIQUE IONOGRAM (MUF/LUF) & ON-AIR BULLETIN -->
+      <section>
+        <div class="rack-panel">
+          <div class="panel-hdr">
+            <span id="ionoHeaderTitle">OBLIQUE IONOGRAM &amp; DUCT PASSBAND • SOL–JOVIAN DUCT</span>
+            <span id="ionoStatusBadge" style="color:var(--green);">WINDOW OPEN</span>
+          </div>
+
+          <div class="ionogram-wrap">
+            <canvas id="ionogramCanvas" width="760" height="320"></canvas>
+          </div>
+
+          <div class="muf-stats-grid">
+            <div class="muf-card">
+              <div class="k">MAX USABLE FREQ (MUF)</div>
+              <div class="v" id="statMuf" style="color:var(--green);">16.40 MHz</div>
+            </div>
+            <div class="muf-card">
+              <div class="k">LOWEST USABLE (LUF)</div>
+              <div class="v" id="statLuf" style="color:var(--red);">4.80 MHz</div>
+            </div>
+            <div class="muf-card">
+              <div class="k">CORRIDOR TARGET FREQ</div>
+              <div class="v" id="statOpt" style="color:var(--amber);">11.410 MHz</div>
+            </div>
+            <div class="muf-card">
+              <div class="k">DUCT SNR MARGIN</div>
+              <div class="v" id="statMargin" style="color:var(--cyan);">+18.4 dB</div>
+            </div>
+          </div>
+
+          <div class="advisory-box">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+              <strong style="font-family:var(--mono);font-size:0.74rem;color:var(--amber);" id="advMechanism">DUCT MECHANISM: —</strong>
+              <a href="index.html?id=radio-corrugated" id="tuneInHauserBtn" class="nav-btn" style="padding:4px 9px;font-size:0.68rem;">🎛️ TUNE IN HAUSER MK-IV ↗</a>
+            </div>
+            <div id="advText"></div>
+          </div>
+
+          <div class="bulletin-terminal">
+            <div style="display:flex;justify-content:space-between;color:var(--amber);font-weight:800;font-size:0.7rem;margin-bottom:4px;">
+              <span>ON-AIR SPACE WEATHER &amp; PROPAGATION BULLETIN (0400 GCT • 14,285.7 kHz USB)</span>
+              <span style="color:var(--cyan);">UNDERWRITTEN BY VAN ALLEN &amp; SONS</span>
+            </div>
+            <div id="bulletinText"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT COLUMN: SOLAR/INTERSTELLAR INDICES & DILITHIUM REACTOR #2 BUS -->
+      <section>
+        <div class="rack-panel">
+          <div class="panel-hdr">
+            <span>VAN ALLEN VA-4 HELIOPAUSE &amp; OORT INDICES</span>
+            <span style="color:var(--amber);">S/N VA4-0089</span>
+          </div>
+
+          <div class="indices-grid">
+            <div class="idx-cell">
+              <div class="lbl">10.7cm STELLAR FLUX</div>
+              <div class="num" id="idxSfu" style="color:var(--amber);">148.2 SFU</div>
+              <div class="sub">RISING (+6.4 / 24h)</div>
+            </div>
+            <div class="idx-cell">
+              <div class="lbl">PLANETARY A / K INDEX</div>
+              <div class="num" id="idxAk" style="color:var(--green);">A=18 • Kp 3.0</div>
+              <div class="sub" id="idxAkSub">QUIET TO UNSETTLED</div>
+            </div>
+            <div class="idx-cell">
+              <div class="lbl">TRIBOELECTRIC DUST</div>
+              <div class="num" id="idxDust" style="color:var(--cyan);">8.4 kV</div>
+              <div class="sub" id="idxDustSub">CORONA FLOOR LOW</div>
+            </div>
+            <div class="idx-cell">
+              <div class="lbl">COMETARY Es-OORT</div>
+              <div class="num" id="idxComet" style="color:var(--green);">+11.4 dB</div>
+              <div class="sub">COMET C/2736-K4 TAIL</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rack-panel">
+          <div class="panel-hdr">
+            <span>PEBBLE-BED DILITHIUM REACTOR #2 • VAN ALLEN SWITCHGEAR</span>
+            <span style="color:var(--amber);">14.8 kV HVDC</span>
+          </div>
+
+          <div class="pellet-hopper-box">
+            <div style="display:flex;justify-content:space-between;font-size:0.72rem;font-weight:700;">
+              <span>VAN ALLEN "PEBBLE-DROPPER" MK II HOPPER</span>
+              <span style="color:var(--green);" id="pelletPctText">91.4% (42.8 kg)</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill" id="pelletBar" style="width:91.4%;background:linear-gradient(90deg,#22d3ee,#4ade80);"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:0.68rem;color:var(--text-muted);margin-top:4px;">
+              <span id="burnRateText">BURN RATE: 1.42 g/hr</span>
+              <span id="marzelText">MARZELVANE #4: +0.4°</span>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;font-size:0.72rem;font-weight:700;margin-top:10px;">
+              <span>TOTAL STATION BUS LOAD</span>
+              <span style="color:var(--amber);" id="busLoadText">48.4 kW / 60.0 kW MAX</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill" id="busLoadBar" style="width:80%;background:linear-gradient(90deg,#4ade80,#f59e0b,#f43f5e);"></div>
+            </div>
+          </div>
+
+          <div class="switch-bank">
+            <button class="bus-switch-btn on" id="swPeakTx" onclick="toggleBusSwitch('peak')">
+              <span>⚡ 50 kW PEAK BROADCAST PA (0400 GCT)</span>
+              <span id="swPeakStatus">ENGAGED (42.0 kW)</span>
+            </button>
+            <button class="bus-switch-btn" id="swDeicer" onclick="toggleBusSwitch('deicer')">
+              <span>🔥 VAN ALLEN "RING-BAKE" CD-400 DE-ICER</span>
+              <span id="swDeicerStatus">STANDBY (+4.5 kW)</span>
+            </button>
+            <button class="bus-switch-btn on" id="swClamp" onclick="toggleBusSwitch('clamp')">
+              <span>🛡 VAN ALLEN "BELT-MASTER" MV-6 SURGE CLAMP</span>
+              <span id="swClampStatus">ARMED (+1.5 kW)</span>
+            </button>
+          </div>
+
+          <div class="spot-market-card">
+            <div style="font-weight:800;color:var(--amber);margin-bottom:3px;">💎 OORT DILITHIUM PELLET SPOT TICKER (+4.2%)</div>
+            <div>• <b>Callisto Dome-4:</b> 1,048 Cr/pellet (Stall 19 Barter)</div>
+            <div>• <b>West Oort Shoal:</b> Pedregal 1051.2 mbar code confirms uninspected pellet barge cached near Comet C/2736-K4!</div>
+          </div>
+
+          <!-- OFFICIAL SPONSOR & VAN ALLEN SINGLE VECTOR NAMEPLATE PANEL -->
+          <div style="flex:1;display:flex;flex-direction:column;justify-content:space-between;background:#080d14;border:1px solid #3b2f16;border-left:3px solid var(--amber);border-radius:4px;padding:7px 9px;font-family:var(--mono);font-size:0.66rem;line-height:1.35;">
+            <div style="display:flex;justify-content:space-between;align-items:center;color:var(--amber);font-weight:800;margin-bottom:4px;">
+              <span>🎙️ DEVICE MAKER &amp; UNDERWRITER: VAN ALLEN &amp; SONS</span>
+              <span style="color:var(--green);">MODEL VA-4 • CERES #7</span>
+            </div>
+            <a href="assets/branding/van_allen_logo.svg" target="_blank" title="View Van Allen & Sons Switchgear Vector Emblem" style="display:block;border:1px solid #3b2f16;border-radius:4px;overflow:hidden;background:#04070d;padding:4px 8px;margin-bottom:4px;">
+              <img src="assets/branding/van_allen_logo.svg" alt="Van Allen & Sons Vector Badge" style="width:100%;aspect-ratio:520/180;object-fit:contain;display:block;" />
+            </a>
+            <div style="color:var(--text-muted);font-size:0.62rem;border-top:1px dashed #1e293b;padding-top:3px;">
+              <div>• <b style="color:var(--cyan);">Belt-Master MV-6:</b> 6-Hydrocoptic Marzelvane clamps • <b style="color:var(--cyan);">Cryo-Toast 900:</b> 1.2 kW Foot-Warmers</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const PROP = window.GOR9_PROP_DATA || {};
+    const regimes = PROP.weather_regimes || [];
+    const corridors = PROP.corridors || [];
+
+    let activeRegimeIdx = 0;
+    let activeCorridorIdx = 0;
+    let busState = {
+      peak: true,
+      deicer: false,
+      clamp: true
+    };
+    let animTick = 0;
+    let polarHitBoxes = [];
+
+    function syncBusSwitchesUI() {
+      document.getElementById('swPeakTx').classList.toggle('on', busState.peak);
+      document.getElementById('swPeakStatus').textContent = busState.peak ? 'ENGAGED (42.0 kW)' : '12 kW STEP-DOWN';
+
+      document.getElementById('swDeicer').classList.toggle('on', busState.deicer);
+      document.getElementById('swDeicerStatus').textContent = busState.deicer ? 'ACTIVE (+4.5 kW)' : 'STANDBY (+4.5 kW)';
+
+      document.getElementById('swClamp').classList.toggle('on', busState.clamp);
+      document.getElementById('swClampStatus').textContent = busState.clamp ? 'ARMED (+1.5 kW)' : 'BYPASSED (0.0 kW)';
+    }
+
+    function initPropConsole() {
+      const params = new URLSearchParams(window.location.search);
+      const reg = params.get('regime') !== null ? Number(params.get('regime')) : 0;
+      const corr = params.get('corridor') !== null ? Number(params.get('corridor')) : 0;
+      if (params.get('peak') !== null) busState.peak = params.get('peak') === '1';
+      if (params.get('deicer') !== null) busState.deicer = params.get('deicer') === '1';
+      if (params.get('clamp') !== null) busState.clamp = params.get('clamp') === '1';
+      syncBusSwitchesUI();
+      renderRegimeButtons();
+      renderCorridorButtons();
+      selectRegime(reg);
+      selectCorridor(corr);
+      setupPolarClicks();
+      requestAnimationFrame(animatePropLoop);
+    }
+
+    function renderRegimeButtons() {
+      const wrap = document.getElementById('regimeBtnContainer');
+      wrap.innerHTML = regimes.map((r, i) => `
+        <button class="regime-btn ${i === activeRegimeIdx ? 'active' : ''}" onclick="selectRegime(${i})">
+          ${r.label}
+        </button>
+      `).join('');
+    }
+
+    function renderCorridorButtons() {
+      const wrap = document.getElementById('corridorList');
+      wrap.innerHTML = corridors.map((c, i) => `
+        <button class="corridor-btn ${i === activeCorridorIdx ? 'active' : ''}" onclick="selectCorridor(${i})">
+          <div class="corr-top">
+            <span style="color:var(--amber);">${c.slot} • ${c.name}</span>
+            <span style="color:var(--cyan);">AZ ${c.azimuth_deg}°</span>
+          </div>
+          <div class="corr-sub">
+            <span>${c.target}</span>
+            <span style="color:var(--green);">${c.band} (${c.opt_mhz} MHz)</span>
+          </div>
+        </button>
+      `).join('');
+    }
+
+    function selectRegime(idx) {
+      activeRegimeIdx = idx;
+      renderRegimeButtons();
+      updateTelemetryAndIonogram();
+    }
+
+    function selectCorridor(idx) {
+      activeCorridorIdx = idx;
+      renderCorridorButtons();
+      updateTelemetryAndIonogram();
+    }
+
+    function toggleBusSwitch(key) {
+      busState[key] = !busState[key];
+      syncBusSwitchesUI();
+      updateTelemetryAndIonogram();
+    }
+
+    function updateTelemetryAndIonogram() {
+      const r = regimes[activeRegimeIdx];
+      const c = corridors[activeCorridorIdx];
+      if (!r || !c) return;
+
+      // Calculate effective dust charge & LUF with de-icer
+      const effChargeKv = busState.deicer ? +(r.charge_kv * 0.35).toFixed(1) : r.charge_kv;
+      const effMuf = +(c.muf_mhz * r.muf_mult).toFixed(2);
+      const deicerLufFactor = busState.deicer ? 0.78 : 1.0;
+      const effLuf = +(c.luf_mhz * r.luf_mult * deicerLufFactor).toFixed(2);
+
+      // Reactor load & burn rate
+      const baseTxKw = busState.peak ? 42.0 : 12.0;
+      const deicerKw = busState.deicer ? 4.5 : 0.0;
+      const clampKw = busState.clamp ? 1.5 : 0.0;
+      const totalKw = +(baseTxKw + deicerKw + clampKw + 4.9 + r.reactor_drain_kw).toFixed(1);
+      const burnRate = +(0.45 + totalKw * 0.021).toFixed(2);
+      const marzelWobble = busState.clamp ? +(0.3 + r.k_idx * 0.12).toFixed(2) : +(1.2 + r.k_idx * 0.65).toFixed(2);
+
+      // Update Top Pills & Right Indices
+      document.getElementById('topSfuPill').textContent = `${r.sfu.toFixed(1)} SFU`;
+      document.getElementById('topKpPill').textContent = `Kp ${r.k_idx.toFixed(1)} (A=${r.a_idx})`;
+      document.getElementById('topKpPill').className = r.k_idx >= 5 ? 'val-red' : (r.k_idx >= 4 ? 'val-amber' : 'val-green');
+      document.getElementById('topChargePill').textContent = `${effChargeKv} kV`;
+      document.getElementById('topBusPill').textContent = `${totalKw} kW (91.4%)`;
+
+      document.getElementById('idxSfu').textContent = `${r.sfu.toFixed(1)} SFU`;
+      document.getElementById('idxAk').textContent = `A=${r.a_idx} • Kp ${r.k_idx.toFixed(1)}`;
+      document.getElementById('idxAk').style.color = r.k_idx >= 5 ? 'var(--red)' : (r.k_idx >= 4 ? 'var(--amber)' : 'var(--green)');
+      document.getElementById('idxAkSub').textContent = r.k_idx >= 6 ? 'G4 SEVERE STORM' : (r.k_idx >= 4 ? 'UNSETTLED / ACTIVE' : 'QUIET OORT WINDOW');
+
+      document.getElementById('idxDust').textContent = `${effChargeKv} kV`;
+      document.getElementById('idxDust').style.color = effChargeKv > 25 ? 'var(--red)' : 'var(--cyan)';
+      document.getElementById('idxDustSub').textContent = busState.deicer ? 'DE-ICER SUPPRESSING CORONA' : (effChargeKv > 25 ? 'HIGH CORONA SPLATTER' : 'CORONA FLOOR LOW');
+
+      document.getElementById('burnRateText').textContent = `BURN RATE: ${burnRate} g/hr`;
+      document.getElementById('marzelText').textContent = `MARZELVANE #4: +${marzelWobble}°`;
+      document.getElementById('busLoadText').textContent = `${totalKw} kW / 60.0 kW MAX`;
+      document.getElementById('busLoadBar').style.width = `${Math.min(100, (totalKw / 60) * 100)}%`;
+
+      // Center Corridor & MUF/LUF Readouts
+      document.getElementById('polarBeamLbl').textContent = `BEAM AZ ${c.azimuth_deg}° (${c.slot})`;
+      document.getElementById('ionoHeaderTitle').textContent = `OBLIQUE IONOGRAM & DUCT PASSBAND • ${c.name.toUpperCase()}`;
+
+      const inWindow = c.opt_mhz >= effLuf && c.opt_mhz <= effMuf;
+      const statusBadge = document.getElementById('ionoStatusBadge');
+      statusBadge.textContent = inWindow ? '✓ PROPAGATION WINDOW OPEN' : '⚠ ABSORPTION / MUF EXCEEDED';
+      statusBadge.style.color = inWindow ? 'var(--green)' : 'var(--red)';
+
+      document.getElementById('statMuf').textContent = `${effMuf} MHz`;
+      document.getElementById('statLuf').textContent = `${effLuf} MHz`;
+      document.getElementById('statOpt').textContent = `${c.opt_mhz} MHz (${c.band})`;
+
+      const snrMargin = +((effMuf - c.opt_mhz) * 2.2 - (effLuf * 0.8) + (busState.peak ? 8 : 0) + (busState.deicer ? 5 : 0)).toFixed(1);
+      document.getElementById('statMargin').textContent = `${snrMargin >= 0 ? '+' : ''}${snrMargin} dB`;
+      document.getElementById('statMargin').style.color = snrMargin >= 6 ? 'var(--green)' : (snrMargin >= 0 ? 'var(--amber)' : 'var(--red)');
+
+      document.getElementById('advMechanism').textContent = `DUCT MECHANISM: ${c.duct_mechanism}`;
+      document.getElementById('advText').textContent = c.listener_advisory;
+      document.getElementById('tuneInHauserBtn').href = `index.html?id=${c.id}`;
+      document.getElementById('bulletinText').textContent = r.bulletin;
+    }
+
+    function setupPolarClicks() {
+      const canvas = document.getElementById('propPolarCanvas');
+      canvas.addEventListener('click', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const mx = (e.clientX - rect.left) * (canvas.width / rect.width);
+        const my = (e.clientY - rect.top) * (canvas.height / rect.height);
+        for (const hb of polarHitBoxes) {
+          if (Math.hypot(mx - hb.x, my - hb.y) < 20) {
+            selectCorridor(hb.idx);
+            return;
+          }
+        }
+      });
+    }
+
+    function animatePropLoop() {
+      animTick += 1;
+      drawPolarRadar();
+      drawObliqueIonogram();
+      if (new URLSearchParams(window.location.search).get('capture') !== '1') {
+        requestAnimationFrame(animatePropLoop);
+      }
+    }
+
+    function drawPolarRadar() {
+      const canvas = document.getElementById('propPolarCanvas');
+      if (!canvas) return;
+      const rect = canvas.getBoundingClientRect();
+      if (rect.width > 20 && rect.height > 20) {
+        const rw = Math.round(rect.width);
+        const rh = Math.round(rect.height);
+        if (canvas.width !== rw || canvas.height !== rh) {
+          canvas.width = rw;
+          canvas.height = rh;
+        }
+      }
+      const ctx = canvas.getContext('2d');
+      const W = canvas.width;
+      const H = canvas.height;
+      const cx = W / 2;
+      const cy = H / 2;
+      const maxR = Math.min(W, H) * 0.43;
+
+      ctx.fillStyle = '#03060b';
+      ctx.fillRect(0, 0, W, H);
+
+      // Range circles
+      ctx.strokeStyle = 'rgba(34, 211, 238, 0.16)';
+      ctx.lineWidth = 1;
+      [0.3, 0.62, 0.95].forEach(f => {
+        ctx.beginPath();
+        ctx.arc(cx, cy, maxR * f, 0, Math.PI * 2);
+        ctx.stroke();
+      });
+
+      // Cometary Ionization Plume (West 264°)
+      const cometRad = ((264 - 90) * Math.PI) / 180;
+      const cGrad = ctx.createRadialGradient(
+        cx + Math.cos(cometRad) * maxR * 0.55,
+        cy + Math.sin(cometRad) * maxR * 0.55,
+        4,
+        cx + Math.cos(cometRad) * maxR * 0.55,
+        cy + Math.sin(cometRad) * maxR * 0.55,
+        55
+      );
+      cGrad.addColorStop(0, 'rgba(34, 211, 238, 0.32)');
+      cGrad.addColorStop(1, 'rgba(34, 211, 238, 0.0)');
+      ctx.fillStyle = cGrad;
+      ctx.beginPath();
+      ctx.arc(cx + Math.cos(cometRad) * maxR * 0.55, cy + Math.sin(cometRad) * maxR * 0.55, 55, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Triboelectric Squall Cell (North-East 18.6°)
+      const squallRad = ((18.6 - 90) * Math.PI) / 180;
+      const sGrad = ctx.createRadialGradient(
+        cx + Math.cos(squallRad) * maxR * 0.38,
+        cy + Math.sin(squallRad) * maxR * 0.38,
+        4,
+        cx + Math.cos(squallRad) * maxR * 0.38,
+        cy + Math.sin(squallRad) * maxR * 0.38,
+        48
+      );
+      sGrad.addColorStop(0, 'rgba(244, 63, 94, 0.35)');
+      sGrad.addColorStop(1, 'rgba(244, 63, 94, 0.0)');
+      ctx.fillStyle = sGrad;
+      ctx.beginPath();
+      ctx.arc(cx + Math.cos(squallRad) * maxR * 0.38, cy + Math.sin(squallRad) * maxR * 0.38, 48, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Active Phased-Array Beam Cone
+      const activeC = corridors[activeCorridorIdx];
+      if (activeC) {
+        const bRad = ((activeC.azimuth_deg - 90) * Math.PI) / 180;
+        ctx.fillStyle = 'rgba(74, 222, 128, 0.16)';
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.arc(cx, cy, maxR, bRad - 0.16, bRad + 0.16);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      // Plot 6 Corridors
+      polarHitBoxes = [];
+      const radii = [0.52, 0.68, 0.92, 0.78, 0.48, 0.36];
+      corridors.forEach((c, idx) => {
+        const rad = ((c.azimuth_deg - 90) * Math.PI) / 180;
+        const r = maxR * (radii[idx] || 0.6);
+        const px = cx + Math.cos(rad) * r;
+        const py = cy + Math.sin(rad) * r;
+        polarHitBoxes.push({ idx, x: px, y: py });
+
+        const isSel = idx === activeCorridorIdx;
+        const col = c.status_color === 'red' ? '#f43f5e' : (c.status_color === 'amber' ? '#f59e0b' : (c.status_color === 'cyan' ? '#22d3ee' : '#4ade80'));
+
+        ctx.strokeStyle = isSel ? col : 'rgba(148, 163, 184, 0.3)';
+        ctx.lineWidth = isSel ? 2 : 1;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(px, py);
+        ctx.stroke();
+
+        ctx.fillStyle = col;
+        ctx.beginPath();
+        ctx.arc(px, py, isSel ? 6 : 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.font = `${isSel ? 'bold ' : ''}10px monospace`;
+        ctx.fillStyle = isSel ? '#fff' : '#94a3b8';
+        ctx.fillText(`${c.slot}`, px + 8, py + 3);
+      });
+
+      // Center GOR-9 Hub
+      ctx.fillStyle = '#f59e0b';
+      ctx.beginPath();
+      ctx.arc(cx, cy, 5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    function drawObliqueIonogram() {
+      const canvas = document.getElementById('ionogramCanvas');
+      if (!canvas) return;
+      const rect = canvas.getBoundingClientRect();
+      if (rect.width > 20 && rect.height > 20) {
+        const rw = Math.round(rect.width);
+        const rh = Math.round(rect.height);
+        if (canvas.width !== rw || canvas.height !== rh) {
+          canvas.width = rw;
+          canvas.height = rh;
+        }
+      }
+      const ctx = canvas.getContext('2d');
+      const W = canvas.width;
+      const H = canvas.height;
+      const r = regimes[activeRegimeIdx];
+      const c = corridors[activeCorridorIdx];
+      if (!r || !c) return;
+
+      ctx.fillStyle = '#03060b';
+      ctx.fillRect(0, 0, W, H);
+
+      // Grid
+      ctx.strokeStyle = 'rgba(34, 48, 70, 0.5)';
+      ctx.lineWidth = 1;
+      for (let x = 50; x < W - 20; x += 65) {
+        ctx.beginPath(); ctx.moveTo(x, 20); ctx.lineTo(x, H - 30); ctx.stroke();
+      }
+      for (let y = 25; y < H - 30; y += 45) {
+        ctx.beginPath(); ctx.moveTo(50, y); ctx.lineTo(W - 20, y); ctx.stroke();
+      }
+
+      const effMuf = c.muf_mhz * r.muf_mult;
+      const effLuf = c.luf_mhz * r.luf_mult * (busState.deicer ? 0.78 : 1.0);
+      const maxScaleMhz = c.opt_mhz > 100 ? 1800 : 22;
+
+      const freqToX = (mhz) => 50 + Math.min(1, Math.max(0, mhz / maxScaleMhz)) * (W - 80);
+
+      // Shaded Usable Window between LUF and MUF
+      const lufX = freqToX(effLuf);
+      const mufX = freqToX(effMuf);
+
+      if (mufX > lufX) {
+        const grad = ctx.createLinearGradient(lufX, 0, mufX, 0);
+        grad.addColorStop(0, 'rgba(244, 63, 94, 0.08)');
+        grad.addColorStop(0.25, 'rgba(74, 222, 128, 0.18)');
+        grad.addColorStop(0.85, 'rgba(34, 211, 238, 0.18)');
+        grad.addColorStop(1, 'rgba(245, 158, 11, 0.08)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(lufX, 20, mufX - lufX, H - 50);
+      }
+
+      // Draw D-Layer / Triboelectric Absorption Zone (Below LUF)
+      ctx.fillStyle = 'rgba(244, 63, 94, 0.16)';
+      ctx.fillRect(50, 20, Math.max(0, lufX - 50), H - 50);
+
+      // Draw Oblique Reflection / Duct Trace Curve
+      ctx.beginPath();
+      for (let px = 50; px <= W - 30; px += 4) {
+        const u = (px - 50) / (W - 80);
+        const fMhz = u * maxScaleMhz;
+        const wave = Math.sin(u * 12 + animTick * 0.05) * 6;
+        let py;
+        if (fMhz <= effMuf) {
+          const norm = fMhz / Math.max(0.1, effMuf);
+          py = (H - 55) - Math.pow(norm, 1.6) * (H - 115) + wave;
+        } else {
+          // Penetrates ionosphere / escapes duct above MUF
+          py = 35 + (fMhz - effMuf) * 4 + wave;
+        }
+        if (px === 50) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.strokeStyle = '#4ade80';
+      ctx.lineWidth = 2.2;
+      ctx.stroke();
+
+      // LUF and MUF Vertical Markers
+      ctx.setLineDash([5, 4]);
+      ctx.strokeStyle = '#f43f5e';
+      ctx.beginPath(); ctx.moveTo(lufX, 20); ctx.lineTo(lufX, H - 30); ctx.stroke();
+
+      ctx.strokeStyle = '#4ade80';
+      ctx.beginPath(); ctx.moveTo(mufX, 20); ctx.lineTo(mufX, H - 30); ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Operating Frequency Target Marker
+      const optX = freqToX(c.opt_mhz);
+      const optY = H * 0.46 + Math.sin(animTick * 0.08) * 4;
+      ctx.strokeStyle = '#f59e0b';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(optX, optY, 9, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.fillStyle = '#f59e0b';
+      ctx.beginPath();
+      ctx.arc(optX, optY, 3.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Labels
+      ctx.font = 'bold 11px monospace';
+      ctx.fillStyle = '#f43f5e';
+      ctx.fillText(`LUF ${effLuf.toFixed(1)} MHz`, Math.max(54, lufX - 40), 36);
+      ctx.fillStyle = '#4ade80';
+      ctx.fillText(`MUF ${effMuf.toFixed(1)} MHz`, Math.min(W - 115, mufX + 6), 36);
+      ctx.fillStyle = '#f59e0b';
+      ctx.fillText(`${c.slot}: ${c.opt_mhz} MHz (${c.band})`, Math.min(W - 165, optX + 12), optY + 4);
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '10px monospace';
+      ctx.fillText(`FREQUENCY AXIS (0 → ${maxScaleMhz} MHz) • SHADED GREEN BAND = USABLE DUCT WINDOW`, 54, H - 10);
+    }
+
+    window.addEventListener('DOMContentLoaded', initPropConsole);
+  </script>
+  <script src="assets/gor9-nav.js"></script>
+</body>
+</html>

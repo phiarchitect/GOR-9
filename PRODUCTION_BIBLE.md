@@ -6,32 +6,34 @@ Inspired by the 2024 GOR-9 broadcast (`https://www.youtube.com/watch?v=e9MbW45HB
 
 ---
 
-## 1. Repository & Episode Asset Architecture
+## 1. Repository & Broadcast Asset Architecture
 
 ```text
 /home/phi/PROJECTS/phiarchitect/GOR-9/
-├── gor9_ep01.mp4                       # Latest finished 2560x1440 QHD master video (local root hardlink)
-├── README.md                           # Station overview, Galactic Time standard, & episode index
+├── gor9_ep01.mp4                       # Latest finished 2560x1440 QHD master broadcast video (local root hardlink)
+├── README.md                           # Station overview, Galactic Time standard, & broadcast index
 ├── PRODUCTION_BIBLE.md                 # Full world lore, hardware specs, & Flow/shader documentation
-├── station/                            # Shared station-wide assets reused across all episodes
-│   ├── branding/                       # @GOR-9-station avatar, YouTube 1440p banner, X header, SVG emblem
+├── docs/                               # Interactive Companion Web Consoles (Hauser MK-IV, Van Allen VA-4, Bogey-9, Dossier)
+├── station/                            # Shared station-wide assets reused across all broadcasts
+│   ├── branding/                       # @GOR-9-station avatar, banners, Hauser Dynamics & Van Allen Switchgear logos
 │   ├── rig/                            # CAM-00A cliff tower RGBA mattes, 4 apex rings, beacons, O.R.S. 351 & asteroid sprites
-│   ├── plates/                         # Recurring station camera plates (CAM-00A..00D, DESK-01, CAM-SAT09)
+│   ├── plates/                         # Recurring station camera plates (CAM-00A..00D, ATC Tower Room, UAP Trail-Cams)
 │   ├── sfx/                            # Shortwave static, squelch bursts, harmonic chimes, sfx_catalog.json
 │   └── consoles/                       # Interactive HTML broadcast console templates
-├── scripts/                            # Episode synthesis, 1440p QHD shader renderer, YouTube packager & uploader
+├── scripts/                            # Broadcast synthesis, 1440p QHD shader renderer, YouTube packager & uploader
+│   ├── build_station_artifacts.py
 │   ├── synth_full_episode.py
 │   ├── render_full_episode.py
 │   ├── build_youtube_package.py
 │   └── upload_youtube.py
-└── episodes/                           # Self-contained episode folders (sequenced by Episode & Galactic Epoch)
-    ├── ep00_2735.215_pilot/            # Episode 00 (July 2024 Pilot • Epoch 2735.215 • 0400 GCT)
-    └── ep01_2736.305_parallelogram/    # Episode 01 ("The Unsuspecting Parallelogram" • Epoch 2736.305 • 0400 GCT)
-        ├── gor9_ep01.mp4               # Finished 2560x1440 QHD master video right at the episode root
+└── episodes/                           # Self-contained broadcast folders (sequenced by Broadcast & Galactic Epoch)
+    ├── ep00_2735.215_pilot/            # Broadcast 00 (July 2024 Pilot • Epoch 2735.215 • 0400 GCT)
+    └── ep01_2736.305_parallelogram/    # Broadcast 01 (Epoch 2736.305 • 0400 GCT)
+        ├── gor9_ep01.mp4               # Finished 2560x1440 QHD master broadcast video right at the root
         ├── youtube/                    # One-stop YouTube upload folder (YOUTUBE_METADATA.md, youtube.json, .srt, .vtt, thumbnails)
         ├── script/                     # Broadcast script & ep01_timeline.json
         ├── audio/                      # Full 179.12s master WAV + segments/ (cached Argon III-C WAVs)
-        ├── plates/                     # Episode-specific remote camera plates & Euclid I.34 SVG
+        ├── plates/                     # Broadcast-specific remote camera plates & Euclid I.34 SVG
         ├── clips/                      # 10s generated video+audio insert clips
         └── previews/                   # Rendered QHD preview frames for each console & panel
 ```
@@ -141,118 +143,129 @@ Each keyframe pair below was generated with pixel-locked camera registration via
 
 ---
 
-## 3. Console & Layered Animation Technical Specs (`2560×1440` @ 60fps)
+## 3. ATC Control Tower Console Suite & Web Interfaces (`docs/` & `2560×1440` QHD)
 
-All views render at **`2560×1440`** (`devicePixelRatio: 1`, `16:9`) inside a unified dark-mode broadcast architecture (`#080a0f` obsidian background, `1px solid #262d3d` structural bezels, `JetBrains Mono` telemetry typography).
+Inside the **Octagonal ATC Control Tower Deck** (`docs/assets/plates/tower_atc_console_room.jpg`) perched at `42,100 AU` in **Oort Cloud Sector 9**, the entire broadcast program is built around four interconnected hardware consoles and web interfaces in `docs/`:
 
-### View 0 — `CAM-00` Opening Exterior Webcam (Programmatic Layered Composite — Zero Flow)
+### View 0 — `CAM-00A` Exterior Cliff-Edge Tower → Octagonal ATC Tower Deck
 - **Assets**:
-  - Background Sky: `cam00_aurora_sky_bg.jpg`
-  - Foreground Dim: `cam00_dishes_base.jpg`
-  - Foreground Bright Beacons: `cam00_dishes_beacons_bright.jpg`
-  - Chroma Key Mask: `cam00_dishes_sky_key.jpg`
-- **Compositing Pipeline (`scripts/build_cam00_mattes.py` + HTML5 `<canvas>` / `scripts/render_cam00_test.py`)**:
-  1. **Zero-Spill Alpha Matte**: Compute per-pixel green excess from `cam00_dishes_sky_key.jpg`:
-     $$\alpha(x,y) = 1.0 - \text{clamp}\left(\frac{G(x,y) - \max(R(x,y), B(x,y)) - 35}{95},\ 0.0,\ 1.0\right)$$
-     Apply $\alpha(x,y)$ directly to the un-spilled RGB channels of `cam00_dishes_base.jpg` and `cam00_dishes_beacons_bright.jpg` → save `assets/composited/cam00_fg_dim.png` and `assets/composited/cam00_fg_bright.png`.
-  2. **Asteroid 3-5-1 Rotation Motion (Background Layer)**:
-     Scale `cam00_aurora_sky_bg.jpg` to `130%` (`3328×1872`) behind the foreground cutout. Translate continuously at `vx = -22 px/s`, `vy = +7 px/s` with a subtle orbital roll (`+0.25 deg/s`) so the aurora ribbons, starfield, and ringed gas giant drift smoothly behind the dishes and steel trusswork.
-  3. **Beacon Strobe Pulse (Foreground Layer)**:
-     Render `cam00_fg_dim.png` at `opacity: 1.0`, and overlay `cam00_fg_bright.png` modulated by $p(t) = \sin^4(\pi \cdot 0.85 t)$ so the crimson/amber tower beacons and rover strobe flash realistically.
-  4. **Tuning-In Static & HUD Overlay**:
-     - `t = 0.0s to 3.2s`: Heavy RF snow (`70%` decaying to `4%`), horizontal sync-jitter (`±18px`), and an animated tuning bar sweeping from `14,240.0 kHz` until locking onto **`14,285.7 kHz USB`** right on the `[ding-ding]` chime.
-     - Lower-third HUD badge: `CAM-00 • HIGH BASALT SHELF • ASTEROID 3-5-1 • SECTOR 9 • ROTATION: 4h 19m`.
+  - Exterior Tower & 4 Concentric Apex Rings: `cam00_tower_outpost_base.jpg`, `cam00_ring_1..4.png`, `cam00_sky_plate_clean.jpg`.
+  - Interior ATC Control Room: `docs/assets/plates/tower_atc_console_room.jpg`.
+- **Sequence**:
+  - `t = 0.0s to 4.3s`: Heavy RF snow clears right on the `[ding-ding]` chime as the 4 concentric Apex Rings ignite sequentially (`Ring 1 → Ring 4`) and the `GOR-9` rooftop neon sign strikes on.
+  - Dissolves into the wrap-around **Octagonal ATC Control Tower Deck** showing the overhead Pulsar Clock (`PSR B1937+21 • 0400 GCT`) and the three primary operator consoles (`PROP-IV`, `HAUSER MK-IV`, and `BOGEY-9`).
 
-### Console 1 — `METEO-9` (Space Weather & Sector 9 Propagation)
-- **Left Column (`42%` width) — Sector 9 Magnetospheric Polar Radar**:
-  - Animated SVG polar radar (`360°` sweep every `4.0s`) with concentric range rings (`Coreward Lanes`, `Meridian Plateau`, `Perseus Spur`, `Asteroid 3-5-1`).
-  - Pulsing red/amber hazard contour over `KZ9-OMEGA` (`60 kV TRIBOELECTRIC SQUALL`).
-  - Telemetry readouts:
-    - `COREWARD LANES: SOLAR FLUX 174 SFU • K-INDEX 2 [QUIET]`
-    - `SECTOR 9 LOCAL: 60 kV DUST SQUALL • SINPO 2-3-2-2-2`
-    - `HARDWARE TELEMETRY: MARZELVANE #4 PHASE-WOBBLE (+4.8°)`
-- **Right Column (`58%` width) — Remote Feed `CAM-02 • RELAY KZ9-OMEGA (7,140 kHz)`**:
-  - Alternates `cam02_relay_storm_start.jpg` and `cam02_relay_storm_end.jpg` with synchronized horizontal CRT tear bars whenever the cyan plasma arc strikes the tower.
+### Console 1 — `VAN ALLEN VA-4` (Space Weather, Oort Propagation & Dilithium Power Bus)
+- **Manufacturer & Broadcast Sponsor**: **Van Allen & Sons Switchgear** (`Est. 1958 Iowa City • Relocated 2412 to Ceres Foundry #7` • Motto: *"From Radiation Belts to Reactor Beds — If It Arcs, We Clamp It."*).
+- **Nameplate & Emblem Assets**: `docs/assets/branding/van_allen_switchgear_logo.jpg` (riveted cast-brass & baked-enamel nameplate) and `docs/assets/branding/van_allen_logo.svg` (vector badge).
+- **Interactive Console**: `docs/propagation.html` backed by `docs/data/propagation.json` (`docs/data/propagation_data.js`).
+- **Left Rack — Oort Space-Weather Indices & 6-Corridor Propagation Matrix (`COR-01`..`COR-06`)**:
+  - Live gauges for **Oort $K_p$**, **Comet `C/2736-K4` Ion Tail Density**, **Apex Ring Triboelectric Static (`+60 kV`)**, and **Heliopause $B_z$**.
+  - Interactive azimuthal corridors (`Callisto Dome-4`, `Titan-Minor N-24`, `M33 Triangulum`, `Trojan L4`, `Ceres Pedregal`, `Relay KZ9-OMEGA`).
+- **Center Monitor — 360° Magnetospheric Polar Radar & Oblique Ionogram**:
+  - **360° Polar Radar (`#propPolarCanvas`)**: Displays the Heliopause Bow-Shock (`118.4 AU`), sweeping Cometary Ion Tail `C/2736-K4` plasma duct (`Az 212°`), and the red `60 kV` triboelectric dust squall over `KZ9-OMEGA` (`Az 349°`, `SINPO 2-3-2-2-2`).
+  - **Oblique Ionogram & MUF/LUF Passband Curve (`#ionogramCanvas`)**: Plots the usable frequency window (`3.1–24.5 MHz` on the Jovian skip corridor; LUF raised `+4.2 MHz` during the dust squall).
+- **Right Rack — 50 kW Pebble-Bed Dilithium Reactor #2 & Van Allen Switchgear Bus**:
+  - Real-time load breakdown (`48.4 / 50.0 kW`), **Van Allen `"Pebble-Dropper"` Mk II Hopper**, **Van Allen `"Ring-Bake"` CD-400 Corona De-Icer (`+4.5 kW`)**, **Van Allen `"Belt-Master"` MV-6 Marzelvane Surge Clamp**, midnight step-down to `12 kW` (**Van Allen `"Cryo-Toast 900"`** foot-warmers in Dormitory Wing B), and the **Ceres Spot Exchange Ticker** (**Grade-B Dilithium Pellets `+4.2%`**).
 
-### Console 2 — `ECON-9` (Outpost Economics, Power & Customs Ledger)
-- **Left Column (`44%` width)**:
-  - **Panel 2A — Ceres Spot Exchange Chart**: Animated SVG step-line graph plotting **Grade-B Deuterium Pellets (`+4.2%`)** spiking sharply at `03:00 UTC` with callout: `QUARRY 44-K CABLE SLOWDOWN`.
-  - **Panel 2B — Outpost Power Rationing**: Bar gauge stepping **Pebble-Bed Reactor #2** down from `50 kW` to `12 kW USB`, with amber advisory pill: `DORMITORY WING B: PLUG IN AUXILIARY FOOT-WARMERS`.
-  - **Panel 2C — Quarantine Buoy 12 Customs Hold (Day 11)**: Orbital holding-pattern vector loop for supply tender *MV Perseverance-4*, highlighting the manifest error: `TARIFF 409-B ERR: OSCILLATOR TUBES MISFILED AS "FERMENTED BRINE TUBERS"`.
-- **Right Column (`56%` width) — Remote Feed `CAM-44K • SILICATE QUARRY 44-K`**:
-  - Plays Quarry `44-K` dragline feed (`cam44k_quarry_start.jpg` → `cam44k_quarry_end.jpg`).
+### Console 2 — `HAUSER MK-IV` (Wideband DX Receiver, Galaxy Atlas, Code/Telemetry Decoder & Station `LOG`)
+- **Manufacturer**: **Hauser Dynamics** (`Est. 2026 Enid • Ganymede Orbital Precision Works` • Motto: *"Every Carrier in the Noise — 3 kHz to 1.5 GHz."*).
+- **Nameplate & Emblem Assets**: `docs/assets/branding/hauser_dynamics_logo.jpg` (satin-silver & anodized gunmetal optical reticle nameplate) and `docs/assets/branding/hauser_logo.svg` (vector badge).
+- **Interactive Console**: `docs/index.html` & `docs/station.html` backed by `docs/data/stations.json` (`docs/data/stations_data.js`).
+- **Top Rack**:
+  - **Tactile Illuminated Preset Bank (`P-01`..`P-06`)**, **Barycentric VFO Synthesizer & Metallic Jog Wheel**, and **Live Waterfall Spectrogram + S-Meter (`S1–S9+40 dB`)**.
+- **Left Viewport — Multi-Mode Signal Monitor**:
+  - **Live Cam Feed Mode (`📺 LIVE CAM FEED`)**: Used when a station carries video (`P-02` Titan-Minor Buoy `N-24` on `3,890 kHz` with wading silt-striders; `P-01` Callisto Dome-4 *Radio Corrugated* on `11,410 kHz` with rooftop dipole blowtorch).
+  - **No-Video Spectrum & Code/Telemetry Decoder Mode (`📈 3D SPECTRUM & PHASE SCAN` + `📟 CODE & TELEMETRY DECODER`)**: Automatically engages on audio/telemetry-only carriers (`P-03` Intergalactic `M-33` Drift Buoy on `1,420.405 MHz` and `P-04` Trojan L4 Octal Numbers Station `E08-L4` on `6,925 kHz`). Displays a live FFT + XY Lissajous phase scope, scrolling CW Morse ticker, 4-channel telemetry gauges, and interactive **Translation Algorithms (`ALG-01`..`ALG-04`)** that decode raw hex/octal streams into plaintext on screen.
+- **Center Bay — Galactic Signal Vector Atlas**:
+  - Logarithmic polar radar centered on **GOR-9 (`Oort Sector 9 • 42,100 AU`)** plotting the exact azimuthal bearing and distance (`AU` / `ly` / `Mly`) to each station.
+- **Right Bay — Digital Burst eQSL Collector Card & Multi-Entry `LOG`**:
+  - Displays the station's animated 4-frame low-res `.gif` **eQSL signature card** (`QSL #0882-N24`, `QSL #0165-RC`, `QSL #0004-M33`, `QSL #0311-T8`) and the chronological **`LOG`** (3 historical operator log entries per station + live quick-add).
 
-### Console 3 — `HAUSER MK-IV` (Detected Broadcasts: Galactic & Intergalactic)
-- **Top Receiver Rack (`220px` height)**:
-  - Full-width **Hauser Mk-IV Sliding Vernier Tuning Dial** (`3,000 kHz` to `1,500 MHz`) with warm amber backlighting, live canvas waterfall spectrogram, **Hauser Index (`H-8.4`)** readout, and red hairline cursor.
-- **Main Signal Monitor (`1156px` height — 3 Sub-Views)**:
-  - **Sub-View 3a (`3,890 kHz CW/Voice` — Titan-Minor Buoy `N-24`)**: `cam_n24_shallows_start.jpg` ↔ `cam_n24_shallows_end.jpg` + French methane tide table telemetry.
-  - **Sub-View 3b (`11,410 kHz AM` — Callisto Dome-4 *"Radio Corrugated"*)**: `cam_sw4_bazaar_start.jpg` ↔ `cam_sw4_bazaar_end.jpg` + AM envelope meter spiking on rooftop dipole blowtorch.
-  - **Sub-View 3c (`1,420.405 MHz, Δf -180 kHz` — Intergalactic M-33 Triangulum Spur)**: Green-phosphor circular vector oscilloscope tracing a drifting Doppler Lissajous figure while decoding packet text: `BUOY M33-771 (EPOCH -700 YRS): SMALL CRAFT ADVISORY — AMMONIA SEA SECTOR 4 [SEA STATUS: EVAPORATED 1580 CE]`.
+### Console 3 — `BOGEY-9` (Perimeter Asteroid Trail-Cam & Non-Keplerian UAP Discriminator)
+- **Interactive Console**: `docs/bogey-detector.html` backed by `docs/data/bogeys.json` (`docs/data/bogeys_data.js`).
+- **Left Rack — Motion Gate Triggers & 360° Perimeter Keplerian vs. Bogey Radar**:
+  - Plots 14 green ballistic Keplerian rocks against **3 crimson non-Keplerian UAP bogeys** (`UAP-2736-A`, `UAP-2736-B`, `UAP-2736-C`) with zero Euclidean references—pure kinematic trajectory discrimination.
+- **Center Monitor — 8-Frame Trail-Cam Burst `.GIF` & Forensic Frame Stepper (`FRM 01`..`FRM 08`)**:
+  - **Broadcast 01 Featured Sighting (`TRL-01 • Acheron North Rim`)**: Starlight CMOS 8-frame burst (`docs/assets/uap/bogey_01_cylinder.gif`) of an 18-meter mirror-chrome cylinder drifting between two tumbling boulders at `14.2 m/s` before executing an instantaneous `90.00°` vertical snap-turn (`140g`) on `FRM 05` with zero thruster plume—blamed by the Outer Belt Safety Board on a vented Mess Hall thermos flask.
 
-### Console 4 — `EUCLID-9` (The Euclid Signal Detector — "The Unsuspecting Parallelogram")
-- **Left Column (`48%` width) — `CAM-VAT19 • CALLISTO-SOUTH BRINE EVAPORATION VAT 19`**:
-  - Displays `cam_vat19_parallelogram.jpg` with slow forensic push-in (`100% → 114%` scale) and animated cyan target reticles (`#38bdf8`) snapping onto corners `A`, `B`, `C`, `D` of the salt-crust figure.
-- **Right Column (`52%` width) — Live `euclid_step` Vector Scope (`assets/euclid/0338.g1.svg` • `G.47` / `I.34`)**:
-  - **Step 4a (The Sighting — `[bell:insight]`)**: Outer parallelogram walls `/ A B /`, `/ C D /`, `/ A C /`, `/ B D /` lock in **Steel Blue** (`#60a5fa`).
-  - **Step 4b (The Diameter & Congruent Bisection — `[bell:construction]`)**: Diameter `/ B C /` ignites in **Solar Gold** (`#e8b85a`); triangles `< A B C >` and `< D C B >` glow **Assertion Green** (`#5ec27e`); single and double green equality ticks stamp onto opposite sides.
-  - **Step 4c (The Cover-Up — `[bell:punchline]`)**: Blinking amber official notice banner: `CALLISTO WATER BOARD PRESS RELEASE: "MOTORIZED MUD-RAKE LOST A COTTER PIN AND DRAGGED SIDEWAYS."`
+### Console 4 — `VAN ALLEN ED-9` (Euclidean Detector & Cosmic Geometric Intelligence Correlator)
+- **Manufacturer**: **Van Allen & Sons Switchgear • SETI & Constructive Geometry Division (`Ceres Foundry #7`)** — *"Because Vacuum Makes Fractals, Not Parallelograms."*
+- **Interactive Console**: `docs/euclidean-detector.html` backed by `docs/data/euclidean.json` (`docs/data/euclidean_data.js`).
+- **Left Rack — 12-Tube Hough Transform Noise-Floor Accumulator & Candidate Queue**:
+  - Live `(\rho, \theta)` Hough Transform scope (`#houghCanvas`) separating thermal noise and fractal crater walls from synthetic straight chords, parallel lines, and constructive ratios.
+  - **Broadcast 01 Featured Detection (Single Euclid Lock in Video)**: **`EUC-2736-01` — Callisto-South Brine Evaporation Vat 19 (Frame 7): *"The Unsuspecting Parallelogram"* (`Euclid I.34 / G.47`)** (`99.998%` synthetic certainty). *(Two secondary detections—`EUC-2736-02` Ice-Hauler Rhombus `Def. I.22` and `EUC-2736-03` Crater Dish `III.31`—are queued in the web console for future broadcasts).*
+- **Center Monitor — Dual Optical Surveillance + Constructive Euclidean Vector Scope**:
+  - Overlays the live constructive proof of **Euclid Book I, Proposition 34 (`G.47`)** onto `docs/assets/plates/cam_vat19_parallelogram.jpg`: opposite sides `AB || CD` and `AC || BD` holding parallel to `0.0002 arcsec`, and diameter `BC` bisecting the salt sludge into two congruent triangles (`△ABC ≅ △DCB`), accompanied by a 4-Step Proof & Cover-Up Stepper and the Callisto Water Board's broken mud-rake cotter pin excuse.
 
-### Console 5 — `SCHED-9` ("On the Next Broadcast..." & Sign-Off → Return to `CAM-00`)
-- **Sub-View 5a (`2:28–2:40`)**: Next Broadcast Teaser Card + Titan Packet Buoy QSL Card alongside `desk01_hauser_receiver.jpg`.
-- **Sub-View 5b (`2:40–2:50`)**: Dissolves back to full-screen **`CAM-00` Exterior Station Webcam** (`cam00_dishes_tilted_end.jpg` masked over rotating `cam00_aurora_sky_bg.jpg`), plays closing `[ding-ding]` chime, and ramps RF snow to `100%`.
+### Console 5 — Companion Station Dossier, 3D Collector Cards & Horizon Sign-Off (`CAM-00D`)
+- **Interactive Web Dossier**: `docs/station.html` featuring 3D-flip **eQSL Collector Cards** (`Front Artwork` ↔ `Back Transmitter Dossier`), the **Outpost Nine Hardware Manufacturers & Broadcast Underwriters (`Hauser Dynamics` & `Van Allen & Sons Switchgear`)** showcase, and full multi-entry `LOG` tables, dissolving out to `CAM-00D` (`cam00d_closing_horizon_rings.jpg`) for the mandatory station sign-off.
 
 ---
 
-## 4. Master Broadcast Script (v2.0 — 308 Words • ~2:50 Runtime)
+## 4. Master Broadcast Script (v3.2 — 4-Console Edition with Van Allen ED-9 Euclidean Detector)
 
-### 0. COLD OPEN (`0:00–0:18` • `CAM-00` Exterior Webcam)
-*(3s of shortwave tuning static & heterodyne whistle -> locks onto carrier)*
+Canonical file: `episodes/ep01_2736.305_parallelogram/script/gor9_ep01_script.txt`
+
+### 0. COLD OPEN (`CAM-00A` Exterior Tower → `ATC TOWER DECK`)
+`[bell:context]`
 **HOST:**
-This is **GOR-9**. This is **GOR-9** `[ding-ding]` **Galactic Outpost Radio**, broadcasting from the High Basalt Shelf on **Asteroid 3-5-1** in **Sector 9**. Fourteen-two-eighty-five kilohertz upper sideband. Zero-four-hundred Galactic Coordinated.
+This is **GOR-9**. `<pause>` This is **GOR-9**, `<pause>` **Galactic Outpost Radio**, broadcasting from the High Basalt Shelf Tower on **Asteroid 3-5-1**, `<pause>` forty-two thousand one hundred astronomical units out in **Oort Cloud Sector 9**. `<pause>` Fourteen-two-eighty-five kilohertz upper sideband. Zero-four-hundred Galactic Coordinated.
 
-### 1. WEATHER REPORT (`0:18–0:42` • `CONSOLE 1: METEO-9`)
+### 1. SPACE WEATHER, OORT PROPAGATION & DILITHIUM POWER (`CONSOLE 1: VAN ALLEN VA-4`)
 `[bell:construction]`
 **HOST:**
-**Space Weather**, with emphasis on **Sector 9**.
-Coreward lanes are calm—solar flux one-seventy-four, K-index two.
-Locally, an electrostatic dust squall on the Meridian Plateau has engulfed Relay **KZ9-OMEGA**. Sixty-kilovolt triboelectric arcing across the feedhorn is causing minor phase-wobble in the number-four marzelvane bushing. Expect **SINPO two-three-two-two-two**.
+On the **Van Allen V-A-Four Propagation and Power Console**—brought to you by **Van Allen and Sons Switchgear** of Ceres Foundry Seven: `<pause>`
+Comet **K-Four**'s ion tail is sweeping azimuth two-twelve, opening a clean twenty-four megahertz skip corridor into the Jovian moons. `<pause>`
+Closer to home, a sixty-kilovolt triboelectric dust squall has engulfed Relay **K-Z-9 Omega**—raising our lower usable frequency by four megahertz and arcing across the number-four **Belt-Master marzelvane bushing**. `<pause>` Expect **SINPO two-three-two-two-two**.
 
-### 2. ECONOMICS & SUPPLY (`0:42–1:10` • `CONSOLE 2: ECON-9`)
 `[bell:proposition]`
 **HOST:**
-**Outpost Economics**.
-Grade-B **Deuterium pellets** rose four percent today following a dragline cable slowdown at Silicate Quarry **44-K**. Outpost Nine will step Reactor Two down to twelve kilowatts after midnight; Dormitory B should plug in auxiliary foot-warmers.
-Meanwhile, our monthly supply tender remains impounded at Quarantine Buoy Twelve after customs misfiled replacement oscillator tubes as *fermented brine tubers*.
+On the **Dilithium Bus**: `<pause>`
+Grade-B **Dilithium pellets** rose four percent on the Ceres Exchange following a dragline cable slowdown at Silicate Quarry **44-K**. `<pause>` With our **Van Allen Ring-Bake corona de-icer** pulling an extra four-point-five kilowatts, we are stepping **Reactor Two** down to twelve kilowatts after midnight—Dormitory Wing B should plug in their **Van Allen Cryo-Toast foot-warmers**. `<pause>`
+Meanwhile, our monthly pellet and vacuum-tube tender remains impounded at Quarantine Buoy Twelve after customs misfiled replacement oscillator tubes as *fermented brine tubers*.
 
-### 3. DETECTED BROADCASTS (`1:10–1:48` • `CONSOLE 3: HAUSER MK-IV`)
+### 2. GALACTIC DX INTERCEPTS, DECODER ALGORITHMS & STATION LOG (`CONSOLE 2: HAUSER MK-IV`)
 `[bell:context]`
 **HOST:**
-On the **Hauser Correlator**:
-**TITAN-MINOR**, three-eight-ninety kilohertz. Hydrographic Buoy **N-24** reciting methane tide tables...
-*(3s clip: synthesized French numbers + metallic clank)*
-...while migratory silt-striders rub against the guy-wires, detuning the whip antenna.
+Turning to the **Hauser Dynamics Mark-Four Receiver** and **Galaxy Atlas**: `<pause>`
+**Preset Two**—Titan-Minor, three-eight-ninety kilohertz. Hydrographic Buoy **N-24** is transmitting methane tide telemetry, `<pause>` `<pause>` though migratory silt-striders rubbing against the guy-wires just detuned the whip antenna by eighteen Hertz. **E-QSL zero-eight-eight-two** logged. `<pause>`
 
-**CALLISTO DOME FOUR**, eleven-four-ten kilohertz. Unlicensed noodle-market broadcaster *Radio Corrugated*...
-*(3s clip: warbling night-market lute + rapid port chatter)*
-...peaking right as their engineer hit the dipole with a blowtorch.
+**Preset One**—Callisto Dome Four, eleven-four-ten kilohertz. Unlicensed noodle-market broadcaster *Radio Corrugated*, `<pause>` `<pause>` peaking at S-nine plus ten right as their engineer hit the rooftop dipole with a blowtorch. `<pause>`
 
-And **INTERGALACTIC**, M-Thirty-Three: a seven-hundred-year-old drift-buoy still issuing small-craft warnings for an ammonia sea that evaporated in the Ming Dynasty.
+**Preset Three**—extragalactic, fourteen-twenty megahertz on the hydrogen line, two-point-seven million light-years toward **M-Thirty-Three**. `<pause>` No video carrier on this band—just a relativistic Doppler Lissajous on the spectrum scan. Running **Translation Algorithm Zero-Two** against the raw hex stream decodes Buoy **M-33-771**: `<pause>` still issuing small-craft advisories for an ammonia sea that evaporated during the Ming Dynasty. `<pause>`
 
-### 4. THE EUCLID SIGNAL DETECTOR (`1:48–2:28` • `CONSOLE 4: EUCLID-9`)
+And on **Preset Four**, six-nine-two-five kilohertz in the Jupiter Trojans: an encrypted base-eight numbers station where **Algorithm Zero-Three** just decoded six metric tons of pork-chive dumpling wrappers—plus an octal shift key of thirteen for those tracking the sector cipher in the station log.
+
+### 3. PERIMETER ASTEROID TRAIL-CAM (`CONSOLE 3: BOGEY-9`)
 `[bell:insight]`
 **HOST:**
-Finally... a late-night alert on the **Euclid Signal Detector**, which scans the noise floor for signs of geometric intelligence.
-At zero-three-twelve UTC, inside unmanned **Brine Evaporation Vat Nineteen** on Callisto-South, the detector locked onto Frame Seven: an **unsuspecting parallelogram** in the salt crust.
-`[bell:construction]`
-Opposite sides parallel to two ten-thousandths of an arcsecond (`A-B` to `C-D`, `A-C` to `B-D`)—and somebody drew the diameter **B-C**, bisecting the sludge into two congruent triangles (`G.47`).
-`[bell:punchline]`
-The Water Board claims a motorized mud-rake lost a cotter pin and dragged sideways.
-It’s always a broken cotter pin, folks.
+Quick check on the **Bogey-Nine Perimeter Trail-Cam**, which discriminates ballistic Oort rocks from non-Keplerian visitors right outside our cliff rim. `<pause>`
+At zero-three-forty-one Galactic, **Trail-Cam One** on the Acheron North Rim triggered an eight-frame burst on a mirror-chrome cylinder drifting between two tumbling boulders at fourteen meters per second—before executing a ninety-degree vertical snap-turn on Frame Five at one-hundred-forty G's with zero thruster plume. `<pause>` The Outer Belt Safety Board says it was a vented thermos flask from the Mess Hall.
 
-### 5. "ON THE NEXT BROADCAST..." & SIGN-OFF (`2:28–2:50` • `CONSOLE 5: SCHED-9` → `CAM-00D`)
+### 4. COSMIC GEOMETRIC INTELLIGENCE CORRELATOR (`CONSOLE 4: VAN ALLEN ED-9 EUCLIDEAN DETECTOR`)
+`[bell:construction]`
+**HOST:**
+Now to our centerpiece instrument: `<pause>` the **Van Allen E-D-Nine Euclidean Detector**—searching for geometric intelligence across the universe. `<pause>` Natural vacuum produces fractals and thermal static; intelligence leaves straight lines, parallel chords, and constructive ratios. `<pause>`
+Tonight, our twelve-tube Hough Transform correlator locked onto a single ninety-nine-point-nine-nine-eight percent synthetic signature in the maintenance feed from **Callisto-South Brine Evaporation Vat Nineteen**: `<pause>` what we are calling **the Unsuspecting Parallelogram**.
+
+`[bell:proposition]`
+**HOST:**
+Under inspection-beam sweep Frame Seven, four salt-crust ridges form parallelogram **A-B-D-C**—satisfying **Euclid Book One, Proposition Thirty-Four**: `<pause>` opposite sides **A-B** and **C-D**, and **A-C** and **B-D**, hold parallel to two ten-thousandths of an arcsecond, while diagonal diameter **B-C** bisects the brine sludge into two congruent triangles of equal area.
+
+`[bell:punchline]`
+**HOST:**
+Seven minutes after our Van Allen detector logged the Proposition Thirty-Four proof, the Callisto Water Board scrubbed the archive and blamed a motorized mud-rake that lost a cotter pin. `<pause>`
+That is one remarkably well-educated mud-rake, folks.
+
+### 5. COMPANION LEDGER, UNDERWRITER TAG & SIGN-OFF (`STATION DOSSIER` → `CAM-00D`)
 `[bell:context]`
 **HOST:**
-**On the next broadcast**: an unlicensed numbers station in the Trojans reciting dumpling recipes in base-eight, and a suspected **rhombus** aboard an ice-hauler.
-From **Asteroid 3-5-1 in Sector 9**... this is **GOR-9**—**your eye to the cosmos, ear to the vacuum**.
-*( `[ding-ding]` -> carrier fades into static)*
+All six **e-QSL collector cards**, raw telemetry streams, and our **Euclidean Detector plates** are posted on the Outpost Nine companion ledger—and we are holding a suspected rhombus aboard a bulk ice-hauler in the queue for a future broadcast. `<pause>`
+This broadcast is underwritten by **Van Allen and Sons Switchgear**—*from radiation belts to reactor beds, if it arcs, we clamp it.* `<pause>`
+From **Asteroid 3-5-1 in Oort Cloud Sector 9**, `<pause>` this is **GOR-9**—**your eye to the cosmos, ear to the vacuum**.
+
+`[bell:insight]`
+**HOST:**
+Remember, a like indication on your listening apparatus gives us three kilowatts of Dilithium reserve, `<pause>` and a subscription gets us one step closer to shielding our marzelvane emitters.
+

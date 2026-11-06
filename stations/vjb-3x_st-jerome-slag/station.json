@@ -1,0 +1,245 @@
+{
+  "id": "st-jerome-slag",
+  "station_folder": "vjb-3x_st-jerome-slag",
+  "preset_slot": "P-08",
+  "featured_prototype": false,
+  "callsign": "VJB-3X",
+  "name": "Vael-Vihara Harmonic Spire",
+  "subtitle": "Planet Kaelen-V Ethereal Monolithic Sanctuary & Tri-Band Spire",
+  "category": "Multi-Spectrum Planetary Sanctuary",
+  "status": "3-BAND HARMONIC SPIRE LOCK",
+  "status_color": "amber",
+  "origin": {
+    "body": "Planet Kaelen-V (Opalescent Mist Chasms of Vael-Karun)",
+    "site": "Sanctuary of the Fluted Shell & Golden Harmonic Spire",
+    "coordinates": "Gal Lon 188.2°, Gal Lat -14.6° (Vael-Karun Nebula Rim)",
+    "distance": "1,140 Light-Years (Orion-Perseus Inter-Arm Sanctuary)",
+    "local_clock": "0400 GCT Twin-Moon Convergence Bow"
+  },
+  "galactic": {
+    "sector": "Orion-Perseus Inter-Arm • Kaelen-V Planetary Sanctuary",
+    "arm": "Orion–Cygnus Spur",
+    "azimuth_deg": 188.2,
+    "elevation_deg": -14.6,
+    "range_ly": 1140.0,
+    "range_label": "1,140 ly (0.35 kpc)",
+    "radial_norm": 0.48,
+    "relay_nodes": [
+      {
+        "name": "Kaelen-V Crystal Spire",
+        "az_deg": 188.2,
+        "r_norm": 0.3
+      }
+    ]
+  },
+  "rf": {
+    "frequency_khz": 9290.0,
+    "measured_khz": 9290.118,
+    "doppler_hz": 118.0,
+    "band": "31m SW + 21cm H-I + 632nm Optical (Simultaneous!)",
+    "mode": "PIM-3X",
+    "filter_bw_hz": 4000,
+    "tx_power_watts": 1200,
+    "tx_power_label": "1.2 kW Piezo-Crystalline Chasm Array",
+    "antenna": "Colossal Needle-Thin Golden-Brass Harmonic Spire & Suspended Rings",
+    "relay_path": "Piezo-Opalescent Crustal Intermodulation ('Crystal-Spire Effect')",
+    "sinpo": {
+      "s": 4,
+      "i": 4,
+      "n": 4,
+      "p": 4,
+      "o": 4
+    },
+    "s_meter": "S9 (3 BANDS!)",
+    "s_meter_pct": 84,
+    "hauser_index": "Q-9.6",
+    "peak_modulation_db": "3-SPECTRUM HARMONIC SPIRE [SW + H-I + OPTICAL]",
+    "dx_shorthand": [
+      "VAEL-VIHARA",
+      "PIM-3X",
+      "ALIEN-MONKS",
+      "3-SPECTRUM"
+    ]
+  },
+  "hardware_dossier": {
+    "transmitter": "Across the violet-mist chasm on the ethereal planet Kaelen-V rises a monolithic sanctuary of fluted white-alabaster parabolic shells, crowned at its apex by a colossal needle-thin golden-brass harmonic antenna spire with suspended geometric resonance rings.",
+    "feedline_anomaly": "The sanctuary's fluted shells act as giant acoustic-to-electromagnetic parabolic horns coupled to the planet's piezo-opalescent crystal arches. Every twilight at 0400 GCT when the two tall, pearlescent-skinned alien ascetics (Auren-7 and Vael-9) bow in unison on the obsidian terrace, the golden spire ignites in a luminous corona that radiates simultaneously on 9,290 kHz shortwave, 1,420.4 MHz Hydrogen line, and 632 nm optical!",
+    "receive_antenna_at_gor9": "Simultaneous Lock: Apex Ring #2 (9290 kHz) + Cryo-Maser (21cm)"
+  },
+  "media": {
+    "video_src": "assets/clips/m33_drift_buoy.mp4",
+    "poster_src": "assets/plates/qsl_plate_alien_monastery_a.jpg",
+    "alt_plate_src": "assets/plates/qsl_plate_alien_monastery_b.jpg",
+    "qsl_plate_src": "assets/plates/qsl_plate_alien_monastery_a.jpg",
+    "qsl_plate_b_src": "assets/plates/qsl_plate_alien_monastery_b.jpg",
+    "cam_id": "KAELEN-V • TERRACE ARCHIVE & HARMONIC SPIRE VIEW",
+    "hud_banner": "VAEL-VIHARA SPIRE: 9290 kHz SW + 1420 MHz H-I + OPTICAL CORONA",
+    "audio_intercept_src": "assets/audio/intercept_st_jerome_slag.wav",
+    "interval_signal_src": "assets/audio/is_st_jerome_slag.wav",
+    "sstv_burst_src": "assets/audio/sstv_st_jerome_slag.wav",
+    "interval_signal_name": "Alabaster Shell Call-and-Response & 5-Voice Polyphonic Peace Resonator",
+    "languages": [
+      "Kaelen Call-and-Response Liturgical",
+      "5-Voice Polyphonic Choir & Galactic Peace Benediction"
+    ],
+    "transcript_excerpt": "[ONE — Lead Cantor Auren-7]: 'Vael-kora... auren-shi... Tune the fluted shells of Kaelen-Five.' [MANY — 5-Voice Choir simultaneously]: 'Tal-vihara... shanti-vel... Our resonators bring peace to the galaxy... Three spectrums as one, peace to every listening world.'"
+  },
+  "flow_plates": [
+    {
+      "src": "assets/plates/flow_alien_monastery_vista.jpg",
+      "role": "16:9 Ethereal Alien Planet & Sanctuary Vista (Flow Clean Background)",
+      "caption": "Empty obsidian-and-crystal terrace overlooking the opalescent mineral arches, violet mist chasm, and fluted white-alabaster alien monastery with its colossal golden-brass antenna spire."
+    },
+    {
+      "src": "assets/plates/qsl_plate_alien_monastery_a.jpg",
+      "role": "16:9 Alien Monks Keyframe A — Standing on Terrace (Flow)",
+      "caption": "Three Kaelen-V monastic cantors of contrasting builds, heights, and skin tones standing on the obsidian terrace: towering barrel-chested obsidian-indigo Basso Profundo Vael-9, tall opalescent pearl-lavender Lead Cantor Auren-7, and petite golden-honey Soprano novice Kora-5."
+    },
+    {
+      "src": "assets/plates/qsl_plate_alien_monastery_b.jpg",
+      "role": "16:9 Alien Monks Keyframe B — Bowing as Spire Ignites (Flow)",
+      "caption": "All three contrasting Kaelen-V monks turn and bow gracefully in unison with palms pressed together as the colossal golden-brass spire in the distance blazes with concentric golden-amber harmonic rings."
+    },
+    {
+      "src": "assets/characters/char_vael_choir_fullbody.jpg",
+      "role": "16:9 Choir of the Fluted Shells & Golden Resonator Sphere (Flow)",
+      "caption": "All five Kaelen-V cantors standing in a sacred semicircle beneath the suspended golden-brass armillary resonator—each varying in stature, cranial resonance structure, and skin tone according to their vocal register (obsidian-indigo Bass, terracotta-mahogany Contralto, pearl-lavender Baritone, seafoam-jade Tenor, and petite golden-honey Soprano)."
+    },
+    {
+      "src": "assets/plates/flow_kaelen_planet_architecture.jpg",
+      "role": "16:9 Secondary Planetary Sanctuary Vista (Flow)",
+      "caption": "High-altitude geothermal mineral pools and cliffside bell-viaducts in the lower valleys of Kaelen-V."
+    }
+  ],
+  "qsl": {
+    "qsl_number": "QSL #0319-VJB",
+    "gif_src": "assets/qsl/qsl_st_jerome_slag.gif",
+    "protocol": "KAELEN-V HARMONIC SPIRE TRI-BAND QSL",
+    "dimensions": "384×240 • 10-Frame Postcard eQSL GIF",
+    "issue_epoch": "2736.305 • 0400 GCT",
+    "motto": "WHERE THE FLUTED SHELLS SING — OUR RESONATORS BRING PEACE TO THE GALAXY",
+    "signer": "Cantor Auren-7 & The Choir of the Fluted Shells, Vael-Vihara (Kaelen-V)",
+    "collector_tier": "TIER I • OPALESCENT ARCHIVE EDITION (#7 of 77)",
+    "verification_hash": "0x9290-VJB3-KAELEN",
+    "embedded_clue": "When the ascetics chant in One-to-Many call-and-response and bow in unison, the golden spire radiates concentric harmonic rings that they believe calm stellar static and bring peace to the galaxy."
+  },
+  "decoder": {
+    "has_live_video": false,
+    "default_view": "decoder",
+    "signal_type": "3-BAND PIEZO-CRYSTALLINE HARMONIC (9290 kHz SW + 21cm H-I + OPTICAL)",
+    "spectrum_style": "hi_maser",
+    "required_algorithm": "ALG-01",
+    "algorithm_name": "ALG-01 • PIEZO-SPIRE INTERMODULATION & POLYPHONIC CHOIR UNPACKER",
+    "morse_stream": "...- .--- -... / ...-- -..- / ----. ..--- ----. ----- / ...- .- . .-.. / ... .--. .. .-. .",
+    "raw_rx_lines": [
+      "04:00:01.10  CALL-ONE : CANTOR AUREN-7 SOLO INVOCATION ('VAEL-KORA... AUREN-SHI...')",
+      "04:00:03.45  RESP-MANY: 5-VOICE CHOIR UNISON ('OUR RESONATORS BRING PEACE TO THE GALAXY')",
+      "04:00:05.80  BAND-2 HI: 1,420.405 MHz 21-cm OVERTONE (FLUTED ALABASTER SHELL HORN)",
+      "04:00:08.20  BAND-3 OP: GOLDEN SPIRE CORONA ('PROPORTIO DIVINA 3:5:1 • SHANTI-VEL')"
+    ],
+    "translated_lines": [
+      "[ONE-TO-MANY CHANT]: Lead Cantor Auren-7 calls out; 4 Choir Cantors answer in simultaneous harmony!",
+      "[GALACTIC DOCTRINE]: The order believes their resonators dissolve war and static, bringing peace to the galaxy",
+      "[MULTI-SPECTRUM LOCK]: Simultaneous lock on 9290 kHz SW, 1420 MHz H-I, and 632 nm optical corona!",
+      "[QSL POLICY]: Cantor Auren-7 & the Choir of the Fluted Shells issue QSL #0319-VJB to peaceful listeners"
+    ],
+    "telemetry_metrics": [
+      {
+        "label": "SW BAND",
+        "value": "9290 kHz",
+        "unit": "31m HARMONIC",
+        "pct": 84,
+        "alert": true
+      },
+      {
+        "label": "H-I BAND",
+        "value": "1420 MHz",
+        "unit": "21cm SHELL HORN",
+        "pct": 76,
+        "alert": true
+      },
+      {
+        "label": "VOICES",
+        "value": "1 -> 5",
+        "unit": "CALL & CHOIR",
+        "pct": 96,
+        "alert": false
+      },
+      {
+        "label": "RESONATOR",
+        "value": "3:5:1",
+        "unit": "GALACTIC PEACE",
+        "pct": 98,
+        "alert": true
+      }
+    ]
+  },
+  "characters": [
+    {
+      "name": "Lead Cantor Auren-7 (One-to-Many Call & Response)",
+      "role": "First Voice of the Resonator & Call-and-Response Leader",
+      "species_or_type": "Kaelen-V Ethereal Humanoid (Pearlescent-Skinned Acoustic Ascetic)",
+      "languages": "Kaelen Liturgical Invocation + Interstellar Peace Benediction",
+      "dialect_notes": "Intones the solitary modal call ('One') into the suspended golden-brass resonator sphere, immediately answered in simultaneous 4-part harmonic unison by the Choir ('Many').",
+      "voice_profile": {
+        "tts_voice": "Argon III-C (Lead Call) -> Charon + Leda + Kore + Orus (4-Voice Choir Response)",
+        "cadence": "92 WPM antiphonal call-and-response over 3:5:8 crystal-arch overtones",
+        "dsp_chain": "Antiphonal One-to-Many spatializer + Fluted Alabaster Shell reverb + 3-band spire exciter"
+      },
+      "signature_quote": "Where the stars are torn by static, let our golden spire tune the void... Tal-vihara, shanti-vel: our resonators bring peace to the galaxy.",
+      "bio": "Standing at the focal point of Vael-Vihara's central fluted shell, Auren-7 leads the twilight antiphony. The ascetics of Kaelen-V believe that warfare, fear, and loneliness across the Orion-Perseus arm are symptoms of phase-dissonance in the interstellar medium—and that by chanting pure 3:5:1 harmonic ratios into their piezo-crystalline resonators, they are actively bringing peace to the galaxy.",
+      "slug": "cantor_auren7",
+      "headshot_src": "assets/characters/char_cantor_auren7_headshot.jpg",
+      "fullbody_src": "assets/characters/char_cantor_auren7_fullbody.jpg",
+      "voice_sample_dry_src": "assets/audio/voices/voice_cantor_auren7_dry.wav",
+      "voice_sample_rf_src": "assets/audio/voices/voice_cantor_auren7_rf.wav",
+      "language_sample_transcript": "[ONE — Lead Cantor Auren-7]: \"Vael-kora... auren-shi... Tune the fluted shells of Kaelen-Five.\" [MANY — 4-Voice Choir Simultaneously]: \"Tal-vihara... shanti-vel... Our resonators bring peace to the galaxy.\" [ONE — Lead Cantor Auren-7]: \"Where the stars are divided by dissonance, let the Great Spire harmonize the void.\" [MANY — All 5 Voices in Unison]: \"O-ma-ru Vael-Kaelen... Three spectrums as one... Peace to every listening world.\"",
+      "phonetic_and_conlang_notes": "Antiphonal One-to-Many Liturgical Chant: Lead Cantor ('One', Argon III-C) intones the Kaelenic call into the golden resonator, answered simultaneously by four distinct individual voices ('Many': Charon, Leda, Kore, Orus) time-aligned in a 3:5:8 harmonic triad."
+    },
+    {
+      "name": "The Choir of the Fluted Shells (Simultaneous Multi-Voice Chanting)",
+      "role": "Circle of Five Resonator Cantors (Vael-9, Leda-3, Auren-7, Orus-8 & Kora-5)",
+      "species_or_type": "5-Voice Kaelen-V Polyphonic Monastic Ensemble (5 Distinct Vocal/Anatomical Morphs)",
+      "languages": "Simultaneous 5-Voice Kaelen Polyphony & Overlapping Canon",
+      "dialect_notes": "Five distinct individual voices chanting simultaneously—each monk's stature, cranial flute geometry, chest cavity, and skin tone corresponding to their vocal register.",
+      "voice_profile": {
+        "tts_voice": "5 Individual Voices Simultaneously (Charon + Leda + Kore + Aoede + Argon III-C)",
+        "cadence": "Simultaneous layered canon & 5-part choral unison (220/330/366/440/550 Hz chord)",
+        "dsp_chain": "5-voice stereo/binaural choir spread + harmonic resonator vocoder bed + parabolic horn reverb"
+      },
+      "signature_quote": "O-ma-ru Vael-Kaelen... Five voices as one shell, three spectrums as one spire—radiating peace to every listening world.",
+      "bio": "In the Order of the Fluted Shell, each cantor's physical morphology, stature, and skin tone match their acoustic register: Vael-9 (Basso Profundo, Charon) is a towering, barrel-chested elder with a wide fluted cranial dome and deep obsidian-indigo slate skin; Leda-3 (Contralto, Leda) is fuller-figured and round-faced with warm terracotta-mahogany brown skin; Auren-7 (Lead Baritone, Argon III-C) is tall and regal with opalescent pearl-lavender skin; Orus-8 (Lyric Tenor, Orus/Aoede) is lean and wiry with seafoam-jade teal skin; and Kora-5 (High Soprano & Descant Trill, Kore) is a petite, delicate-framed young novice with warm golden-honey ochre skin.",
+      "slug": "vael_choir",
+      "headshot_src": "assets/characters/char_vael_choir_headshot.jpg",
+      "fullbody_src": "assets/characters/char_vael_choir_fullbody.jpg",
+      "voice_sample_dry_src": "assets/audio/voices/voice_vael_choir_dry.wav",
+      "voice_sample_rf_src": "assets/audio/voices/voice_vael_choir_rf.wav",
+      "language_sample_transcript": "[CANON — 5 Individual Voices Entering in Overlapping Layers]: \"Vael-kora... tal-vihara... shanti-vel... From the fluted shells of Kaelen-Five, our resonators awaken...\" [TUTTI — All 5 Voices Chanting Simultaneously]: \"O-ma-ru Vael-Kaelen... Our resonators bring peace to the galaxy... Dissolving dissonance across the stars... Three, Five, One... Shanti-vel!\"",
+      "phonetic_and_conlang_notes": "Simultaneous 5-Voice Polyphony: Five distinct individual voices (Charon [Bass], Orus [Tenor], Argon III-C [Cantor], Leda [Alto], Kore [Soprano]) chanting at the same time—first in staggered sacred canon and then in full 5-part choral harmony coupled to the 220/275/330/440/550 Hz resonator chord."
+    }
+  ],
+  "worldbuilding": {
+    "habitat_and_culture": "Kaelen-V is an ethereal, non-Earth world of translucent opalescent crystal arches, violet-and-silver mist canyons, and liquid-pearl pools under twin moons. Rising in the distance across the chasm is the Sanctuary of Vael-Vihara—a breathtaking monastery of fluted white-alabaster shells crowned by a colossal golden-brass harmonic antenna spire. Its ascetics vary widely in stature, cranial resonance geometry, and skin tone (from deep obsidian-indigo bass monks and warm terracotta-mahogany contraltos to pearl-lavender baritones, seafoam-jade tenors, and petite golden-honey sopranos) and believe their resonators are bringing peace to the galaxy.",
+    "spectrum_gimmick_title": "One-to-Many Call & Response + 5-Voice Polyphonic Peace Resonator (9290 kHz SW + 21-cm H-I + Optical)",
+    "hauser_commentary": "From the violet-mist planet Kaelen-V, 'Vael-Vihara Spire' (VJB-3X) on 9290 kilohertz—and simultaneously on 1420 megahertz hydrogen line! First you hear a solitary Lead Cantor intoning a call into their golden resonator sphere, and then four or five individual voices answer all at once in a hair-raising polyphonic choir—declaring that their resonators are bringing peace to the galaxy!",
+    "qsl_postcard_style": "Elegant Ethereal Planetary & Sacred-Geometric Postcard (Sanctuary of Vael-Vihara)",
+    "qsl_animation_notes": "2-frame photorealistic animation on Kaelen-V: three contrasting Kaelen-V monks (towering obsidian-indigo Bass Vael-9, tall opalescent-pearl Lead Cantor Auren-7, and petite golden-honey Soprano Kora-5) stand serenely on the obsidian terrace (Frame A), then bow gracefully in unison (Frame B) as the colossal golden-brass spire blazes with concentric golden harmonic rings!",
+    "discovery_arc": [
+      {
+        "stage": "Broadcast 01 (One-to-Many Antiphony)",
+        "summary": "Simultaneously logged on 9290 kHz SW and 1420.4 MHz H-I: Lead Cantor Auren-7 calls out and is answered by four distinct choir voices chanting in unison that their resonators bring peace to the galaxy."
+      },
+      {
+        "stage": "Broadcast 02 (The Five-Voice Convergence)",
+        "summary": "All five cantors chant simultaneously into the suspended golden armillary resonator; GOR-9's spectrum analyzer confirms the 5-voice choir reduces local ionospheric phase-noise by 14 dB!"
+      }
+    ]
+  },
+  "logs": [
+    {
+      "epoch": "2736.305",
+      "gct": "0400 GCT",
+      "entry": "** KAELEN-V [Vael-Karun Nebula Rim]. 9290.118 AM + 1420405 H-I [simultaneous!], Epoch 2736.305 at 0400 GCT, 'Vael-Vihara Harmonic Spire' (VJB-3X) S9 across three spectrums at once! Solitary Lead Cantor Auren-7 chants an invocation followed immediately by a multi-voice choir of Kaelen-V ascetics chanting simultaneously ('Our resonators bring peace to the galaxy!'). Elegant animated QSL #0319-VJB received. (Operator, Asteroid 3-5-1, GOR-9)"
+    }
+  ]
+}

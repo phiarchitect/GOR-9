@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GOR-9 • VAN ALLEN ED-9 Euclidean Detector — Cosmic Geometric Intelligence Correlator</title>
+  <script src="data/euclidean_data.js"></script>
+  <style>
+    :root {
+      --bg-void: #04070c;
+      --bg-chassis: #0b1018;
+      --bg-panel: #101723;
+      --bg-well: #060911;
+      --border-metal: #23324a;
+      --border-brass: #6b4e1e;
+      --amber: #f59e0b;
+      --gold: #eab308;
+      --cyan: #38bdf8;
+      --steel-blue: #60a5fa;
+      --green: #4ade80;
+      --red: #f43f5e;
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+      --mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+      --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-void);
+      background-image:
+        radial-gradient(circle at 18% 5%, rgba(245, 158, 11, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 82% 92%, rgba(56, 189, 248, 0.08) 0%, transparent 45%),
+        linear-gradient(180deg, #04060a 0%, #090e17 100%);
+      color: var(--text-main);
+      font-family: var(--sans);
+      min-height: 100vh;
+      padding: 12px;
+      overflow-x: hidden;
+    }
+
+    /* TOP BAR */
+    .station-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(90deg, #0a0f18 0%, #161f30 50%, #0a0f18 100%);
+      border: 1px solid var(--border-metal);
+      border-bottom: 2px solid var(--amber);
+      border-radius: 6px;
+      padding: 10px 16px;
+      margin-bottom: 12px;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.65);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .brand-cluster {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-badge {
+      background: rgba(245, 158, 11, 0.16);
+      border: 1px solid var(--amber);
+      color: var(--amber);
+      font-family: var(--mono);
+      font-weight: 800;
+      font-size: 0.76rem;
+      padding: 4px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.08em;
+    }
+
+    .brand-title {
+      font-family: var(--mono);
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0.04em;
+    }
+
+    .brand-sub {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .telemetry-pills {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .t-pill {
+      background: var(--bg-well);
+      border: 1px solid var(--border-metal);
+      border-radius: 4px;
+      padding: 4px 10px;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .t-pill .lbl { color: var(--text-muted); }
+
+    .nav-links {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      text-decoration: none;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-main);
+      background: #131c2b;
+      border: 1px solid var(--border-metal);
+      padding: 6px 10px;
+      border-radius: 4px;
+      transition: all 0.15s ease;
+    }
+
+    .nav-btn:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    .nav-btn.active {
+      background: rgba(245, 158, 11, 0.16);
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+
+    /* MAIN CHASSIS */
+    .ed9-chassis {
+      background: var(--bg-chassis);
+      border: 2px solid #2b3b54;
+      border-radius: 8px;
+      padding: 14px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 16px 42px rgba(0,0,0,0.8);
+    }
+
+    .ed9-grid {
+      display: grid;
+      grid-template-columns: 350px 1fr 370px;
+      gap: 14px;
+      align-items: start;
+    }
+
+    @media (max-width: 1360px) {
+      .ed9-grid { grid-template-columns: 1fr; }
+    }
+
+    .rack-panel {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-metal);
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 12px;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .rack-panel:last-child { margin-bottom: 0; }
+
+    .panel-hdr {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--mono);
+      font-size: 0.71rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      padding-bottom: 6px;
+      margin-bottom: 10px;
+    }
+
+    /* CANDIDATE QUEUE */
+    .candidate-list {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .cand-btn {
+      background: #090e17;
+      border: 1px solid var(--border-metal);
+      border-left: 4px solid #334155;
+      border-radius: 4px;
+      padding: 9px 10px;
+      text-align: left;
+      cursor: pointer;
+      color: var(--text-main);
+      transition: all 0.15s ease;
+    }
+
+    .cand-btn:hover {
+      background: #111a29;
+      border-color: #3b5278;
+    }
+
+    .cand-btn.active {
+      background: #131e30;
+      border-color: var(--amber);
+      border-left-color: var(--amber);
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.18);
+    }
+
+    .cand-top {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--mono);
+      font-size: 0.71rem;
+      font-weight: 800;
+      margin-bottom: 3px;
+    }
+
+    .cand-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+
+    .cand-sub {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--text-muted);
+    }
+
+    /* HOUGH TRANSFORM NOISE-FLOOR SCOPE */
+    .hough-wrap {
+      background: #04070d;
+      border: 1px solid #1e2d44;
+      border-radius: 4px;
+      padding: 6px;
+    }
+
+    #houghCanvas {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* CENTER DUAL VIEWPORT */
+    .dual-stage {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 920px) {
+      .dual-stage { grid-template-columns: 1fr; }
+    }
+
+    .stage-box {
+      background: #03060b;
+      border: 1px solid #263854;
+      border-radius: 5px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .stage-box-hdr {
+      background: #0a101b;
+      border-bottom: 1px solid #1e2d44;
+      padding: 5px 9px;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      font-weight: 800;
+      display: flex;
+      justify-content: space-between;
+      color: var(--cyan);
+    }
+
+    .stage-box canvas {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      display: block;
+    }
+
+    /* STEPPER BAR */
+    .stepper-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .step-btn {
+      background: #0c1320;
+      border: 1px solid #25354f;
+      color: var(--text-muted);
+      font-family: var(--mono);
+      font-size: 0.69rem;
+      font-weight: 800;
+      padding: 8px 6px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-align: center;
+    }
+
+    .step-btn:hover {
+      border-color: var(--cyan);
+      color: #fff;
+    }
+
+    .step-btn.active {
+      background: rgba(245, 158, 11, 0.18);
+      border-color: var(--amber);
+      color: var(--amber);
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.25);
+    }
+
+    /* ACTIVE PROOF CLAUSE BOX */
+    .clause-card {
+      background: #070c14;
+      border: 1px solid #263854;
+      border-left: 4px solid var(--amber);
+      border-radius: 4px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+    }
+
+    .clause-top {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--amber);
+      margin-bottom: 5px;
+    }
+
+    .clause-body {
+      font-size: 0.88rem;
+      line-height: 1.55;
+      color: #f8fafc;
+    }
+
+    .enunciation-box {
+      background: rgba(96, 165, 250, 0.08);
+      border: 1px solid rgba(96, 165, 250, 0.3);
+      border-radius: 4px;
+      padding: 9px 11px;
+      font-size: 0.8rem;
+      font-style: italic;
+      color: #bfdbfe;
+      line-height: 1.45;
+    }
+
+    /* RIGHT RACK METRICS */
+    .kv-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+    }
+
+    .kv-table td {
+      padding: 6px 4px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .kv-table td.k { color: var(--text-muted); width: 44%; }
+    .kv-table td.v { color: var(--text-main); font-weight: 700; text-align: right; }
+
+    .prereq-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 8px;
+    }
+
+    .prereq-pill {
+      background: rgba(74, 222, 128, 0.12);
+      border: 1px solid rgba(74, 222, 128, 0.4);
+      color: var(--green);
+      font-family: var(--mono);
+      font-size: 0.66rem;
+      font-weight: 700;
+      padding: 3px 7px;
+      border-radius: 3px;
+    }
+
+    /* Full-Screen 16:9 CSS Grid Console Optimization & 1080p Readability */
+    html {
+      background-color: #04070c;
+      font-size: 17px;
+    }
+    body {
+      height: 100vh;
+      overflow: hidden;
+      padding: 8px 14px 12px;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 8px;
+    }
+    .station-topbar {
+      padding: 6px 12px;
+      margin-bottom: 0;
+      gap: 6px 12px;
+    }
+    .brand-title { font-size: 0.94rem; }
+    .brand-sub { font-size: 0.7rem; }
+    .t-pill { font-size: 0.72rem; padding: 4px 8px; }
+    .nav-btn { font-size: 0.72rem; padding: 5px 9px; }
+    .ed9-chassis {
+      padding: 8px 12px;
+      height: 100%;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .ed9-grid {
+      grid-template-columns: 375px 1fr 400px;
+      gap: 12px;
+      align-items: stretch;
+      flex: 1;
+      height: 100%;
+      min-height: 0;
+    }
+    .ed9-grid > section {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      height: 100%;
+      min-height: 0;
+    }
+    .rack-panel {
+      padding: 9px 11px;
+      margin-bottom: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .ed9-grid > section > .rack-panel:last-child {
+      flex: 1;
+      justify-content: flex-start;
+      gap: 8px;
+    }
+    .panel-hdr {
+      font-size: 0.76rem;
+      padding-bottom: 5px;
+      margin-bottom: 8px;
+    }
+    .cand-btn { padding: 10px 11px; }
+    .cand-top { font-size: 0.74rem; }
+    .cand-title { font-size: 0.88rem; }
+    .cand-sub { font-size: 0.74rem; }
+    .hough-wrap { flex: 1; display: flex; flex-direction: column; justify-content: center; min-height: 0; }
+    #houghCanvas { flex: 1; width: 100%; height: 100%; max-height: none; display: block; }
+    .dual-stage {
+      flex: 1;
+      align-items: stretch;
+      min-height: 0;
+      margin-bottom: 0;
+    }
+    .stage-box {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 0;
+    }
+    .stage-box-hdr { font-size: 0.74rem; padding: 6px 10px; }
+    #opticalFeedCanvas, #euclidVectorCanvas {
+      flex: 1;
+      height: 100%;
+      max-height: none;
+      width: 100%;
+      display: block;
+    }
+    .stepper-bar { margin: 6px 0; gap: 8px; }
+    .step-btn { padding: 8px 8px; font-size: 0.75rem; }
+    .clause-card { padding: 9px 12px; margin-bottom: 6px; }
+    .clause-hdr { font-size: 0.75rem; }
+    .clause-body { font-size: 0.88rem; line-height: 1.45; }
+    .enunciation-box { padding: 9px 12px; font-size: 0.82rem; line-height: 1.45; }
+    .kv-table { font-size: 0.76rem; }
+    .kv-table td { padding: 6px 4px; }
+    .prereq-pill { font-size: 0.72rem; padding: 4px 8px; }
+  </style>
+</head>
+<body>
+
+  <!-- TOP NAVIGATION BAR: OVERALL GOR-9 DASHBOARD -->
+  <header class="station-topbar">
+    <div class="brand-cluster">
+      <div class="brand-badge">ON AIR • 0400 GCT</div>
+      <div>
+        <div class="brand-title">GOR-9 • GALACTIC OUTPOST RADIO — OORT SECTOR 9 DASHBOARD</div>
+        <div class="brand-sub">ACTIVE DEVICE: VAN ALLEN ED-9 • COSMIC GEOMETRIC INTELLIGENCE CORRELATOR (Van Allen &amp; Sons Switchgear)</div>
+      </div>
+    </div>
+
+    <div class="telemetry-pills">
+      <div class="t-pill">
+        <span class="lbl">HOUGH TOLERANCE:</span>
+        <span style="color:var(--green);font-weight:800;">0.0001 ARCSEC</span>
+      </div>
+      <div class="t-pill">
+        <span class="lbl">FEEDS SCANNED:</span>
+        <span style="color:var(--cyan);font-weight:800;">148 DEEP-SPACE CAMS</span>
+      </div>
+      <div class="t-pill">
+        <span class="lbl">ACTIVE LOCK:</span>
+        <span style="color:var(--amber);font-weight:800;" id="topLockPill">EUCLID I.34 (G.47)</span>
+      </div>
+    </div>
+
+    <nav class="nav-links">
+      <a href="index.html" class="nav-btn">🎛 HAUSER MK-IV</a>
+      <a href="propagation.html" class="nav-btn">🌩️ VAN ALLEN VA-4</a>
+      <a href="euclidean-detector.html" class="nav-btn active">📐 VAN ALLEN ED-9 EUCLID</a>
+      <a href="bogey-detector.html" class="nav-btn">🛸 BOGEY-9 TRAIL-CAM</a>
+      <a href="celestial-atlas.html" class="nav-btn" style="border-color:var(--cyan);color:var(--cyan);">🪐 3D SKY &amp; RELAY ATLAS</a>
+      <a href="station.html" class="nav-btn">🃏 STATION DOSSIER &amp; CARDS</a>
+    </nav>
+  </header>
+
+  <main class="ed9-chassis">
+    <div class="ed9-grid">
+
+      <!-- LEFT RACK: GEOMETRIC CANDIDATE QUEUE & HOUGH TRANSFORM ACCUMULATOR -->
+      <section>
+        <div class="rack-panel">
+          <div class="panel-hdr">
+            <span>DETECTED GEOMETRIC INTELLIGENCE QUEUE</span>
+            <span style="color:var(--amber);">SETI-GEO</span>
+          </div>
+          <div class="candidate-list" id="candidateList"></div>
+        </div>
+
+        <div class="rack-panel">
+          <div class="panel-hdr">
+            <span>12-TUBE HOUGH TRANSFORM NOISE-FLOOR ACCUMULATOR</span>
+            <span style="color:var(--green);">SNR +94.2 dB</span>
+          </div>
+          <div class="hough-wrap">
+            <canvas id="houghCanvas" width="380" height="340"></canvas>
+          </div>
+          <div style="font-family:var(--mono);font-size:0.68rem;color:var(--text-muted);margin-top:4px;line-height:1.38;">
+            Natural cosmic processes yield diffuse Gaussian snow. Bright accumulator spikes in <b>(ρ, θ)</b> space indicate artificial straightedge-and-compass alignments.
+          </div>
+        </div>
+      </section>
+
+      <!-- CENTER MONITOR: DUAL OPTICAL SURVEILLANCE + EUCLIDEAN G-INDEX VECTOR SCOPE -->
+      <section>
+        <div class="rack-panel">
+          <div class="panel-hdr">
+            <span id="centerTitle">EUC-01 • CALLISTO-SOUTH BRINE EVAPORATION VAT 19</span>
+            <span id="centerPropBadge" style="color:var(--amber);">EUCLID I.34 • G.47</span>
+          </div>
+
+          <div class="dual-stage">
+            <!-- LEFT SCREEN: REMOTE OPTICAL/LIDAR FEED WITH RETICLES -->
+            <div class="stage-box">
+              <div class="stage-box-hdr">
+                <span id="camFeedLbl">OPTICAL / LIDAR SURVEILLANCE FEED</span>
+                <span style="color:var(--amber);" id="camEpochLbl">03:12:09 GCT</span>
+              </div>
+              <canvas id="opticalFeedCanvas" width="520" height="490"></canvas>
+            </div>
+
+            <!-- RIGHT SCREEN: CONSTRUCTIVE EUCLIDEAN VECTOR PROOF SCOPE -->
+            <div class="stage-box">
+              <div class="stage-box-hdr">
+                <span>VAN ALLEN ED-9 CONSTRUCTIVE PROOF SCOPE</span>
+                <span style="color:var(--green);" id="gIndexBadge">G-INDEX: G.47</span>
+              </div>
+              <canvas id="euclidVectorCanvas" width="520" height="490"></canvas>
+            </div>
+          </div>
+
+          <!-- 4-STEP CONSTRUCTIVE PROOF STEPPER -->
+          <div class="stepper-bar" id="stepperBar"></div>
+
+          <!-- ACTIVE PROOF CLAUSE & BELL INDICATOR -->
+          <div class="clause-card" id="clauseCard">
+            <div class="clause-top">
+              <span id="clauseStepTag">STEP 1 • GIVEN PARALLELOGRAM ABDC</span>
+              <span id="clauseBellTag" style="color:var(--cyan);">🔔 [bell:insight]</span>
+            </div>
+            <div class="clause-body" id="clauseBodyText"></div>
+          </div>
+
+          <!-- HEATH'S CLASSICAL ENUNCIATION -->
+          <div class="enunciation-box" id="enunciationBox"></div>
+        </div>
+      </section>
+
+      <!-- RIGHT RACK: G-INDEX FORENSICS, PREREQUISITES & VAN ALLEN SETI DIVISION LORE -->
+      <section>
+        <div class="rack-panel">
+          <div class="panel-hdr">
+            <span>GEOMETRIC INVARIANT &amp; G-INDEX FORENSICS</span>
+            <span id="detCodeBadge" style="color:var(--cyan);">SETI-GEO-2736-34</span>
+          </div>
+
+          <div style="background:rgba(74,222,128,0.1);border:1px solid var(--green);border-radius:4px;padding:7px 9px;font-family:var(--mono);font-size:0.71rem;font-weight:800;color:var(--green);margin-bottom:9px;" id="statusBanner">
+            CONFIRMED CONSTRUCTIVE ARTIFACT (p &lt; 1.4e-14)
+          </div>
+
+          <table class="kv-table">
+            <tbody>
+              <tr><td class="k">PROPOSITION</td><td class="v" id="kvProp" style="color:var(--amber);">Euclid I.34</td></tr>
+              <tr><td class="k">GEOMETOR G-INDEX</td><td class="v" id="kvGIdx" style="color:var(--green);">G.47</td></tr>
+              <tr><td class="k">ANGULAR TOLERANCE</td><td class="v" id="kvTol" style="color:var(--cyan);">—</td></tr>
+              <tr><td class="k">METRIC RATIO ERR</td><td class="v" id="kvErr">—</td></tr>
+              <tr><td class="k">PARTITION INVARIANT</td><td class="v" id="kvDiag" style="color:var(--amber);">—</td></tr>
+              <tr><td class="k">RANDOM CHANCE</td><td class="v" id="kvProb" style="color:var(--green);">—</td></tr>
+            </tbody>
+          </table>
+
+          <div style="font-family:var(--mono);font-size:0.68rem;color:var(--text-muted);margin-top:10px;font-weight:700;">
+            REQUIRED EUCLIDEAN PREREQUISITES:
+          </div>
+          <div class="prereq-pills" id="prereqPills"></div>
+        </div>
+
+        <div class="rack-panel">
+          <div class="panel-hdr">
+            <span>DEVICE MAKER • VAN ALLEN &amp; SONS SWITCHGEAR</span>
+            <span style="color:var(--amber);">MODEL ED-9 • CERES #7</span>
+          </div>
+          <div style="background:#04070d;border:1px solid #3b2f16;border-radius:4px;padding:6px 8px;">
+            <img src="assets/branding/van_allen_logo.svg" alt="Van Allen & Sons Vector Nameplate" style="width:100%;aspect-ratio:520/180;object-fit:contain;display:block;" />
+          </div>
+          <div style="font-family:var(--mono);font-size:0.71rem;color:#cbd5e1;line-height:1.45;">
+            <div style="color:var(--amber);font-weight:800;margin-bottom:3px;">"Chaos Makes Noise. Minds Make Geometry."</div>
+            Built by <b>Van Allen &amp; Sons Switchgear</b>, the <b>Model ED-9 Euclidean Detector</b> correlates 148 deep-space surveillance cameras and H-I radio maps against all 465 propositions of Euclid's <i>Elements</i>. Whenever an unassisted mud-rake, glacier slab, or dust filament exhibits sub-arcsecond constructive congruence, the ED-9 rings the tower bell.
+          </div>
+          <div style="margin-top:auto;background:#070c14;border:1px solid #23324a;border-left:3px solid var(--green);border-radius:4px;padding:7px 9px;font-family:var(--mono);font-size:0.68rem;line-height:1.4;">
+            <div style="display:flex;justify-content:space-between;color:var(--green);font-weight:800;margin-bottom:2px;">
+              <span>CONSTRUCTIVE VERIFICATION LEDGER</span>
+              <span style="color:var(--amber);">BOOK I • PROP 34</span>
+            </div>
+            <div style="color:var(--text-muted);">• <b>SAS / ASA Congruence:</b> △ABC ≅ △DCB (I.26)<br>• <b>Bisection Invariant:</b> Area(ABDC) = 2 · Area(△ABC)</div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+    const ED_DATA = window.GOR9_EUCLID_DATA || {};
+    const detections = (ED_DATA.detections || []).slice();
+    if (ED_DATA.coming_next && ED_DATA.coming_next.geometry) {
+      detections.push(Object.assign({ is_coming_next: true }, ED_DATA.coming_next));
+    }
+    let activeDetIdx = 0;
+    let activeStepIdx = 0; // 0..3
+    let plateImg = new Image();
+    let houghTick = 0;
+    let audioCtx = null;
+
+    function initEuclideanDetector() {
+      const params = new URLSearchParams(window.location.search);
+      const isNext = params.get('next') === '1';
+      const detParam = params.get('det');
+      const stepParam = params.get('step');
+      renderCandidateButtons();
+      let startDet = 0;
+      if (isNext && detections.length > 1) {
+        startDet = detections.length - 1;
+      } else if (detParam !== null) {
+        startDet = Math.max(0, Math.min(detections.length - 1, Number(detParam)));
+      }
+      selectDetection(startDet, stepParam !== null ? Number(stepParam) : (isNext ? 1 : 1));
+      requestAnimationFrame(animateLoops);
+    }
+
+    function renderCandidateButtons() {
+      const wrap = document.getElementById('candidateList');
+      wrap.innerHTML = detections.map((d, i) => `
+        <button class="cand-btn ${i === activeDetIdx ? 'active' : ''}" onclick="selectDetection(${i})" style="${d.is_coming_next ? 'margin-top:8px;border-style:dashed;' : ''}">
+          <div class="cand-top">
+            <span style="color:${d.is_coming_next ? 'var(--cyan)' : 'var(--amber)'};">${d.slot} • ${d.proposition} (${d.g_index})</span>
+            <span style="color:var(--green);">${d.code}</span>
+          </div>
+          <div class="cand-title">${d.is_coming_next ? 'COMING NEXT: ' + d.title : d.title}</div>
+          <div class="cand-sub">${d.subtitle}</div>
+        </button>
+      `).join('');
+    }
+
+    function selectDetection(idx, initialStep) {
+      activeDetIdx = idx;
+      const d = detections[idx];
+      if (!d) return;
+      activeStepIdx = initialStep !== undefined ? Math.max(0, Math.min(d.steps.length - 1, initialStep)) : 1;
+
+      renderCandidateButtons();
+      renderStepButtons();
+      updateStepDetails();
+
+      document.getElementById('topLockPill').textContent = `${d.proposition.toUpperCase()} (${d.g_index})`;
+      document.getElementById('centerTitle').textContent = `${d.slot} • ${d.title.toUpperCase()}`;
+      document.getElementById('centerPropBadge').textContent = `${d.proposition.toUpperCase()} • ${d.g_index}`;
+      document.getElementById('camFeedLbl').textContent = d.cam_id;
+      document.getElementById('camEpochLbl').textContent = d.trigger_epoch;
+      document.getElementById('gIndexBadge').textContent = `G-INDEX: ${d.g_index}`;
+      document.getElementById('enunciationBox').innerHTML = `<b>${d.prop_title}:</b> "${d.enunciation}"`;
+
+      document.getElementById('detCodeBadge').textContent = d.code;
+      document.getElementById('statusBanner').textContent = d.status_badge;
+      document.getElementById('kvProp').textContent = d.proposition;
+      document.getElementById('kvGIdx').textContent = d.g_index;
+      document.getElementById('kvTol').textContent = d.metrics.parallel_tolerance;
+      document.getElementById('kvErr').textContent = d.metrics.side_ratio_error;
+      document.getElementById('kvDiag').textContent = d.metrics.diagonal_bisection;
+      document.getElementById('kvProb').textContent = d.metrics.natural_probability;
+
+      document.getElementById('prereqPills').innerHTML = d.metrics.prerequisites.map(p =>
+        `<span class="prereq-pill">${p}</span>`
+      ).join('');
+
+      plateImg = new Image();
+      plateImg.onload = () => drawBothViewports();
+      plateImg.src = d.plate_src;
+      drawBothViewports();
+    }
+
+    function renderStepButtons() {
+      const d = detections[activeDetIdx];
+      if (!d) return;
+      const bar = document.getElementById('stepperBar');
+      bar.innerHTML = d.steps.map((s, i) => `
+        <button class="step-btn ${i === activeStepIdx ? 'active' : ''}" onclick="selectStep(${i})">
+          STEP ${s.step_num}<br><span style="font-size:0.6rem;font-weight:600;">${s.bell}</span>
+        </button>
+      `).join('');
+    }
+
+    function selectStep(stepIdx) {
+      activeStepIdx = stepIdx;
+      renderStepButtons();
+      updateStepDetails();
+      playStepBell(stepIdx);
+      drawBothViewports();
+    }
+
+    function updateStepDetails() {
+      const d = detections[activeDetIdx];
+      if (!d) return;
+      const s = d.steps[activeStepIdx] || d.steps[0];
+      document.getElementById('clauseStepTag').textContent = s.tag;
+      document.getElementById('clauseBellTag').textContent = `🔔 ${s.bell}`;
+      document.getElementById('clauseBodyText').textContent = s.clause;
+
+      const card = document.getElementById('clauseCard');
+      if (s.highlight === 'given') card.style.borderLeftColor = '#60a5fa';
+      else if (s.highlight === 'construction') card.style.borderLeftColor = '#f59e0b';
+      else if (s.highlight === 'assertion') card.style.borderLeftColor = '#4ade80';
+      else card.style.borderLeftColor = '#f43f5e';
+    }
+
+    function playStepBell(stepIdx) {
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const freqsByStep = [
+          [528, 792],       // insight
+          [440, 660],       // construction
+          [528, 660, 792],  // proposition
+          [392, 587.33]     // punchline
+        ];
+        const freqs = freqsByStep[stepIdx % freqsByStep.length];
+        const now = audioCtx.currentTime;
+        freqs.forEach(f => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(f, now);
+          gain.gain.setValueAtTime(0.08, now);
+          gain.gain.exponentialRampToValueAtTime(0.0008, now + 0.65);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now);
+          osc.stop(now + 0.65);
+        });
+      } catch (e) {}
+    }
+
+    function drawEqualTicks(ctx, x1, y1, x2, y2, count, col) {
+      const mx = (x1 + x2) / 2;
+      const my = (y1 + y2) / 2;
+      const dx = x2 - x1;
+      const dy = y2 - y1;
+      const len = Math.hypot(dx, dy) || 1;
+      const nx = -dy / len;
+      const ny = dx / len;
+      const tx = dx / len;
+      const ty = dy / len;
+
+      ctx.save();
+      ctx.strokeStyle = col;
+      ctx.lineWidth = 2.4;
+      const spacing = 6;
+      const tickHalf = 7;
+      for (let i = 0; i < count; i++) {
+        const offset = (i - (count - 1) / 2) * spacing;
+        const cx = mx + tx * offset;
+        const cy = my + ty * offset;
+        ctx.beginPath();
+        ctx.moveTo(cx - nx * tickHalf, cy - ny * tickHalf);
+        ctx.lineTo(cx + nx * tickHalf, cy + ny * tickHalf);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    function drawBothViewports() {
+      drawOpticalFeed();
+      drawEuclidVectorScope();
+    }
+
+    function drawOpticalFeed() {
+      const canvas = document.getElementById('opticalFeedCanvas');
+      if (!canvas) return;
+      const rect = canvas.getBoundingClientRect();
+      if (rect.width > 20 && rect.height > 20) {
+        const rw = Math.round(rect.width);
+        const rh = Math.round(rect.height);
+        if (canvas.width !== rw || canvas.height !== rh) {
+          canvas.width = rw;
+          canvas.height = rh;
+        }
+      }
+      const ctx = canvas.getContext('2d');
+      const W = canvas.width;
+      const H = canvas.height;
+      ctx.clearRect(0, 0, W, H);
+
+      const d = detections[activeDetIdx];
+      if (!d) return;
+
+      if (plateImg && plateImg.complete && plateImg.naturalWidth > 0) {
+        const iw = plateImg.naturalWidth;
+        const ih = plateImg.naturalHeight;
+        const scale = Math.max(W / iw, H / ih);
+        const dw = iw * scale;
+        const dh = ih * scale;
+        const dx = (W - dw) / 2;
+        const dy = (H - dh) / 2;
+        ctx.drawImage(plateImg, dx, dy, dw, dh);
+      } else {
+        ctx.fillStyle = '#060a12';
+        ctx.fillRect(0, 0, W, H);
+      }
+
+      // Subtle CRT scanline overlay
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.22)';
+      for (let y = 0; y < H; y += 4) ctx.fillRect(0, y, W, 1);
+
+      const v = d.geometry.type === 'parallelogram' ? {
+        A: { x: 0.27, y: 0.34 },
+        B: { x: 0.81, y: 0.34 },
+        C: { x: 0.14, y: 0.73 },
+        D: { x: 0.68, y: 0.73 }
+      } : d.geometry.vertices;
+      const pts = {};
+      Object.keys(v).forEach(k => {
+        pts[k] = { x: v[k].x * W, y: v[k].y * H };
+      });
+
+      // Step-aware geometric overlay on the camera feed
+      ctx.save();
+      if (d.geometry.type === 'parallelogram' || d.geometry.type === 'rhombus') {
+        const A = pts.A, B = pts.B, C = pts.C, D = pts.D;
+        const order = d.geometry.type === 'parallelogram' ? [A, B, D, C] : [A, B, C, D];
+
+        // Step 1+: Outer Given sides in Steel Blue
+        ctx.strokeStyle = '#60a5fa';
+        ctx.lineWidth = 2.6;
+        ctx.beginPath();
+        ctx.moveTo(order[0].x, order[0].y);
+        order.slice(1).forEach(p => ctx.lineTo(p.x, p.y));
+        ctx.closePath();
+        ctx.stroke();
+
+        // Step 2+: Diameter in Solar Gold
+        if (activeStepIdx >= 1) {
+          ctx.strokeStyle = '#f59e0b';
+          ctx.lineWidth = 2.8;
+          ctx.setLineDash([6, 4]);
+          ctx.beginPath();
+          if (d.geometry.type === 'parallelogram') {
+            ctx.moveTo(B.x, B.y);
+            ctx.lineTo(C.x, C.y);
+          } else {
+            ctx.moveTo(A.x, A.y); ctx.lineTo(C.x, C.y);
+            ctx.moveTo(B.x, B.y); ctx.lineTo(D.x, D.y);
+          }
+          ctx.stroke();
+          ctx.setLineDash([]);
+        }
+
+        // Step 3+: Assertion Green congruent triangle fill & equality ticks
+        if (activeStepIdx >= 2) {
+          ctx.fillStyle = 'rgba(74, 222, 128, 0.16)';
+          ctx.beginPath();
+          ctx.moveTo(A.x, A.y); ctx.lineTo(B.x, B.y); ctx.lineTo(C.x, C.y);
+          ctx.closePath();
+          ctx.fill();
+
+          if (d.geometry.type === 'parallelogram') {
+            drawEqualTicks(ctx, A.x, A.y, B.x, B.y, 1, '#4ade80');
+            drawEqualTicks(ctx, C.x, C.y, D.x, D.y, 1, '#4ade80');
+            drawEqualTicks(ctx, A.x, A.y, C.x, C.y, 2, '#4ade80');
+            drawEqualTicks(ctx, B.x, B.y, D.x, D.y, 2, '#4ade80');
+          }
+        }
+      } else if (d.geometry.type === 'vesica') {
+        const A = pts.A, B = pts.B, C = pts.C;
+        const R = Math.hypot(B.x - A.x, B.y - A.y);
+        if (activeStepIdx >= 1) {
+          ctx.strokeStyle = 'rgba(245, 158, 11, 0.65)';
+          ctx.lineWidth = 1.8;
+          ctx.setLineDash([5, 4]);
+          ctx.beginPath(); ctx.arc(A.x, A.y, R, 0, Math.PI * 2); ctx.stroke();
+          ctx.beginPath(); ctx.arc(B.x, B.y, R, 0, Math.PI * 2); ctx.stroke();
+          ctx.setLineDash([]);
+        }
+        ctx.strokeStyle = activeStepIdx >= 2 ? '#4ade80' : '#60a5fa';
+        ctx.lineWidth = 2.6;
+        ctx.beginPath();
+        ctx.moveTo(A.x, A.y); ctx.lineTo(B.x, B.y);
+        if (activeStepIdx >= 2) {
+          ctx.lineTo(C.x, C.y); ctx.closePath();
+        }
+        ctx.stroke();
+      }
+
+      // Draw Vertex Target Reticles
+      Object.entries(pts).forEach(([lbl, p]) => {
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 1.6;
+        ctx.strokeRect(p.x - 8, p.y - 8, 16, 16);
+        ctx.fillStyle = '#f59e0b';
+        ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI * 2); ctx.fill();
+        ctx.font = 'bold 13px monospace';
+        ctx.fillStyle = '#fff';
+        ctx.fillText(lbl, p.x + 11, p.y - 6);
+      });
+
+      // Step 4: Official Cover-Up Stamp Banner
+      if (activeStepIdx === 3) {
+        ctx.fillStyle = 'rgba(15, 10, 4, 0.92)';
+        ctx.strokeStyle = '#f59e0b';
+        ctx.lineWidth = 2;
+        ctx.fillRect(12, H - 58, W - 24, 46);
+        ctx.strokeRect(12, H - 58, W - 24, 46);
+        ctx.fillStyle = '#f59e0b';
+        ctx.font = 'bold 10.5px monospace';
+        ctx.fillText('⚠ OFFICIAL CALLISTO WATER BOARD PRESS RELEASE (COVER-UP):', 20, H - 40);
+        ctx.fillStyle = '#fde68a';
+        ctx.font = '10px monospace';
+        const cleanQuote = d.bureau_coverup.replace(/^.*PRESS RELEASE:\s*/i, '');
+        ctx.fillText(cleanQuote, 20, H - 22);
+      }
+
+      ctx.restore();
+    }
+
+    function drawEuclidVectorScope() {
+      const canvas = document.getElementById('euclidVectorCanvas');
+      if (!canvas) return;
+      const rect = canvas.getBoundingClientRect();
+      if (rect.width > 20 && rect.height > 20) {
+        const rw = Math.round(rect.width);
+        const rh = Math.round(rect.height);
+        if (canvas.width !== rw || canvas.height !== rh) {
+          canvas.width = rw;
+          canvas.height = rh;
+        }
+      }
+      const ctx = canvas.getContext('2d');
+      const W = canvas.width;
+      const H = canvas.height;
+
+      // Dark obsidian constructive vector scope grid
+      ctx.fillStyle = '#040811';
+      ctx.fillRect(0, 0, W, H);
+
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.07)';
+      ctx.lineWidth = 1;
+      for (let x = 0; x < W; x += 26) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+      }
+      for (let y = 0; y < H; y += 26) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+      }
+
+      const d = detections[activeDetIdx];
+      if (!d) return;
+
+      const v = d.geometry.vertices;
+      const availH = H - 34;
+      const boxSize = Math.min(W - 16, availH) * 0.96;
+      const ox = (W - boxSize) / 2;
+      const oy = (availH - boxSize) / 2 + 4;
+      const pts = {};
+      Object.keys(v).forEach(k => {
+        pts[k] = { x: ox + v[k].x * boxSize, y: oy + v[k].y * boxSize };
+      });
+
+      if (d.geometry.type === 'parallelogram') {
+        const A = pts.A, B = pts.B, C = pts.C, D = pts.D;
+
+        // Auxiliary construction circles (faint gold)
+        ctx.strokeStyle = 'rgba(245, 158, 11, 0.16)';
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.arc(B.x, B.y, Math.hypot(C.x - B.x, C.y - B.y) * 0.45, 0, Math.PI * 2); ctx.stroke();
+        ctx.beginPath(); ctx.arc(C.x, C.y, Math.hypot(C.x - B.x, C.y - B.y) * 0.45, 0, Math.PI * 2); ctx.stroke();
+
+        // Step 3+: Congruent triangle fills
+        if (activeStepIdx >= 2) {
+          ctx.fillStyle = 'rgba(74, 222, 128, 0.14)';
+          ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(B.x, B.y); ctx.lineTo(C.x, C.y); ctx.closePath(); ctx.fill();
+          ctx.fillStyle = 'rgba(56, 189, 248, 0.11)';
+          ctx.beginPath(); ctx.moveTo(D.x, D.y); ctx.lineTo(C.x, C.y); ctx.lineTo(B.x, B.y); ctx.closePath(); ctx.fill();
+        }
+
+        // Step 1+: Given parallelogram walls (Steel Blue)
+        ctx.strokeStyle = '#60a5fa';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(A.x, A.y); ctx.lineTo(B.x, B.y); ctx.lineTo(D.x, D.y); ctx.lineTo(C.x, C.y);
+        ctx.closePath();
+        ctx.stroke();
+
+        // Step 2+: Diameter BC (Solar Gold)
+        if (activeStepIdx >= 1) {
+          ctx.strokeStyle = '#f59e0b';
+          ctx.lineWidth = 3;
+          ctx.beginPath(); ctx.moveTo(B.x, B.y); ctx.lineTo(C.x, C.y); ctx.stroke();
+        }
+
+        // Step 3+: Green Equality Ticks (| and ||)
+        if (activeStepIdx >= 2) {
+          drawEqualTicks(ctx, A.x, A.y, B.x, B.y, 1, '#4ade80');
+          drawEqualTicks(ctx, C.x, C.y, D.x, D.y, 1, '#4ade80');
+          drawEqualTicks(ctx, A.x, A.y, C.x, C.y, 2, '#4ade80');
+          drawEqualTicks(ctx, B.x, B.y, D.x, D.y, 2, '#4ade80');
+        }
+      } else if (d.geometry.type === 'rhombus') {
+        const A = pts.A, B = pts.B, C = pts.C, D = pts.D;
+        if (activeStepIdx >= 2) {
+          ctx.fillStyle = 'rgba(74, 222, 128, 0.14)';
+          ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(B.x, B.y); ctx.lineTo(C.x, C.y); ctx.lineTo(D.x, D.y); ctx.closePath(); ctx.fill();
+        }
+        ctx.strokeStyle = '#60a5fa';
+        ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(B.x, B.y); ctx.lineTo(C.x, C.y); ctx.lineTo(D.x, D.y); ctx.closePath(); ctx.stroke();
+        if (activeStepIdx >= 1) {
+          ctx.strokeStyle = '#f59e0b';
+          ctx.lineWidth = 2.4;
+          ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(C.x, C.y); ctx.moveTo(B.x, B.y); ctx.lineTo(D.x, D.y); ctx.stroke();
+        }
+        if (activeStepIdx >= 2) {
+          drawEqualTicks(ctx, A.x, A.y, B.x, B.y, 1, '#4ade80');
+          drawEqualTicks(ctx, B.x, B.y, C.x, C.y, 1, '#4ade80');
+          drawEqualTicks(ctx, C.x, C.y, D.x, D.y, 1, '#4ade80');
+          drawEqualTicks(ctx, D.x, D.y, A.x, A.y, 1, '#4ade80');
+        }
+      } else if (d.geometry.type === 'vesica') {
+        const A = pts.A, B = pts.B, C = pts.C;
+        const R = Math.hypot(B.x - A.x, B.y - A.y);
+        if (activeStepIdx >= 1) {
+          ctx.strokeStyle = '#f59e0b';
+          ctx.lineWidth = 2;
+          ctx.beginPath(); ctx.arc(A.x, A.y, R, 0, Math.PI * 2); ctx.stroke();
+          ctx.beginPath(); ctx.arc(B.x, B.y, R, 0, Math.PI * 2); ctx.stroke();
+        }
+        if (activeStepIdx >= 2) {
+          ctx.fillStyle = 'rgba(74, 222, 128, 0.16)';
+          ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(B.x, B.y); ctx.lineTo(C.x, C.y); ctx.closePath(); ctx.fill();
+          ctx.strokeStyle = '#4ade80';
+          ctx.lineWidth = 3;
+          ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(C.x, C.y); ctx.lineTo(B.x, B.y); ctx.stroke();
+          drawEqualTicks(ctx, A.x, A.y, B.x, B.y, 1, '#4ade80');
+          drawEqualTicks(ctx, A.x, A.y, C.x, C.y, 1, '#4ade80');
+          drawEqualTicks(ctx, B.x, B.y, C.x, C.y, 1, '#4ade80');
+        }
+        ctx.strokeStyle = '#60a5fa';
+        ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(B.x, B.y); ctx.stroke();
+      }
+
+      // Draw labeled vertices on vector scope
+      Object.entries(pts).forEach(([lbl, p]) => {
+        ctx.fillStyle = '#040811';
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.arc(p.x, p.y, 5, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+        ctx.font = 'bold 14px monospace';
+        ctx.fillStyle = '#f59e0b';
+        ctx.fillText(lbl, p.x + 10, p.y - 8);
+      });
+
+      // Scope Legend Footer
+      ctx.fillStyle = 'rgba(6, 10, 18, 0.88)';
+      ctx.fillRect(0, H - 30, W, 30);
+      ctx.font = 'bold 11px monospace';
+      ctx.fillStyle = '#60a5fa'; ctx.fillText('■ GIVEN', 14, H - 11);
+      ctx.fillStyle = '#f59e0b'; ctx.fillText('■ CONSTRUCT', 92, H - 11);
+      ctx.fillStyle = '#4ade80'; ctx.fillText('■ ASSERT (| = ||)', 202, H - 11);
+      ctx.fillStyle = '#94a3b8'; ctx.fillText(`${d.proposition} (${d.g_index})`, W - 135, H - 11);
+    }
+
+    function animateLoops() {
+      houghTick += 0.04;
+      const canvas = document.getElementById('houghCanvas');
+      if (canvas) {
+        const rect = canvas.getBoundingClientRect();
+        if (rect.width > 20 && rect.height > 20) {
+          const rw = Math.round(rect.width);
+          const rh = Math.round(rect.height);
+          if (canvas.width !== rw || canvas.height !== rh) {
+            canvas.width = rw;
+            canvas.height = rh;
+          }
+        }
+        const ctx = canvas.getContext('2d');
+        const W = canvas.width;
+        const H = canvas.height;
+        ctx.fillStyle = '#03060c';
+        ctx.fillRect(0, 0, W, H);
+
+        // Grid
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.1)';
+        for (let x = 0; x < W; x += 38) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+        for (let y = 0; y < H; y += 36) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+
+        // Sinusoidal Hough accumulator curves for the 4 sides + diagonal
+        const curves = [
+          { amp: H * 0.22, phase: 0.4, col: 'rgba(96, 165, 250, 0.65)' },
+          { amp: H * 0.22, phase: 0.4, offset: H * 0.12, col: 'rgba(96, 165, 250, 0.65)' },
+          { amp: H * 0.19, phase: 1.9, col: 'rgba(56, 189, 248, 0.65)' },
+          { amp: H * 0.19, phase: 1.9, offset: -H * 0.11, col: 'rgba(56, 189, 248, 0.65)' },
+          { amp: H * 0.26, phase: 1.15, col: 'rgba(245, 158, 11, 0.85)' }
+        ];
+
+        curves.forEach(c => {
+          ctx.strokeStyle = c.col;
+          ctx.lineWidth = 1.6;
+          ctx.beginPath();
+          for (let x = 0; x < W; x += 4) {
+            const theta = (x / W) * Math.PI;
+            const rho = H / 2 + (c.offset || 0) + Math.sin(theta * 2 + c.phase + Math.sin(houghTick) * 0.05) * c.amp;
+            if (x === 0) ctx.moveTo(x, rho);
+            else ctx.lineTo(x, rho);
+          }
+          ctx.stroke();
+        });
+
+        // Bright accumulator peaks (collinear/parallel intersections)
+        const peaks = [
+          { x: W * 0.26, y: H * 0.34, lbl: 'AB || CD (0.0002")' },
+          { x: W * 0.66, y: H * 0.62, lbl: 'AC || BD (0.0002")' },
+          { x: W * 0.46, y: H * 0.48, lbl: 'DIAMETER BC (G.47)' }
+        ];
+        peaks.forEach((p, idx) => {
+          const r = 5 + Math.sin(houghTick * 2 + idx) * 2;
+          ctx.fillStyle = idx === 2 ? '#f59e0b' : '#4ade80';
+          ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, Math.PI * 2); ctx.fill();
+          ctx.font = 'bold 11px monospace';
+          ctx.fillStyle = '#e2e8f0';
+          ctx.fillText(p.lbl, p.x + 8, p.y - 6);
+        });
+      }
+      if (new URLSearchParams(window.location.search).get('capture') !== '1') {
+        requestAnimationFrame(animateLoops);
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', initEuclideanDetector);
+  </script>
+  <script src="assets/gor9-nav.js"></script>
+</body>
+</html>

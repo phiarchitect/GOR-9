@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GOR-9 • Broadcast Operations Situational Awareness Dashboard</title>
+<style>
+  :root {
+    --bg-obsidian: #05070a;
+    --bg-panel: #0a0e14;
+    --bg-card: #0e141d;
+    --bg-card-hover: #131c28;
+    --border-dim: #1b2636;
+    --border-bright: #2c415e;
+    --amber: #ffaa00;
+    --amber-dim: #996600;
+    --cyan: #00e5ff;
+    --cyan-dim: #007788;
+    --green: #00e676;
+    --red: #ff4444;
+    --purple: #c084fc;
+    --text-main: #e2e8f0;
+    --text-muted: #8b9bb4;
+    --font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg-obsidian);
+    color: var(--text-main);
+    font-family: var(--font-sans);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background-image:
+      radial-gradient(circle at 15% 15%, rgba(0, 229, 255, 0.04) 0%, transparent 40%),
+      radial-gradient(circle at 85% 80%, rgba(255, 170, 0, 0.04) 0%, transparent 45%);
+  }
+
+  /* MASTER TELEMETRY & STATION SELECTOR BAR */
+  .ops-master-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 6px 14px;
+    background: linear-gradient(180deg, #0d131c 0%, #080c12 100%);
+    border-bottom: 1px solid var(--border-dim);
+    flex-shrink: 0;
+  }
+  .preset-strip {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  .preset-strip-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 800;
+    color: var(--amber);
+    letter-spacing: 0.1em;
+    margin-right: 4px;
+    white-space: nowrap;
+  }
+  .preset-pill {
+    background: rgba(14, 20, 29, 0.9);
+    border: 1px solid #1e2d40;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+  }
+  .preset-pill:hover {
+    color: #fff;
+    border-color: var(--cyan);
+    background: rgba(0, 229, 255, 0.08);
+  }
+  .preset-pill.active {
+    background: rgba(255, 170, 0, 0.16);
+    border-color: var(--amber);
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 0 10px rgba(255, 170, 0, 0.22);
+  }
+  .preset-pill .p-slot {
+    color: var(--amber);
+    font-weight: 800;
+  }
+  .preset-pill.active .p-slot {
+    color: #ffd54f;
+  }
+  .preset-pill .p-freq {
+    color: var(--cyan);
+    font-size: 9px;
+  }
+
+  .telemetry-pills {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    white-space: nowrap;
+  }
+  .tel-chip {
+    background: #0a1018;
+    border: 1px solid #1c293a;
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--text-muted);
+  }
+  .tel-chip strong { color: var(--text-main); }
+  .tel-chip.amber strong { color: var(--amber); }
+  .tel-chip.cyan strong { color: var(--cyan); }
+  .tel-chip.green strong { color: var(--green); }
+  .tel-chip.purple strong { color: var(--purple); }
+
+  /* 6-BAY SITUATIONAL AWARENESS GRID (3x2) */
+  .ops-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 8px;
+    padding: 8px 12px 10px;
+    min-height: 0;
+  }
+
+  .ops-bay {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-dim);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03), 0 6px 18px rgba(0, 0, 0, 0.45);
+    transition: border-color 0.18s ease;
+  }
+  .ops-bay:hover {
+    border-color: var(--border-bright);
+  }
+
+  .bay-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 10px;
+    background: linear-gradient(90deg, #101722 0%, #0b1018 100%);
+    border-bottom: 1px solid var(--border-dim);
+    flex-shrink: 0;
+    gap: 8px;
+  }
+  .bay-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-width: 0;
+  }
+  .bay-num {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 800;
+    padding: 2px 5px;
+    border-radius: 3px;
+    background: rgba(255, 170, 0, 0.15);
+    border: 1px solid rgba(255, 170, 0, 0.45);
+    color: var(--amber);
+    letter-spacing: 0.06em;
+    flex-shrink: 0;
+  }
+  .bay-num.cyan {
+    background: rgba(0, 229, 255, 0.14);
+    border-color: rgba(0, 229, 255, 0.45);
+    color: var(--cyan);
+  }
+  .bay-num.green {
+    background: rgba(0, 230, 118, 0.14);
+    border-color: rgba(0, 230, 118, 0.45);
+    color: var(--green);
+  }
+  .bay-num.purple {
+    background: rgba(192, 132, 252, 0.15);
+    border-color: rgba(192, 132, 252, 0.45);
+    color: var(--purple);
+  }
+  .bay-title {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 800;
+    color: #f8fafc;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .bay-maker {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .bay-launch-btn {
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    font-weight: 700;
+    color: var(--cyan);
+    background: rgba(0, 229, 255, 0.1);
+    border: 1px solid rgba(0, 229, 255, 0.38);
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+    flex-shrink: 0;
+  }
+  .bay-launch-btn:hover {
+    background: rgba(0, 229, 255, 0.22);
+    color: #fff;
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.28);
+  }
+  .bay-launch-btn.amber {
+    color: var(--amber);
+    background: rgba(255, 170, 0, 0.12);
+    border-color: rgba(255, 170, 0, 0.42);
+  }
+  .bay-launch-btn.amber:hover {
+    background: rgba(255, 170, 0, 0.25);
+    color: #fff;
+  }
+
+  .bay-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 10px;
+    gap: 6px;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .bay-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 10px;
+    background: rgba(6, 9, 14, 0.9);
+    border-top: 1px solid #141d29;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    color: var(--text-muted);
+    flex-shrink: 0;
+    gap: 6px;
+  }
+
+  /* BAY 1: HAUSER MK-IV DX RECEIVER */
+  .mk4-top-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #06090e;
+    border: 1px solid #1b2838;
+    border-radius: 4px;
+    padding: 5px 8px;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .vfo-freq-big {
+    font-family: var(--font-mono);
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--amber);
+    text-shadow: 0 0 10px rgba(255, 170, 0, 0.35);
+    letter-spacing: 0.04em;
+  }
+  .vfo-mode-pill {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 3px;
+    background: rgba(0, 229, 255, 0.14);
+    border: 1px solid var(--cyan-dim);
+    color: var(--cyan);
+  }
+  .s-meter-mini {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--green);
+    font-weight: 700;
+  }
+
+  .mk4-mid-split {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 6px;
+    min-height: 0;
+  }
+  .canvas-box {
+    position: relative;
+    background: #04070b;
+    border: 1px solid #182332;
+    border-radius: 4px;
+    overflow: hidden;
+    min-height: 0;
+  }
+  .canvas-box canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .canvas-tag {
+    position: absolute;
+    top: 4px;
+    left: 6px;
+    font-family: var(--font-mono);
+    font-size: 8.5px;
+    font-weight: 700;
+    color: rgba(226, 232, 240, 0.88);
+    background: rgba(5, 8, 13, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 1px 5px;
+    border-radius: 3px;
+    pointer-events: none;
+  }
+
+  .mk4-plate-box {
+    position: relative;
+    background: #04070b;
+    border: 1px solid #182332;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .mk4-plate-box img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.78;
+  }
+  .mk4-plate-overlay {
+    position: relative;
+    z-index: 2;
+    background: linear-gradient(180deg, transparent 0%, rgba(5, 7, 10, 0.92) 45%, rgba(5, 7, 10, 0.98) 100%);
+    padding: 16px 7px 6px;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+  }
+  .mk4-copy-line {
+    color: #f8fafc;
+    font-size: 9.5px;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .mini-btn-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .mini-action-btn {
+    background: #101824;
+    border: 1px solid #263850;
+    color: var(--text-main);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    padding: 3px 7px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .mini-action-btn:hover {
+    border-color: var(--amber);
+    color: var(--amber);
+    background: rgba(255, 170, 0, 0.1);
+  }
+  .mini-action-btn.playing {
+    background: rgba(0, 230, 118, 0.18);
+    border-color: var(--green);
+    color: var(--green);
+  }
+
+  /* BAY 2: CELESTIAL SPHERE & 3D RELAY */
+  .sky-split-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    min-height: 0;
+  }
+
+  /* BAY 3: VAN ALLEN VA-4 PROPAGATION & REACTOR */
+  .va4-split-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    gap: 6px;
+    min-height: 0;
+  }
+  .reactor-mini-card {
+    background: #070b10;
+    border: 1px solid #192535;
+    border-radius: 4px;
+    padding: 5px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+  .load-bar-track {
+    height: 6px;
+    background: #111924;
+    border-radius: 3px;
+    overflow: hidden;
+    display: flex;
+  }
+  .load-seg-tx { background: var(--amber); height: 100%; }
+  .load-seg-deice { background: var(--cyan); height: 100%; }
+  .load-seg-uap { background: var(--red); height: 100%; }
+
+  /* BAY 4: EUCLID ED-9 */
+  .ed9-split-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 6px;
+    min-height: 0;
+  }
+  .proof-steps-mini {
+    background: #070b10;
+    border: 1px solid #182332;
+    border-radius: 4px;
+    padding: 6px 8px;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+  .proof-badge {
+    display: inline-block;
+    font-size: 8.5px;
+    font-weight: 800;
+    color: var(--amber);
+    background: rgba(255, 170, 0, 0.14);
+    border: 1px solid rgba(255, 170, 0, 0.4);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  /* BAY 5: BOGEY-9 TRAIL-CAM */
+  .bgy-split-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 0.95fr 1.2fr;
+    gap: 6px;
+    min-height: 0;
+  }
+
+  /* BAY 6: eQSL & LOGBOOK & WORLD DOSSIER */
+  .qsl-split-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1.05fr 1.15fr;
+    gap: 6px;
+    min-height: 0;
+  }
+  .qsl-mini-card {
+    background: linear-gradient(135deg, #121926 0%, #090d14 100%);
+    border: 1px solid rgba(255, 170, 0, 0.45);
+    border-radius: 5px;
+    padding: 7px 9px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  .qsl-callsign {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 900;
+    color: var(--amber);
+    letter-spacing: 0.06em;
+  }
+  .logbook-mini {
+    background: #070b10;
+    border: 1px solid #182332;
+    border-radius: 4px;
+    padding: 6px 8px;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+  .hauser-quote {
+    color: #cbd5e1;
+    font-style: italic;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>
+</head>
+<body>
+
+  <!-- Unified GOR-9 Top Switch Bar (Populated by assets/gor9-nav.js) -->
+  <header class="atc-topbar"></header>
+
+  <!-- MASTER PRESET TUNER & SYSTEM TELEMETRY BAR -->
+  <div class="ops-master-bar">
+    <div class="preset-strip" id="preset-strip">
+      <span class="preset-strip-label">⚡ MASTER TUNER:</span>
+      <!-- Populated dynamically from window.GOR9_STATIONS_DATA.presets -->
+    </div>
+    <div class="telemetry-pills">
+      <span class="tel-chip amber" title="Active Tuned Station">TUNED: <strong id="master-tuned-label">P-01 • 4,180.0 kHz</strong></span>
+      <span class="tel-chip cyan" title="Ceres Foundry #7 Astrometric Baseline">CERES BASELINE: <strong>CFS-7 • 1,840 AU LOCKED</strong></span>
+      <span class="tel-chip green" title="Van Allen Pebble-Bed Dilithium Reactor #2">REACTOR #2: <strong id="master-reactor-label">48.4 / 50.0 kW (91.4%)</strong></span>
+      <span class="tel-chip purple" title="Millisecond Pulsar Timing Reference">PSR B1937+21: <strong id="master-clock-label">2736.305 • 04:00:12 GCT</strong></span>
+    </div>
+  </div>
+
+  <!-- 6-BAY SITUATIONAL AWARENESS GRID -->
+  <main class="ops-grid">
+
+    <!-- BAY 1: CONSOLE 1 • HAUSER MK-IV WIDEBAND DX RECEIVER -->
+    <section class="ops-bay" id="bay-mk4">
+      <div class="bay-header">
+        <div class="bay-title-wrap">
+          <span class="bay-num">CONSOLE 1</span>
+          <span class="bay-title">HAUSER MK-IV • WIDEBAND DX RECEIVER</span>
+          <span class="bay-maker">Hauser Dynamics</span>
+        </div>
+        <a class="bay-launch-btn amber" id="link-mk4" href="index.html">🎛️ OPEN HAUSER MK-IV ↗</a>
+      </div>
+      <div class="bay-body">
+        <div class="mk4-top-strip">
+          <div style="display:flex;align-items:center;gap:7px;">
+            <span class="vfo-freq-big" id="mk4-freq">4,180.0 kHz</span>
+            <span class="vfo-mode-pill" id="mk4-mode">USB</span>
+            <span style="font-family:var(--font-mono);font-size:10px;color:#e2e8f0;font-weight:700;" id="mk4-station-name">Callisto Salt-Flats Weather</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="s-meter-mini" id="mk4-smeter">S7 • SINPO 34333</span>
+          </div>
+        </div>
+        <div class="mk4-mid-split">
+          <div class="canvas-box">
+            <canvas id="canvas-mk4-waterfall"></canvas>
+            <span class="canvas-tag" id="mk4-band-tag">60m TROPICAL / OORT BAND • FFT + WATERFALL</span>
+          </div>
+          <div class="mk4-plate-box">
+            <img id="mk4-plate-img" src="assets/plates/cam01_callisto_salt_start.jpg" alt="Station Visual Feed">
+            <span class="canvas-tag" id="mk4-cartridge-tag">ALG-01 • SALTERN PIDGIN</span>
+            <div class="mk4-plate-overlay">
+              <div style="color:var(--amber);font-weight:800;margin-bottom:2px;" id="mk4-voice-tag">🎙️ Marta (Rough Female)</div>
+              <div class="mk4-copy-line" id="mk4-copy-text">" Callisto-South Automated Saltern Buoy 09. Barometer 1051.2 millibars..."</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bay-footer">
+        <div class="mini-btn-row">
+          <button class="mini-action-btn" id="btn-play-intercept" type="button">▶ Audition Intercept</button>
+          <button class="mini-action-btn" id="btn-play-interval" type="button">♪ Interval Signal</button>
+        </div>
+        <span id="mk4-ant-label">ANT: 50 kW Concentric Ring Array</span>
+      </div>
+    </section>
+
+    <!-- BAY 2: CONSOLE 2 • CELESTIAL SPHERE, OORT NEIGHBORS & 3D RELAY VECTOR -->
+    <section class="ops-bay" id="bay-sky">
+      <div class="bay-header">
+        <div class="bay-title-wrap">
+          <span class="bay-num cyan">CONSOLE 2</span>
+          <span class="bay-title">CELESTIAL SPHERE & 3D RELAY VECTOR</span>
+          <span class="bay-maker">Ceres Baseline CFS-7</span>
+        </div>
+        <a class="bay-launch-btn" id="link-sky" href="celestial-atlas.html">🪐 OPEN 3D SKY & RELAY ↗</a>
+      </div>
+      <div class="bay-body">
+        <div class="sky-split-grid">
+          <div class="canvas-box">
+            <canvas id="canvas-sky-view"></canvas>
+            <span class="canvas-tag" id="sky-view-tag">VIEW 1 • SKY DOME FROM GOR-9</span>
+          </div>
+          <div class="canvas-box">
+            <canvas id="canvas-3d-relay"></canvas>
+            <span class="canvas-tag">VIEW 2 • 3D RELAY & CERES TRIANGULATION</span>
+          </div>
+        </div>
+      </div>
+      <div class="bay-footer">
+        <div class="mini-btn-row">
+          <a class="mini-action-btn" href="celestial-atlas.html?id=persephone-planet-ix&zoom=32">🪐 Persephone (32x)</a>
+          <a class="mini-action-btn" href="celestial-atlas.html?id=ceres-foundry-7&zoom=32">🏭 Ceres #7 (32x)</a>
+          <a class="mini-action-btn" href="celestial-atlas.html?id=comet-c2736-k4&zoom=16">☄️ Comet K4</a>
+        </div>
+        <span id="sky-bearing-readout" style="color:var(--cyan);">Az 212.4° • El +17.2° • 0.66 ly</span>
+      </div>
+    </section>
+
+    <!-- BAY 3: CONSOLE 3 • VAN ALLEN VA-4 SPACE WEATHER & DILITHIUM BUS -->
+    <section class="ops-bay" id="bay-va4">
+      <div class="bay-header">
+        <div class="bay-title-wrap">
+          <span class="bay-num green">CONSOLE 3</span>
+          <span class="bay-title">VAN ALLEN VA-4 • SPACE WEATHER & BUS</span>
+          <span class="bay-maker">Van Allen & Sons</span>
+        </div>
+        <a class="bay-launch-btn" href="propagation.html">🌩️ OPEN VAN ALLEN VA-4 ↗</a>
+      </div>
+      <div class="bay-body">
+        <div class="va4-split-grid">
+          <div class="canvas-box">
+            <canvas id="canvas-va4-radar"></canvas>
+            <span class="canvas-tag">360° HELIOPAUSE & ION RADAR</span>
+          </div>
+          <div class="canvas-box">
+            <canvas id="canvas-va4-ionogram"></canvas>
+            <span class="canvas-tag">OBLIQUE MUF/LUF IONOGRAM</span>
+          </div>
+        </div>
+        <div class="reactor-mini-card">
+          <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:9px;">
+            <span style="color:var(--amber);font-weight:700;">⚡ PEBBLE-BED DILITHIUM REACTOR #2</span>
+            <span id="va4-bus-metrics" style="color:var(--green);">48.4 kW / 50.0 kW • 14.8 kV • 1,140 K</span>
+          </div>
+          <div class="load-bar-track">
+            <div class="load-seg-tx" style="width:76%" title="50 kW Emitter Ring TX"></div>
+            <div class="load-seg-deice" style="width:14%" title="Ring-Bake Corona De-Icer"></div>
+            <div class="load-seg-uap" style="width:7%" title="Parasitic UAP / Anomaly Drain"></div>
+          </div>
+        </div>
+      </div>
+      <div class="bay-footer">
+        <div class="mini-btn-row" id="va4-regime-btns">
+          <button class="mini-action-btn playing" data-regime="0" type="button">🟢 Nominal</button>
+          <button class="mini-action-btn" data-regime="1" type="button">🟡 Comet K4 Es</button>
+          <button class="mini-action-btn" data-regime="2" type="button">🟠 60kV Squall</button>
+        </div>
+        <span id="va4-flux-readout">Flux: 148.2 SFU • Kp 4.2</span>
+      </div>
+    </section>
+
+    <!-- BAY 4: CONSOLE 4 • VAN ALLEN ED-9 EUCLIDEAN GEOMETRIC CORRELATOR -->
+    <section class="ops-bay" id="bay-ed9">
+      <div class="bay-header">
+        <div class="bay-title-wrap">
+          <span class="bay-num purple">CONSOLE 4</span>
+          <span class="bay-title">VAN ALLEN ED-9 • EUCLIDEAN SETI</span>
+          <span class="bay-maker">Ceres Foundry #7</span>
+        </div>
+        <a class="bay-launch-btn" href="euclidean-detector.html">📐 OPEN EUCLID ED-9 ↗</a>
+      </div>
+      <div class="bay-body">
+        <div class="ed9-split-grid">
+          <div class="canvas-box">
+            <canvas id="canvas-ed9-proof"></canvas>
+            <span class="canvas-tag" id="ed9-canvas-tag">CAM-VAT19 • EUCLID I.34 (G.47)</span>
+          </div>
+          <div class="proof-steps-mini">
+            <div>
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+                <span class="proof-badge" id="ed9-prop-badge">EUCLID I.34 • G.47</span>
+                <span style="color:var(--green);font-size:8.5px;font-weight:700;">p &lt; 1.4e-14</span>
+              </div>
+              <div style="font-weight:800;color:#f8fafc;font-size:10.5px;margin-bottom:3px;" id="ed9-title">The Unsuspecting Parallelogram</div>
+              <div style="color:var(--cyan);font-size:9px;margin-bottom:5px;" id="ed9-subtitle">Callisto-South Brine Evaporation Vat 19</div>
+              <div style="color:#cbd5e1;font-size:9px;line-height:1.35;" id="ed9-clause">
+                Opposite sides parallel (AB || CD, AC || BD to 0.0002 arcsec); diameter BC bisects salt crust into congruent triangles ΔABC ≅ ΔDCB.
+              </div>
+            </div>
+            <div style="border-top:1px solid #182332;padding-top:4px;color:var(--amber);font-size:8.5px;" id="ed9-coverup">
+              COVER-UP: "Motorized mud-rake lost a cotter pin and dragged sideways."
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bay-footer">
+        <div class="mini-btn-row">
+          <button class="mini-action-btn playing" id="btn-ed9-p1" type="button">📐 I.34 Vat 19 Parallelogram</button>
+          <button class="mini-action-btn" id="btn-ed9-p2" type="button">◇ Def. I.22 Ice-Hauler Rhombus</button>
+        </div>
+        <span>148 Feeds • 0.0001" Hough Lock</span>
+      </div>
+    </section>
+
+    <!-- BAY 5: CONSOLE 5 • HAUSER BOGEY-9 PERIMETER TRAIL-CAM & UAP SENTINEL -->
+    <section class="ops-bay" id="bay-bogey">
+      <div class="bay-header">
+        <div class="bay-title-wrap">
+          <span class="bay-num">CONSOLE 5</span>
+          <span class="bay-title">HAUSER BOGEY-9 • TRAIL-CAM & UAPs</span>
+          <span class="bay-maker">Hauser Sentinel</span>
+        </div>
+        <a class="bay-launch-btn" href="bogey-detector.html">🛸 OPEN BOGEY-9 CAM ↗</a>
+      </div>
+      <div class="bay-body">
+        <div class="bgy-split-grid">
+          <div class="canvas-box">
+            <canvas id="canvas-bgy-radar"></canvas>
+            <span class="canvas-tag">ACHERON RIM • 9 LIDAR GATES</span>
+          </div>
+          <div class="canvas-box">
+            <canvas id="canvas-bgy-cam"></canvas>
+            <span class="canvas-tag" id="bgy-cam-tag">TRL-01 • SPECULAR CYLINDER</span>
+          </div>
+        </div>
+      </div>
+      <div class="bay-footer">
+        <div class="mini-btn-row" id="bgy-select-btns">
+          <button class="mini-action-btn playing" data-bgy="0" type="button">🛸 BGY-01 Cylinder</button>
+          <button class="mini-action-btn" data-bgy="1" type="button">◣ BGY-02 Octahedron</button>
+          <button class="mini-action-btn" data-bgy="2" type="button">⚡ BGY-03 Plasmoids</button>
+        </div>
+        <span id="bgy-kinematics-label" style="color:var(--amber);">+140g Snap • -0.4 kW Drain</span>
+      </div>
+    </section>
+
+    <!-- BAY 6: RECEIVED STATION eQSL DOSSIER & GLENN HAUSER LOGBOOK -->
+    <section class="ops-bay" id="bay-qsl">
+      <div class="bay-header">
+        <div class="bay-title-wrap">
+          <span class="bay-num cyan">DOSSIER & LOG</span>
+          <span class="bay-title">RECEIVED STATION eQSL VERIFICATION &amp; OPERATOR LOGBOOK</span>
+        </div>
+        <div style="display:flex;gap:4px;">
+          <a class="bay-launch-btn amber" id="link-mk4-qsl" href="index.html">🎛️ MK-IV RX ↗</a>
+          <a class="bay-launch-btn" id="link-station" href="station.html">🃏 eQSL LOG ↗</a>
+        </div>
+      </div>
+      <div class="bay-body">
+        <div class="qsl-split-grid">
+          <div class="qsl-mini-card">
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-family:var(--font-mono);font-size:8.5px;color:var(--cyan);font-weight:700;">VERIFIED eQSL CARD</span>
+                <span style="font-family:var(--font-mono);font-size:8.5px;color:var(--green);" id="qsl-slot-badge">P-01</span>
+              </div>
+              <div class="qsl-callsign" id="qsl-callsign">SW4-CORR</div>
+              <div style="font-size:10px;font-weight:700;color:#f8fafc;margin-top:2px;" id="qsl-title">Radio Corrugated</div>
+              <div style="font-family:var(--font-mono);font-size:8.5px;color:var(--text-muted);margin-top:2px;" id="qsl-location">Callisto Dome-4</div>
+            </div>
+            <div style="font-family:var(--font-mono);font-size:8.5px;color:#cbd5e1;border-top:1px solid rgba(255,255,255,0.1);padding-top:4px;">
+              <div>TX: <span style="color:var(--amber);" id="qsl-power">250W Roofline Dipole</span></div>
+              <div>LANG: <span style="color:var(--cyan);" id="qsl-lang">Jovian Trade Creole</span></div>
+            </div>
+          </div>
+          <div class="logbook-mini">
+            <div>
+              <div style="display:flex;justify-content:space-between;color:var(--amber);font-weight:800;margin-bottom:4px;">
+                <span>📓 GLENN HAUSER LOG</span>
+                <span id="log-timestamp">04:00 GCT</span>
+              </div>
+              <div class="hauser-quote" id="log-hauser-notes">
+                "9,410 kHz AM/USB. Sister Nari's unlicensed bazaar transmitter on Callisto Dome-4 is booming in down the Jovian magneto-tail..."
+              </div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #182332;padding-top:4px;">
+              <span style="color:var(--text-muted);font-size:8.5px;">3D Control Tower & Booth:</span>
+              <a class="mini-action-btn" href="tower-3d.html">🗼 Open 3D Tower ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bay-footer">
+        <span id="qsl-relay-chain" style="color:var(--cyan);">Relay: Callisto → Jovian Duct → O.R.S. 351 → GOR-9</span>
+        <span>Operator: Glenn Hauser</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Shared Data Bundles -->
+  <script src="data/stations_data.js"></script>
+  <script src="data/propagation_data.js"></script>
+  <script src="data/euclidean_data.js"></script>
+  <script src="data/bogeys_data.js"></script>
+  <script src="assets/gor9-nav.js"></script>
+
+  <script>
+  (function() {
+    const stationsData = window.GOR9_STATIONS_DATA || { presets: [], celestial_neighbors: [] };
+    const propData = window.GOR9_PROP_DATA || {};
+    const euclidData = window.GOR9_EUCLID_DATA || { detections: [] };
+    const bogeysData = window.GOR9_BOGEYS_DATA || { sightings: [] };
+
+    const presets = stationsData.presets || [];
+    const neighbors = stationsData.celestial_neighbors || [];
+
+    // Resolve active station from URL ?id= or sessionStorage
+    const params = new URLSearchParams(window.location.search);
+    let activeStationId = params.get('id') || sessionStorage.getItem('gor9_active_station') || (presets[0] && presets[0].id) || 'radio-corrugated';
+    let activeStation = presets.find(p => p.id === activeStationId || p.preset_slot === activeStationId) || presets[0];
+
+    let activeRegimeIdx = 0;
+    let activeEuclidIdx = 0; // 0 = I.34 Parallelogram, 1 = Def. I.22 Rhombus
+    let activeBogeyIdx = 0;
+    let currentAudio = null;
+
+    // Preload plate images for smooth canvas rendering
+    const plateCache = {};
+    function getPlateImage(src) {
+      if (!src) return null;
+      if (!plateCache[src]) {
+        const img = new Image();
+        img.src = src;
+        plateCache[src] = img;
+      }
+      return plateCache[src];
+    }
+
+    // Build Master Preset Tuner Strip
+    const presetStrip = document.getElementById('preset-strip');
+    presets.forEach(p => {
+      const freqKhz = (p.rf && p.rf.frequency_khz) || 9410.0;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'preset-pill' + (p.id === activeStation.id ? ' active' : '');
+      btn.dataset.id = p.id;
+      btn.innerHTML = `<span class="p-slot">${p.preset_slot}</span><span>${p.callsign}</span><span class="p-freq">${freqKhz.toFixed(0)}</span>`;
+      btn.addEventListener('click', () => selectStation(p.id));
+      presetStrip.appendChild(btn);
+    });
+
+    function selectStation(stationId) {
+      const found = presets.find(p => p.id === stationId || p.preset_slot === stationId);
+      if (!found) return;
+      activeStation = found;
+      activeStationId = found.id;
+
+      if (window.updateGor9NavStation) {
+        window.updateGor9NavStation(found.id);
+      }
+
+      document.querySelectorAll('.preset-pill').forEach(el => {
+        el.classList.toggle('active', el.dataset.id === found.id);
+      });
+
+      const rf = found.rf || {};
+      const gal = found.galactic || {};
+      const media = found.media || {};
+      const dec = found.decoder || {};
+      const wb = found.worldbuilding || {};
+      const orig = found.origin || {};
+      const qsl = found.qsl || {};
+      const firstChar = (found.characters && found.characters[0]) || {};
+      const sp = rf.sinpo || { s: 4, i: 4, n: 4, p: 4, o: 4 };
+      const freqStr = Number(rf.frequency_khz || 9410).toLocaleString('en-US', { minimumFractionDigits: 1 });
+
+      // Update Master Bar
+      document.getElementById('master-tuned-label').textContent = `${found.preset_slot} • ${freqStr} kHz`;
+
+      // Update Bay 1: Hauser MK-IV
+      document.getElementById('mk4-freq').textContent = `${freqStr} kHz`;
+      document.getElementById('mk4-mode').textContent = rf.mode || 'USB';
+      document.getElementById('mk4-station-name').textContent = `${found.callsign} • ${found.name}`;
+      document.getElementById('mk4-smeter').textContent = `${rf.s_meter || 'S8'} • SINPO ${sp.s}${sp.i}${sp.n}${sp.p}${sp.o}`;
+      document.getElementById('mk4-band-tag').textContent = `${rf.band || 'SW DX BAND'} • FFT + WATERFALL`;
+      document.getElementById('mk4-plate-img').src = media.qsl_plate_src || media.poster_src || 'assets/plates/cam_sw4_bazaar_start.jpg';
+      const cartCode = dec.required_algorithm || 'ALG-01';
+      const cartName = (media.languages && media.languages[0]) || dec.algorithm_name || 'Standard';
+      document.getElementById('mk4-cartridge-tag').textContent = `${cartCode} • ${cartName.toUpperCase()}`;
+      document.getElementById('mk4-voice-tag').textContent = `🎙️ ${firstChar.name || 'Station Feed'} (${firstChar.role || found.subtitle})`;
+      document.getElementById('mk4-copy-text').textContent = `"${media.transcript_excerpt || ''}"`;
+      document.getElementById('mk4-ant-label').textContent = `ANT: ${rf.antenna || '50 kW Concentric Ring Array'}`;
+      document.getElementById('link-mk4').href = `index.html?id=${encodeURIComponent(found.id)}`;
+
+      // Update Bay 2: Celestial Sphere & 3D Relay
+      document.getElementById('sky-view-tag').textContent = `VIEW 1 • SKY DOME → ${found.preset_slot} (${found.callsign})`;
+      document.getElementById('sky-bearing-readout').textContent = `Az ${(gal.azimuth_deg || 0).toFixed(1)}° • El +${(gal.local_el_deg || 15).toFixed(1)}° • ${gal.range_label || orig.distance || ''}`;
+      document.getElementById('link-sky').href = `celestial-atlas.html?id=${encodeURIComponent(found.id)}`;
+
+      // Update Bay 6: eQSL & Logbook
+      document.getElementById('qsl-slot-badge').textContent = `${found.preset_slot} • ${qsl.qsl_number || ''}`;
+      document.getElementById('qsl-callsign').textContent = found.callsign;
+      document.getElementById('qsl-title').textContent = found.name;
+      document.getElementById('qsl-location').textContent = orig.body || gal.sector || '';
+      document.getElementById('qsl-power').textContent = rf.tx_power_label || '';
+      document.getElementById('qsl-lang').textContent = cartName;
+      document.getElementById('log-hauser-notes').textContent = `"${wb.hauser_commentary || (found.logs && found.logs[0] && found.logs[0].entry) || ''}"`;
+      document.getElementById('qsl-relay-chain').textContent = `Relay: ${rf.relay_path || ''}`;
+      document.getElementById('link-mk4-qsl').href = `index.html?id=${encodeURIComponent(found.id)}`;
+      document.getElementById('link-station').href = `station.html?id=${encodeURIComponent(found.id)}`;
+    }
+
+    // Audio Audition Controls in Bay 1
+    function toggleAudio(src, btnEl) {
+      if (currentAudio && !currentAudio.paused) {
+        currentAudio.pause();
+        currentAudio = null;
+        document.querySelectorAll('#bay-mk4 .mini-action-btn').forEach(b => b.classList.remove('playing'));
+        return;
+      }
+      document.querySelectorAll('#bay-mk4 .mini-action-btn').forEach(b => b.classList.remove('playing'));
+      currentAudio = new Audio(src);
+      btnEl.classList.add('playing');
+      currentAudio.play().catch(() => {});
+      currentAudio.onended = () => btnEl.classList.remove('playing');
+    }
+
+    document.getElementById('btn-play-intercept').addEventListener('click', function() {
+      if (activeStation && activeStation.media && activeStation.media.audio_intercept_src) {
+        toggleAudio(activeStation.media.audio_intercept_src, this);
+      }
+    });
+    document.getElementById('btn-play-interval').addEventListener('click', function() {
+      if (activeStation && activeStation.media && activeStation.media.interval_signal_src) {
+        toggleAudio(activeStation.media.interval_signal_src, this);
+      }
+    });
+
+    // Bay 3: Space Weather Regime Selector
+    document.querySelectorAll('#va4-regime-btns button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeRegimeIdx = Number(btn.dataset.regime || 0);
+        document.querySelectorAll('#va4-regime-btns button').forEach(b => b.classList.toggle('playing', b === btn));
+        const regimes = propData.weather_regimes || [];
+        const r = regimes[activeRegimeIdx];
+        if (r) {
+          document.getElementById('va4-flux-readout').textContent = `Flux: ${r.sfu} SFU • Kp ${r.k_idx.toFixed(1)}`;
+          const totalKw = (48.4 + (r.reactor_drain_kw || 0)).toFixed(1);
+          document.getElementById('va4-bus-metrics').textContent = `${totalKw} kW / 50.0 kW • ${r.charge_kv} kV Static`;
+          document.getElementById('master-reactor-label').textContent = `${totalKw} / 50.0 kW (91.4%)`;
+        }
+      });
+    });
+
+    // Bay 4: Euclidean ED-9 Toggle
+    function updateEuclidBay(idx) {
+      activeEuclidIdx = idx;
+      document.getElementById('btn-ed9-p1').classList.toggle('playing', idx === 0);
+      document.getElementById('btn-ed9-p2').classList.toggle('playing', idx === 1);
+      const d = idx === 0 ? (euclidData.detections && euclidData.detections[0]) : euclidData.coming_next;
+      if (!d) return;
+      document.getElementById('ed9-canvas-tag').textContent = `${d.cam_id.split('•')[0].trim()} • ${d.proposition.toUpperCase()}`;
+      document.getElementById('ed9-prop-badge').textContent = `${d.proposition.toUpperCase()} • ${d.g_index}`;
+      document.getElementById('ed9-title').textContent = d.title;
+      document.getElementById('ed9-subtitle').textContent = d.subtitle;
+      document.getElementById('ed9-clause').textContent = d.enunciation;
+      document.getElementById('ed9-coverup').textContent = d.bureau_coverup || 'QUEUED FOR BCAST 02 VERIFICATION';
+    }
+    document.getElementById('btn-ed9-p1').addEventListener('click', () => updateEuclidBay(0));
+    document.getElementById('btn-ed9-p2').addEventListener('click', () => updateEuclidBay(1));
+
+    // Bay 5: Bogey-9 Selector
+    function updateBogeyBay(idx) {
+      activeBogeyIdx = idx;
+      document.querySelectorAll('#bgy-select-btns button').forEach(b => {
+        b.classList.toggle('playing', Number(b.dataset.bgy) === idx);
+      });
+      const b = bogeysData.sightings && bogeysData.sightings[idx];
+      if (!b) return;
+      document.getElementById('bgy-cam-tag').textContent = `${b.slot} • ${b.title.toUpperCase()}`;
+      document.getElementById('bgy-kinematics-label').textContent = `${b.kinematics.velocity_kms.split('(')[0].trim()} • -${b.coupling.dilithium_bus_drain_kw} kW Drain`;
+    }
+    document.querySelectorAll('#bgy-select-btns button').forEach(btn => {
+      btn.addEventListener('click', () => updateBogeyBay(Number(btn.dataset.bgy || 0)));
+    });
+
+    // Resize Helper for Canvases
+    function syncCanvasSize(canvas) {
+      const rect = canvas.parentElement.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const w = Math.max(10, Math.floor(rect.width * dpr));
+      const h = Math.max(10, Math.floor(rect.height * dpr));
+      if (canvas.width !== w || canvas.height !== h) {
+        canvas.width = w;
+        canvas.height = h;
+      }
+      return { w, h, dpr };
+    }
+
+    // Waterfall Offscreen Buffer for Bay 1
+    const wfCanvas = document.getElementById('canvas-mk4-waterfall');
+    const cSky = document.getElementById('canvas-sky-view');
+    const c3D = document.getElementById('canvas-3d-relay');
+    const cVa4Radar = document.getElementById('canvas-va4-radar');
+    const cVa4Iono = document.getElementById('canvas-va4-ionogram');
+    const cEd9 = document.getElementById('canvas-ed9-proof');
+    const cBgyRadar = document.getElementById('canvas-bgy-radar');
+    const cBgyCam = document.getElementById('canvas-bgy-cam');
+
+    let frameTick = 0;
+
+    function renderLoop() {
+      frameTick++;
+      const t = frameTick * 0.025;
+
+      // 1. Draw Bay 1 Spectrum & Waterfall
+      {
+        const { w, h, dpr } = syncCanvasSize(wfCanvas);
+        const ctx = wfCanvas.getContext('2d');
+        ctx.fillStyle = '#04070b';
+        ctx.fillRect(0, 0, w, h);
+
+        // Grid lines
+        ctx.strokeStyle = 'rgba(0, 229, 255, 0.1)';
+        ctx.lineWidth = 1;
+        for (let i = 1; i < 6; i++) {
+          const x = (w / 6) * i;
+          ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+        }
+
+        // FFT Trace in upper 48%
+        const midY = h * 0.46;
+        ctx.beginPath();
+        for (let x = 0; x < w; x += 2) {
+          const norm = (x / w) - 0.5;
+          const carrierPeak = Math.exp(-Math.pow(norm * 14, 2)) * (h * 0.34);
+          const sideband = Math.exp(-Math.pow((norm - 0.08) * 9, 2)) * (h * 0.18) * (0.7 + 0.3 * Math.sin(t * 5 + x * 0.1));
+          const noise = (Math.sin(x * 0.37 + t * 9) * Math.cos(x * 0.19 - t * 6)) * 4 * dpr;
+          const y = midY - carrierPeak - sideband + noise;
+          if (x === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.strokeStyle = '#ffaa00';
+        ctx.lineWidth = 1.6 * dpr;
+        ctx.stroke();
+
+        // Center passband marker
+        ctx.strokeStyle = 'rgba(0, 229, 255, 0.65)';
+        ctx.setLineDash([4 * dpr, 3 * dpr]);
+        ctx.beginPath(); ctx.moveTo(w * 0.5, 0); ctx.lineTo(w * 0.5, h); ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Simulated Waterfall Bars in lower 52%
+        const wfTop = h * 0.5;
+        const rows = 18;
+        const rowH = (h - wfTop) / rows;
+        for (let r = 0; r < rows; r++) {
+          const y = wfTop + r * rowH;
+          const drift = Math.sin(t * 2 + r * 0.4) * 3 * dpr;
+          ctx.fillStyle = `rgba(255, 170, 0, ${0.75 - r * 0.03})`;
+          ctx.fillRect(w * 0.48 + drift, y, w * 0.04, rowH - 1);
+          ctx.fillStyle = `rgba(0, 229, 255, ${0.45 - r * 0.02})`;
+          ctx.fillRect(w * 0.53 + drift, y, w * 0.08 * (0.6 + 0.4 * Math.cos(t * 3 + r)), rowH - 1);
+        }
+      }
+
+      // 2A. Draw Bay 2 Left: Pointing Sky Dome View
+      {
+        const { w, h, dpr } = syncCanvasSize(cSky);
+        const ctx = cSky.getContext('2d');
+        ctx.fillStyle = '#03060a';
+        ctx.fillRect(0, 0, w, h);
+
+        const cx = w * 0.5, cy = h * 0.54;
+        const rad = Math.min(w, h) * 0.4;
+
+        // Elevation rings
+        ctx.strokeStyle = 'rgba(0, 229, 255, 0.16)';
+        ctx.lineWidth = 1;
+        [0.35, 0.7, 1.0].forEach(f => {
+          ctx.beginPath(); ctx.arc(cx, cy, rad * f, 0, Math.PI * 2); ctx.stroke();
+        });
+        ctx.beginPath();
+        ctx.moveTo(cx - rad, cy); ctx.lineTo(cx + rad, cy);
+        ctx.moveTo(cx, cy - rad); ctx.lineTo(cx, cy + rad);
+        ctx.stroke();
+
+        // Plot Oort neighbors
+        neighbors.forEach(n => {
+          const ang = ((n.az_deg || 0) - 90) * Math.PI / 180;
+          const distR = ((90 - Math.min(85, Math.abs(n.local_el_deg || 15))) / 90) * rad * 0.85;
+          const nx = cx + Math.cos(ang) * distR;
+          const ny = cy + Math.sin(ang) * distR;
+          ctx.fillStyle = n.hex || '#00e5ff';
+          const isMajor = n.id === 'ceres-foundry-7' || n.id === 'persephone-planet-ix' || n.id === 'sol-oort-star';
+          ctx.beginPath(); ctx.arc(nx, ny, (isMajor ? 3.5 : 2.2) * dpr, 0, Math.PI * 2); ctx.fill();
+          if (isMajor) {
+            ctx.fillStyle = 'rgba(226,232,240,0.88)';
+            ctx.font = `${8.5 * dpr}px JetBrains Mono, monospace`;
+            const lbl = n.id === 'ceres-foundry-7' ? 'Ceres #7' : (n.id === 'persephone-planet-ix' ? 'Persephone' : 'Sol');
+            ctx.fillText(lbl, nx + 5 * dpr, ny + 3 * dpr);
+          }
+        });
+
+        // Active station target reticle
+        if (activeStation && activeStation.galactic) {
+          const ang = ((activeStation.galactic.azimuth_deg || 0) - 90) * Math.PI / 180;
+          const distR = ((90 - Math.min(85, Math.abs(activeStation.galactic.local_el_deg || 18))) / 90) * rad * 0.75;
+          const tx = cx + Math.cos(ang) * distR;
+          const ty = cy + Math.sin(ang) * distR;
+
+          ctx.strokeStyle = '#ffaa00';
+          ctx.lineWidth = 1.5 * dpr;
+          ctx.beginPath(); ctx.arc(tx, ty, (7 + Math.sin(t * 4) * 2) * dpr, 0, Math.PI * 2); ctx.stroke();
+          ctx.fillStyle = '#ffaa00';
+          ctx.beginPath(); ctx.arc(tx, ty, 3 * dpr, 0, Math.PI * 2); ctx.fill();
+          ctx.font = `bold ${9 * dpr}px JetBrains Mono, monospace`;
+          ctx.fillText(`${activeStation.preset_slot} ${activeStation.callsign}`, tx + 9 * dpr, ty - 4 * dpr);
+        }
+      }
+
+      // 2B. Draw Bay 2 Right: 3D Relay & Ceres Triangulation Sphere
+      {
+        const { w, h, dpr } = syncCanvasSize(c3D);
+        const ctx = c3D.getContext('2d');
+        ctx.fillStyle = '#03060a';
+        ctx.fillRect(0, 0, w, h);
+
+        const cx = w * 0.5, cy = h * 0.54;
+        const R = Math.min(w, h) * 0.38;
+        const rotY = t * 0.35;
+
+        function proj3D(x, y, z) {
+          const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+          const rx = x * cosY - z * sinY;
+          const rz = x * sinY + z * cosY;
+          const scale = 1.0 / (1.0 + rz * 0.25);
+          return { x: cx + rx * R * scale, y: cy - y * R * scale, z: rz };
+        }
+
+        // Wireframe globe rings
+        ctx.strokeStyle = 'rgba(0, 229, 255, 0.14)';
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.stroke();
+
+        const pGor = proj3D(0, 0, 0);
+        const pCeres = proj3D(-0.55, -0.18, 0.35);
+        const pRelay = proj3D(0.32, 0.28, -0.25);
+        const pTarget = proj3D(0.75, 0.42, 0.15);
+
+        // Dashed Ceres Baseline Triangle (GOR-9 <-> Ceres #7 <-> Target)
+        ctx.strokeStyle = 'rgba(192, 132, 252, 0.6)';
+        ctx.setLineDash([4 * dpr, 3 * dpr]);
+        ctx.beginPath();
+        ctx.moveTo(pGor.x, pGor.y);
+        ctx.lineTo(pCeres.x, pCeres.y);
+        ctx.lineTo(pTarget.x, pTarget.y);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Active Relay Path (GOR-9 -> Relay -> Target)
+        ctx.strokeStyle = '#ffaa00';
+        ctx.lineWidth = 1.8 * dpr;
+        ctx.beginPath();
+        ctx.moveTo(pGor.x, pGor.y);
+        ctx.lineTo(pRelay.x, pRelay.y);
+        ctx.lineTo(pTarget.x, pTarget.y);
+        ctx.stroke();
+
+        // Draw Nodes
+        const drawNode = (pt, col, lbl) => {
+          ctx.fillStyle = col;
+          ctx.beginPath(); ctx.arc(pt.x, pt.y, 4 * dpr, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = '#e2e8f0';
+          ctx.font = `bold ${8.5 * dpr}px JetBrains Mono, monospace`;
+          ctx.fillText(lbl, pt.x + 6 * dpr, pt.y + 3 * dpr);
+        };
+        drawNode(pGor, '#00e5ff', 'GOR-9');
+        drawNode(pCeres, '#c084fc', 'Ceres #7');
+        drawNode(pRelay, '#00e676', 'Relay');
+        drawNode(pTarget, '#ffaa00', activeStation ? activeStation.preset_slot : 'Target');
+      }
+
+      // 3A. Draw Bay 3 Left: Heliopause Radar
+      {
+        const { w, h, dpr } = syncCanvasSize(cVa4Radar);
+        const ctx = cVa4Radar.getContext('2d');
+        ctx.fillStyle = '#030806';
+        ctx.fillRect(0, 0, w, h);
+
+        const cx = w * 0.5, cy = h * 0.55;
+        const rad = Math.min(w, h) * 0.38;
+
+        ctx.strokeStyle = 'rgba(0, 230, 118, 0.2)';
+        ctx.lineWidth = 1;
+        [0.4, 0.75, 1.0].forEach(f => {
+          ctx.beginPath(); ctx.arc(cx, cy, rad * f, 0, Math.PI * 2); ctx.stroke();
+        });
+
+        // Rotating sweep
+        const sweepAng = t * 1.4;
+        ctx.strokeStyle = 'rgba(0, 230, 118, 0.75)';
+        ctx.lineWidth = 1.5 * dpr;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(cx + Math.cos(sweepAng) * rad, cy + Math.sin(sweepAng) * rad);
+        ctx.stroke();
+
+        // Comet K4 Ion Plume
+        ctx.fillStyle = activeRegimeIdx === 1 ? 'rgba(0, 229, 255, 0.38)' : 'rgba(255, 170, 0, 0.25)';
+        ctx.beginPath();
+        ctx.ellipse(cx - rad * 0.45, cy - rad * 0.2, rad * 0.28, rad * 0.14, 0.4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // 3B. Draw Bay 3 Right: Oblique MUF/LUF Ionogram
+      {
+        const { w, h, dpr } = syncCanvasSize(cVa4Iono);
+        const ctx = cVa4Iono.getContext('2d');
+        ctx.fillStyle = '#04070b';
+        ctx.fillRect(0, 0, w, h);
+
+        // MUF curve (top) and LUF curve (bottom)
+        ctx.strokeStyle = '#00e5ff';
+        ctx.lineWidth = 1.8 * dpr;
+        ctx.beginPath();
+        for (let x = 0; x <= w; x += 6) {
+          const u = x / w;
+          const y = h * (0.28 + 0.16 * Math.sin(u * Math.PI * 1.4 + t * 0.5));
+          if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        ctx.strokeStyle = '#ffaa00';
+        ctx.beginPath();
+        for (let x = 0; x <= w; x += 6) {
+          const u = x / w;
+          const y = h * (0.72 - 0.12 * Math.cos(u * Math.PI * 1.2));
+          if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        // Active station operating point
+        const px = w * 0.58, py = h * 0.48;
+        ctx.fillStyle = '#00e676';
+        ctx.beginPath(); ctx.arc(px, py, 4 * dpr, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#e2e8f0';
+        ctx.font = `${8.5 * dpr}px JetBrains Mono, monospace`;
+        ctx.fillText(activeStation && activeStation.rf ? `${activeStation.rf.frequency_khz} kHz` : '9410 kHz', px - 24 * dpr, py - 7 * dpr);
+      }
+
+      // 4. Draw Bay 4: Euclidean ED-9 Geometric Overlay
+      {
+        const { w, h, dpr } = syncCanvasSize(cEd9);
+        const ctx = cEd9.getContext('2d');
+        ctx.fillStyle = '#05080c';
+        ctx.fillRect(0, 0, w, h);
+
+        const d = activeEuclidIdx === 0 ? (euclidData.detections && euclidData.detections[0]) : euclidData.coming_next;
+        const img = d ? getPlateImage(d.plate_src) : null;
+        if (img && img.complete && img.naturalWidth > 0) {
+          ctx.globalAlpha = 0.55;
+          ctx.drawImage(img, 0, 0, w, h);
+          ctx.globalAlpha = 1.0;
+        }
+
+        if (d && d.geometry && d.geometry.vertices) {
+          const v = d.geometry.vertices;
+          const A = { x: v.A.x * w, y: v.A.y * h };
+          const B = { x: v.B.x * w, y: v.B.y * h };
+          const C = { x: v.C.x * w, y: v.C.y * h };
+          const D = { x: v.D.x * w, y: v.D.y * h };
+
+          // Construction circles
+          ctx.strokeStyle = 'rgba(0, 229, 255, 0.28)';
+          ctx.lineWidth = 1 * dpr;
+          ctx.beginPath(); ctx.arc(B.x, B.y, Math.hypot(C.x - B.x, C.y - B.y) * 0.45, 0, Math.PI * 2); ctx.stroke();
+
+          // Parallelogram / Rhombus outline
+          ctx.strokeStyle = '#ffaa00';
+          ctx.lineWidth = 2 * dpr;
+          ctx.beginPath();
+          if (activeEuclidIdx === 0) {
+            ctx.moveTo(A.x, A.y); ctx.lineTo(B.x, B.y); ctx.lineTo(D.x, D.y); ctx.lineTo(C.x, C.y); ctx.closePath();
+          } else {
+            ctx.moveTo(A.x, A.y); ctx.lineTo(B.x, B.y); ctx.lineTo(C.x, C.y); ctx.lineTo(D.x, D.y); ctx.closePath();
+          }
+          ctx.stroke();
+
+          // Bisecting diagonal
+          ctx.strokeStyle = '#00e676';
+          ctx.setLineDash([4 * dpr, 3 * dpr]);
+          ctx.beginPath();
+          ctx.moveTo(B.x, B.y); ctx.lineTo(C.x, C.y);
+          ctx.stroke();
+          ctx.setLineDash([]);
+
+          // Vertex labels
+          [['A', A], ['B', B], ['C', C], ['D', D]].forEach(([lbl, pt]) => {
+            ctx.fillStyle = '#00e5ff';
+            ctx.beginPath(); ctx.arc(pt.x, pt.y, 3 * dpr, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = '#fff';
+            ctx.font = `bold ${9 * dpr}px JetBrains Mono, monospace`;
+            ctx.fillText(lbl, pt.x + 5 * dpr, pt.y - 4 * dpr);
+          });
+        }
+      }
+
+      // 5A. Draw Bay 5 Left: Acheron Perimeter LIDAR Radar
+      {
+        const { w, h, dpr } = syncCanvasSize(cBgyRadar);
+        const ctx = cBgyRadar.getContext('2d');
+        ctx.fillStyle = '#04070b';
+        ctx.fillRect(0, 0, w, h);
+
+        const cx = w * 0.5, cy = h * 0.55;
+        const rad = Math.min(w, h) * 0.38;
+
+        ctx.strokeStyle = 'rgba(0, 229, 255, 0.2)';
+        ctx.lineWidth = 1;
+        [0.45, 0.85].forEach(f => {
+          ctx.beginPath(); ctx.arc(cx, cy, rad * f, 0, Math.PI * 2); ctx.stroke();
+        });
+
+        // Plot 3 UAP Sightings
+        const pts = [
+          { x: cx - rad * 0.28, y: cy - rad * 0.65, col: '#00e5ff', lbl: 'BGY-01' },
+          { x: cx - rad * 0.72, y: cy + rad * 0.12, col: '#ffaa00', lbl: 'BGY-02' },
+          { x: cx + rad * 0.08, y: cy - rad * 0.12, col: '#ff4444', lbl: 'BGY-03' }
+        ];
+        pts.forEach((pt, idx) => {
+          ctx.fillStyle = pt.col;
+          ctx.beginPath(); ctx.arc(pt.x, pt.y, (idx === activeBogeyIdx ? 4.5 : 3) * dpr, 0, Math.PI * 2); ctx.fill();
+          if (idx === activeBogeyIdx) {
+            ctx.strokeStyle = pt.col;
+            ctx.beginPath(); ctx.arc(pt.x, pt.y, (8 + Math.sin(t * 5) * 2) * dpr, 0, Math.PI * 2); ctx.stroke();
+          }
+        });
+      }
+
+      // 5B. Draw Bay 5 Right: Trail-Cam Frame + Target Lock Box
+      {
+        const { w, h, dpr } = syncCanvasSize(cBgyCam);
+        const ctx = cBgyCam.getContext('2d');
+        ctx.fillStyle = '#05070a';
+        ctx.fillRect(0, 0, w, h);
+
+        const b = bogeysData.sightings && bogeysData.sightings[activeBogeyIdx];
+        const img = b ? getPlateImage(b.plate_src) : null;
+        if (img && img.complete && img.naturalWidth > 0) {
+          ctx.drawImage(img, 0, 0, w, h);
+        }
+
+        if (b && b.coupling && b.coupling.target_box) {
+          const tb = b.coupling.target_box;
+          const bx = tb.x * w, by = tb.y * h, bw = tb.w * w, bh = tb.h * h;
+          ctx.strokeStyle = b.threat_color === 'red' ? '#ff4444' : (b.threat_color === 'amber' ? '#ffaa00' : '#00e5ff');
+          ctx.lineWidth = 1.8 * dpr;
+          ctx.strokeRect(bx, by, bw, bh);
+          ctx.fillStyle = ctx.strokeStyle;
+          ctx.font = `bold ${8.5 * dpr}px JetBrains Mono, monospace`;
+          ctx.fillText(b.code, bx, Math.max(12 * dpr, by - 4 * dpr));
+        }
+      }
+
+      requestAnimationFrame(renderLoop);
+    }
+
+    // Initialize with active station
+    selectStation(activeStation.id);
+    requestAnimationFrame(renderLoop);
+  })();
+  </script>
+</body>
+</html>

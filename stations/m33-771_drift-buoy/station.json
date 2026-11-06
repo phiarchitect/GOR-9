@@ -1,0 +1,228 @@
+{
+  "id": "m33-drift-buoy",
+  "preset_slot": "P-03",
+  "featured_prototype": false,
+  "callsign": "M33-771/R",
+  "name": "Autonomous Sonde M33-771",
+  "subtitle": "Deep-Field Industrial Telemetry Sonde (1420 MHz)",
+  "category": "Relic Deep-Space Beacon",
+  "status": "NO VIDEO • H-I TELEMETRY",
+  "status_color": "green",
+  "origin": {
+    "body": "Veyra-3 Alkali Salt Basin (M-33 Triangulum Spur)",
+    "site": "Pelagic & Deep-Field Sonde DS-771-04",
+    "coordinates": "Gal Lon 133.6°, Gal Lat -31.3° (RA 01h 33m 50.9s)",
+    "distance": "2.73 Million Light-Years (Extragalactic Micro-Lens)",
+    "local_clock": "Survey Epoch +712 Yrs (Barycentric Lock)"
+  },
+  "galactic": {
+    "sector": "Extragalactic Local Group • M-33 Triangulum Spur",
+    "arm": "Beyond Outer Perseus Rim (Micro-Lens Aperture)",
+    "azimuth_deg": 133.6,
+    "elevation_deg": -31.3,
+    "range_ly": 2730000.0,
+    "range_label": "2.73 Mly (837 kpc)",
+    "radial_norm": 0.92,
+    "relay_nodes": [
+      {
+        "name": "Perseus Arm Einstein Lens",
+        "az_deg": 131.0,
+        "r_norm": 0.68
+      },
+      {
+        "name": "Outer Oort Halo Gate",
+        "az_deg": 133.2,
+        "r_norm": 0.28
+      }
+    ]
+  },
+  "rf": {
+    "frequency_khz": 1420405.751,
+    "measured_khz": 1420225.751,
+    "doppler_hz": -180000.0,
+    "band": "21cm Neutral Hydrogen Hyperfine Line (H-I)",
+    "mode": "H-I FSK",
+    "filter_bw_hz": 500,
+    "tx_power_watts": 4.2,
+    "tx_power_label": "4.2 W (Decay-Mode Americium Trickle Cell)",
+    "antenna": "Parabolic Horn Canted 34° in Salt Crust",
+    "relay_path": "Gravitational Micro-Lens Corridor → Sector 9 Apex Ring 4",
+    "sinpo": {
+      "s": 2,
+      "i": 5,
+      "n": 3,
+      "p": 2,
+      "o": 3
+    },
+    "s_meter": "S4 (JBA)",
+    "s_meter_pct": 38,
+    "hauser_index": "Q-9.6",
+    "peak_modulation_db": "DOPPLER DRIFT: -180.0 kHz [LISSAJOUS LOCK]",
+    "dx_shorthand": [
+      "JBA",
+      "OSOB",
+      "RELIC-700Y",
+      "4.2W QRP"
+    ]
+  },
+  "hardware_dossier": {
+    "transmitter": "700-year-old ceramic-cavity maser transponder (Model DS-771 Mk.IV) locked to the 1,420.405 MHz hydrogen line. Its mechanical barometer reed corroded shut centuries ago during a Force-8 gale, locking its telemetry buffer into an eternal storm warning.",
+    "feedline_anomaly": "The buoy hull rests high and dry on a baked white polygon salt flat where the ammonia sea evaporated four centuries ago, yet its solar-assisted trickle cell still fires a 4.2-watt packet every 90 seconds.",
+    "receive_antenna_at_gor9": "Apex Concentric Ring #4 + Cryo-Maser Preamp (Az 133.6°)"
+  },
+  "media": {
+    "video_src": "assets/clips/m33_drift_buoy.mp4",
+    "poster_src": "assets/plates/flow_m33_onboard_cam_a.jpg",
+    "alt_plate_src": "assets/plates/flow_m33_onboard_cam_b.jpg",
+    "cam_id": "SONDE DS-771-04 • ONBOARD HORIZON CAM POV",
+    "hud_banner": "NO VIDEO CARRIER • 21cm H-I SPECTRUM & SONDE TELEMETRY",
+    "audio_intercept_src": "assets/audio/intercept_m33_drift.wav",
+    "interval_signal_src": "assets/audio/is_m33_drift.wav",
+    "sstv_burst_src": "assets/audio/sstv_m33_drift.wav",
+    "interval_signal_name": "21-cm Hydrogen Maser Calibration Pip & Barometric Tone",
+    "languages": [
+      "Barycentric Binary-FSK",
+      "Synthetic Telemetry Vocoder"
+    ],
+    "transcript_excerpt": "[Eerie whistling maser harmonic] 'PACKET M33-771... UNIT DS-771-04... SMALL CRAFT ADVISORY: AMMONIA SEA SECTOR 4... SWELLS 6 METERS... [ACTUAL SEA STATUS: DRY ALKALI SALT CRUST]'",
+    "qsl_plate_src": "assets/plates/flow_m33_onboard_cam_a.jpg",
+    "qsl_plate_b_src": "assets/plates/flow_m33_onboard_cam_b.jpg",
+    "flow_plates": [
+      "assets/plates/flow_m33_onboard_cam_a.jpg",
+      "assets/plates/flow_m33_onboard_cam_b.jpg"
+    ]
+  },
+  "qsl": {
+    "qsl_number": "QSL #0001-M33",
+    "gif_src": "assets/qsl/qsl_m33_drift.gif",
+    "protocol": "H-I PHASE-SHIFT LISSAJOUS TELEMETRY",
+    "dimensions": "384×240 • 10-Frame Postcard eQSL GIF",
+    "issue_epoch": "2736.305 • 0402 GCT",
+    "motto": "BEWARE THE PHANTOM SWELL • 4.2 WATTS ACROSS ETERNITY",
+    "signer": "Auto-Acknowledge Telemetry ROM v1.04 (Sonde DS-771-04)",
+    "collector_tier": "TIER S • INTERGALACTIC RELIC QSL #1 (#1 of 12)",
+    "verification_hash": "0x1420-M33R-DS771",
+    "embedded_clue": "Lissajous phase ratio 3:5:1 aligns with the South Rotational Pole of Asteroid 3-5-1."
+  },
+  "decoder": {
+    "has_live_video": false,
+    "default_view": "decoder",
+    "signal_type": "21cm H-I BINARY-FSK + DEEP-FIELD SONDE TELEMETRY ROM",
+    "spectrum_style": "hi_maser",
+    "required_algorithm": "ALG-03",
+    "algorithm_name": "ALG-03 • 21-CM H-I FSK & BAROMETRIC SONDE TELEMETRY UNPACKER",
+    "morse_stream": "-- ...-- ...-- / -....- --... --... .---- / -.. ... --... --... .---- / -.. .-. -.-- / ... .- .-.. -",
+    "raw_rx_lines": [
+      "04:02:01.00  H-I FSK : [0x1420:0x0771] Δf = -180.000 kHz • LISSAJOUS RATIO 3:5:1",
+      "04:02:03.40  SONDE-ID: [UNIT DS-771-04] VEYRA-3 BASIN • BARO_REED=942.0 mbar (STUCK=1)",
+      "04:02:06.15  WX-WARN : FORCE-8 GALE ADVISORY • SWELLS 6.0m • SMALL CRAFT BEWARE",
+      "04:02:08.90  SALT-TLM: HULL_TILT=34.2° • MOISTURE_PCT=0.00% • AM241_CELL=4.20W"
+    ],
+    "translated_lines": [
+      "[SONDE ID DS-771-04]: 'Veyra-3 Drift Sonde M33-771 • Barometer reed locked at 942 mbar'",
+      "[AUTOMATED GALE WARNING]: 'Ammonia Sea Force-8 Gale • 6-Meter Swells • Small Craft Beware!'",
+      "[SENSOR REALITY CHECK]: Moisture = 0.00% (Ammonia sea evaporated centuries ago; hull canted 34° in dry salt)",
+      "[GEOMETRIC PHASE CLUE]: Maser Lissajous harmonic ratio [3 : 5 : 1] points directly to Outpost Nine (Asteroid 3-5-1)"
+    ],
+    "telemetry_metrics": [
+      {
+        "label": "BAROMETER REED",
+        "value": "942 mbar",
+        "unit": "REED CORRODED SHUT",
+        "pct": 95,
+        "alert": true
+      },
+      {
+        "label": "ACTUAL SEA LEVEL",
+        "value": "0.00 m",
+        "unit": "DRY SALT CRUST",
+        "pct": 4,
+        "alert": true
+      },
+      {
+        "label": "DOPPLER SHIFT",
+        "value": "-180.0 kHz",
+        "unit": "M-33 APPROACH",
+        "pct": 74,
+        "alert": false
+      },
+      {
+        "label": "AM-241 CELL",
+        "value": "4.20 W",
+        "unit": "700-YR TRICKLE",
+        "pct": 42,
+        "alert": false
+      }
+    ]
+  },
+  "logs": [
+    {
+      "epoch": "2736.305",
+      "gct": "0402 GCT",
+      "entry": "** INTERGALACTIC [M-33]. 1420405.751 H-I (Δf -180 kHz), Epoch 2736.305 at 0402 GCT, JBA S4 carrier on the cryo-maser preamp (Gal Lon 133.6°, Lat -31.3°); 700-year-old drift-buoy M33-771 still dutifully issuing small-craft warnings for an ammonia sea that evaporated during the Ming Dynasty. Only 4.2 watts! (Operator, Asteroid 3-5-1, GOR-9)"
+    },
+    {
+      "epoch": "2736.260",
+      "gct": "0408 GCT",
+      "entry": "** INTERGALACTIC [M-33]. 1420225.751 H-I, Epoch 2736.260 at 0408 GCT, Perseus gravitational micro-lens aligned for 11 minutes, bringing M33-771 up from noise floor to S4; decoded archaic Survey-Era barometer packet stuck at 942 mbar with 0.00% ambient moisture (Operator, Asteroid 3-5-1, GOR-9)"
+    },
+    {
+      "epoch": "2736.210",
+      "gct": "0359 GCT",
+      "entry": "** INTERGALACTIC [M-33]. 1420225.800 H-I, Epoch 2736.210 at 0359 GCT, faint maser flute interval signal detected on Apex Ring #4; Lissajous phase scope locked onto a 3:5:1 harmonic ratio matching Asteroid 3-5-1 rotational pole (Operator, Asteroid 3-5-1, GOR-9)"
+    }
+  ],
+  "station_folder": "m33-771_drift-buoy",
+  "characters": [
+    {
+      "name": "DS-771 Mk.IV Telemetry Sequencer (Unit #04)",
+      "role": "Autonomous Deep-Field Crustal & Meteorological Sonde",
+      "species_or_type": "Industrial Solid-State 21-cm H-I Telemetry Transponder (Pelagic & Deep-Field Telemetry Works)",
+      "languages": "Barycentric Binary-FSK + Synthetic Industrial Telemetry Voice-ID",
+      "dialect_notes": "Crisp, metallic industrial telemetry vocoder reading barometric reed registers and solar-capacitor bus voltage over a 5-note maser calibration pip.",
+      "voice_profile": {
+        "tts_voice": "Charon (Industrial Sonde Telemetry Vocoder)",
+        "cadence": "95 WPM automated frame readout locked to 3:5:1 Lissajous sync",
+        "dsp_chain": "21-cm H-I Doppler shift (-180 kHz) + 4.2W maser cavity ring"
+      },
+      "signature_quote": "[SONDE DS-771-04]: BUS 28.4V • BARO REED STUCK: FORCE-8 GALE WARNING • AMBIENT HUMIDITY 0.00% ALKALI SALT.",
+      "bio": "Manufactured by Pelagic & Deep-Field Telemetry Works and air-dropped into the Veyra-3 Alkali Basin in the M-33 Triangulum Spur during the First Deep-Field Survey centuries ago. Its mechanical barometer reed corroded shut in a Force-8 gale long before the ammonia sea evaporated into dry white polygonal salt crust, leaving its trickle solar-RTG bus firing a 4.2-watt gale warning every 90 seconds.",
+      "slug": "ds771_sonde",
+      "headshot_src": "assets/plates/flow_m33_onboard_cam_a.jpg",
+      "fullbody_src": "assets/plates/flow_m33_onboard_cam_b.jpg",
+      "voice_sample_dry_src": "assets/audio/voices/voice_ds771_sonde_dry.wav",
+      "voice_sample_rf_src": "assets/audio/voices/voice_ds771_sonde_rf.wav",
+      "language_sample_transcript": "Deep-Field Survey Telemetry Unit D-S-seven-seven-one dash zero-four. Veyra-Three Basin. Barometer reed: nine-four-two millibars, locked. Warning: Force-Eight gale, six-meter swells. Ambient moisture: zero point zero zero percent dry alkali salt.",
+      "phonetic_and_conlang_notes": "Deep-Field Survey Telemetry Protocol: deterministic alphanumeric register readout locked to the 21-cm Hydrogen line."
+    }
+  ],
+  "worldbuilding": {
+    "habitat_and_culture": "A blindingly white polygonal alkali-salt desert on an uninhabited world in the M-33 Triangulum Spur (2.73 million light-years away). Nobody is out there to photograph the buoy—the only visual feed comes from the wide-angle inspection camera bolted directly to the sonde's own weathered yellow steel sensor boom.",
+    "spectrum_gimmick_title": "2.73-Mly Gravitational Micro-Lens QRP (4.2W Industrial Sonde on 21-cm Hydrogen Line)",
+    "hauser_commentary": "Extragalactic on 1420.405 MHz (minus 180 kHz Doppler): autonomous industrial drift-sonde M33-771 (Model DS-771 Mk.IV) brought up to S4 by a Perseus gravitational micro-lens—still dutifully issuing Force-8 marine gale warnings for an ammonia sea that dried up centuries ago, while its onboard horizon camera looks out past its own yellow sensor boom across bone-dry white salt flats! Only 4.2 watts!",
+    "qsl_postcard_style": "Industrial Device Identification & CAD Schematic Card (Pelagic & Deep-Field Telemetry Works)",
+    "qsl_animation_notes": "Industrial device verification card: left panel displays the orthographic CAD engineering schematic and serial plate of Sonde DS-771 Mk.IV with blinking telemetry nodes; right panel shows its onboard horizon camera POV as the helical whip antenna fires a cyan-green 4.2W burst and an ion dust-devil sweeps the salt flat!",
+    "discovery_arc": [
+      {
+        "stage": "Broadcast 01 (Initial Log)",
+        "summary": "Decoded Sonde DS-771-04 frame: barometer reed stuck at 942 mbar gale warning while onboard horizon cam shows 0.00% dry polygonal salt crust."
+      },
+      {
+        "stage": "Broadcast 02 (Tracks on the Salt)",
+        "summary": "Onboard horizon camera frame B captures fresh vehicle/foot tracks and a localized ion vortex right in front of the sonde's yellow sensor boom—and the tilt sensor resets from 34.2° to 0.0°!"
+      }
+    ]
+  },
+  "flow_plates": [
+    {
+      "src": "assets/plates/flow_m33_onboard_cam_a.jpg",
+      "role": "16:9 Onboard Sonde Horizon-Cam POV Keyframe A (Flow)",
+      "caption": "Shot FROM the wide-angle camera bolted to Autonomous Telemetry Sonde M33-771 (Model DS-771 Mk.IV), showing its own yellow steel sensor boom, aluminum RF box, solar panel, and helical whip antenna looking out across the dry white polygonal salt sea."
+    },
+    {
+      "src": "assets/plates/flow_m33_onboard_cam_b.jpg",
+      "role": "16:9 Onboard Sonde Horizon-Cam POV Keyframe B (Flow)",
+      "caption": "Active 4.2W transmission burst: the sonde's foreground helical whip antenna and status LED glow cyan-green while an electrostatic ion dust-devil whirls across the alkali salt flats."
+    }
+  ]
+}
