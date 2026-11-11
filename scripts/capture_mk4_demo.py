@@ -38,9 +38,12 @@ import wave
 
 import numpy as np
 
-# Import Studio speak engine
-sys.path.insert(0, "/home/phi/PROJECTS/photon-platform/studio/src/photon_platform/studio/engines")
-import speak  # type: ignore
+# Import canonical Studio speak engine
+try:
+    from photon_platform.studio import speak
+except ImportError:
+    sys.path.insert(0, "/home/phi/PROJECTS/photon-platform/studio/src")
+    from photon_platform.studio import speak  # type: ignore
 
 ROOT = Path(__file__).resolve().parent.parent
 DOCS_DIR = ROOT / "docs"
@@ -1687,26 +1690,14 @@ def assemble_mp4_and_metadata(timeline_doc: dict) -> Path:
         "-b:a",
         "192k",
         "-shortest",
-        "-vf",
-        "fps=30,setsar=1:1,format=yuv420p",
         "-c:v",
         "libx264",
         "-preset",
         "fast",
-        "-profile:v",
-        "high",
-        "-level:v",
-        "5.1",
         "-crf",
         "16",
         "-pix_fmt",
         "yuv420p",
-        "-colorspace",
-        "bt709",
-        "-color_primaries",
-        "bt709",
-        "-color_trc",
-        "bt709",
         "-movflags",
         "+faststart",
         str(out_mp4),

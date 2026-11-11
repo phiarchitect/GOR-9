@@ -13,8 +13,11 @@ import sys
 import wave
 import numpy as np
 
-sys.path.insert(0, "/home/phi/.gemini/config/skills/dialogue/scripts")
-import speak  # noqa: E402
+try:
+    from photon_platform.studio import speak
+except ImportError:
+    sys.path.insert(0, "/home/phi/PROJECTS/photon-platform/studio/src")
+    from photon_platform.studio import speak  # noqa: E402
 
 SAMPLE_RATE = speak.SAMPLE_RATE
 WORK_DIR = Path("/home/phi/PROJECTS/phiarchitect/GOR-9")

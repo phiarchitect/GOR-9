@@ -1890,6 +1890,10 @@ def encode_qhd_mp4_from_frames(
         str(frames_dir / "frame_%04d.png"),
         "-i",
         str(audio_wav),
+        "-pix_fmt",
+        "yuv420p",
+        "-movflags",
+        "+faststart",
         str(out_mp4),
     ]
     subprocess.run(cmd, check=True)

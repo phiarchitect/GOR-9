@@ -8,7 +8,13 @@ import subprocess
 import sys
 from pathlib import Path
 
-CHROME = "/home/phi/.cache/ms-playwright/chromium-1134/chrome-linux/chrome"
+try:
+    from photon_platform.studio.svg_utils import find_chrome
+except ImportError:
+    sys.path.insert(0, "/home/phi/PROJECTS/photon-platform/studio/src")
+    from photon_platform.studio.svg_utils import find_chrome  # noqa: E402
+
+CHROME = str(find_chrome())
 ROOT = Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
 OUT_DIR = ROOT / "episodes" / "ep01_2736.305_parallelogram" / "console_plates"

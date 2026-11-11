@@ -508,13 +508,15 @@ def main() -> None:
     snow_bank = build_snow_bank(rng, count=8)
 
     ffmpeg_cmd = [
-        "ffmpeg", "-y",
+        "/usr/bin/ffmpeg", "-y",
         "-f", "rawvideo",
         "-pix_fmt", "rgb24",
         "-s", f"{W}x{H}",
         "-framerate", str(FPS),
         "-i", "-",
         "-i", str(master_wav),
+        "-pix_fmt", "yuv420p",
+        "-movflags", "+faststart",
         str(out_mp4),
     ]
     proc = subprocess.Popen(ffmpeg_cmd, stdin=subprocess.PIPE, stderr=subprocess.DEVNULL)
