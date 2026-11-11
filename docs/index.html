@@ -1355,33 +1355,98 @@
   .chassis-wrap {
     max-width: none;
     width: 100%;
-    height: calc(100vh - 44px);
-    padding: 8px 14px 12px;
+    height: 100%;
+    flex: 1;
+    min-height: 0;
+    padding: 8px 12px;
     display: grid;
     grid-template-rows: auto 1fr;
     gap: 10px;
   }
   .hauser-top-rack {
-    grid-template-columns: 400px 360px 1fr;
+    grid-template-columns: 400px 415px 1fr;
     padding: 8px 12px;
     gap: 12px;
     align-items: stretch;
   }
-  .rack-module { padding: 8px 10px; }
-  .module-label { font-size: 11.5px; }
-  .module-label span.tag { font-size: 11px; }
-  .preset-key { padding: 5px 8px; }
-  .preset-key-top { font-size: 11px; }
+  .rack-module { padding: 7px 10px; }
+  .module-label { font-size: 11px; margin-bottom: 4px; padding-bottom: 3px; }
+  .module-label span.tag { font-size: 10.5px; }
+  .preset-key { padding: 4px 8px; }
+  .preset-key-top { font-size: 10.5px; }
   .preset-freq { font-size: 13px; }
-  .preset-name { font-size: 10.5px; }
+  .preset-name { font-size: 10px; }
+  .vfo-readout-box { padding: 5px 10px; margin-bottom: 4px; }
   .vfo-digits { font-size: 26px; }
   .vfo-mode-badge { font-size: 12px; }
-  .vfo-sub-row { font-size: 11px; }
-  .mini-hw-btn { font-size: 10.5px; padding: 5px 6px; }
-  .waterfall-wrap { height: 126px; min-height: 126px; }
-  .wf-overlay-top { font-size: 11.5px; }
+  .vfo-sub-row { font-size: 11px; margin-top: 2px; padding-top: 2px; }
+  .vfo-dial-strip {
+    width: 100%;
+    height: 28px;
+    background: #020408;
+    border: 1px solid #1e2d45;
+    border-radius: 2px;
+    margin-top: 4px;
+    position: relative;
+    overflow: hidden;
+  }
+  #vfo-dial-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .band-btn-row {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 3px;
+    margin-bottom: 4px;
+  }
+  .band-pill-btn {
+    background: #0c1320;
+    border: 1px solid #263650;
+    color: #94a3b8;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 800;
+    padding: 3px 2px;
+    border-radius: 2px;
+    cursor: pointer;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .band-pill-btn.active {
+    background: rgba(240, 184, 73, 0.2);
+    border-color: var(--amber);
+    color: var(--amber);
+    box-shadow: 0 0 8px rgba(240, 184, 73, 0.25);
+  }
+  .mini-hw-btn { font-size: 10.5px; padding: 4px 6px; }
+  .wf-mode-group {
+    display: inline-flex;
+    gap: 4px;
+    align-items: center;
+  }
+  .wf-mode-btn {
+    background: #0d1523;
+    border: 1px solid #283852;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 2px;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+  }
+  .wf-mode-btn.active {
+    background: rgba(56, 189, 248, 0.18);
+    border-color: var(--cyan);
+    color: var(--cyan);
+  }
+  .waterfall-wrap { height: 128px; min-height: 128px; }
+  .wf-overlay-top { font-size: 11px; }
   .hauser-main-deck {
-    grid-template-columns: 1.18fr 1.02fr 0.92fr;
+    grid-template-columns: 1.18fr 1.04fr 0.92fr;
     gap: 12px;
     align-items: stretch;
     min-height: 0;
@@ -1390,44 +1455,103 @@
   .deck-bay { height: 100%; min-height: 0; }
   .bay-hdr { height: 32px; padding: 0 12px; font-size: 12px; }
   .bay-hdr-right { font-size: 11px; }
-  .bay-body { padding: 9px 11px; gap: 8px; min-height: 0; }
-  .vp-tab-btn { font-size: 11px; padding: 5px 9px; }
-  .vp-carrier-pill { font-size: 10.5px; }
+  .bay-body { padding: 8px 11px; gap: 7px; min-height: 0; }
+  .viewport-mode-bar { flex-wrap: nowrap; gap: 6px; }
+  .vp-tab-group { flex-wrap: nowrap; gap: 5px; }
+  .vp-tab-btn { font-size: 11px; padding: 5px 8px; white-space: nowrap; }
+  .vp-carrier-pill { font-size: 10.5px; white-space: nowrap; }
   .video-viewport {
     width: 100%;
-    flex: 1.25;
-    min-height: 225px;
+    flex: 2.25;
+    min-height: 295px;
     height: auto;
     aspect-ratio: auto;
   }
-  .hud-tag { font-size: 11px; }
-  .video-hud-bottom { font-size: 12px; }
-  .cw-ticker-strip { font-size: 11.5px; }
-  .rx-pane-hdr { font-size: 10.5px; }
-  .rx-lines-list { font-size: 11px; line-height: 1.45; }
-  .alg-chip { font-size: 10px; padding: 3px 7px; }
-  .tg-top { font-size: 9.5px; }
-  .tg-val { font-size: 12.5px; }
-  .audition-btn { font-size: 11.5px; padding: 8px 10px; }
-  .envelope-scope-wrap { height: 42px; }
-  .transcript-box {
-    padding: 8px 10px;
-    font-size: 12px;
-    line-height: 1.45;
-    flex: 0.75;
+  #signal-decoder-screen {
+    padding: 6px;
+    gap: 4px;
   }
-  .galaxy-map-module { flex: 1; display: flex; flex-direction: column; min-height: 0; }
-  .galaxy-canvas-wrap { flex: 1; height: auto; min-height: 180px; }
+  .decoder-top-spectrum {
+    height: 23%;
+    min-height: 54px;
+    flex-shrink: 0;
+  }
+  #signal-decoder-screen.full-spectrum-mode .decoder-top-spectrum {
+    height: 86%;
+  }
+  .hud-tag { font-size: 11px; padding: 3px 8px; }
+  .video-hud-bottom { font-size: 12px; padding: 5px 10px; }
+  .cw-ticker-strip { font-size: 11px; padding: 3px 8px; flex-shrink: 0; }
+  .rx-pane { padding: 5px 7px; }
+  .rx-pane-hdr { font-size: 10.5px; margin-bottom: 2px; padding-bottom: 2px; flex-shrink: 0; }
+  .rx-lines-list { font-size: 10.5px; line-height: 1.35; gap: 3px; }
+  .alg-selector-row { gap: 4px; margin-top: 3px; padding-top: 3px; flex-shrink: 0; }
+  .alg-chip { font-size: 10px; padding: 3px 7px; }
+  .decoder-telem-strip { flex-shrink: 0; }
+  .telem-gauge-card { padding: 3px 6px; }
+  .tg-top { font-size: 9px; }
+  .tg-val { font-size: 12px; margin: 0; }
+  .audio-transport-box { padding: 6px 9px; gap: 5px; flex-shrink: 0; }
+  .audition-btn { font-size: 11px; padding: 6px 9px; }
+  .envelope-scope-wrap { height: 34px; }
+  .transcript-box {
+    padding: 6px 10px;
+    font-size: 12px;
+    line-height: 1.35;
+    flex: 0 0 auto;
+    max-height: 54px;
+    overflow: hidden;
+  }
+  #transcript-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #e2e8f0;
+    font-weight: 700;
+  }
+  .galaxy-map-module { flex: 1; display: flex; flex-direction: column; min-height: 0; overflow: hidden; padding: 6px 9px; gap: 5px; }
+  .galaxy-canvas-wrap { flex: 1; height: auto; min-height: 120px; }
   #galaxy-map-canvas { height: 100%; width: 100%; display: block; }
-  .gal-telem-strip { font-size: 11px; }
-  .gal-cell .k { font-size: 10px; }
-  .gal-cell .v { font-size: 12px; }
-  .smeter-val { font-size: 16px; }
-  .hauser-idx-badge { font-size: 12px; }
-  .sinpo-letter { font-size: 12px; }
-  .sinpo-num { font-size: 13px; }
-  .sinpo-desc { font-size: 9.5px; }
-  .specs-table { font-size: 11.5px; justify-content: flex-start; gap: 6px; padding: 7px 10px; flex: 0; }
+  .gal-telem-strip { font-size: 11px; gap: 5px; }
+  .gal-cell { min-width: 0; overflow: hidden; padding: 3px 6px; }
+  .gal-cell .k { font-size: 9.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .gal-cell .v { font-size: 11.5px; }
+  .smeter-panel { padding: 5px 9px; flex-shrink: 0; }
+  .smeter-val { font-size: 15px; }
+  .hauser-idx-badge { font-size: 11.5px; }
+  .sinpo-matrix { padding: 5px 9px; flex-shrink: 0; }
+  .sinpo-bar-wrap { height: 18px; }
+  .sinpo-letter { font-size: 11.5px; }
+  .sinpo-num { font-size: 12.5px; }
+  .sinpo-desc { font-size: 9px; }
+  .specs-table {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    padding: 5px 7px;
+    flex: 0;
+    flex-shrink: 0;
+  }
+  .spec-row {
+    flex-direction: column;
+    align-items: flex-start;
+    border-bottom: none;
+    background: #050912;
+    border: 1px solid #1a263b;
+    border-radius: 2px;
+    padding: 4px 6px;
+    gap: 2px;
+    overflow: hidden;
+  }
+  .spec-k { font-size: 9px; color: var(--muted); }
+  .spec-v {
+    font-size: 11px;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+  }
   .qsl-img-container {
     width: 100%;
     height: auto !important;
@@ -1440,20 +1564,24 @@
     object-fit: fill !important;
     display: block;
   }
-  .qsl-meta-strip { font-size: 11px; }
-  .dossier-cta-btn { font-size: 11.5px; padding: 8px 10px; }
+  .qsl-meta-strip { font-size: 11.5px; }
+  .dossier-cta-btn, #open-celestial-btn { display: none !important; }
   .ghlog-terminal {
-    padding: 8px 10px;
-    font-size: 11.5px;
-    line-height: 1.45;
+    padding: 7px 10px;
+    font-size: 12px;
+    line-height: 1.4;
     max-height: none;
     flex: 1;
+    min-height: 0;
+    overflow: hidden;
   }
-  .ghlog-hdr { font-size: 11.5px; }
-  .log-entry-meta { font-size: 10.5px; }
-  #ghlog-entry-text { max-height: none; overflow-y: auto; }
+  .ghlog-hdr { font-size: 11.5px; margin-bottom: 5px; padding-bottom: 3px; }
+  .log-entry-meta { font-size: 11px; }
+  .log-entry-item { padding: 6px 8px; }
+  #ghlog-entry-text { max-height: none; overflow: hidden; gap: 6px; }
+  .log-add-row, #qsl-clue-text { display: none !important; }
   .modal-backdrop {
-    padding: 12px 16px 14px;
+    padding: 28px 34px 52px 34px;
   }
   .modal-card {
     max-width: none !important;
@@ -1501,20 +1629,30 @@
   <!-- TOP RACK: PRESET MATRIX + VFO SYNTHESIZER + LIVE WATERFALL SPECTROGRAM -->
   <section class="hauser-top-rack">
 
-    <!-- MODULE 1: TACTILE ILLUMINATED PRESET BANK (P-01 .. P-06) -->
-    <div class="rack-module">
+    <!-- MODULE 1: TACTILE ILLUMINATED PRESET BANK (P-01 .. P-08) -->
+    <div class="rack-module" id="rack-mod-presets">
       <div class="module-label">
         <span>TACTILE STATION PRESET MATRIX</span>
-        <span class="tag">BANK A • GALACTIC DX</span>
+        <span class="tag">BANK A • 8 CHANNELS</span>
       </div>
       <div class="preset-grid" id="preset-grid"></div>
     </div>
 
-    <!-- MODULE 2: VFO SYNTHESIZER & METALLIC JOG WHEEL -->
-    <div class="rack-module">
+    <!-- MODULE 2: WAVEBAND SELECTOR, SLIDING DRUM DIAL & BARYCENTRIC VFO -->
+    <div class="rack-module" id="rack-mod-vfo">
       <div class="module-label">
-        <span>HAUSER MK-IV • BARYCENTRIC VFO SYNTHESIZER</span>
+        <span>WIDEBAND TUNER &amp; BARYCENTRIC VFO</span>
         <span class="tag" id="vfo-lock-tag">PLL LOCKED</span>
+      </div>
+
+      <!-- 6-BAND WAVEBAND SELECTOR ROW -->
+      <div class="band-btn-row" id="band-btn-row">
+        <button class="band-pill-btn" data-band="90m" data-station="buoy-n24" onclick="selectBand('90m')">90m CRYO</button>
+        <button class="band-pill-btn" data-band="41m" data-station="trojan-octal" onclick="selectBand('41m')">41m OCTAL</button>
+        <button class="band-pill-btn" data-band="43m" data-station="pedregal-wx" onclick="selectBand('43m')">43m WX</button>
+        <button class="band-pill-btn" data-band="31m" data-station="vael-vihara" onclick="selectBand('31m')">31m SPIRE</button>
+        <button class="band-pill-btn active" data-band="25m" data-station="radio-corrugated" onclick="selectBand('25m')">25m SWBC</button>
+        <button class="band-pill-btn" data-band="21cm" data-station="m33-drift-buoy" onclick="selectBand('21cm')">21cm H-I</button>
       </div>
 
       <div class="vfo-readout-box">
@@ -1525,6 +1663,9 @@
         <div class="vfo-sub-row">
           <span>MEASURED: <b id="vfo-meas-display" style="color:var(--text);">11,410.042 kHz</b></span>
           <span>DOPPLER Δf: <b id="vfo-dopp-display" style="color:var(--cyan);">+42.0 Hz</b></span>
+        </div>
+        <div class="vfo-dial-strip">
+          <canvas id="vfo-dial-canvas" width="380" height="28"></canvas>
         </div>
       </div>
 
@@ -1537,7 +1678,6 @@
         </div>
 
         <div class="filter-bank">
-          <div style="font-size:9px;color:var(--muted);font-weight:700;">DEMODULATION MODE</div>
           <div class="mini-btn-row" id="mode-btn-row">
             <button class="mini-hw-btn" data-mode="AM-W">AM-W</button>
             <button class="mini-hw-btn" data-mode="USB">USB</button>
@@ -1545,7 +1685,6 @@
             <button class="mini-hw-btn" data-mode="H-I FSK">H-I</button>
             <button class="mini-hw-btn" data-mode="DRM-9">DRM-9</button>
           </div>
-          <div style="font-size:9px;color:var(--muted);font-weight:700;margin-top:2px;">IF CRYSTAL FILTER PASSBAND</div>
           <div class="mini-btn-row" id="bw-btn-row">
             <button class="mini-hw-btn" data-bw="500">500 Hz</button>
             <button class="mini-hw-btn" data-bw="2400">2.4 kHz</button>
@@ -1556,16 +1695,22 @@
       </div>
     </div>
 
-    <!-- MODULE 3: LIVE DUAL-TRACE SPECTRUM & WATERFALL SPECTROGRAM -->
-    <div class="rack-module">
+    <!-- MODULE 3: MULTI-MODE FREQUENCY MAP & SPECTROGRAM CORRELATOR -->
+    <div class="rack-module" id="rack-mod-waterfall">
       <div class="module-label">
-        <span>WIDEBAND FFT SPECTRUM & PHOSPHOR WATERFALL CORRELATOR</span>
-        <span class="tag" id="wf-band-label">25m SWBC / OORT RELAY DUCT</span>
+        <span>MULTI-MODE FREQUENCY MAP &amp; SPECTRUM SCANNER</span>
+        <div class="wf-mode-group" id="wf-mode-row">
+          <button class="wf-mode-btn active" id="wf-btn-waterfall" data-wfmode="waterfall" onclick="setWfMode('waterfall')">SPECTROGRAM</button>
+          <button class="wf-mode-btn" id="wf-btn-bandplan" data-wfmode="bandplan" onclick="setWfMode('bandplan')">BAND MAP</button>
+          <button class="wf-mode-btn" id="wf-btn-ridges3d" data-wfmode="ridges3d" onclick="setWfMode('ridges3d')">3D RIDGES</button>
+          <button class="wf-mode-btn" id="wf-btn-doppler" data-wfmode="doppler" onclick="setWfMode('doppler')">DOPPLER I/Q</button>
+          <button class="wf-mode-btn" id="btn-expand-tuner" style="border-color:var(--amber);color:var(--amber);" onclick="toggleTunerModal(true)">⛶ EXPAND</button>
+        </div>
       </div>
       <div class="waterfall-wrap">
         <canvas id="waterfall-canvas" width="920" height="135"></canvas>
         <div class="wf-overlay-top">
-          <span>SPAN: ±25.0 kHz • NOISE FLOOR: -118 dBm</span>
+          <span id="wf-band-label">25m SWBC / OORT RELAY DUCT</span>
           <span id="wf-peak-label" style="color:var(--amber);">PEAK CARRIER: +18.4 dB</span>
         </div>
         <div class="wf-passband" id="wf-passband"></div>
@@ -1579,22 +1724,23 @@
   <section class="hauser-main-deck">
 
     <!-- COLUMN 1: LIVE REMOTE VIDEO FEED + AUDIO INTERCEPT TRANSPORT -->
-    <div class="deck-bay">
+    <div class="deck-bay" id="bay-col-1">
       <div class="bay-hdr">
-        <span id="cam-hdr-title">REMOTE VISUAL TELEMETRY • CAM-104</span>
+        <span id="cam-hdr-title">SIGNAL &amp; VISUAL CORRELATOR • CAM-104</span>
         <div class="bay-hdr-right">
           <span id="cam-origin-badge">CALLISTO DOME-4</span>
+          <button class="mini-hw-btn active" id="btn-expand-viewport" style="padding:2px 7px;" onclick="toggleViewportModal(true)">⛶ EXPAND</button>
         </div>
       </div>
       <div class="bay-body">
         <!-- VIEWPORT MODE SWITCHER BAR -->
         <div class="viewport-mode-bar">
           <div class="vp-tab-group">
-            <button class="vp-tab-btn" id="vp-btn-decoder" onclick="setViewportMode('decoder')">📟 CODE &amp; TELEMETRY DECODER</button>
-            <button class="vp-tab-btn" id="vp-btn-spectrum" onclick="setViewportMode('spectrum')">📈 3D SPECTRUM &amp; PHASE SCAN</button>
-            <button class="vp-tab-btn active" id="vp-btn-video" onclick="setViewportMode('video')">📺 OPTICAL / CAM FEED</button>
+            <button class="vp-tab-btn" id="vp-btn-decoder" onclick="setViewportMode('decoder')">📟 CODE DECODER</button>
+            <button class="vp-tab-btn" id="vp-btn-spectrum" onclick="setViewportMode('spectrum')">📈 3D SPECTRUM</button>
+            <button class="vp-tab-btn active" id="vp-btn-video" onclick="setViewportMode('video')">📺 CAM FEED</button>
           </div>
-          <span class="vp-carrier-pill has-vid" id="vp-carrier-status">VIDEO CARRIER: LOCKED</span>
+          <span class="vp-carrier-pill has-vid" id="vp-carrier-status">CARRIER: LOCKED</span>
         </div>
 
         <div class="video-viewport">
@@ -1659,7 +1805,7 @@
         <!-- AUDIO DEMODULATOR & AUDITION TRANSPORT -->
         <div class="audio-transport-box">
           <div class="module-label" style="margin-bottom:2px;">
-            <span>SHORTWAVE AUDIO DEMODULATOR & INTERVAL SIGNAL AUDITION</span>
+            <span>SHORTWAVE AUDIO DEMODULATOR &amp; INTERVAL SIGNAL AUDITION</span>
             <span class="tag" id="audio-status-label">READY</span>
           </div>
           <div class="transport-btns">
@@ -1678,9 +1824,9 @@
           </div>
         </div>
 
-        <!-- INTERCEPT TRANSCRIPT & LANGUAGE LOG -->
+        <!-- COMPACT SIGNAL & LANGUAGE LED TICKER -->
         <div class="transcript-box">
-          <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--amber);font-weight:800;margin-bottom:3px;">
+          <div style="display:flex;justify-content:space-between;font-size:10.5px;color:var(--amber);font-weight:800;margin-bottom:2px;">
             <span id="is-title-label">INTERVAL SIGNAL: ELECTRIC NIGHT-MARKET LUTE</span>
             <span id="lang-label" style="color:var(--cyan);">LANG: PORT-CANTONESE / MANDARIN</span>
           </div>
@@ -1690,24 +1836,30 @@
     </div>
 
     <!-- COLUMN 2: GALACTIC ASTROMETRY MAP + SINPO MATRIX + S-METER -->
-    <div class="deck-bay">
+    <div class="deck-bay" id="bay-col-2">
       <div class="bay-hdr">
         <span>GALACTIC ASTROMETRY, CERES TRIANGULATION &amp; SIGNAL QUALITY</span>
         <div class="bay-hdr-right">
           <a href="celestial-atlas.html" id="open-celestial-btn" class="mini-hw-btn active" style="padding:2px 7px;text-decoration:none;border-color:var(--cyan);color:var(--cyan);">🪐 3D SKY ATLAS ↗</a>
-          <button class="mini-hw-btn active" style="padding:2px 7px;" onclick="toggleGalaxyModal(true)">⛶ EXPAND</button>
+          <button class="mini-hw-btn active" id="btn-expand-galaxy" style="padding:2px 7px;" onclick="toggleGalaxyModal(true)">⛶ EXPAND</button>
         </div>
       </div>
       <div class="bay-body">
 
-        <!-- INTERACTIVE GALAXY & OORT ASTROMETRY VECTOR MAP -->
+        <!-- INTERACTIVE 3D GALAXY, SKY TELESCOPE & OORT ASTROMETRY VECTOR MAP -->
         <div class="galaxy-map-module">
           <div class="module-label" style="margin-bottom:2px;">
-            <span>MILKY WAY, CERES BASELINE &amp; OORT RELAY VECTOR MAP</span>
-            <span class="tag" id="gal-arm-tag">ORION–CYGNUS SPUR</span>
+            <span>3D CELESTIAL SPHERE &amp; SKY ASTROMETRY</span>
+            <div class="wf-mode-group" id="gal-mode-row">
+              <button class="wf-mode-btn active" data-gmode="3d-vector" onclick="setGalMode('3d-vector')">3D SPHERE</button>
+              <button class="wf-mode-btn" data-gmode="3d-ceres" onclick="setGalMode('3d-ceres')">CERES 3D</button>
+              <button class="wf-mode-btn" data-gmode="sky-scope" onclick="setGalMode('sky-scope')">SKY SCOPE</button>
+              <button class="wf-mode-btn" data-gmode="equirect" onclick="setGalMode('equirect')">360° SKY</button>
+            </div>
+            <span class="tag" id="gal-arm-tag" style="display:none;">ORION–CYGNUS SPUR</span>
           </div>
-          <div class="galaxy-canvas-wrap" title="Click any plotted station on the Galaxy Map to tune the Hauser MK-IV">
-            <canvas id="galaxy-map-canvas" width="540" height="238"></canvas>
+          <div class="galaxy-canvas-wrap" title="Click any plotted station on the 3D Celestial Sphere or Sky Telescope to tune the Hauser MK-IV">
+            <canvas id="galaxy-map-canvas" width="540" height="260"></canvas>
           </div>
           <div class="gal-telem-strip">
             <div class="gal-cell">
@@ -1729,57 +1881,55 @@
           </div>
         </div>
 
-        <!-- S-METER & HAUSER INDEX -->
-        <div class="smeter-panel">
-          <div class="smeter-top">
-            <div>
-              <span style="font-size:9px;color:var(--muted);font-weight:700;margin-right:8px;">CARRIER S-METER:</span>
-              <span class="smeter-val" id="smeter-text">S9+18 dB</span>
+        <div id="smeter-sinpo-group" style="display:flex;flex-direction:column;gap:7px;flex-shrink:0;">
+          <!-- S-METER & HAUSER INDEX -->
+          <div class="smeter-panel">
+            <div class="smeter-top">
+              <div>
+                <span style="font-size:10px;color:var(--muted);font-weight:700;margin-right:8px;">CARRIER S-METER:</span>
+                <span class="smeter-val" id="smeter-text">S9+18 dB</span>
+              </div>
+              <div class="hauser-idx-badge" id="hauser-idx-text">QUALITY INDEX: Q-8.4</div>
             </div>
-            <div class="hauser-idx-badge" id="hauser-idx-text">HAUSER INDEX: H-8.4</div>
+            <div class="smeter-bar-track" id="smeter-WaitTrack"></div>
           </div>
-          <div class="smeter-bar-track" id="smeter-WaitTrack"></div>
-        </div>
 
-        <!-- 5-COLUMN SINPO MATRIX -->
-        <div class="sinpo-matrix">
-          <div class="module-label" style="margin-bottom:2px;">
-            <span>ITU / OORT SINPO RECEPTION MERIT</span>
-            <span class="tag" id="sinpo-code-tag">SINPO 4-3-4-3-4</span>
+          <!-- 5-COLUMN SINPO MATRIX -->
+          <div class="sinpo-matrix">
+            <div class="module-label" style="margin-bottom:2px;">
+              <span>ITU / OORT SINPO RECEPTION MERIT</span>
+              <span class="tag" id="sinpo-code-tag">SINPO 4-3-4-3-4</span>
+            </div>
+            <div class="sinpo-grid" id="sinpo-grid"></div>
           </div>
-          <div class="sinpo-grid" id="sinpo-grid"></div>
-        </div>
 
-        <!-- COMPACT HARDWARE SPECS + SINGLE HAUSER DYNAMICS VECTOR LOGO -->
-        <div style="display:grid;grid-template-columns:1.15fr 0.95fr;gap:8px;align-items:stretch;">
+          <!-- 3-BADGE HARDWARE STATUS PILLS -->
           <div class="specs-table" style="margin:0;">
             <div class="spec-row">
               <span class="spec-k">TX RIG</span>
-              <span class="spec-v" id="spec-power" style="color:var(--amber);">350 W (Sodium-Lamp Bus Tap)</span>
+              <span class="spec-v" id="spec-power" style="color:var(--amber);">350 W Tetrode</span>
             </div>
             <div class="spec-row">
               <span class="spec-k">ANTENNA</span>
-              <span class="spec-v" id="spec-ant">Half-Wave Galvanized Pipe Dipole</span>
+              <span class="spec-v" id="spec-ant">½λ Pipe Dipole</span>
             </div>
-            <div class="spec-row" style="border-bottom:none;padding-bottom:0;">
+            <div class="spec-row">
               <span class="spec-k">RX BEAM</span>
-              <span class="spec-v" id="spec-rx" style="color:var(--cyan);">4-Ring Apex Phased Array</span>
+              <span class="spec-v" id="spec-rx" style="color:var(--cyan);">4-Ring Phased Array</span>
             </div>
-          </div>
-          <div style="background:#04070d;border:1px solid #24344d;border-radius:3px;padding:4px 6px;display:flex;align-items:center;justify-content:center;">
-            <img src="assets/branding/hauser_logo.svg" alt="Hauser Dynamics Vector Nameplate" style="width:100%;aspect-ratio:520/180;object-fit:contain;display:block;" />
           </div>
         </div>
 
       </div>
     </div>
 
-    <!-- COLUMN 3: IN-STREAM SSTV QSL CARD DECODER & RAW DX LOGBOOK -->
-    <div class="deck-bay">
+    <!-- COLUMN 3: IN-STREAM SSTV QSL CARD DECODER & VERIFIED STATION MEMORY -->
+    <div class="deck-bay" id="bay-col-3">
       <div class="bay-hdr">
         <span>IN-STREAM SSTV eQSL VERIFICATION BAY</span>
         <div class="bay-hdr-right">
           <span id="qsl-num-hdr">QSL #0165-RC</span>
+          <button class="mini-hw-btn active" id="btn-expand-qsl" style="padding:2px 7px;" onclick="toggleQslModal(true)">⛶ EXPAND</button>
         </div>
       </div>
       <div class="bay-body">
@@ -1793,21 +1943,17 @@
             <span id="qsl-proto-text">SSTV-ROBOT24 / SUB-BAND FSK</span>
             <span id="qsl-tier-text" style="color:var(--amber);font-weight:700;">TIER I • #14 OF 351</span>
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
-            <a href="station.html?id=radio-corrugated" id="open-dossier-btn" class="dossier-cta-btn">
-              🃏 STATION DOSSIER &amp; QSL ↗
-            </a>
-            <a href="celestial-atlas.html?id=radio-corrugated" id="open-sky-qsl-btn" class="dossier-cta-btn" style="border-color:var(--amber);color:var(--amber);background:rgba(240,184,73,0.1);">
-              🪐 3D SKY &amp; RELAY VECTOR ↗
-            </a>
+          <div style="display:none;">
+            <a href="station.html?id=radio-corrugated" id="open-dossier-btn" class="dossier-cta-btn"></a>
+            <a href="celestial-atlas.html?id=radio-corrugated" id="open-sky-qsl-btn" class="dossier-cta-btn"></a>
           </div>
         </div>
 
-        <!-- STATION LOG (MULTIPLE ENTRIES) -->
+        <!-- ACTIVE VERIFIED RECEPTION MEMORY CARD -->
         <div class="ghlog-terminal">
           <div class="ghlog-hdr">
-            <span>LOG</span>
-            <span id="log-count-badge" style="color:var(--cyan);font-size:8.5px;">3 ENTRIES</span>
+            <span>VERIFIED DX MEMORY &amp; LOG</span>
+            <span id="log-count-badge" style="color:var(--cyan);font-size:10.5px;">ACTIVE ENTRY</span>
           </div>
           <div id="ghlog-entry-text"></div>
           <div class="log-add-row">
@@ -1824,13 +1970,112 @@
 
 </main>
 
-<!-- FULLSCREEN GALACTIC SIGNAL ATLAS MODAL -->
+<!-- EXPANDED WIDEBAND FREQUENCY MAP & BAND-PLAN SCANNER MODAL (#tuner-modal) -->
+<div id="tuner-modal" class="modal-backdrop" onclick="if(event.target===this)toggleTunerModal(false)">
+  <div class="modal-card">
+    <div class="bay-hdr" style="height:40px;padding:0 18px;">
+      <span>HAUSER MK-IV • WIDEBAND GALACTIC BAND-PLAN &amp; MULTI-MODE SPECTRUM SCANNER (3 kHz – 1.5 GHz)</span>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <span style="color:var(--cyan);font-size:11.5px;font-weight:800;">PULSAR LOCK: PSR B1937+21</span>
+        <button class="mini-hw-btn active" style="flex:0;padding:4px 12px;" onclick="toggleTunerModal(false)">✕ CLOSE [ESC]</button>
+      </div>
+    </div>
+    <div style="padding:14px 18px;background:#04070d;display:grid;grid-template-rows:1fr auto;gap:12px;height:100%;min-height:0;">
+      <div style="position:relative;width:100%;height:100%;min-height:0;border:1px solid #26354d;background:#020408;">
+        <canvas id="tuner-modal-canvas" width="1560" height="680" style="width:100%;height:100%;display:block;"></canvas>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);">
+        <span>WAVEBAND SPAN: <b style="color:var(--amber);">90m CRYO • 41m NUMBERS • 43m WX • 31m SPIRE • 25m SWBC • 21cm H-I LINE</b></span>
+        <span>ACTIVE CARRIER: <b id="tuner-modal-carrier-lbl" style="color:var(--cyan);">11,410.042 kHz AM-W (SW4-CORR)</b></span>
+        <span>IF PASSBAND: <b id="tuner-modal-bw-lbl" style="color:var(--green);">6.0 kHz CRYSTAL FILTER</b></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EXPANDED SIGNAL, VIDEO & CIPHER CORRELATOR THEATER MODAL (#viewport-modal) -->
+<div id="viewport-modal" class="modal-backdrop" onclick="if(event.target===this)toggleViewportModal(false)">
+  <div class="modal-card">
+    <div class="bay-hdr" style="height:40px;padding:0 18px;">
+      <span id="vp-modal-hdr-title">HAUSER MK-IV • EXPANDED SIGNAL, VIDEO &amp; CIPHER CORRELATOR THEATER</span>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <span id="vp-modal-mode-badge" style="color:var(--amber);font-size:11.5px;font-weight:800;">LIVE CAM + FFT + CIPHER</span>
+        <button class="mini-hw-btn active" style="flex:0;padding:4px 12px;" onclick="toggleViewportModal(false)">✕ CLOSE [ESC]</button>
+      </div>
+    </div>
+    <div style="padding:14px 18px;background:#04070d;display:grid;grid-template-rows:1fr auto;gap:12px;height:100%;min-height:0;">
+      <div style="position:relative;width:100%;height:100%;min-height:0;border:1px solid #26354d;background:#020408;">
+        <canvas id="viewport-modal-canvas" width="1560" height="680" style="width:100%;height:100%;display:block;"></canvas>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);">
+        <span>STATION: <b id="vp-modal-st-lbl" style="color:var(--amber);">P-01 • RADIO CORRUGATED (CALLISTO DOME-4)</b></span>
+        <span>CARTRIDGE STATUS: <b id="vp-modal-alg-lbl" style="color:var(--green);">ALG-03 • JOVIAN DOCK PATOIS &amp; ARC TRANSLATOR</b></span>
+        <span>CORRELATOR LOCK: <b style="color:var(--cyan);">PHASE &amp; ENVELOPE SYNCHRONIZED</b></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EXPANDED SSTV eQSL VERIFICATION & HARDWARE DOSSIER MODAL (#qsl-modal) -->
+<div id="qsl-modal" class="modal-backdrop" onclick="if(event.target===this)toggleQslModal(false)">
+  <div class="modal-card">
+    <div class="bay-hdr" style="height:40px;padding:0 18px;">
+      <span>HAUSER MK-IV • IN-STREAM SSTV eQSL VERIFICATION &amp; STATION HARDWARE DOSSIER</span>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <span id="qsl-modal-hdr-num" style="color:var(--amber);font-size:12px;font-weight:800;">QSL #0165-RC • VERIFIED</span>
+        <button class="mini-hw-btn active" style="flex:0;padding:4px 12px;" onclick="toggleQslModal(false)">✕ CLOSE [ESC]</button>
+      </div>
+    </div>
+    <div style="padding:16px 20px;background:#04070d;display:grid;grid-template-columns:1.22fr 1fr;gap:18px;height:100%;min-height:0;align-items:stretch;">
+      <div style="background:#020408;border:2px solid var(--amber);border-radius:4px;padding:12px;display:flex;flex-direction:column;justify-content:space-between;min-height:0;">
+        <div style="position:relative;flex:1;min-height:0;border:1px solid #2b3952;overflow:hidden;background:#000;">
+          <img id="qsl-modal-img" src="assets/qsl/qsl_radio_corrugated.gif" alt="Expanded SSTV eQSL" style="width:100%;height:100%;object-fit:fill;display:block;image-rendering:pixelated;" />
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:13px;font-weight:800;">
+          <span id="qsl-modal-proto" style="color:var(--cyan);">SSTV-ROBOT24 / SUB-AUDIBLE FSK STAMP (1,900 Hz)</span>
+          <span id="qsl-modal-hash" style="color:var(--green);">HASH: 0x8F4E-11410-CORR-G47</span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-rows:repeat(4,1fr);gap:12px;min-height:0;">
+        <div style="background:#080d18;border:1px solid #253652;border-left:4px solid var(--amber);padding:12px 16px;border-radius:4px;display:flex;flex-direction:column;justify-content:center;">
+          <div style="font-size:11px;color:var(--muted);font-weight:800;">VERIFIED INTERCEPT STATION</div>
+          <div id="qsl-modal-title" style="font-size:22px;color:var(--amber);font-weight:800;margin-top:2px;">P-01 • SW4-CORR — RADIO CORRUGATED</div>
+          <div id="qsl-modal-sub" style="font-size:13px;color:#e2e8f0;margin-top:4px;">Callisto Dome-4 • Orion Spur Corridor</div>
+        </div>
+        <div style="background:#080d18;border:1px solid #253652;border-left:4px solid var(--green);padding:12px 16px;border-radius:4px;display:flex;flex-direction:column;justify-content:center;">
+          <div style="font-size:11px;color:var(--muted);font-weight:800;">eQSL CERTIFICATE &amp; COLLECTOR TIER</div>
+          <div id="qsl-modal-id" style="font-size:18px;color:var(--green);font-weight:800;margin-top:2px;">QSL #0165-RC • VERIFIED</div>
+          <div id="qsl-modal-tier" style="font-size:13px;color:#f8fafc;margin-top:4px;">TIER I • UNLICENSED BLOWTORCH EDITION (#14 of 351)</div>
+        </div>
+        <div style="background:#080d18;border:1px solid #253652;border-left:4px solid var(--cyan);padding:12px 16px;border-radius:4px;display:flex;flex-direction:column;justify-content:center;">
+          <div style="font-size:11px;color:var(--muted);font-weight:800;">TRANSMITTER &amp; ANTENNA ARCHITECTURE</div>
+          <div id="qsl-modal-tx" style="font-size:14.5px;color:#fff;font-weight:800;margin-top:4px;">350 W (Unlicensed Sodium-Lamp Bus Tap)</div>
+          <div id="qsl-modal-ant" style="font-size:13px;color:var(--cyan);margin-top:4px;">Half-Wave Galvanized Pipe Dipole (Torch-Soldered Live)</div>
+          <div id="qsl-modal-motto" style="font-size:12px;color:var(--amber);font-style:italic;margin-top:6px;">"SOLDER HOT, BROTH HOTTER — NO ROMANCE WITHOUT DILITHIUM"</div>
+        </div>
+        <div style="background:#080d18;border:1px solid #253652;border-left:4px solid var(--amber);padding:12px 16px;border-radius:4px;display:flex;flex-direction:column;justify-content:center;">
+          <div style="font-size:11px;color:var(--muted);font-weight:800;">SUB-CARRIER EMBEDDED SIGNAL CLUE</div>
+          <div id="qsl-modal-clue" style="font-size:13.5px;color:var(--green);font-weight:700;margin-top:4px;line-height:1.4;">Frame 7 arc-flash duration encodes octal group [3-5-1 / 0-4-7] in sub-carrier phase shift.</div>
+          <div id="qsl-modal-signer" style="font-size:11.5px;color:var(--muted);margin-top:6px;">SIGNED: Eng. Chen 'Torch' Wei, Chief RF &amp; Noodle Operator</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FULLSCREEN 3D CELESTIAL SPHERE & SKY ASTROMETRY MODAL -->
 <div id="galaxy-modal" class="modal-backdrop" onclick="if(event.target===this)toggleGalaxyModal(false)">
   <div class="modal-card">
     <div class="bay-hdr" style="height:40px;padding:0 18px;">
-      <span>GALACTIC ASTROMETRY, CERES BASELINE &amp; OORT RELAY VECTOR ATLAS • CLICK ANY STATION NODE TO TUNE HAUSER MK-IV</span>
-      <div style="display:flex;gap:8px;align-items:center;">
-        <a href="celestial-atlas.html" id="modal-celestial-btn" class="mini-hw-btn active" style="flex:0;padding:4px 12px;text-decoration:none;border-color:var(--cyan);color:var(--cyan);">🪐 OPEN 3D &amp; SKY NAVIGATOR ↗</a>
+      <span>3D CELESTIAL ASTROMETRY SPHERE, SKY TELESCOPE &amp; CERES TRIANGULATION ATLAS</span>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <div class="wf-mode-group" id="modal-gal-mode-row">
+          <button class="wf-mode-btn active" data-mgmode="split" onclick="setModalGalMode('split')">🌌 3-VIEW 3D THEATER</button>
+          <button class="wf-mode-btn" data-mgmode="3d-vector" onclick="setModalGalMode('3d-vector')">🎯 3D RELAY SPHERE</button>
+          <button class="wf-mode-btn" data-mgmode="3d-ceres" onclick="setModalGalMode('3d-ceres')">📐 CERES 3D TRIANGLE</button>
+          <button class="wf-mode-btn" data-mgmode="sky-scope" onclick="setModalGalMode('sky-scope')">🔭 SKY TELESCOPE</button>
+        </div>
+        <a href="celestial-atlas.html" id="modal-celestial-btn" class="mini-hw-btn active" style="flex:0;padding:4px 10px;text-decoration:none;border-color:var(--cyan);color:var(--cyan);">🪐 FULL ATLAS ↗</a>
         <button class="mini-hw-btn active" style="flex:0;padding:4px 12px;" onclick="toggleGalaxyModal(false)">✕ CLOSE [ESC]</button>
       </div>
     </div>
@@ -1909,8 +2154,31 @@ let galaxyHitBoxes = [];
 let modalGalaxyHitBoxes = [];
 let currentViewportMode = 'video'; // 'decoder', 'spectrum', 'video'
 let currentSelectedAlg = 'ALG-03';
+let currentWfMode = 'waterfall'; // 'waterfall', 'bandplan', 'ridges3d', 'doppler'
+let currentBandKey = '25m';
+let currentLogSlot = 0;
 let panelSpecTick = 0;
 let morseScrollOffset = 0;
+const posterImageCache = {};
+
+const BAND_TO_STATION = {
+  '90m': 'buoy-n24',
+  '43m': 'pedregal-utility',
+  '41m': 'trojan-octal',
+  '31m': 'kz9-omega',
+  '25m': 'radio-corrugated',
+  '21cm': 'm33-drift-buoy'
+};
+const STATION_TO_BAND = {
+  'buoy-n24': '90m',
+  'pedregal-utility': '43m',
+  'trojan-octal': '41m',
+  'radio-free-hektor': '41m',
+  'kz9-omega': '31m',
+  'st-jerome-slag': '31m',
+  'radio-corrugated': '25m',
+  'm33-drift-buoy': '21cm'
+};
 
 async function initConsole() {
   if (!STATIONS_DATA) {
@@ -1923,12 +2191,23 @@ async function initConsole() {
   }
   if (!STATIONS_DATA) return;
 
+  STATIONS_DATA.presets.forEach(p => {
+    if (p.media && p.media.poster_src) {
+      const img = new Image();
+      img.src = p.media.poster_src;
+      posterImageCache[p.id] = img;
+    }
+  });
+
   renderPresetButtons();
   const params = new URLSearchParams(window.location.search);
   const startId = params.get('id') || STATIONS_DATA.presets[0].id;
   selectPreset(startId);
   if (params.get('mode')) {
     setViewportMode(params.get('mode'));
+  }
+  if (params.get('wf')) {
+    setWfMode(params.get('wf'));
   }
   if (params.get('alg')) {
     selectTranslationAlg(params.get('alg'));
@@ -1937,6 +2216,12 @@ async function initConsole() {
     toggleGalaxyModal(true);
   } else if (params.get('modal') === 'tower') {
     toggleTowerModal(true);
+  } else if (params.get('modal') === 'tuner') {
+    toggleTunerModal(true);
+  } else if (params.get('modal') === 'viewport') {
+    toggleViewportModal(true);
+  } else if (params.get('modal') === 'qsl') {
+    toggleQslModal(true);
   }
   if (params.get('sstv') === 'instant') {
     const curtain = document.getElementById('sstv-wipe-curtain');
@@ -1950,6 +2235,99 @@ async function initConsole() {
   startScopeLoop();
   startGalaxyMapLoop();
   startPanelSpectrumLoop();
+}
+
+function selectBand(bandKey) {
+  currentBandKey = bandKey;
+  document.querySelectorAll('#band-btn-row .band-pill-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.band === bandKey);
+  });
+  const targetId = BAND_TO_STATION[bandKey];
+  if (targetId && (!currentStation || currentStation.id !== targetId)) {
+    selectPreset(targetId);
+  } else {
+    drawVfoDial();
+  }
+}
+
+function setWfMode(mode) {
+  currentWfMode = mode;
+  document.querySelectorAll('#wf-mode-row .wf-mode-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.wf === mode);
+  });
+  const showPassbandOverlay = (mode === 'waterfall' || mode === 'bandplan');
+  const cur = document.getElementById('wf-cursor');
+  const pb = document.getElementById('wf-passband');
+  if (cur) cur.style.display = showPassbandOverlay ? 'block' : 'none';
+  if (pb) pb.style.display = showPassbandOverlay ? 'block' : 'none';
+  const ov = document.querySelector('.wf-overlay-top');
+  if (ov) ov.style.display = (mode === 'waterfall') ? 'flex' : 'none';
+}
+
+function drawVfoDial(overrideIdxFloat) {
+  const canvas = document.getElementById('vfo-dial-canvas');
+  if (!canvas || !STATIONS_DATA) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width;
+  const H = canvas.height;
+
+  ctx.fillStyle = '#03060c';
+  ctx.fillRect(0, 0, W, H);
+
+  // Subtle amber/cyan backlit scale glow
+  const bg = ctx.createLinearGradient(0, 0, W, 0);
+  bg.addColorStop(0, 'rgba(3,6,12,0.95)');
+  bg.addColorStop(0.5, 'rgba(28,45,72,0.45)');
+  bg.addColorStop(1, 'rgba(3,6,12,0.95)');
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, W, H);
+
+  const presets = STATIONS_DATA.presets;
+  const actIdx = (typeof overrideIdxFloat === 'number')
+    ? overrideIdxFloat
+    : Math.max(0, presets.indexOf(currentStation));
+
+  const pxPerSlot = 92;
+  const centerX = W * 0.5;
+
+  // Draw sliding ruler ticks
+  ctx.strokeStyle = 'rgba(139, 155, 180, 0.35)';
+  ctx.lineWidth = 1;
+  for (let s = -20; s <= 40; s++) {
+    const u = s * 0.2;
+    const x = centerX + (u - actIdx) * pxPerSlot;
+    if (x < 0 || x > W) continue;
+    const isMajor = (s % 5 === 0);
+    ctx.beginPath();
+    ctx.moveTo(x, isMajor ? 3 : 7);
+    ctx.lineTo(x, isMajor ? 13 : 11);
+    ctx.stroke();
+  }
+
+  // Draw waveband allocation bars & station callsign markers
+  const bandLabels = ['90m CRYO', '25m SWBC', '21cm H-I', '41m OCTAL', '31m SPIRE', '43m WX'];
+  const bandCols = ['#4ade80', '#f0b849', '#38bdf8', '#4ade80', '#38bdf8', '#fb7185'];
+  presets.forEach((p, idx) => {
+    const x = centerX + (idx - actIdx) * pxPerSlot;
+    if (x < -60 || x > W + 60) return;
+    const col = bandCols[idx % bandCols.length];
+    ctx.fillStyle = col;
+    ctx.globalAlpha = Math.abs(idx - actIdx) < 0.35 ? 0.95 : 0.55;
+    ctx.fillRect(x - 28, 2, 56, 3);
+    ctx.font = 'bold 9.5px JetBrains Mono, monospace';
+    ctx.fillText(p.callsign, x - 18, 23);
+    ctx.globalAlpha = 1.0;
+  });
+
+  // Central red/amber optical hairline & passband bracket
+  ctx.fillStyle = 'rgba(56, 189, 248, 0.14)';
+  ctx.fillRect(centerX - 18, 0, 36, H);
+  ctx.strokeStyle = '#fb7185';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(centerX, 0);
+  ctx.lineTo(centerX, H);
+  ctx.stroke();
 }
 
 function renderPresetButtons() {
@@ -1983,16 +2361,24 @@ function formatFreq(khz) {
 function selectPreset(stationId) {
   const p = STATIONS_DATA.presets.find(x => x.id === stationId) || STATIONS_DATA.presets[0];
   currentStation = p;
+  currentLogSlot = 0;
 
   document.querySelectorAll('.preset-key').forEach(b => b.classList.remove('active'));
   const activeBtn = document.getElementById(`preset-btn-${p.id}`);
   if (activeBtn) activeBtn.classList.add('active');
 
+  const bKey = STATION_TO_BAND[p.id] || '25m';
+  currentBandKey = bKey;
+  document.querySelectorAll('#band-btn-row .band-pill-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.band === bKey);
+  });
+  drawVfoDial();
+
   vfoAngle += 135;
   document.getElementById('vfo-wheel').style.transform = `rotate(${vfoAngle}deg)`;
 
   const idx = STATIONS_DATA.presets.indexOf(p);
-  const cursorPct = 20 + idx * 12;
+  const cursorPct = 14 + idx * 14.4;
   document.getElementById('wf-cursor').style.left = `${cursorPct}%`;
   document.getElementById('wf-passband').style.left = `${cursorPct}%`;
   const bwPx = p.rf.filter_bw_hz <= 600 ? 22 : p.rf.filter_bw_hz <= 3000 ? 42 : p.rf.filter_bw_hz <= 7000 ? 68 : 115;
@@ -2077,25 +2463,35 @@ function selectPreset(stationId) {
   if (celModal) celModal.href = `celestial-atlas.html?id=${p.id}`;
   if (window.updateGor9NavStation) window.updateGor9NavStation(p.id);
 
-  renderStationLogs(p);
+  renderStationLogs(p, 0);
   document.getElementById('qsl-clue-text').textContent = `🔍 EMBEDDED SIGNAL LAYER: ${p.qsl.embedded_clue}`;
+  syncExpandModals(p);
 
   stopActiveAudio();
 }
 
-function renderStationLogs(p) {
+function renderStationLogs(p, slotIdx) {
   const logs = p.logs || [];
+  if (typeof slotIdx === 'number') currentLogSlot = Math.max(0, Math.min(logs.length - 1, slotIdx));
   const countEl = document.getElementById('log-count-badge');
-  if (countEl) countEl.textContent = `${logs.length} ${logs.length === 1 ? 'ENTRY' : 'ENTRIES'}`;
-  document.getElementById('ghlog-entry-text').innerHTML = logs.map((l, idx) => `
-    <div class="log-entry-item">
-      <div class="log-entry-meta">
-        <span>ENTRY #0${logs.length - idx} • EPOCH ${l.epoch}</span>
-        <span style="color:var(--cyan);">${l.gct}</span>
-      </div>
-      <div>${l.entry}</div>
-    </div>
+  if (countEl) countEl.textContent = `${logs.length} MEM SLOTS`;
+  const activeLog = logs[currentLogSlot] || logs[0];
+  if (!activeLog) return;
+  const tabsHtml = logs.map((l, idx) => `
+    <button class="mini-hw-btn ${idx === currentLogSlot ? 'active' : ''}" style="padding:2px 8px;font-size:9.5px;" onclick="renderStationLogs(currentStation, ${idx})">
+      MEM #0${logs.length - idx} • ${l.gct}
+    </button>
   `).join('');
+  document.getElementById('ghlog-entry-text').innerHTML = `
+    <div style="display:flex;gap:4px;margin-bottom:5px;">${tabsHtml}</div>
+    <div class="log-entry-item" style="border-left:3px solid var(--amber);">
+      <div class="log-entry-meta">
+        <span>VERIFIED LOG #0${logs.length - currentLogSlot} • EPOCH ${activeLog.epoch}</span>
+        <span style="color:var(--green);">${p.callsign} • ${formatFreq(p.rf.measured_khz)}</span>
+      </div>
+      <div style="font-size:11.5px;font-weight:700;color:#f8fafc;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${activeLog.entry}</div>
+    </div>
+  `;
 }
 
 function addQuickLogEntry() {
@@ -2109,7 +2505,7 @@ function addQuickLogEntry() {
     entry: `** ${currentStation.origin.body.split('(')[0].trim().toUpperCase()}. ${formatFreq(currentStation.rf.measured_khz)} ${currentStation.rf.mode}, ${text} (Operator, Asteroid 3-5-1, GOR-9)`
   });
   input.value = '';
-  renderStationLogs(currentStation);
+  renderStationLogs(currentStation, 0);
 }
 
 function setViewportMode(mode) {
@@ -2518,14 +2914,71 @@ function playStationAudio(kind) {
 }
 
 /* =========================================================================
-   GALACTIC ASTROMETRY & OORT RELAY VECTOR MAP RENDERER
+   3D CELESTIAL ASTROMETRY SPHERE, SKY TELESCOPE & 360° ALL-SKY RENDERER
    ========================================================================= */
+let currentGalMode = '3d-vector'; // '3d-vector', '3d-ceres', 'sky-scope', 'equirect'
+let currentModalGalMode = 'split'; // 'split', '3d-vector', '3d-ceres', 'sky-scope'
+let galOrbitYawOffset = 0.0;
+let galOrbitPitchOffset = 0.0;
+let isDraggingGal = false;
+let galDragStart = { x: 0, y: 0, yaw: 0, pitch: 0 };
+
+const celestialSkyImg = new Image();
+celestialSkyImg.src = 'assets/plates/celestial_sky_clean.jpg';
+
+const SLOT_PALETTE_3D = {
+  'P-01': '#ffae2b',
+  'P-02': '#38eaff',
+  'P-03': '#c084fc',
+  'P-04': '#f43f5e',
+  'P-05': '#4ade80',
+  'P-06': '#facc15',
+  'P-07': '#fb7185',
+  'P-08': '#60a5fa'
+};
+
+function setGalMode(mode) {
+  currentGalMode = mode;
+  document.querySelectorAll('#gal-mode-row .wf-mode-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.gmode === mode);
+  });
+}
+
+function setModalGalMode(mode) {
+  currentModalGalMode = mode;
+  document.querySelectorAll('#modal-gal-mode-row .wf-mode-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.mgmode === mode);
+  });
+}
+
 function setupGalaxyCanvasClicks() {
   const c1 = document.getElementById('galaxy-map-canvas');
-  c1.addEventListener('click', e => handleGalaxyClick(e, c1, galaxyHitBoxes));
-
   const c2 = document.getElementById('galaxy-modal-canvas');
-  c2.addEventListener('click', e => handleGalaxyClick(e, c2, modalGalaxyHitBoxes));
+
+  [
+    { canvas: c1, boxes: galaxyHitBoxes },
+    { canvas: c2, boxes: modalGalaxyHitBoxes }
+  ].forEach(({ canvas, boxes }) => {
+    if (!canvas) return;
+    canvas.addEventListener('pointerdown', e => {
+      isDraggingGal = true;
+      galDragStart = { x: e.clientX, y: e.clientY, yaw: galOrbitYawOffset, pitch: galOrbitPitchOffset };
+    });
+    window.addEventListener('pointermove', e => {
+      if (!isDraggingGal) return;
+      const dx = e.clientX - galDragStart.x;
+      const dy = e.clientY - galDragStart.y;
+      galOrbitYawOffset = galDragStart.yaw - dx * 0.008;
+      galOrbitPitchOffset = Math.max(-0.45, Math.min(0.55, galDragStart.pitch + dy * 0.006));
+    });
+    window.addEventListener('pointerup', e => {
+      if (!isDraggingGal) return;
+      isDraggingGal = false;
+      if (Math.hypot(e.clientX - galDragStart.x, e.clientY - galDragStart.y) < 6) {
+        handleGalaxyClick(e, canvas, boxes);
+      }
+    });
+  });
 }
 
 function handleGalaxyClick(e, canvas, boxes) {
@@ -2535,11 +2988,765 @@ function handleGalaxyClick(e, canvas, boxes) {
   for (const b of boxes) {
     const dx = sx - b.x;
     const dy = sy - b.y;
-    if (dx * dx + dy * dy <= (b.r + 8) * (b.r + 8)) {
-      selectPreset(b.id);
+    if (dx * dx + dy * dy <= (b.r + 9) * (b.r + 9)) {
+      if (b.isStation) selectPreset(b.id);
       return;
     }
   }
+}
+
+function azElRToXYZ(azDeg, elDeg, rUnits) {
+  const azR = (azDeg * Math.PI) / 180.0;
+  const elR = (elDeg * Math.PI) / 180.0;
+  const cosEl = Math.cos(elR);
+  return {
+    x: cosEl * Math.sin(azR) * rUnits,
+    y: Math.sin(elR) * rUnits,
+    z: -cosEl * Math.cos(azR) * rUnits
+  };
+}
+
+function galToLocalEl3D(azDeg, galLatDeg = 0.0) {
+  const tilt = 14.0 * Math.cos(((azDeg - 205.0) * Math.PI) / 180.0) + 15.5;
+  return Math.max(-8.0, Math.min(68.0, galLatDeg * 0.55 + tilt));
+}
+
+function buildCelestialCatalog() {
+  const cat = [];
+  if (!STATIONS_DATA) return cat;
+  (STATIONS_DATA.presets || []).forEach(p => {
+    const gal = p.galactic || {};
+    const slot = p.preset_slot || 'P-00';
+    const az = Number(gal.azimuth_deg || 0);
+    const el = Number(gal.local_el_deg !== undefined ? gal.local_el_deg : galToLocalEl3D(az, gal.elevation_deg || 0));
+    const rNorm = Number(gal.radial_norm || 0.55);
+    const hex = SLOT_PALETTE_3D[slot] || '#38e8ff';
+    cat.push({
+      id: p.id,
+      slot,
+      callsign: p.callsign,
+      name: p.name,
+      isStation: true,
+      az_deg: az,
+      local_el_deg: el,
+      gal_lat_deg: Number(gal.elevation_deg || 0),
+      radial_norm: rNorm,
+      range_label: gal.range_label || p.origin?.distance || '',
+      sep_ceres_deg: Number(gal.sep_ceres_deg || 48.0),
+      relay_nodes: gal.relay_nodes || [],
+      hex,
+      pos3D: azElRToXYZ(az, el, rNorm * 100.0)
+    });
+  });
+
+  (STATIONS_DATA.celestial_neighbors || []).forEach(nb => {
+    const az = Number(nb.az_deg || 0);
+    const el = Number(nb.local_el_deg || 12);
+    const rNorm = Number(nb.radial_norm || 0.32);
+    cat.push({
+      id: nb.id,
+      slot: nb.slot || 'NB',
+      callsign: nb.callsign || nb.name,
+      name: nb.name,
+      isStation: false,
+      az_deg: az,
+      local_el_deg: el,
+      gal_lat_deg: Number(nb.gal_lat_deg || 0),
+      radial_norm: rNorm,
+      range_label: nb.range_label || '',
+      sep_ceres_deg: Number(nb.sep_ceres_deg || 0),
+      relay_nodes: nb.relay_nodes || [],
+      hex: nb.hex || '#38e8ff',
+      pos3D: azElRToXYZ(az, el, rNorm * 100.0)
+    });
+  });
+  return cat;
+}
+
+function drawResolvedBodyIcon(ctx, loc, px, py, scaleMult, t) {
+  ctx.save();
+  ctx.translate(px, py);
+  if (loc.id === 'sol-oort-star') {
+    const rGlow = 15 * Math.sqrt(scaleMult);
+    const g = ctx.createRadialGradient(0, 0, 1, 0, 0, rGlow);
+    g.addColorStop(0, 'rgba(255, 255, 250, 1)');
+    g.addColorStop(0.25, 'rgba(255, 240, 195, 0.85)');
+    g.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(0, 0, rGlow, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = 'rgba(255, 245, 210, 0.82)';
+    ctx.lineWidth = 1.2;
+    for (let a = 0; a < 3; a++) {
+      const ang = (a * Math.PI) / 3;
+      const len = rGlow * 1.25;
+      ctx.beginPath();
+      ctx.moveTo(-Math.cos(ang) * len, -Math.sin(ang) * len);
+      ctx.lineTo(Math.cos(ang) * len, Math.sin(ang) * len);
+      ctx.stroke();
+    }
+  } else if (loc.id === 'persephone-sedna9') {
+    const rDisk = Math.max(5.5, 5.2 * scaleMult);
+    ctx.rotate(-0.32);
+    ctx.strokeStyle = 'rgba(110, 255, 238, 0.92)';
+    ctx.lineWidth = Math.max(1.4, 1.8 * scaleMult * 0.5);
+    ctx.beginPath(); ctx.ellipse(0, 0, rDisk * 2.3, rDisk * 0.68, 0, 0, Math.PI * 2); ctx.stroke();
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.65)';
+    ctx.beginPath(); ctx.ellipse(0, 0, rDisk * 2.85, rDisk * 0.88, 0, 0, Math.PI * 2); ctx.stroke();
+    const pGrad = ctx.createRadialGradient(rDisk * 0.3, -rDisk * 0.2, 1, 0, 0, rDisk);
+    pGrad.addColorStop(0, '#a5fff2');
+    pGrad.addColorStop(0.6, '#1ca89c');
+    pGrad.addColorStop(1, '#07222c');
+    ctx.fillStyle = pGrad;
+    ctx.beginPath(); ctx.arc(0, 0, rDisk, 0, Math.PI * 2); ctx.fill();
+  } else if (loc.id === 'ceres-foundry-7') {
+    const rDisk = Math.max(5.5, 5.0 * scaleMult);
+    ctx.strokeStyle = 'rgba(255, 174, 43, 0.75)';
+    ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.ellipse(0, 0, rDisk * 1.85, rDisk * 0.62, 0.2, 0, Math.PI * 2); ctx.stroke();
+    const cGrad = ctx.createRadialGradient(-rDisk * 0.3, rDisk * 0.2, 1, 0, 0, rDisk);
+    cGrad.addColorStop(0, '#ffd494');
+    cGrad.addColorStop(0.6, '#b85d18');
+    cGrad.addColorStop(1, '#1e1108');
+    ctx.fillStyle = cGrad;
+    ctx.beginPath(); ctx.arc(0, 0, rDisk, 0, Math.PI * 2); ctx.fill();
+  } else if (loc.id === 'comet-c2736-k4') {
+    const tailLen = Math.max(22, 18 * scaleMult);
+    ctx.rotate(-0.38);
+    const tGrad = ctx.createLinearGradient(0, 0, tailLen, 0);
+    tGrad.addColorStop(0, 'rgba(64, 250, 199, 0.85)');
+    tGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    ctx.fillStyle = tGrad;
+    ctx.beginPath(); ctx.ellipse(tailLen * 0.48, 0, tailLen * 0.5, 3.2 * scaleMult, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath(); ctx.arc(0, 0, 2.8, 0, Math.PI * 2); ctx.fill();
+  } else if (loc.isStation) {
+    const s = Math.max(4.5, 4.2 * scaleMult);
+    ctx.strokeStyle = loc.hex;
+    ctx.lineWidth = 1.3;
+    ctx.beginPath(); ctx.ellipse(0, 0, s * 1.65, s * 0.62, 0, 0, Math.PI * 2); ctx.stroke();
+    ctx.fillStyle = loc.hex;
+    ctx.beginPath();
+    ctx.moveTo(0, -s); ctx.lineTo(s * 0.85, 0); ctx.lineTo(0, s); ctx.lineTo(-s * 0.85, 0);
+    ctx.closePath();
+    ctx.fill();
+  } else {
+    ctx.fillStyle = loc.hex;
+    ctx.beginPath(); ctx.arc(0, 0, Math.max(3.2, 3.0 * scaleMult), 0, Math.PI * 2); ctx.fill();
+  }
+  ctx.restore();
+}
+
+function render3DSphereViewport(ctx, x0, y0, w, h, catalog, activeLoc, ceresLoc, solLoc, hitBoxesOut, t, camMode, isLarge) {
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(x0, y0, w, h);
+  ctx.clip();
+
+  // Deep-space radial backdrop
+  const bg = ctx.createRadialGradient(x0 + w * 0.5, y0 + h * 0.48, 8, x0 + w * 0.5, y0 + h * 0.5, Math.max(w, h) * 0.65);
+  bg.addColorStop(0, '#091426');
+  bg.addColorStop(0.55, '#040812');
+  bg.addColorStop(1, '#020408');
+  ctx.fillStyle = bg;
+  ctx.fillRect(x0, y0, w, h);
+
+  // Camera orbit parameters based on camMode ('3d-vector' vs '3d-ceres')
+  const tAz = ((activeLoc ? activeLoc.az_deg : 212.4) * Math.PI) / 180.0;
+  let yaw = tAz - 0.72 + Math.sin(t * 0.35) * 0.22 + galOrbitYawOffset;
+  let pitch = (camMode === '3d-ceres' ? 0.58 : 0.40) + Math.cos(t * 0.25) * 0.05 + galOrbitPitchOffset;
+  let camDist = camMode === '3d-ceres' ? 168.0 : 185.0;
+
+  let targetX = 0, targetY = 2, targetZ = 0;
+  if (camMode === '3d-ceres' && activeLoc && ceresLoc) {
+    targetX = (activeLoc.pos3D.x + ceresLoc.pos3D.x) * 0.24;
+    targetY = (activeLoc.pos3D.y + ceresLoc.pos3D.y) * 0.24;
+    targetZ = (activeLoc.pos3D.z + ceresLoc.pos3D.z) * 0.24;
+  } else if (activeLoc) {
+    targetX = activeLoc.pos3D.x * 0.22;
+    targetY = activeLoc.pos3D.y * 0.20;
+    targetZ = activeLoc.pos3D.z * 0.22;
+  }
+
+  const camX = targetX + camDist * Math.cos(pitch) * Math.sin(yaw);
+  const camY = targetY + camDist * Math.sin(pitch);
+  const camZ = targetZ + camDist * Math.cos(pitch) * Math.cos(yaw);
+
+  // Camera basis vectors (Right, Up, Forward)
+  let fx = targetX - camX, fy = targetY - camY, fz = targetZ - camZ;
+  const fLen = Math.hypot(fx, fy, fz) || 1;
+  fx /= fLen; fy /= fLen; fz /= fLen;
+
+  // Right = normalize(cross(Forward, WorldUp(0,1,0))) = normalize((-fz, 0, fx))
+  let rx = -fz, ry = 0, rz = fx;
+  const rLen = Math.hypot(rx, ry, rz) || 1;
+  rx /= rLen; rz /= rLen;
+
+  // Up = cross(Right, Forward)
+  const ux = ry * fz - rz * fy;
+  const uy = rz * fx - rx * fz;
+  const uz = rx * fy - ry * fx;
+
+  const fovScale = Math.min(w, h) * (isLarge ? 1.18 : 1.12);
+
+  function project3D(pt) {
+    const dx = pt.x - camX;
+    const dy = pt.y - camY;
+    const dz = pt.z - camZ;
+    const cz = dx * fx + dy * fy + dz * fz;
+    if (cz <= 8.0) return null;
+    const cx = dx * rx + dy * ry + dz * rz;
+    const cy = dx * ux + dy * uy + dz * uz;
+    return {
+      x: x0 + w * 0.5 + (cx / cz) * fovScale,
+      y: y0 + h * 0.53 - (cy / cz) * fovScale,
+      depth: cz,
+      scale: fovScale / cz
+    };
+  }
+
+  function stroke3DPath(pts, strokeStyle, lineWidth = 1, dash = []) {
+    ctx.save();
+    ctx.strokeStyle = strokeStyle;
+    ctx.lineWidth = lineWidth;
+    if (dash.length) ctx.setLineDash(dash);
+    ctx.beginPath();
+    let started = false;
+    for (let i = 0; i < pts.length; i++) {
+      const p = project3D(pts[i]);
+      if (!p) { started = false; continue; }
+      if (!started) { ctx.moveTo(p.x, p.y); started = true; }
+      else ctx.lineTo(p.x, p.y);
+    }
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // 1. Subtle 3D Starfield Dust
+  for (let i = 0; i < 65; i++) {
+    const a1 = (i * 2.39996) % (Math.PI * 2);
+    const el1 = Math.sin(i * 1.7) * 58;
+    const pStar = project3D(azElRToXYZ((a1 * 180) / Math.PI, el1, 135));
+    if (pStar && pStar.x >= x0 && pStar.x <= x0 + w && pStar.y >= y0 && pStar.y <= y0 + h) {
+      ctx.fillStyle = i % 5 === 0 ? 'rgba(240, 184, 73, 0.35)' : 'rgba(148, 183, 255, 0.28)';
+      ctx.fillRect(pStar.x, pStar.y, 1.5, 1.5);
+    }
+  }
+
+  // 2. Concentric 3D Coordinate Shells (Equatorial Rings + Wireframe Meridians/Parallels)
+  const shells = [
+    { r: 28, col: 'rgba(56, 232, 255, 0.34)', wf: 'rgba(56, 232, 255, 0.08)', lbl: 'OORT SECTOR 9 SHELL (<4,000 AU)' },
+    { r: 48, col: 'rgba(245, 158, 11, 0.42)', wf: 'rgba(245, 158, 11, 0.09)', lbl: 'HELIOSPHERE & CERES RING (42,100 AU)' },
+    { r: 78, col: 'rgba(96, 165, 250, 0.30)', wf: 'rgba(96, 165, 250, 0.07)', lbl: 'ORION & PERSEUS SPIRAL ARMS (kpc)' },
+    { r: 96, col: 'rgba(192, 132, 252, 0.24)', wf: 'rgba(192, 132, 252, 0.06)', lbl: 'HALO & M-33 MICRO-LENS (2.73 Mly)' }
+  ];
+
+  shells.forEach((sh, sIdx) => {
+    const eqPts = [];
+    for (let i = 0; i <= 72; i++) {
+      const a = (i / 72) * Math.PI * 2;
+      eqPts.push({ x: Math.cos(a) * sh.r, y: 0, z: Math.sin(a) * sh.r });
+    }
+    stroke3DPath(eqPts, sh.col, isLarge ? 1.4 : 1.1);
+
+    // 3D Wireframe latitude parallels (+30°, -30°) & meridian arcs on key shells
+    if (sIdx === 1 || sIdx === 2 || (isLarge && sIdx === 3)) {
+      [-30, 30].forEach(lat => {
+        const latR = (lat * Math.PI) / 180;
+        const rLat = Math.cos(latR) * sh.r;
+        const yLat = Math.sin(latR) * sh.r;
+        const pPts = [];
+        for (let i = 0; i <= 48; i++) {
+          const a = (i / 48) * Math.PI * 2;
+          pPts.push({ x: Math.cos(a) * rLat, y: yLat, z: Math.sin(a) * rLat });
+        }
+        stroke3DPath(pPts, sh.wf, 1.0);
+      });
+      for (let m = 0; m < 4; m++) {
+        const mAng = (m * Math.PI) / 4;
+        const mPts = [];
+        for (let i = 0; i <= 48; i++) {
+          const b = (i / 48) * Math.PI * 2;
+          mPts.push({
+            x: Math.cos(b) * Math.cos(mAng) * sh.r,
+            y: Math.sin(b) * sh.r,
+            z: Math.cos(b) * Math.sin(mAng) * sh.r
+          });
+        }
+        stroke3DPath(mPts, sh.wf, 1.0);
+      }
+    }
+
+    if (isLarge) {
+      const pLbl = project3D(azElRToXYZ(15, 0, sh.r));
+      if (pLbl) {
+        ctx.fillStyle = sh.col;
+        ctx.font = 'bold 9.5px JetBrains Mono, monospace';
+        ctx.fillText(sh.lbl, pLbl.x + 6, pLbl.y - 3);
+      }
+    }
+  });
+
+  // 3. Cardinal 3D Azimuth Axes & Vertical Polar Axis
+  for (let az = 0; az < 360; az += 45) {
+    stroke3DPath(
+      [{ x: 0, y: 0, z: 0 }, azElRToXYZ(az, 0, 96)],
+      az % 90 === 0 ? 'rgba(56, 232, 255, 0.32)' : 'rgba(38, 56, 84, 0.22)',
+      1.0
+    );
+  }
+  stroke3DPath([{ x: 0, y: -48, z: 0 }, { x: 0, y: 58, z: 0 }], 'rgba(56, 232, 255, 0.24)', 1.0, [3, 3]);
+
+  // 4. Tilted 3D Galactic Plane Ring
+  const galPlanePts = [];
+  for (let az = 0; az <= 360; az += 5) {
+    galPlanePts.push(azElRToXYZ(az, galToLocalEl3D(az, 0.0), 78));
+  }
+  stroke3DPath(galPlanePts, 'rgba(245, 158, 11, 0.48)', isLarge ? 1.5 : 1.2, [5, 4]);
+
+  // 5. 3D Translucent Ceres Triangulation Plane: GOR-9 (0,0,0) <-> Ceres Foundry #7 <-> Active Target
+  if (activeLoc && ceresLoc) {
+    const p0 = project3D({ x: 0, y: 0, z: 0 });
+    const pC = project3D(ceresLoc.pos3D);
+    const pT = project3D(activeLoc.pos3D);
+    if (p0 && pC && pT) {
+      ctx.fillStyle = 'rgba(255, 158, 56, 0.12)';
+      ctx.beginPath();
+      ctx.moveTo(p0.x, p0.y);
+      ctx.lineTo(pC.x, pC.y);
+      ctx.lineTo(pT.x, pT.y);
+      ctx.closePath();
+      ctx.fill();
+    }
+    stroke3DPath(
+      [{ x: 0, y: 0, z: 0 }, ceresLoc.pos3D, activeLoc.pos3D, { x: 0, y: 0, z: 0 }],
+      'rgba(255, 174, 43, 0.85)',
+      isLarge ? 1.8 : 1.4,
+      [5, 3]
+    );
+  }
+
+  // 6. Active 3D Multi-Hop Relay Vector Path, Beam Cone & Animated Signal Packets
+  if (activeLoc) {
+    const hopPts3D = [activeLoc.pos3D];
+    (activeLoc.relay_nodes || []).forEach(rn => {
+      const rPt = azElRToXYZ(rn.az_deg, rn.el_deg || 15.0, (rn.r_norm || 0.25) * 100.0);
+      hopPts3D.push(rPt);
+      // Relay drop-stem to XZ plane
+      stroke3DPath([rPt, { x: rPt.x, y: 0, z: rPt.z }], 'rgba(56, 232, 255, 0.35)', 1.0, [2, 2]);
+      const pr = project3D(rPt);
+      if (pr) {
+        ctx.fillStyle = '#38e8ff';
+        ctx.fillRect(pr.x - 3.5, pr.y - 3.5, 7, 7);
+        if (isLarge && rn.name) {
+          ctx.font = 'bold 9.5px JetBrains Mono, monospace';
+          ctx.fillText(`↳ HOP: ${rn.name}`, pr.x + 7, pr.y + 3);
+        }
+      }
+    });
+    hopPts3D.push({ x: 0, y: 0, z: 0 });
+
+    // Glowing outer & inner 3D Relay Tube
+    stroke3DPath(hopPts3D, 'rgba(56, 232, 255, 0.28)', isLarge ? 6.0 : 4.5);
+    stroke3DPath(hopPts3D, activeLoc.hex, isLarge ? 2.8 : 2.2);
+
+    // 4 Animated Signal Packets racing along 3D Relay Path into GOR-9
+    const totalSegs = hopPts3D.length - 1;
+    for (let pk = 0; pk < 4; pk++) {
+      const u = ((t * 0.55 + pk * 0.25) % 1.0);
+      const segF = u * totalSegs;
+      const sIdx = Math.min(totalSegs - 1, Math.floor(segF));
+      const frac = segF - sIdx;
+      const pA = hopPts3D[sIdx];
+      const pB = hopPts3D[sIdx + 1];
+      const pkt3D = {
+        x: pA.x + (pB.x - pA.x) * frac,
+        y: pA.y + (pB.y - pA.y) * frac,
+        z: pA.z + (pB.z - pA.z) * frac
+      };
+      const pp = project3D(pkt3D);
+      if (pp) {
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(pp.x, pp.y, isLarge ? 4.2 : 3.0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+  }
+
+  // 7. All 17 3D Locations: Vertical Elevation Drop-Stems to XZ Plane + Resolved Icons + Labels
+  const placedBoxes = [];
+  function tryPlaceLabel(lx, ly, tw, th, force = false) {
+    let cy = ly;
+    for (let a = 0; a < 5; a++) {
+      const b = { x1: lx, y1: cy - th + 2, x2: lx + tw, y2: cy + 4 };
+      if (!placedBoxes.some(o => !(b.x2 < o.x1 || b.x1 > o.x2 || b.y2 < o.y1 || b.y1 > o.y2))) {
+        placedBoxes.push(b);
+        return cy;
+      }
+      cy += a % 2 === 0 ? 13 : -20;
+    }
+    if (force) {
+      placedBoxes.push({ x1: lx, y1: ly - th + 2, x2: lx + tw, y2: ly + 4 });
+      return ly;
+    }
+    return null;
+  }
+
+  catalog.forEach(loc => {
+    const pNode = project3D(loc.pos3D);
+    const pBase = project3D({ x: loc.pos3D.x, y: 0, z: loc.pos3D.z });
+    if (!pNode) return;
+
+    const isAct = activeLoc && activeLoc.id === loc.id;
+    // Vertical 3D elevation stem to XZ plane + base footprint ring
+    if (pBase) {
+      ctx.strokeStyle = isAct ? 'rgba(255, 255, 255, 0.55)' : `${loc.hex}44`;
+      ctx.lineWidth = isAct ? 1.5 : 1.0;
+      ctx.beginPath();
+      ctx.moveTo(pNode.x, pNode.y);
+      ctx.lineTo(pBase.x, pBase.y);
+      ctx.stroke();
+
+      ctx.fillStyle = `${loc.hex}55`;
+      ctx.beginPath();
+      ctx.arc(pBase.x, pBase.y, isAct ? 3.2 : 2.0, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    if (loc.isStation) {
+      hitBoxesOut.push({ id: loc.id, isStation: true, x: pNode.x, y: pNode.y, r: isLarge ? 14 : 10 });
+    }
+
+    drawResolvedBodyIcon(ctx, loc, pNode.x, pNode.y, isLarge ? 1.15 : 0.85, t);
+
+    if (isAct) {
+      const retR = (isLarge ? 14 : 10) + 2.5 * Math.sin(t * 4.5);
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 1.8;
+      ctx.beginPath();
+      ctx.arc(pNode.x, pNode.y, retR, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+  });
+
+  // 8. Center Node (0,0,0): Asteroid 3-5-1 (GOR-9) Basalt Crag & 4-Ring Marzelvane Spire
+  const pOrigin = project3D({ x: 0, y: 0, z: 0 });
+  if (pOrigin) {
+    ctx.fillStyle = '#ffae2b';
+    ctx.beginPath();
+    ctx.arc(pOrigin.x, pOrigin.y, isLarge ? 6.0 : 4.5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#38e8ff';
+    ctx.lineWidth = 1.6;
+    ctx.beginPath();
+    ctx.arc(pOrigin.x, pOrigin.y, isLarge ? 10.5 : 7.5, 0, Math.PI * 2);
+    ctx.stroke();
+    const ly = tryPlaceLabel(pOrigin.x + 10, pOrigin.y + 4, 130, 13, true);
+    ctx.font = `bold ${isLarge ? 10 : 8.5}px JetBrains Mono, monospace`;
+    ctx.fillStyle = '#ffae2b';
+    ctx.fillText('● GOR-9 (3-5-1)', pOrigin.x + 10, ly);
+  }
+
+  // Active Target Callout Box (highest priority)
+  if (activeLoc) {
+    const pAct = project3D(activeLoc.pos3D);
+    if (pAct) {
+      const boxW = isLarge ? 182 : 146;
+      const boxH = isLarge ? 28 : 23;
+      const lx = Math.min(x0 + w - boxW - 6, Math.max(x0 + 6, pAct.x + 10));
+      const ly = tryPlaceLabel(lx, pAct.y, boxW, boxH, true);
+      ctx.fillStyle = 'rgba(4, 9, 18, 0.88)';
+      ctx.fillRect(lx, ly - 13, boxW, boxH);
+      ctx.strokeStyle = activeLoc.hex;
+      ctx.lineWidth = 1.2;
+      ctx.strokeRect(lx, ly - 13, boxW, boxH);
+      ctx.font = `bold ${isLarge ? 10.5 : 9}px JetBrains Mono, monospace`;
+      ctx.fillStyle = '#ffffff';
+      ctx.fillText(`${activeLoc.slot} • ${activeLoc.callsign}`, lx + 6, ly - 1);
+      ctx.font = `${isLarge ? 9 : 8}px JetBrains Mono, monospace`;
+      ctx.fillStyle = activeLoc.hex;
+      ctx.fillText(`${activeLoc.range_label} • AZ ${activeLoc.az_deg.toFixed(1)}°`, lx + 6, ly + (isLarge ? 11 : 8));
+    }
+  }
+
+  // Ceres Foundry #7 Baseline Label
+  if (ceresLoc && (!activeLoc || activeLoc.id !== 'ceres-foundry-7')) {
+    const pCer = project3D(ceresLoc.pos3D);
+    if (pCer) {
+      const ly = tryPlaceLabel(pCer.x + 8, pCer.y + 3, 138, 13, true);
+      if (ly !== null) {
+        ctx.font = `bold ${isLarge ? 9.5 : 8}px JetBrains Mono, monospace`;
+        ctx.fillStyle = '#fbbf24';
+        ctx.fillText('▲ CERES #7 (1,840 AU)', pCer.x + 8, ly);
+      }
+    }
+  }
+
+  // Other Non-Overlapping Station & Neighbor Labels
+  catalog.forEach(loc => {
+    if ((activeLoc && loc.id === activeLoc.id) || loc.id === 'ceres-foundry-7') return;
+    if (!isLarge && !loc.isStation && loc.id !== 'persephone-sedna9' && loc.id !== 'sol-oort-star') return;
+    const p2 = project3D(loc.pos3D);
+    if (!p2 || p2.x < x0 + 14 || p2.x > x0 + w - 85 || p2.y < y0 + 22 || p2.y > y0 + h - 24) return;
+    const lbl = `${loc.slot} ${loc.callsign}`;
+    const ly = tryPlaceLabel(p2.x + 7, p2.y + 3, lbl.length * (isLarge ? 6.0 : 5.2), 12, false);
+    if (ly !== null) {
+      ctx.font = `${isLarge ? 9 : 8}px JetBrains Mono, monospace`;
+      ctx.fillStyle = loc.hex;
+      ctx.fillText(lbl, p2.x + 7, ly);
+    }
+  });
+
+  // Top-left & Bottom-left HUD pills inside 3D Viewport
+  ctx.fillStyle = 'rgba(4, 9, 18, 0.82)';
+  ctx.fillRect(x0 + 8, y0 + 8, isLarge ? 335 : 235, isLarge ? 22 : 18);
+  ctx.strokeStyle = 'rgba(56, 232, 255, 0.45)';
+  ctx.strokeRect(x0 + 8, y0 + 8, isLarge ? 335 : 235, isLarge ? 22 : 18);
+  ctx.fillStyle = '#38e8ff';
+  ctx.font = `bold ${isLarge ? 10.5 : 8.5}px JetBrains Mono, monospace`;
+  const modeTitle = camMode === '3d-ceres' ? '📐 3D CERES TRIANGULATION BASELINE' : '🌐 3D ASTROMETRY & RELAY SPHERE';
+  ctx.fillText(modeTitle, x0 + 14, y0 + (isLarge ? 23 : 20));
+
+  if (activeLoc) {
+    const botText = `Δθ CERES: ${activeLoc.sep_ceres_deg.toFixed(1)}° • HOPS: ${(activeLoc.relay_nodes || []).length} → GOR-9`;
+    ctx.fillStyle = 'rgba(4, 9, 18, 0.82)';
+    ctx.fillRect(x0 + 8, y0 + h - (isLarge ? 28 : 22), isLarge ? 290 : 215, isLarge ? 20 : 16);
+    ctx.fillStyle = '#f59e0b';
+    ctx.font = `bold ${isLarge ? 9.5 : 8}px JetBrains Mono, monospace`;
+    ctx.fillText(botText, x0 + 13, y0 + h - (isLarge ? 14 : 11));
+  }
+
+  ctx.restore();
+}
+
+function renderSkyTelescopeViewport(ctx, x0, y0, w, h, catalog, activeLoc, ceresLoc, solLoc, hitBoxesOut, t, isLarge) {
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(x0, y0, w, h);
+  ctx.clip();
+
+  ctx.fillStyle = '#020409';
+  ctx.fillRect(x0, y0, w, h);
+
+  const camAz = activeLoc ? activeLoc.az_deg : 212.4;
+  const camEl = activeLoc ? activeLoc.local_el_deg : 15.0;
+  const fovAz = isLarge ? 34.0 : 42.0;
+  const fovEl = fovAz * (h / Math.max(1, w));
+  const spinDeg = (t * 1.4) % 360.0;
+
+  function shortAzDiff(a, c) {
+    return ((a - c + 540.0) % 360.0) - 180.0;
+  }
+
+  function skyToXY(az, el) {
+    const da = shortAzDiff(az, camAz);
+    const de = el - camEl;
+    return {
+      x: x0 + w * 0.5 + (da / fovAz) * w,
+      y: y0 + h * 0.5 - (de / fovEl) * h
+    };
+  }
+
+  // 1. Sample 4K Starfield Plate (assets/plates/celestial_sky_clean.jpg)
+  if (celestialSkyImg.complete && celestialSkyImg.naturalWidth > 0) {
+    const uCenter = (0.25 + ((camAz + spinDeg) % 360.0) / 360.0) % 1.0;
+    const vCenter = Math.max(0.08, Math.min(0.92, 0.5 + camEl / 180.0));
+    const uSpan = fovAz / 360.0;
+    const vSpan = fovEl / 180.0;
+    const sx = ((uCenter - uSpan * 0.5 + 1.0) % 1.0) * celestialSkyImg.naturalWidth;
+    const sy = Math.max(0, (1.0 - (vCenter + vSpan * 0.5)) * celestialSkyImg.naturalHeight);
+    const sw = uSpan * celestialSkyImg.naturalWidth;
+    const sh = vSpan * celestialSkyImg.naturalHeight;
+    if (sx + sw <= celestialSkyImg.naturalWidth) {
+      ctx.drawImage(celestialSkyImg, sx, sy, sw, sh, x0, y0, w, h);
+    } else {
+      const sw1 = celestialSkyImg.naturalWidth - sx;
+      const w1 = (sw1 / sw) * w;
+      ctx.drawImage(celestialSkyImg, sx, sy, sw1, sh, x0, y0, w1, h);
+      ctx.drawImage(celestialSkyImg, 0, sy, sw - sw1, sh, x0 + w1, y0, w - w1, h);
+    }
+  }
+
+  // 2. Curved Az/El Celestial Grid
+  ctx.strokeStyle = 'rgba(56, 232, 255, 0.16)';
+  ctx.lineWidth = 1;
+  const step = 10;
+  const sAz = Math.floor((camAz - fovAz * 0.6) / step) * step;
+  for (let a = sAz; a <= camAz + fovAz * 0.6; a += step) {
+    const normA = (a + 360) % 360;
+    const p = skyToXY(normA, camEl);
+    if (p.x >= x0 && p.x <= x0 + w) {
+      ctx.beginPath(); ctx.moveTo(p.x, y0); ctx.lineTo(p.x, y0 + h); ctx.stroke();
+    }
+  }
+  const sEl = Math.floor((camEl - fovEl * 0.6) / step) * step;
+  for (let e = sEl; e <= camEl + fovEl * 0.6; e += step) {
+    const p = skyToXY(camAz, e);
+    if (p.y >= y0 && p.y <= y0 + h) {
+      ctx.beginPath(); ctx.moveTo(x0, p.y); ctx.lineTo(x0 + w, p.y); ctx.stroke();
+    }
+  }
+
+  // 3. Galactic Plane Curve & Ceres Baseline Great-Circle Arc
+  ctx.strokeStyle = 'rgba(245, 158, 11, 0.42)';
+  ctx.setLineDash([4, 4]);
+  ctx.beginPath();
+  for (let da = -fovAz * 0.55; da <= fovAz * 0.55; da += 2) {
+    const az = (camAz + da + 360) % 360;
+    const pt = skyToXY(az, galToLocalEl3D(az, 0.0));
+    if (da === -fovAz * 0.55) ctx.moveTo(pt.x, pt.y);
+    else ctx.lineTo(pt.x, pt.y);
+  }
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  if (activeLoc && ceresLoc && activeLoc.id !== 'ceres-foundry-7') {
+    const pAct = skyToXY(activeLoc.az_deg, activeLoc.local_el_deg);
+    const pCer = skyToXY(ceresLoc.az_deg, ceresLoc.local_el_deg);
+    ctx.strokeStyle = 'rgba(255, 158, 56, 0.72)';
+    ctx.setLineDash([5, 3]);
+    ctx.beginPath(); ctx.moveTo(pAct.x, pAct.y); ctx.lineTo(pCer.x, pCer.y); ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  // 4. Plot Visible Celestial Bodies & Stations with Resolved Rings/Discs/Spikes
+  catalog.forEach(loc => {
+    const pt = skyToXY(loc.az_deg, loc.local_el_deg);
+    if (pt.x < x0 - 40 || pt.x > x0 + w + 40 || pt.y < y0 - 40 || pt.y > y0 + h + 40) return;
+    const isAct = activeLoc && activeLoc.id === loc.id;
+    if (loc.isStation) {
+      hitBoxesOut.push({ id: loc.id, isStation: true, x: pt.x, y: pt.y, r: isLarge ? 16 : 12 });
+    }
+    drawResolvedBodyIcon(ctx, loc, pt.x, pt.y, isLarge ? 1.85 : 1.35, t);
+    const rRet = isAct ? (isLarge ? 17 : 13) + 2 * Math.sin(t * 4.5) : (isLarge ? 10 : 7);
+    ctx.strokeStyle = isAct ? '#ffffff' : loc.hex;
+    ctx.lineWidth = isAct ? 1.8 : 1.1;
+    ctx.beginPath(); ctx.arc(pt.x, pt.y, rRet, 0, Math.PI * 2); ctx.stroke();
+
+    ctx.font = `${isAct ? 'bold ' : ''}${isLarge ? 10 : 8.5}px JetBrains Mono, monospace`;
+    ctx.fillStyle = isAct ? '#ffffff' : loc.hex;
+    ctx.fillText(`${loc.slot} ${loc.callsign}`, pt.x + rRet + 5, pt.y + 3);
+  });
+
+  // 5. Asteroid 3-5-1 Columnar-Basalt Cliff Horizon Silhouette
+  ctx.beginPath();
+  for (let dx = 0; dx <= w; dx += 8) {
+    const az = (camAz + ((dx / w - 0.5) * fovAz) + 360.0) % 360.0;
+    const massif = 3.2 * Math.cos(((az - 275.0) * Math.PI) / 180.0) + 1.4 * Math.sin((az * 6.0 * Math.PI) / 180.0) - 2.0;
+    const pH = skyToXY(az, massif);
+    const clampedY = Math.min(y0 + h - 6, Math.max(y0 + h * 0.72, pH.y));
+    if (dx === 0) { ctx.moveTo(x0, y0 + h); ctx.lineTo(x0, clampedY); }
+    else ctx.lineTo(x0 + dx, clampedY);
+  }
+  ctx.lineTo(x0 + w, y0 + h);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(7, 11, 19, 0.92)';
+  ctx.fill();
+  ctx.strokeStyle = '#2b4266';
+  ctx.lineWidth = 1.4;
+  ctx.stroke();
+
+  // Telescope Optical Crosshair Ring & HUD Header
+  ctx.strokeStyle = 'rgba(56, 232, 255, 0.28)';
+  ctx.beginPath();
+  ctx.arc(x0 + w * 0.5, y0 + h * 0.48, Math.min(w, h) * 0.36, 0, Math.PI * 2);
+  ctx.stroke();
+
+  ctx.fillStyle = 'rgba(4, 9, 18, 0.84)';
+  ctx.fillRect(x0 + 8, y0 + 8, isLarge ? 320 : 235, isLarge ? 22 : 18);
+  ctx.strokeStyle = 'rgba(245, 158, 11, 0.55)';
+  ctx.strokeRect(x0 + 8, y0 + 8, isLarge ? 320 : 235, isLarge ? 22 : 18);
+  ctx.fillStyle = '#f59e0b';
+  ctx.font = `bold ${isLarge ? 10 : 8.5}px JetBrains Mono, monospace`;
+  ctx.fillText(`🔭 SKY TELESCOPE • AZ ${camAz.toFixed(1)}° EL +${camEl.toFixed(1)}°`, x0 + 14, y0 + (isLarge ? 23 : 20));
+
+  ctx.restore();
+}
+
+function renderEquirectViewport(ctx, x0, y0, w, h, catalog, activeLoc, hitBoxesOut, t, isLarge) {
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(x0, y0, w, h);
+  ctx.clip();
+
+  ctx.fillStyle = '#03060c';
+  ctx.fillRect(x0, y0, w, h);
+
+  if (celestialSkyImg.complete && celestialSkyImg.naturalWidth > 0) {
+    ctx.globalAlpha = 0.55;
+    ctx.drawImage(celestialSkyImg, x0, y0, w, h);
+    ctx.globalAlpha = 1.0;
+  }
+
+  function azElToXY(az, el) {
+    const u = (0.25 + az / 360.0) % 1.0;
+    const v = Math.max(0.05, Math.min(0.95, 0.5 + el / 180.0));
+    return { x: x0 + u * w, y: y0 + (1.0 - v) * h };
+  }
+
+  // Az/El Grid
+  ctx.strokeStyle = 'rgba(56, 232, 255, 0.15)';
+  ctx.lineWidth = 1;
+  for (let az = 0; az < 360; az += 45) {
+    const p = azElToXY(az, 0);
+    ctx.beginPath(); ctx.moveTo(p.x, y0); ctx.lineTo(p.x, y0 + h); ctx.stroke();
+  }
+  [-30, 0, 30, 60].forEach(el => {
+    const p = azElToXY(0, el);
+    ctx.beginPath(); ctx.moveTo(x0, p.y); ctx.lineTo(x0 + w, p.y); ctx.stroke();
+  });
+
+  // Sinusoidal Galactic Plane Curve
+  ctx.strokeStyle = 'rgba(245, 158, 11, 0.52)';
+  ctx.lineWidth = 1.4;
+  ctx.setLineDash([4, 3]);
+  ctx.beginPath();
+  for (let i = 0; i <= 90; i++) {
+    const u = i / 90.0;
+    const az = ((u - 0.25 + 1.0) % 1.0) * 360.0;
+    const el = galToLocalEl3D(az, 0.0);
+    const py = y0 + (1.0 - (0.5 + el / 180.0)) * h;
+    if (i === 0) ctx.moveTo(x0 + u * w, py);
+    else ctx.lineTo(x0 + u * w, py);
+  }
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Plot All 17 Bodies
+  catalog.forEach(loc => {
+    const p = azElToXY(loc.az_deg, loc.local_el_deg);
+    const isAct = activeLoc && activeLoc.id === loc.id;
+    if (loc.isStation) {
+      hitBoxesOut.push({ id: loc.id, isStation: true, x: p.x, y: p.y, r: isLarge ? 12 : 9 });
+    }
+    ctx.fillStyle = loc.hex;
+    ctx.beginPath(); ctx.arc(p.x, p.y, isAct ? 5.5 : 3.2, 0, Math.PI * 2); ctx.fill();
+    if (isAct || (isLarge && loc.isStation)) {
+      ctx.font = `${isAct ? 'bold ' : ''}${isLarge ? 9.5 : 8}px JetBrains Mono, monospace`;
+      ctx.fillStyle = isAct ? '#ffffff' : loc.hex;
+      ctx.fillText(`${loc.slot} ${loc.callsign}`, p.x + 7, p.y + 3);
+    }
+  });
+
+  // Cyan Telescope FOV Box around Active Target
+  if (activeLoc) {
+    const pAct = azElToXY(activeLoc.az_deg, activeLoc.local_el_deg);
+    const bw = (34.0 / 360.0) * w;
+    const bh = (20.0 / 180.0) * h;
+    ctx.strokeStyle = '#38e8ff';
+    ctx.lineWidth = 1.6;
+    ctx.strokeRect(pAct.x - bw * 0.5, pAct.y - bh * 0.5, bw, bh);
+  }
+
+  ctx.fillStyle = 'rgba(4, 9, 18, 0.84)';
+  ctx.fillRect(x0 + 8, y0 + 8, isLarge ? 295 : 225, isLarge ? 20 : 17);
+  ctx.strokeStyle = 'rgba(56, 232, 255, 0.45)';
+  ctx.strokeRect(x0 + 8, y0 + 8, isLarge ? 295 : 225, isLarge ? 20 : 17);
+  ctx.fillStyle = '#38e8ff';
+  ctx.font = `bold ${isLarge ? 9.5 : 8}px JetBrains Mono, monospace`;
+  ctx.fillText('🗺️ 360° ALL-SKY CELESTIAL SPHERE', x0 + 13, y0 + (isLarge ? 22 : 19));
+
+  ctx.restore();
 }
 
 function drawGalaxyAstrometry(canvas, hitBoxesOut, t, isLarge) {
@@ -2556,376 +3763,52 @@ function drawGalaxyAstrometry(canvas, hitBoxesOut, t, isLarge) {
   const W = canvas.width;
   const H = canvas.height;
   ctx.clearRect(0, 0, W, H);
-
-  // Reserve right 16% for Galactic Plane Elevation (b) Cross-Section Bar
-  const elevW = isLarge ? 150 : 76;
-  const mapW = W - elevW;
-  const cx = mapW * 0.50;
-  const cy = H * 0.52;
-  const maxR = Math.min(mapW * 0.45, H * 0.44);
-
-  // Background deep-space radial glow
-  const bgGrad = ctx.createRadialGradient(cx, cy - maxR * 0.35, 4, cx, cy, maxR * 1.25);
-  bgGrad.addColorStop(0, 'rgba(38, 28, 16, 0.42)');
-  bgGrad.addColorStop(0.45, 'rgba(12, 22, 38, 0.35)');
-  bgGrad.addColorStop(1, '#020408');
-  ctx.fillStyle = bgGrad;
-  ctx.fillRect(0, 0, mapW, H);
-
-  // Draw Stylized Milky Way Spiral Arms (centered around Galactic Core at 0° top-ish or offset)
-  const coreX = cx;
-  const coreY = cy - maxR * 0.55;
-  ctx.save();
-  for (let arm = 0; arm < 4; arm++) {
-    ctx.beginPath();
-    const baseAng = (arm * Math.PI) / 2 + 0.4;
-    for (let s = 0; s < 90; s++) {
-      const u = s / 89.0;
-      const r = u * maxR * 1.15;
-      const ang = baseAng + u * 2.6;
-      const ax = coreX + Math.cos(ang) * r * 1.15;
-      const ay = coreY + Math.sin(ang) * r * 0.78;
-      if (s === 0) ctx.moveTo(ax, ay);
-      else ctx.lineTo(ax, ay);
-    }
-    ctx.strokeStyle = arm === 1 ? 'rgba(56, 189, 248, 0.13)' : 'rgba(240, 184, 73, 0.09)';
-    ctx.lineWidth = isLarge ? 26 : 14;
-    ctx.lineCap = 'round';
-    ctx.stroke();
-  }
-  ctx.restore();
-
-  // Galactic Center (Sagittarius A* at 0° North Bearing)
-  const sgrGrad = ctx.createRadialGradient(coreX, coreY, 1, coreX, coreY, isLarge ? 28 : 16);
-  sgrGrad.addColorStop(0, 'rgba(255, 230, 150, 0.95)');
-  sgrGrad.addColorStop(0.4, 'rgba(240, 184, 73, 0.35)');
-  sgrGrad.addColorStop(1, 'rgba(240, 184, 73, 0)');
-  ctx.fillStyle = sgrGrad;
-  ctx.beginPath();
-  ctx.arc(coreX, coreY, isLarge ? 28 : 16, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.fillStyle = 'rgba(240, 184, 73, 0.75)';
-  ctx.font = `${isLarge ? 10 : 8}px JetBrains Mono, monospace`;
-  ctx.fillText('SGR A* (CORE 000°)', coreX + (isLarge ? 14 : 8), coreY + 3);
-
-  // Logarithmic Range Rings Centered on GOR-9 (Oort Cloud Sector 9)
-  const rings = [
-    { r: 0.25, lbl: 'OORT SHELL (<1 ly)' },
-    { r: 0.52, lbl: 'ORION SPUR (500 ly)' },
-    { r: 0.76, lbl: 'PERSEUS ARM (3 kpc)' },
-    { r: 0.96, lbl: 'HALO / M-33 (2.7 Mly)' }
-  ];
-  rings.forEach(rg => {
-    ctx.beginPath();
-    ctx.arc(cx, cy, maxR * rg.r, 0, Math.PI * 2);
-    ctx.strokeStyle = 'rgba(43, 62, 92, 0.55)';
-    ctx.lineWidth = 1;
-    ctx.setLineDash([3, 4]);
-    ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.fillStyle = 'rgba(139, 155, 180, 0.55)';
-    ctx.font = `${isLarge ? 10 : 7.5}px JetBrains Mono, monospace`;
-    ctx.fillText(rg.lbl, cx + 4, cy - maxR * rg.r + (isLarge ? 12 : 9));
-  });
-
-  // Azimuth Crosshairs (0°, 90°, 180°, 270°)
-  for (let a = 0; a < 360; a += 45) {
-    const rad = ((a - 90) * Math.PI) / 180;
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.lineTo(cx + Math.cos(rad) * maxR, cy + Math.sin(rad) * maxR);
-    ctx.strokeStyle = a % 90 === 0 ? 'rgba(56, 189, 248, 0.22)' : 'rgba(43, 56, 78, 0.18)';
-    ctx.lineWidth = 1;
-    ctx.stroke();
-  }
-
-  // Reference Pulsar PSR B1937+21 (Vulpecula Metronome @ Az 57.5°)
-  const psrRad = ((57.5 - 90) * Math.PI) / 180;
-  const psrX = cx + Math.cos(psrRad) * maxR * 0.82;
-  const psrY = cy + Math.sin(psrRad) * maxR * 0.82;
-  ctx.strokeStyle = 'rgba(74, 222, 128, 0.35)';
-  ctx.setLineDash([2, 3]);
-  ctx.beginPath();
-  ctx.moveTo(cx, cy);
-  ctx.lineTo(psrX, psrY);
-  ctx.stroke();
-  ctx.setLineDash([]);
-  const psrPulse = 3 + 2.5 * Math.abs(Math.sin(t * 8.0));
-  ctx.strokeStyle = '#4ade80';
-  ctx.beginPath();
-  ctx.arc(psrX, psrY, psrPulse, 0, Math.PI * 2);
-  ctx.stroke();
-  ctx.fillStyle = '#4ade80';
-  ctx.font = `${isLarge ? 10 : 7.5}px JetBrains Mono, monospace`;
-  ctx.fillText('PSR B1937+21', psrX + 6, psrY - 3);
-
-  // Plot Primary Triangulation Reference Anchor: CERES FOUNDRY #7 (Az 272.0°, 1,840 AU) & Oort Neighbors
-  const ceresRad = ((272.0 - 90) * Math.PI) / 180;
-  const ceresX = cx + Math.cos(ceresRad) * maxR * 0.22;
-  const ceresY = cy + Math.sin(ceresRad) * maxR * 0.22;
-
-  const solRad = ((212.4 - 90) * Math.PI) / 180;
-  const solX = cx + Math.cos(solRad) * maxR * 0.19;
-  const solY = cy + Math.sin(solRad) * maxR * 0.19;
-
-  const persRad = ((148.5 - 90) * Math.PI) / 180;
-  const persX = cx + Math.cos(persRad) * maxR * 0.14;
-  const persY = cy + Math.sin(persRad) * maxR * 0.14;
-
-  // Draw Triangulation Baseline Triangle: GOR-9 <-> CERES FOUNDRY #7 <-> ACTIVE STATION
-  if (currentStation && currentStation.galactic) {
-    const actAzR = ((currentStation.galactic.azimuth_deg - 90) * Math.PI) / 180;
-    const actX = cx + Math.cos(actAzR) * (currentStation.galactic.radial_norm * maxR);
-    const actY = cy + Math.sin(actAzR) * (currentStation.galactic.radial_norm * maxR);
-
-    ctx.save();
-    ctx.fillStyle = 'rgba(240, 184, 73, 0.06)';
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.lineTo(ceresX, ceresY);
-    ctx.lineTo(actX, actY);
-    ctx.closePath();
-    ctx.fill();
-
-    ctx.strokeStyle = 'rgba(240, 184, 73, 0.55)';
-    ctx.lineWidth = isLarge ? 1.5 : 1.1;
-    ctx.setLineDash([4, 3]);
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.lineTo(ceresX, ceresY);
-    ctx.lineTo(actX, actY);
-    ctx.stroke();
-    ctx.setLineDash([]);
-
-    if (isLarge && currentStation.galactic.triangulation) {
-      const mx = (ceresX + actX) * 0.5;
-      const my = (ceresY + actY) * 0.5;
-      ctx.fillStyle = '#fbbf24';
-      ctx.font = '9.5px JetBrains Mono, monospace';
-      ctx.fillText(`Δθ CERES ${currentStation.galactic.sep_ceres_deg}° • π=${currentStation.galactic.triangulation.parallax_arcsec}`, mx + 6, my - 4);
-    }
-    ctx.restore();
-  }
-
-  // Draw Ceres Foundry #7 Node
-  ctx.fillStyle = '#fbbf24';
-  ctx.beginPath();
-  ctx.arc(ceresX, ceresY, isLarge ? 4.5 : 3.2, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.fillStyle = '#fde68a';
-  ctx.font = `bold ${isLarge ? 9.5 : 7.2}px JetBrains Mono, monospace`;
-  ctx.fillText('CERES #7 (BASE)', ceresX - (isLarge ? 92 : 66), ceresY - (isLarge ? 6 : 4));
-
-  // Draw Sol & Persephone Nodes
-  ctx.fillStyle = '#fef08a';
-  ctx.beginPath();
-  ctx.arc(solX, solY, isLarge ? 3.5 : 2.5, 0, Math.PI * 2);
-  ctx.fill();
-  if (isLarge) {
-    ctx.fillText('SOL (1,842 AU)', solX - 78, solY + 12);
-  }
-
-  ctx.fillStyle = '#2dd4bf';
-  ctx.beginPath();
-  ctx.arc(persX, persY, isLarge ? 3.8 : 2.6, 0, Math.PI * 2);
-  ctx.fill();
-  if (isLarge) {
-    ctx.fillStyle = '#5eead4';
-    ctx.fillText('PERSEPHONE (0.18 AU)', persX + 6, persY + 10);
-  }
-
-  // Smoothly slew displayedAzimuth toward targetAzimuth
-  let diff = ((targetAzimuth - displayedAzimuth + 540) % 360) - 180;
-  displayedAzimuth = (displayedAzimuth + diff * 0.12 + 360) % 360;
-
-  // Draw Active Receive Phased-Array Beam Cone from GOR-9
-  const beamRad = ((displayedAzimuth - 90) * Math.PI) / 180;
-  const coneSpread = 0.15;
-  const beamGrad = ctx.createRadialGradient(cx, cy, 2, cx, cy, maxR);
-  beamGrad.addColorStop(0, 'rgba(240, 184, 73, 0.38)');
-  beamGrad.addColorStop(0.7, 'rgba(56, 189, 248, 0.12)');
-  beamGrad.addColorStop(1, 'rgba(56, 189, 248, 0.0)');
-  ctx.fillStyle = beamGrad;
-  ctx.beginPath();
-  ctx.moveTo(cx, cy);
-  ctx.arc(cx, cy, maxR, beamRad - coneSpread, beamRad + coneSpread);
-  ctx.closePath();
-  ctx.fill();
-
-  // Plot All Stations & Relay Hop Paths
   hitBoxesOut.length = 0;
-  const colorLookup = {
-    amber: '#f0b849',
-    cyan: '#38bdf8',
-    green: '#4ade80',
-    red: '#fb7185'
-  };
 
-  STATIONS_DATA.presets.forEach(p => {
-    if (!p.galactic) return;
-    const isAct = currentStation && currentStation.id === p.id;
-    const col = colorLookup[p.status_color] || '#f0b849';
-    const azR = ((p.galactic.azimuth_deg - 90) * Math.PI) / 180;
-    const rPx = p.galactic.radial_norm * maxR;
-    const sx = cx + Math.cos(azR) * rPx;
-    const sy = cy + Math.sin(azR) * rPx;
+  const catalog = buildCelestialCatalog();
+  const activeLoc = catalog.find(x => currentStation && x.id === currentStation.id) || catalog[0];
+  const ceresLoc = catalog.find(x => x.id === 'ceres-foundry-7') || catalog[0];
+  const solLoc = catalog.find(x => x.id === 'sol-oort-star') || catalog[0];
 
-    hitBoxesOut.push({ id: p.id, x: sx, y: sy, r: isLarge ? 14 : 9 });
-
-    // Build path points: Station -> Relay Nodes -> GOR-9
-    const pathPts = [{ x: sx, y: sy }];
-    (p.galactic.relay_nodes || []).forEach(rn => {
-      const rnRad = ((rn.az_deg - 90) * Math.PI) / 180;
-      pathPts.push({
-        x: cx + Math.cos(rnRad) * (rn.r_norm * maxR),
-        y: cy + Math.sin(rnRad) * (rn.r_norm * maxR),
-        name: rn.name
-      });
-    });
-    pathPts.push({ x: cx, y: cy });
-
-    // Draw vector path
-    ctx.beginPath();
-    pathPts.forEach((pt, idx) => {
-      if (idx === 0) ctx.moveTo(pt.x, pt.y);
-      else ctx.lineTo(pt.x, pt.y);
-    });
-    ctx.strokeStyle = isAct ? col : 'rgba(139, 155, 180, 0.25)';
-    ctx.lineWidth = isAct ? (isLarge ? 2.2 : 1.6) : 1;
-    ctx.stroke();
-
-    // If active station, animate signal packets traveling from station inward to GOR-9!
-    if (isAct) {
-      for (let pk = 0; pk < 3; pk++) {
-        const u = ((t * 0.55 + pk / 3) % 1.0);
-        const totalSegs = pathPts.length - 1;
-        const segFloat = u * totalSegs;
-        const segIdx = Math.min(totalSegs - 1, Math.floor(segFloat));
-        const segFrac = segFloat - segIdx;
-        const p0 = pathPts[segIdx];
-        const p1 = pathPts[segIdx + 1];
-        const px = p0.x + (p1.x - p0.x) * segFrac;
-        const py = p0.y + (p1.y - p0.y) * segFrac;
-        ctx.fillStyle = '#ffffff';
-        ctx.beginPath();
-        ctx.arc(px, py, isLarge ? 3.5 : 2.5, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      // Draw intermediate relay node diamonds
-      pathPts.slice(1, -1).forEach(rnPt => {
-        ctx.fillStyle = '#38bdf8';
-        ctx.fillRect(rnPt.x - 3, rnPt.y - 3, 6, 6);
-        if (isLarge && rnPt.name) {
-          ctx.fillStyle = 'rgba(56, 189, 248, 0.85)';
-          ctx.font = '10px JetBrains Mono, monospace';
-          ctx.fillText(`↳ ${rnPt.name}`, rnPt.x + 7, rnPt.y + 3);
-        }
-      });
+  if (!isLarge) {
+    // Center Bay (#bay-col-2) on Main Console Deck
+    if (currentGalMode === 'sky-scope') {
+      renderSkyTelescopeViewport(ctx, 0, 0, W, H, catalog, activeLoc, ceresLoc, solLoc, hitBoxesOut, t, false);
+    } else if (currentGalMode === 'equirect') {
+      renderEquirectViewport(ctx, 0, 0, W, H, catalog, activeLoc, hitBoxesOut, t, false);
+    } else {
+      render3DSphereViewport(ctx, 0, 0, W, H, catalog, activeLoc, ceresLoc, solLoc, hitBoxesOut, t, currentGalMode, false);
     }
+    return;
+  }
 
-    // Station Node Marker & Target Reticle
-    ctx.fillStyle = col;
-    ctx.beginPath();
-    ctx.arc(sx, sy, isAct ? (isLarge ? 6 : 4.5) : (isLarge ? 4 : 3), 0, Math.PI * 2);
-    ctx.fill();
+  // Expanded Modal (#galaxy-modal): Supports 3-View 3D Theater ('split') or Full-Screen Single Viewport!
+  if (currentModalGalMode === 'split') {
+    const leftW = Math.floor(W * 0.60);
+    const rightW = W - leftW - 6;
+    const topH = Math.floor(H * 0.54);
+    const botH = H - topH - 6;
 
-    if (isAct) {
-      const retR = (isLarge ? 13 : 9) + 2.5 * Math.sin(t * 4.0);
-      ctx.strokeStyle = col;
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.arc(sx, sy, retR, 0, Math.PI * 2);
-      ctx.stroke();
-    }
+    // Left 60%: Full 3D Astrometry & Relay Sphere
+    render3DSphereViewport(ctx, 0, 0, leftW, H, catalog, activeLoc, ceresLoc, solLoc, hitBoxesOut, t, '3d-vector', true);
+    ctx.strokeStyle = '#253958';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(1, 1, leftW - 2, H - 2);
 
-    // Label
-    ctx.fillStyle = isAct ? '#ffffff' : 'rgba(226, 232, 240, 0.72)';
-    ctx.font = `${isAct ? 'bold ' : ''}${isLarge ? 11 : 8.5}px JetBrains Mono, monospace`;
-    const lblOffset = sx >= cx ? (isLarge ? 10 : 7) : -(isLarge ? 85 : 58);
-    const lblYOffset = p.preset_slot === 'P-06' ? -(isLarge ? 22 : 12) : 3;
-    ctx.fillText(`${p.preset_slot} ${p.callsign}`, sx + lblOffset, sy + lblYOffset);
-    if (isLarge) {
-      ctx.fillStyle = col;
-      ctx.font = '10px JetBrains Mono, monospace';
-      ctx.fillText(`${p.name} (${p.galactic.range_label})`, sx + lblOffset, sy + lblYOffset + 13);
-    }
-  });
+    // Top-Right 40%: Asteroid 3-5-1 Pointing Sky Telescope
+    renderSkyTelescopeViewport(ctx, leftW + 6, 0, rightW, topH, catalog, activeLoc, ceresLoc, solLoc, hitBoxesOut, t, true);
+    ctx.strokeStyle = '#253958';
+    ctx.strokeRect(leftW + 6, 1, rightW - 1, topH - 2);
 
-  // Draw Central Hub: GOR-9 (Oort Sector 9)
-  ctx.fillStyle = '#f0b849';
-  ctx.beginPath();
-  ctx.arc(cx, cy, isLarge ? 6 : 4.5, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.strokeStyle = '#ffffff';
-  ctx.lineWidth = 1.5;
-  ctx.beginPath();
-  ctx.arc(cx, cy, isLarge ? 10 : 7, 0, Math.PI * 2);
-  ctx.stroke();
-  ctx.fillStyle = '#f0b849';
-  ctx.font = `bold ${isLarge ? 11 : 8.5}px JetBrains Mono, monospace`;
-  ctx.fillText('GOR-9 (OORT)', cx + (isLarge ? 13 : 9), cy + 3);
-
-  // =======================================================================
-  // RIGHT SIDEBAR: GALACTIC PLANE ELEVATION (b = -35° .. +35°) CROSS-SECTION
-  // =======================================================================
-  const ex0 = mapW;
-  ctx.fillStyle = '#050912';
-  ctx.fillRect(ex0, 0, elevW, H);
-  ctx.strokeStyle = '#1e2c42';
-  ctx.beginPath();
-  ctx.moveTo(ex0, 0);
-  ctx.lineTo(ex0, H);
-  ctx.stroke();
-
-  ctx.fillStyle = 'rgba(139, 155, 180, 0.85)';
-  ctx.font = `bold ${isLarge ? 10 : 8}px JetBrains Mono, monospace`;
-  ctx.fillText('GAL LAT (b)', ex0 + 8, isLarge ? 18 : 13);
-
-  const midY = H * 0.52;
-  const spanY = H * 0.38;
-
-  // Galactic Plane 0° Line
-  ctx.strokeStyle = 'rgba(240, 184, 73, 0.45)';
-  ctx.setLineDash([3, 3]);
-  ctx.beginPath();
-  ctx.moveTo(ex0 + 6, midY);
-  ctx.lineTo(W - 6, midY);
-  ctx.stroke();
-  ctx.setLineDash([]);
-  ctx.fillStyle = 'rgba(240, 184, 73, 0.7)';
-  ctx.font = `${isLarge ? 9.5 : 7.5}px JetBrains Mono, monospace`;
-  ctx.fillText('0° PLANE', ex0 + 8, midY - 4);
-
-  // Plot each station's elevation (b) relative to Galactic Plane
-  STATIONS_DATA.presets.forEach(p => {
-    if (!p.galactic) return;
-    const isAct = currentStation && currentStation.id === p.id;
-    const col = colorLookup[p.status_color] || '#f0b849';
-    const bDeg = Math.max(-35, Math.min(35, p.galactic.elevation_deg));
-    const py = midY - (bDeg / 35.0) * spanY;
-    const px = ex0 + elevW * 0.42;
-
-    if (isAct) {
-      ctx.strokeStyle = col;
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.moveTo(ex0 + 8, midY);
-      ctx.lineTo(px, py);
-      ctx.stroke();
-    }
-
-    ctx.fillStyle = isAct ? col : 'rgba(139, 155, 180, 0.45)';
-    ctx.beginPath();
-    ctx.arc(px, py, isAct ? (isLarge ? 5 : 4) : 2.5, 0, Math.PI * 2);
-    ctx.fill();
-
-    if (isAct || isLarge) {
-      ctx.fillStyle = isAct ? '#ffffff' : 'rgba(139, 155, 180, 0.7)';
-      ctx.font = `${isAct ? 'bold ' : ''}${isLarge ? 9.5 : 7.5}px JetBrains Mono, monospace`;
-      const sign = p.galactic.elevation_deg >= 0 ? '+' : '';
-      ctx.fillText(`${p.preset_slot} ${sign}${p.galactic.elevation_deg}°`, px + 7, py + 3);
-    }
-  });
+    // Bottom-Right 40%: 360° Equirectangular All-Sky Celestial Sphere
+    renderEquirectViewport(ctx, leftW + 6, topH + 6, rightW, botH, catalog, activeLoc, hitBoxesOut, t, true);
+    ctx.strokeStyle = '#253958';
+    ctx.strokeRect(leftW + 6, topH + 6, rightW - 1, botH - 1);
+  } else if (currentModalGalMode === 'sky-scope') {
+    renderSkyTelescopeViewport(ctx, 0, 0, W, H, catalog, activeLoc, ceresLoc, solLoc, hitBoxesOut, t, true);
+  } else {
+    render3DSphereViewport(ctx, 0, 0, W, H, catalog, activeLoc, ceresLoc, solLoc, hitBoxesOut, t, currentModalGalMode, true);
+  }
 }
 
 function startGalaxyMapLoop() {
@@ -2947,7 +3830,146 @@ function startGalaxyMapLoop() {
   tick();
 }
 
-/* Live Dual-Layer Spectrum & Waterfall Canvas Loop */
+/* Multi-Mode Frequency Map & Waterfall Canvas Loop */
+function drawFrequencyMapExtraModes(ctx, W, H, t, activeIdx) {
+  const presets = STATIONS_DATA ? STATIONS_DATA.presets : [];
+  if (currentWfMode === 'bandplan') {
+    ctx.fillStyle = '#03060d';
+    ctx.fillRect(0, 0, W, H);
+    const bandNames = ['25m SWBC', '90m CRYO', '21cm MASER', '41m OCTAL', '43m WX', '31m SPIRE'];
+    const bandCols = ['#f0b849', '#4ade80', '#38bdf8', '#4ade80', '#fb7185', '#38bdf8'];
+    for (let k = 0; k < 6; k++) {
+      const p = presets[k];
+      const cx = (0.14 + k * 0.144) * W;
+      const col = bandCols[k];
+      const isAct = (k === activeIdx);
+      // Band zone block
+      ctx.fillStyle = isAct ? 'rgba(56, 189, 248, 0.14)' : 'rgba(15, 23, 42, 0.65)';
+      ctx.fillRect(cx - 52, 8, 104, H - 16);
+      ctx.strokeStyle = isAct ? col : 'rgba(56, 78, 110, 0.5)';
+      ctx.lineWidth = isAct ? 1.8 : 1;
+      ctx.strokeRect(cx - 52, 8, 104, H - 16);
+
+      // Band header bar
+      ctx.fillStyle = col;
+      ctx.fillRect(cx - 52, 8, 104, 14);
+      ctx.fillStyle = '#020408';
+      ctx.font = 'bold 9.5px JetBrains Mono, monospace';
+      ctx.fillText(bandNames[k], cx - 44, 18);
+
+      if (p) {
+        // Signal pillar
+        const sigH = ((p.rf.s_meter_pct || 70) / 100) * (H - 52);
+        const pulse = isAct ? 4 * Math.sin(t * 5) : 0;
+        const barH = Math.max(12, sigH + pulse);
+        ctx.fillStyle = col;
+        ctx.globalAlpha = isAct ? 0.92 : 0.55;
+        ctx.fillRect(cx - 14, H - 24 - barH, 28, barH);
+        ctx.globalAlpha = 1.0;
+
+        ctx.fillStyle = '#f8fafc';
+        ctx.font = 'bold 10.5px JetBrains Mono, monospace';
+        ctx.fillText(p.callsign, cx - 22, H - 11);
+      }
+    }
+    return true;
+  }
+
+  if (currentWfMode === 'ridges3d') {
+    ctx.fillStyle = '#02050b';
+    ctx.fillRect(0, 0, W, H);
+    const numSlices = 11;
+    for (let s = 0; s < numSlices; s++) {
+      const depth = s / (numSlices - 1); // 0 = back, 1 = front
+      const baseY = 24 + depth * (H - 34);
+      const skewX = (1 - depth) * 28;
+      ctx.beginPath();
+      for (let x = 16; x < W - 24; x += 6) {
+        let amp = 3 + 2 * Math.sin(x * 0.05 + t * 2 + s * 0.7);
+        for (let k = 0; k < 6; k++) {
+          const cx = (0.14 + k * 0.144) * W;
+          const dist = Math.abs(x - cx);
+          const isAct = (k === activeIdx);
+          const bw = isAct ? 22 : 12;
+          if (dist < bw * 2.8) {
+            const pk = (isAct ? 34 : 16) * (0.75 + 0.25 * Math.sin(t * 4 - s * 0.5 + k));
+            amp += pk * Math.exp(-(dist * dist) / (2 * bw * bw));
+          }
+        }
+        const px = x + skewX;
+        const py = baseY - amp;
+        if (x === 16) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.strokeStyle = s === numSlices - 1 ? '#f0b849' : `rgba(56, 189, 248, ${0.22 + depth * 0.65})`;
+      ctx.lineWidth = s === numSlices - 1 ? 2.0 : 1.2;
+      ctx.stroke();
+    }
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = 'bold 10px JetBrains Mono, monospace';
+    ctx.fillText('3D ISOMETRIC SPECTRUM RIDGES • 6-BAND MULTI-CARRIER RELIEF', 12, 14);
+    return true;
+  }
+
+  if (currentWfMode === 'doppler') {
+    ctx.fillStyle = '#02050b';
+    ctx.fillRect(0, 0, W, H);
+    const splitX = Math.floor(W * 0.68);
+    // Graticule
+    ctx.strokeStyle = 'rgba(43, 62, 92, 0.35)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < splitX; x += 64) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+    }
+    ctx.beginPath(); ctx.moveTo(0, H / 2); ctx.lineTo(splitX, H / 2); ctx.stroke();
+
+    // Draw S-curve Doppler track
+    ctx.beginPath();
+    for (let x = 12; x < splitX - 12; x += 4) {
+      const u = (x - 12) / (splitX - 24);
+      const y = H * 0.5 - Math.sin((u - 0.5) * Math.PI * 1.6 + t * 0.5) * (H * 0.34);
+      if (x === 12) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = '#38bdf8';
+    ctx.lineWidth = 2.2;
+    ctx.stroke();
+
+    // Lock point marker on S-curve
+    const lockU = 0.5 + 0.18 * Math.sin(t * 0.8);
+    const lockX = 12 + lockU * (splitX - 24);
+    const lockY = H * 0.5 - Math.sin((lockU - 0.5) * Math.PI * 1.6 + t * 0.5) * (H * 0.34);
+    ctx.fillStyle = '#f0b849';
+    ctx.beginPath(); ctx.arc(lockX, lockY, 5, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = '#4ade80';
+    ctx.beginPath(); ctx.arc(lockX, lockY, 10, 0, Math.PI * 2); ctx.stroke();
+
+    const doppHz = currentStation ? currentStation.rf.doppler_hz : -420;
+    ctx.fillStyle = '#f0b849';
+    ctx.font = 'bold 10.5px JetBrains Mono, monospace';
+    ctx.fillText(`BARYCENTRIC DOPPLER TRACK: Δf = ${doppHz >= 0 ? '+' : ''}${doppHz} Hz`, 12, 16);
+
+    // Right side I/Q Constellation circle
+    const rcx = splitX + (W - splitX) * 0.5;
+    const rcy = H * 0.52;
+    const rr = Math.min(W - splitX, H) * 0.36;
+    ctx.strokeStyle = 'rgba(74, 222, 128, 0.4)';
+    ctx.beginPath(); ctx.arc(rcx, rcy, rr, 0, Math.PI * 2); ctx.stroke();
+    for (let k = 0; k < 8; k++) {
+      const a = (k * Math.PI) / 4 + t * 0.6;
+      const px = rcx + Math.cos(a) * rr * 0.78;
+      const py = rcy + Math.sin(a) * rr * 0.78;
+      ctx.fillStyle = k % 2 === 0 ? '#4ade80' : '#38bdf8';
+      ctx.beginPath(); ctx.arc(px, py, 3, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.fillStyle = '#4ade80';
+    ctx.font = 'bold 9.5px JetBrains Mono, monospace';
+    ctx.fillText('I/Q PHASE LOCK', rcx - 42, 15);
+    return true;
+  }
+  return false;
+}
+
 function startWaterfallLoop() {
   const canvas = document.getElementById('waterfall-canvas');
   const ctx = canvas.getContext('2d');
@@ -2968,6 +3990,14 @@ function startWaterfallLoop() {
   let t = 0;
   function stepWaterfall() {
     t += 0.04;
+    const activeIdx = currentStation && STATIONS_DATA ? STATIONS_DATA.presets.indexOf(currentStation) : 0;
+
+    if (drawFrequencyMapExtraModes(ctx, W, H, t, activeIdx)) {
+      if (document.getElementById('tuner-modal').classList.contains('open')) drawTunerModalCanvas(t);
+      if (document.getElementById('viewport-modal').classList.contains('open')) drawViewportModalCanvas(t);
+      return;
+    }
+
     bctx.drawImage(wfBuf, 0, 0, W, wfH - 1, 0, 1, W, wfH - 1);
 
     ctx.fillStyle = '#04070d';
@@ -2980,14 +4010,12 @@ function startWaterfallLoop() {
     }
     ctx.beginPath(); ctx.moveTo(0, specH / 2); ctx.lineTo(W, specH / 2); ctx.stroke();
 
-    const activeIdx = currentStation ? STATIONS_DATA.presets.indexOf(currentStation) : 0;
-
     ctx.beginPath();
     ctx.moveTo(0, specH);
     for (let x = 0; x < W; x++) {
       let val = 0.12 + 0.08 * Math.random() + 0.04 * Math.sin(x * 0.07 + t);
       for (let k = 0; k < 6; k++) {
-        const cx = (0.20 + k * 0.12) * W;
+        const cx = (0.14 + k * 0.144) * W;
         const dist = Math.abs(x - cx);
         const bw = k === activeIdx ? 16 : 8;
         if (dist < bw * 2.5) {
@@ -3018,6 +4046,9 @@ function startWaterfallLoop() {
     ctx.stroke();
 
     ctx.drawImage(wfBuf, 0, wfY);
+
+    if (document.getElementById('tuner-modal').classList.contains('open')) drawTunerModalCanvas(t);
+    if (document.getElementById('viewport-modal').classList.contains('open')) drawViewportModalCanvas(t);
   }
 
   for (let i = 0; i < wfH; i++) stepWaterfall();
@@ -3081,6 +4112,346 @@ function startScopeLoop() {
   drawScope();
 }
 
+function syncExpandModals(p) {
+  if (!p) return;
+  const doppSign = p.rf.doppler_hz >= 0 ? '+' : '';
+  const tmFreq = document.getElementById('tuner-modal-freq');
+  if (tmFreq) tmFreq.textContent = formatFreq(p.rf.frequency_khz);
+  const tmMeas = document.getElementById('tuner-modal-meas');
+  if (tmMeas) tmMeas.textContent = formatFreq(p.rf.measured_khz);
+  const tmDopp = document.getElementById('tuner-modal-dopp');
+  if (tmDopp) tmDopp.textContent = `${doppSign}${p.rf.doppler_hz} Hz`;
+  const tmBw = document.getElementById('tuner-modal-bw');
+  if (tmBw) tmBw.textContent = `${p.rf.filter_bw_hz} Hz (${p.rf.mode})`;
+
+  const vmSt = document.getElementById('viewport-modal-station');
+  if (vmSt) vmSt.textContent = `${p.callsign} • ${p.name.toUpperCase()}`;
+  const vmCam = document.getElementById('viewport-modal-cam');
+  if (vmCam) vmCam.textContent = p.media.cam_id;
+  const vmAlg = document.getElementById('viewport-modal-alg');
+  if (vmAlg) vmAlg.textContent = p.decoder ? `${p.decoder.required_algorithm} (${p.decoder.algorithm_name})` : 'LOCKED';
+
+  const qmImg = document.getElementById('qsl-modal-img');
+  if (qmImg) qmImg.src = p.qsl.gif_src;
+  const qmTitle = document.getElementById('qsl-modal-title');
+  if (qmTitle) qmTitle.textContent = `${p.preset_slot} • ${p.callsign} — ${p.name.toUpperCase()}`;
+  const qmSub = document.getElementById('qsl-modal-sub');
+  if (qmSub) qmSub.textContent = `${p.origin.body} • ${p.galactic ? p.galactic.sector : p.origin.site}`;
+  const qmId = document.getElementById('qsl-modal-id');
+  if (qmId) qmId.textContent = `${p.qsl.qsl_number} • VERIFIED`;
+  const qmTier = document.getElementById('qsl-modal-tier');
+  if (qmTier) qmTier.textContent = p.qsl.collector_tier;
+  const qmProto = document.getElementById('qsl-modal-proto');
+  if (qmProto) qmProto.textContent = p.qsl.protocol;
+  const qmTx = document.getElementById('qsl-modal-tx');
+  if (qmTx) qmTx.textContent = p.rf.tx_power_label;
+  const qmAnt = document.getElementById('qsl-modal-ant');
+  if (qmAnt) qmAnt.textContent = p.rf.antenna;
+  const qmClue = document.getElementById('qsl-modal-clue');
+  if (qmClue) qmClue.textContent = p.qsl.embedded_clue;
+}
+
+function drawTunerModalCanvas(t) {
+  const canvas = document.getElementById('tuner-modal-canvas');
+  if (!canvas || !STATIONS_DATA) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width;
+  const H = canvas.height;
+  ctx.fillStyle = '#02050a';
+  ctx.fillRect(0, 0, W, H);
+
+  const presets = STATIONS_DATA.presets;
+  const activeIdx = currentStation ? presets.indexOf(currentStation) : 0;
+  const topH = Math.floor(H * 0.50);
+
+  // Top Half: Wideband 6-Band Galactic Allocation Panorama
+  ctx.strokeStyle = '#1e2f48';
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(14, 12, W - 28, topH - 20);
+  ctx.fillStyle = '#38bdf8';
+  ctx.font = 'bold 14px JetBrains Mono, monospace';
+  ctx.fillText('GALACTIC WIDEBAND SPECTRUM & BAND ALLOCATION MAP (3.0 MHz — 1.420 GHz)', 28, 34);
+
+  const bandLabels = ['25m SWBC (11.41 MHz)', '90m CRYO (3.89 MHz)', '21cm H-I (1420.4 MHz)', '41m OCTAL (6.44 MHz)', '43m WX (6.97 MHz)', '31m SPIRE (7.14 MHz)'];
+  const bandCols = ['#f0b849', '#4ade80', '#38bdf8', '#4ade80', '#fb7185', '#38bdf8'];
+  for (let k = 0; k < 6; k++) {
+    const p = presets[k];
+    const x0 = 28 + k * ((W - 56) / 6);
+    const bw = ((W - 56) / 6) - 12;
+    const isAct = (k === activeIdx);
+    const col = bandCols[k];
+
+    ctx.fillStyle = isAct ? 'rgba(56, 189, 248, 0.14)' : 'rgba(10, 18, 32, 0.8)';
+    ctx.fillRect(x0, 48, bw, topH - 72);
+    ctx.strokeStyle = isAct ? col : '#263854';
+    ctx.lineWidth = isAct ? 2.5 : 1;
+    ctx.strokeRect(x0, 48, bw, topH - 72);
+
+    ctx.fillStyle = col;
+    ctx.fillRect(x0, 48, bw, 24);
+    ctx.fillStyle = '#020408';
+    ctx.font = 'bold 12px JetBrains Mono, monospace';
+    ctx.fillText(bandLabels[k], x0 + 8, 65);
+
+    if (p) {
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 15px JetBrains Mono, monospace';
+      ctx.fillText(`${p.preset_slot} • ${p.callsign}`, x0 + 10, 94);
+      ctx.fillStyle = col;
+      ctx.font = 'bold 13px JetBrains Mono, monospace';
+      ctx.fillText(formatFreq(p.rf.frequency_khz), x0 + 10, 114);
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '11.5px JetBrains Mono, monospace';
+      ctx.fillText(`${p.rf.mode} • ${p.rf.s_meter}`, x0 + 10, 134);
+
+      // Mini carrier spectrum peak inside card
+      ctx.beginPath();
+      const baseY = topH - 36;
+      for (let dx = 10; dx < bw - 10; dx += 4) {
+        const u = (dx / bw) - 0.5;
+        const pk = (isAct ? 95 : 58) * Math.exp(-u * u * 38) * (0.85 + 0.15 * Math.sin(t * 4 + k));
+        const py = baseY - pk - (Math.sin(dx * 0.3 + t) * 4);
+        if (dx === 10) ctx.moveTo(x0 + dx, py);
+        else ctx.lineTo(x0 + dx, py);
+      }
+      ctx.strokeStyle = col;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+  }
+
+  // Bottom Left: High-Res IF Passband Filter & Subcarrier Zoom
+  const botY = topH + 6;
+  const botH = H - botY - 14;
+  const leftW = Math.floor(W * 0.56);
+  ctx.strokeStyle = '#1e2f48';
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(14, botY, leftW - 20, botH);
+  const p = currentStation || presets[0];
+  ctx.fillStyle = '#f0b849';
+  ctx.font = 'bold 14px JetBrains Mono, monospace';
+  ctx.fillText(`IF CRYSTAL PASSBAND ZOOM • ${p.callsign} (${formatFreq(p.rf.measured_khz)} • BW ${p.rf.filter_bw_hz} Hz)`, 28, botY + 26);
+
+  // Passband filter envelope
+  const pbX = 28 + (leftW - 60) * 0.22;
+  const pbW = (leftW - 60) * 0.56;
+  ctx.fillStyle = 'rgba(74, 222, 128, 0.09)';
+  ctx.fillRect(pbX, botY + 42, pbW, botH - 64);
+  ctx.strokeStyle = '#4ade80';
+  ctx.setLineDash([6, 4]);
+  ctx.strokeRect(pbX, botY + 42, pbW, botH - 64);
+  ctx.setLineDash([]);
+
+  ctx.beginPath();
+  for (let x = 28; x < leftW - 24; x += 4) {
+    const u = (x - 28) / (leftW - 52) - 0.5;
+    const carrier = Math.exp(-u * u * 55) * (botH * 0.58);
+    const side1 = Math.exp(-Math.pow(u + 0.14, 2) * 160) * (botH * 0.32);
+    const side2 = Math.exp(-Math.pow(u - 0.14, 2) * 160) * (botH * 0.32);
+    const noise = (Math.sin(x * 0.19 + t * 3) * 0.5 + 0.5) * 18;
+    const py = botY + botH - 26 - (carrier + side1 + side2 + noise);
+    if (x === 28) ctx.moveTo(x, py);
+    else ctx.lineTo(x, py);
+  }
+  ctx.strokeStyle = '#38bdf8';
+  ctx.lineWidth = 2.4;
+  ctx.stroke();
+
+  // Bottom Right: Barycentric Doppler S-Curve & Pulsar Timing Lock
+  const rx0 = leftW + 6;
+  const rw = W - rx0 - 14;
+  ctx.strokeStyle = '#1e2f48';
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(rx0, botY, rw, botH);
+  ctx.fillStyle = '#4ade80';
+  ctx.font = 'bold 14px JetBrains Mono, monospace';
+  ctx.fillText(`KEPLERIAN DOPPLER DRIFT CORRELATOR • Δf ${p.rf.doppler_hz} Hz`, rx0 + 18, botY + 26);
+
+  ctx.beginPath();
+  for (let dx = 20; dx < rw - 20; dx += 5) {
+    const u = (dx - 20) / (rw - 40);
+    const py = botY + botH * 0.55 - Math.sin((u - 0.5) * Math.PI * 1.7 + t * 0.4) * (botH * 0.32);
+    if (dx === 20) ctx.moveTo(rx0 + dx, py);
+    else ctx.lineTo(rx0 + dx, py);
+  }
+  ctx.strokeStyle = '#f0b849';
+  ctx.lineWidth = 2.5;
+  ctx.stroke();
+
+  const lockX = rx0 + rw * 0.5;
+  const lockY = botY + botH * 0.55 - Math.sin(t * 0.4) * (botH * 0.32);
+  ctx.fillStyle = '#4ade80';
+  ctx.beginPath(); ctx.arc(lockX, lockY, 7, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = '#ffffff';
+  ctx.beginPath(); ctx.arc(lockX, lockY, 13, 0, Math.PI * 2); ctx.stroke();
+}
+
+function drawViewportModalCanvas(t) {
+  const canvas = document.getElementById('viewport-modal-canvas');
+  if (!canvas || !currentStation) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width;
+  const H = canvas.height;
+  const p = currentStation;
+  const dec = p.decoder;
+
+  ctx.fillStyle = '#03060c';
+  ctx.fillRect(0, 0, W, H);
+
+  const leftW = Math.floor(W * 0.56);
+  // Left Panel: Large Optical / Archival Recon Feed + Live Spectrum Overlay
+  ctx.strokeStyle = '#253958';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(14, 14, leftW - 20, H - 28);
+
+  const img = posterImageCache[p.id];
+  if (img && img.complete && img.naturalWidth > 0) {
+    ctx.save();
+    ctx.globalAlpha = currentViewportMode === 'video' ? 0.88 : 0.32;
+    ctx.drawImage(img, 16, 16, leftW - 24, H - 32);
+    ctx.restore();
+  }
+
+  // Top HUD bar inside Left Panel
+  ctx.fillStyle = 'rgba(3, 6, 12, 0.82)';
+  ctx.fillRect(16, 16, leftW - 24, 42);
+  ctx.fillStyle = '#38bdf8';
+  ctx.font = 'bold 15px JetBrains Mono, monospace';
+  ctx.fillText(`● ${p.media.cam_id} • ${p.origin.local_clock}`, 30, 42);
+
+  // If spectrum or decoder mode, draw crisp large spectrum + Lissajous overlay on left panel
+  if (currentViewportMode !== 'video') {
+    ctx.beginPath();
+    const baseY = H - 80;
+    for (let x = 30; x < leftW - 30; x += 5) {
+      const u = (x - 30) / (leftW - 60) - 0.5;
+      const pk = Math.exp(-u * u * 45) * 240 * (0.85 + 0.15 * Math.sin(t * 4));
+      const side = Math.exp(-Math.pow(u - 0.18, 2) * 120) * 110;
+      const py = baseY - pk - side - (Math.sin(x * 0.2 + t * 3) * 8);
+      if (x === 30) ctx.moveTo(x, py);
+      else ctx.lineTo(x, py);
+    }
+    ctx.strokeStyle = '#4ade80';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+  }
+
+  // Bottom HUD banner inside Left Panel
+  ctx.fillStyle = 'rgba(3, 6, 12, 0.86)';
+  ctx.fillRect(16, H - 58, leftW - 24, 42);
+  ctx.fillStyle = '#f0b849';
+  ctx.font = 'bold 14px JetBrains Mono, monospace';
+  ctx.fillText(`${p.media.hud_banner} • RANGE: ${p.galactic ? p.galactic.range_label : p.origin.distance}`, 30, H - 32);
+
+  // Right Panel: Large Broadcast Code Correlator & Translation Cartridge Theater
+  const rx0 = leftW + 8;
+  const rw = W - rx0 - 14;
+  ctx.fillStyle = '#060b14';
+  ctx.fillRect(rx0, 14, rw, H - 28);
+  ctx.strokeStyle = '#253958';
+  ctx.strokeRect(rx0, 14, rw, H - 28);
+
+  ctx.fillStyle = '#f0b849';
+  ctx.font = 'bold 16px JetBrains Mono, monospace';
+  ctx.fillText(`TRANSLATION CARTRIDGE: ${currentSelectedAlg}`, rx0 + 20, 46);
+
+  const isLocked = dec && currentSelectedAlg === dec.required_algorithm;
+  ctx.fillStyle = isLocked ? '#4ade80' : '#fb7185';
+  ctx.font = 'bold 14px JetBrains Mono, monospace';
+  ctx.fillText(isLocked ? `✓ ${dec.algorithm_name}` : `⚠ CARTRIDGE MISMATCH / RAW STREAM`, rx0 + 20, 72);
+
+  // Raw RX Frames Box
+  ctx.fillStyle = '#03060c';
+  ctx.fillRect(rx0 + 18, 90, rw - 36, 155);
+  ctx.strokeStyle = '#1e2f48';
+  ctx.strokeRect(rx0 + 18, 90, rw - 36, 155);
+  ctx.fillStyle = '#94a3b8';
+  ctx.font = 'bold 12px JetBrains Mono, monospace';
+  ctx.fillText('INCOMING RAW DEMODULATED SYMBOL BUFFER:', rx0 + 30, 114);
+  if (dec && dec.raw_rx_lines) {
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = '13px JetBrains Mono, monospace';
+    dec.raw_rx_lines.slice(0, 3).forEach((ln, idx) => {
+      ctx.fillText(`▸ ${ln.slice(0, 52)}`, rx0 + 30, 142 + idx * 32);
+    });
+  }
+
+  // Translated Output Box
+  ctx.fillStyle = '#030810';
+  ctx.fillRect(rx0 + 18, 262, rw - 36, 195);
+  ctx.strokeStyle = isLocked ? '#4ade80' : '#fb7185';
+  ctx.strokeRect(rx0 + 18, 262, rw - 36, 195);
+  ctx.fillStyle = isLocked ? '#4ade80' : '#fb7185';
+  ctx.font = 'bold 13px JetBrains Mono, monospace';
+  ctx.fillText(isLocked ? 'DECODED ENGLISH / EUCLIDEAN TELEMETRY:' : 'PARITY FAULT — ENGAGE MATCHING CARTRIDGE:', rx0 + 30, 288);
+
+  if (dec) {
+    const lines = isLocked ? dec.translated_lines : [
+      `[RAW / MISMATCH]: ${dec.morse_stream.slice(0, 44)}`,
+      `REQUIRED CARTRIDGE: ${dec.required_algorithm}`,
+      `ALGORITHM: ${dec.algorithm_name}`
+    ];
+    ctx.fillStyle = isLocked ? '#f8fafc' : '#fca5a5';
+    ctx.font = 'bold 13.5px JetBrains Mono, monospace';
+    lines.slice(0, 4).forEach((ln, idx) => {
+      ctx.fillText(`${isLocked ? '✓' : '⚠'} ${ln.slice(0, 50)}`, rx0 + 30, 318 + idx * 34);
+    });
+  }
+
+  // Bottom 4-Channel Subcarrier Telemetry Gauges
+  if (dec && dec.telemetry_metrics) {
+    const gw = Math.floor((rw - 54) / 4);
+    dec.telemetry_metrics.slice(0, 4).forEach((m, idx) => {
+      const gx = rx0 + 18 + idx * (gw + 6);
+      const gy = 478;
+      ctx.fillStyle = '#040811';
+      ctx.fillRect(gx, gy, gw, 120);
+      ctx.strokeStyle = m.alert ? '#fb7185' : '#263854';
+      ctx.strokeRect(gx, gy, gw, 120);
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = 'bold 11px JetBrains Mono, monospace';
+      ctx.fillText(m.label, gx + 10, gy + 24);
+      ctx.fillStyle = m.alert ? '#fb7185' : '#f0b849';
+      ctx.font = 'bold 20px JetBrains Mono, monospace';
+      ctx.fillText(String(m.value), gx + 10, gy + 58);
+      ctx.fillStyle = '#64748b';
+      ctx.font = '11px JetBrains Mono, monospace';
+      ctx.fillText(m.unit, gx + 10, gy + 78);
+      ctx.fillStyle = '#111c2d';
+      ctx.fillRect(gx + 10, gy + 94, gw - 20, 10);
+      ctx.fillStyle = m.alert ? '#fb7185' : '#38bdf8';
+      ctx.fillRect(gx + 10, gy + 94, Math.round(((m.pct || 50) / 100) * (gw - 20)), 10);
+    });
+  }
+}
+
+function toggleTunerModal(show) {
+  const el = document.getElementById('tuner-modal');
+  if (!el) return;
+  el.classList.toggle('open', show);
+  if (show) {
+    syncExpandModals(currentStation);
+    drawTunerModalCanvas(1.0);
+  }
+}
+
+function toggleViewportModal(show) {
+  const el = document.getElementById('viewport-modal');
+  if (!el) return;
+  el.classList.toggle('open', show);
+  if (show) {
+    syncExpandModals(currentStation);
+    drawViewportModalCanvas(1.0);
+  }
+}
+
+function toggleQslModal(show) {
+  const el = document.getElementById('qsl-modal');
+  if (!el) return;
+  el.classList.toggle('open', show);
+  if (show) syncExpandModals(currentStation);
+}
+
 function toggleGalaxyModal(show) {
   document.getElementById('galaxy-modal').classList.toggle('open', show);
 }
@@ -3091,6 +4462,9 @@ function toggleTowerModal(show) {
 
 window.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
+    toggleTunerModal(false);
+    toggleViewportModal(false);
+    toggleQslModal(false);
     toggleGalaxyModal(false);
     toggleTowerModal(false);
   }

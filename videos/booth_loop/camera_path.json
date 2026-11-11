@@ -1,0 +1,224 @@
+{
+  "model": "docs/tower-3d.html",
+  "mode": "booth_loop",
+  "title": "GOR-9 \u2022 Watchroom Rounds & Star/Solar Shift Seamless Loop (14,285.7 kHz USB \u2022 0400 GCT)",
+  "short_code": "BOOTH-LOOP",
+  "duration": 48.0,
+  "fps": 30,
+  "is_loop": true,
+  "coordinate_system": "booth_cylindrical",
+  "head_bob_strides": 16,
+  "hide_interior_legs": true,
+  "mp4_name": "gor9_booth_loop.mp4",
+  "wav_name": "gor9_booth_loop_audio.wav",
+  "thumb_name": "gor9_booth_loop_thumb.jpg",
+  "thumb_frame": 241,
+  "test_frames": [
+    0,
+    240,
+    420,
+    600,
+    780,
+    960,
+    1155,
+    1290,
+    1439
+  ],
+  "bursts": {
+    "starts": [
+      39.4
+    ],
+    "duration": 7.4,
+    "ring_step": 0.4,
+    "spire_lock_offset": 1.8
+  },
+  "keyframes": [
+    {
+      "t": 0.0,
+      "camAng": 0.0,
+      "camR": 3.24,
+      "camYRel": 1.76,
+      "lookAng": 0.0,
+      "lookR": 4.74,
+      "lookYRel": 1.24,
+      "fov": 47.0,
+      "note": "CONSOLE STOP #1: North [0] Master Broadcast Cockpit (tilted down perpendicular to 3-Screen HUD & Mixer Deck)"
+    },
+    {
+      "t": 3.2,
+      "camAng": 0.08,
+      "camR": 3.26,
+      "camYRel": 1.78,
+      "lookAng": 0.06,
+      "lookR": 4.74,
+      "lookYRel": 1.22,
+      "fov": 47.0,
+      "note": "Inspect North desk props (CM-78 mic, logbook, Morse key)"
+    },
+    {
+      "t": 6.2,
+      "camAng": 0.64,
+      "camR": 2.48,
+      "camYRel": 1.56,
+      "lookAng": 0.74,
+      "lookR": 8.4,
+      "lookYRel": 2.38,
+      "fov": 56.0,
+      "note": "LOOK UP & MOVE #1: NE/East Panoramic Window Solar Corona (SOL) & Basalt Asteroid Shift"
+    },
+    {
+      "t": 9.8,
+      "camAng": 1.02,
+      "camR": 2.48,
+      "camYRel": 1.56,
+      "lookAng": 1.1,
+      "lookR": 8.4,
+      "lookYRel": 2.36,
+      "fov": 56.0,
+      "note": "Complete NE/East window solar transit"
+    },
+    {
+      "t": 12.4,
+      "camAng": 1.5,
+      "camR": 3.42,
+      "camYRel": 1.9,
+      "lookAng": 1.54,
+      "lookR": 4.74,
+      "lookYRel": 1.18,
+      "fov": 46.0,
+      "note": "CONSOLE STOP #2: East [2] ED-9 Vector CRT & Brass Flatbed Plotter (tilted down -28.6\u00b0 perpendicular to console)"
+    },
+    {
+      "t": 15.8,
+      "camAng": 1.63,
+      "camR": 3.42,
+      "camYRel": 1.9,
+      "lookAng": 1.61,
+      "lookR": 4.74,
+      "lookYRel": 1.18,
+      "fov": 46.0,
+      "note": "Complete East ED-9 flatbed plotter inspection"
+    },
+    {
+      "t": 18.6,
+      "camAng": 2.16,
+      "camR": 2.52,
+      "camYRel": 1.58,
+      "lookAng": 2.26,
+      "lookR": 8.2,
+      "lookYRel": 2.3,
+      "fov": 56.0,
+      "note": "LOOK UP & MOVE #2: SE Window above Bogey-9 Quad Trail-Cams"
+    },
+    {
+      "t": 21.4,
+      "camAng": 2.62,
+      "camR": 2.52,
+      "camYRel": 1.58,
+      "lookAng": 2.72,
+      "lookR": 8.2,
+      "lookYRel": 2.28,
+      "fov": 56.0,
+      "note": "Move toward South bay while gazing out at the starfield"
+    },
+    {
+      "t": 24.4,
+      "camAng": 3.07,
+      "camR": 3.38,
+      "camYRel": 1.88,
+      "lookAng": 3.11,
+      "lookR": 4.74,
+      "lookYRel": 1.18,
+      "fov": 46.5,
+      "note": "CONSOLE STOP #3: South [4] 3D Armillary Sphere & Ephemeris Consoles (tilted down -27.8\u00b0 perpendicular to console)"
+    },
+    {
+      "t": 27.8,
+      "camAng": 3.21,
+      "camR": 3.38,
+      "camYRel": 1.88,
+      "lookAng": 3.17,
+      "lookR": 4.74,
+      "lookYRel": 1.18,
+      "fov": 46.5,
+      "note": "Complete South 3D Armillary inspection"
+    },
+    {
+      "t": 30.8,
+      "camAng": 3.48,
+      "camR": 2.48,
+      "camYRel": 1.56,
+      "lookAng": 3.56,
+      "lookR": 8.4,
+      "lookYRel": 2.38,
+      "fov": 56.0,
+      "note": "LOOK UP & MOVE #3: South/SW Window Pulsar PSR B1937+21 & O.R.S. 351 Satellite Transit"
+    },
+    {
+      "t": 34.0,
+      "camAng": 3.92,
+      "camR": 2.52,
+      "camYRel": 1.58,
+      "lookAng": 4.0,
+      "lookR": 8.2,
+      "lookYRel": 2.3,
+      "fov": 56.0,
+      "note": "Glide past SW Dual Reel-to-Reel Tape Archive"
+    },
+    {
+      "t": 36.8,
+      "camAng": 4.62,
+      "camR": 3.08,
+      "camYRel": 1.86,
+      "lookAng": 4.66,
+      "lookR": 4.74,
+      "lookYRel": 1.18,
+      "fov": 52.0,
+      "note": "CONSOLE STOP #4: West [6] HV-4 Klystron Tubes, 4 Phasing Handwheels & VA-4 CRT (tilted down -22.0\u00b0 perpendicular)"
+    },
+    {
+      "t": 40.2,
+      "camAng": 4.76,
+      "camR": 3.08,
+      "camYRel": 1.86,
+      "lookAng": 4.77,
+      "lookR": 4.74,
+      "lookYRel": 1.18,
+      "fov": 52.0,
+      "note": "Watch HV-4 Klystron tubes surge as Marzelvane Burst ignites at 39.4s"
+    },
+    {
+      "t": 42.4,
+      "camAng": 5.08,
+      "camR": 2.48,
+      "camYRel": 1.56,
+      "lookAng": 5.16,
+      "lookR": 8.2,
+      "lookYRel": 2.34,
+      "fov": 56.0,
+      "note": "LOOK UP & MOVE #4: West/NW Window Expanding Cherenkov Sky Burst & NW MK-IV Receiver"
+    },
+    {
+      "t": 45.2,
+      "camAng": 5.62,
+      "camR": 2.58,
+      "camYRel": 1.62,
+      "lookAng": 5.72,
+      "lookR": 7.2,
+      "lookYRel": 2.02,
+      "fov": 53.0,
+      "note": "Glide past NW MK-IV Wideband Receiver back toward North Cockpit"
+    },
+    {
+      "t": 48.0,
+      "camAng": 6.2831853,
+      "camR": 3.24,
+      "camYRel": 1.76,
+      "lookAng": 6.2831853,
+      "lookR": 4.74,
+      "lookYRel": 1.24,
+      "fov": 47.0,
+      "note": "Seamless Loop Return onto North [0] Master Broadcast Cockpit (exact match with t=0.0s)"
+    }
+  ]
+}

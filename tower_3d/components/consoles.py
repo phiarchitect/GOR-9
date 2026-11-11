@@ -39,7 +39,7 @@ CONSOLE_BAY_SPECS = [
         "width": 3.50,
         "left_screen": "mk4_3b_video.png",
         "right_screen": "mk4_3a_decoder.png",
-        "badge": "hauser_dynamics_logo.jpg",
+        "badge": "hauser_logo.svg",
         "is_master_mic_bay": True,
     },
     {
@@ -48,7 +48,7 @@ CONSOLE_BAY_SPECS = [
         "width": 3.40,
         "left_screen": "va4_1b_squall.png",
         "right_screen": "mk4_3c_atlas.png",
-        "badge": "van_allen_switchgear_logo.jpg",
+        "badge": "van_allen_logo.svg",
         "is_master_mic_bay": False,
     },
     {
@@ -57,7 +57,7 @@ CONSOLE_BAY_SPECS = [
         "width": 3.40,
         "left_screen": "ed9_4d_step4.png",
         "right_screen": "ed9_4b_step1.png",
-        "badge": "van_allen_switchgear_logo.jpg",
+        "badge": "van_allen_logo.svg",
         "is_master_mic_bay": False,
     },
     {
@@ -66,7 +66,7 @@ CONSOLE_BAY_SPECS = [
         "width": 3.40,
         "left_screen": "bogey_4a_frame6.png",
         "right_screen": "bogey_4a_nvg.png",
-        "badge": "hauser_dynamics_logo.jpg",
+        "badge": "hauser_logo.svg",
         "is_master_mic_bay": False,
     },
     {
@@ -75,7 +75,7 @@ CONSOLE_BAY_SPECS = [
         "width": 3.40,
         "left_screen": "dos_3a_n24.png",
         "right_screen": "dos_3d_octal_back.png",
-        "badge": "hauser_dynamics_logo.jpg",
+        "badge": "hauser_logo.svg",
         "is_master_mic_bay": False,
     },
     {
@@ -84,7 +84,7 @@ CONSOLE_BAY_SPECS = [
         "width": 3.40,
         "left_screen": "mk4_3c_spectrum.png",
         "right_screen": "va4_1a_comet.png",
-        "badge": "hauser_dynamics_logo.jpg",
+        "badge": "hauser_logo.svg",
         "is_master_mic_bay": False,
     },
     {
@@ -93,7 +93,7 @@ CONSOLE_BAY_SPECS = [
         "width": 3.40,
         "left_screen": "va4_2b_stepdown.png",
         "right_screen": "ed9_5a_rhombus.png",
-        "badge": "van_allen_switchgear_logo.jpg",
+        "badge": "van_allen_logo.svg",
         "is_master_mic_bay": False,
     },
 ]
@@ -500,7 +500,7 @@ def build_corner_wedge_module(mesh, az_a_deg: float, w_a: float, az_b_deg: float
 
 def build_perimeter_consoles(scene, repo_root: Path):
     consoles_dir = repo_root / "docs" / "assets" / "consoles"
-    plates_dir = repo_root / "docs" / "assets" / "plates"
+    branding_dir = repo_root / "docs" / "assets" / "branding"
     groups = []
     for spec in CONSOLE_BAY_SPECS:
         grp = create_scene_group(scene, spec["group_name"])
@@ -511,7 +511,7 @@ def build_perimeter_consoles(scene, repo_root: Path):
             width=spec["width"],
             tex_left=consoles_dir / spec["left_screen"],
             tex_right=consoles_dir / spec["right_screen"],
-            badge_tex=plates_dir / spec["badge"],
+            badge_tex=branding_dir / spec["badge"],
             is_master_mic_bay=spec["is_master_mic_bay"],
         )
         groups.append(grp)

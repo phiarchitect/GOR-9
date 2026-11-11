@@ -413,9 +413,12 @@ def build_blender_material(
     is_leather = (not emissive) and (not tex_path) and (0.68 <= roughness < 0.84) and metallic <= 0.15
 
     if tex_path and Path(tex_path).exists():
+        img_load_path = Path(tex_path)
+        if img_load_path.suffix.lower() == ".svg" and img_load_path.with_suffix(".png").exists():
+            img_load_path = img_load_path.with_suffix(".png")
         tex_node = nodes.new(type="ShaderNodeTexImage")
         tex_node.location = (-320, 0)
-        tex_node.image = bpy.data.images.load(str(tex_path), check_existing=True)
+        tex_node.image = bpy.data.images.load(str(img_load_path), check_existing=True)
         links.new(tex_node.outputs["Color"], bsdf.inputs["Base Color"])
         if "Emission Color" in bsdf.inputs:
             links.new(tex_node.outputs["Color"], bsdf.inputs["Emission Color"])

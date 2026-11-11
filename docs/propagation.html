@@ -287,18 +287,36 @@
     .corr-top {
       display: flex;
       justify-content: space-between;
+      align-items: center;
+      gap: 10px;
       font-family: var(--mono);
-      font-size: 0.71rem;
+      font-size: 0.78rem;
       font-weight: 800;
-      margin-bottom: 2px;
+      margin-bottom: 3px;
     }
 
     .corr-sub {
       font-family: var(--mono);
-      font-size: 0.66rem;
+      font-size: 0.71rem;
       color: var(--text-muted);
       display: flex;
       justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .corr-top span:first-child,
+    .corr-sub span:first-child {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
+    }
+
+    .corr-top span:last-child,
+    .corr-sub span:last-child {
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     /* CENTER MONITOR: OBLIQUE IONOGRAM & MUF/LUF ANALYZER */
@@ -454,52 +472,43 @@
       background: rgba(34, 211, 238, 0.06);
       border: 1px dashed rgba(34, 211, 238, 0.4);
       border-radius: 4px;
-      padding: 6px 8px;
+      padding: 8px 10px;
       font-family: var(--mono);
-      font-size: 0.68rem;
-      line-height: 1.35;
+      font-size: 0.74rem;
+      line-height: 1.45;
       color: var(--cyan);
     }
 
-    /* Full-Screen 16:9 CSS Grid Console Optimization & 1080p Readability */
+    /* Full-Screen 16:9 CSS Grid Console Optimization & 1440p/1080p Readability */
     html {
       background-color: #04070b;
-      font-size: 17px;
+      font-size: 17.5px;
     }
     body {
       height: 100vh;
       overflow: hidden;
-      padding: 8px 14px 12px;
-      display: grid;
-      grid-template-rows: auto 1fr;
-      gap: 8px;
+      padding: 0;
     }
-    .station-topbar {
-      padding: 6px 12px;
-      margin-bottom: 0;
-      gap: 6px 12px;
-    }
-    .brand-title { font-size: 0.94rem; }
-    .brand-sub { font-size: 0.7rem; }
-    .t-pill { font-size: 0.72rem; padding: 4px 8px; }
-    .nav-btn { font-size: 0.72rem; padding: 5px 9px; }
     .prop-chassis {
-      padding: 8px 12px;
+      padding: 10px 14px;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
       display: grid;
       grid-template-rows: auto 1fr;
-      gap: 8px;
+      gap: 10px;
       height: 100%;
       min-height: 0;
     }
     .regime-bar {
       display: grid;
       grid-template-columns: auto 1fr;
-      gap: 12px;
-      padding: 6px 12px;
+      gap: 14px;
+      padding: 8px 14px;
       margin-bottom: 0;
       align-items: center;
     }
-    .regime-title { font-size: 0.78rem; }
+    .regime-title { font-size: 0.82rem; }
     .regime-btns {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -507,13 +516,13 @@
       width: 100%;
     }
     .regime-btn {
-      font-size: 0.74rem;
-      padding: 6px 8px;
+      font-size: 0.78rem;
+      padding: 7px 10px;
       text-align: center;
     }
     .prop-grid {
-      grid-template-columns: 390px 1fr 425px;
-      gap: 10px;
+      grid-template-columns: 400px 1fr 420px;
+      gap: 12px;
       align-items: stretch;
       height: 100%;
       min-height: 0;
@@ -521,30 +530,34 @@
     .prop-grid > section {
       display: flex;
       flex-direction: column;
-      gap: 7px;
+      gap: 10px;
       height: 100%;
       min-height: 0;
+      min-width: 0;
     }
     .rack-panel {
-      padding: 8px 10px;
+      padding: 10px 12px;
       margin-bottom: 0;
       display: flex;
       flex-direction: column;
       min-height: 0;
+      min-width: 0;
+      overflow: hidden;
     }
     .prop-grid > section > .rack-panel:last-child {
       flex: 1;
-      justify-content: flex-start;
-      gap: 6px;
+      justify-content: space-between;
+      gap: 8px;
     }
     .panel-hdr {
-      font-size: 0.74rem;
-      padding-bottom: 4px;
-      margin-bottom: 6px;
+      font-size: 0.78rem;
+      padding-bottom: 5px;
+      margin-bottom: 8px;
     }
     .polar-wrap {
-      flex: 1;
-      min-height: 230px;
+      flex: 0 0 262px;
+      height: 262px;
+      min-height: 262px;
       display: flex;
       flex-direction: column;
     }
@@ -574,6 +587,8 @@
       flex: 1;
       display: flex;
       flex-direction: column;
+      min-height: 0;
+      min-width: 0;
     }
     .corridor-btn {
       flex: 1;
@@ -581,24 +596,31 @@
       flex-direction: column;
       justify-content: center;
       padding: 5px 9px;
+      min-height: 0;
+      width: 100%;
+      min-width: 0;
+      overflow: hidden;
     }
-    .c-row1 { font-size: 0.76rem; }
-    .c-row2 { font-size: 0.7rem; }
-    .muf-stats-grid { margin-top: 6px; margin-bottom: 0; gap: 8px; }
-    .muf-card { padding: 6px 8px; }
-    .muf-card .k { font-size: 0.66rem; }
-    .muf-card .v { font-size: 1.05rem; }
-    .advisory-box { margin-top: 6px; margin-bottom: 0; padding: 7px 10px; font-size: 0.78rem; line-height: 1.38; }
-    .bulletin-terminal { margin-top: 6px; padding: 7px 10px; font-size: 0.75rem; line-height: 1.38; }
-    .indices-grid { gap: 5px; margin-bottom: 0; }
-    .idx-cell { padding: 5px 7px; }
-    .idx-cell .lbl { font-size: 0.65rem; }
-    .idx-cell .num { font-size: 0.94rem; margin: 1px 0; }
-    .idx-cell .sub { font-size: 0.63rem; }
-    .pellet-hopper-box { padding: 6px 8px; margin-bottom: 0; }
-    .switch-bank { gap: 4px; margin-bottom: 0; }
-    .bus-switch-btn { padding: 5px 8px; font-size: 0.71rem; }
-    .spot-market-card { font-size: 0.68rem; line-height: 1.32; padding: 5px 8px; }
+    .corr-top, .corr-sub {
+      min-width: 0;
+      width: 100%;
+    }
+    .muf-stats-grid { margin-top: 8px; margin-bottom: 0; gap: 8px; }
+    .muf-card { padding: 8px 10px; }
+    .muf-card .k { font-size: 0.7rem; }
+    .muf-card .v { font-size: 1.15rem; }
+    .advisory-box { margin-top: 8px; margin-bottom: 0; padding: 8px 12px; font-size: 0.82rem; line-height: 1.42; }
+    #tuneInHauserBtn { display: none; }
+    .bulletin-terminal { margin-top: 8px; padding: 8px 12px; font-size: 0.79rem; line-height: 1.42; }
+    .indices-grid { gap: 8px; margin-bottom: 0; }
+    .idx-cell { padding: 8px 10px; }
+    .idx-cell .lbl { font-size: 0.7rem; }
+    .idx-cell .num { font-size: 1.12rem; margin: 2px 0; }
+    .idx-cell .sub { font-size: 0.68rem; }
+    .pellet-hopper-box { padding: 10px 12px; margin-bottom: 0; }
+    .switch-bank { gap: 8px; margin-bottom: 0; }
+    .bus-switch-btn { padding: 9px 12px; font-size: 0.78rem; }
+    .spot-market-card { font-size: 0.74rem; line-height: 1.42; padding: 9px 11px; margin-top: auto; }
   </style>
 </head>
 <body>
@@ -800,20 +822,6 @@
             <div style="font-weight:800;color:var(--amber);margin-bottom:3px;">💎 OORT DILITHIUM PELLET SPOT TICKER (+4.2%)</div>
             <div>• <b>Callisto Dome-4:</b> 1,048 Cr/pellet (Stall 19 Barter)</div>
             <div>• <b>West Oort Shoal:</b> Pedregal 1051.2 mbar code confirms uninspected pellet barge cached near Comet C/2736-K4!</div>
-          </div>
-
-          <!-- OFFICIAL SPONSOR & VAN ALLEN SINGLE VECTOR NAMEPLATE PANEL -->
-          <div style="flex:1;display:flex;flex-direction:column;justify-content:space-between;background:#080d14;border:1px solid #3b2f16;border-left:3px solid var(--amber);border-radius:4px;padding:7px 9px;font-family:var(--mono);font-size:0.66rem;line-height:1.35;">
-            <div style="display:flex;justify-content:space-between;align-items:center;color:var(--amber);font-weight:800;margin-bottom:4px;">
-              <span>🎙️ DEVICE MAKER &amp; UNDERWRITER: VAN ALLEN &amp; SONS</span>
-              <span style="color:var(--green);">MODEL VA-4 • CERES #7</span>
-            </div>
-            <a href="assets/branding/van_allen_logo.svg" target="_blank" title="View Van Allen & Sons Switchgear Vector Emblem" style="display:block;border:1px solid #3b2f16;border-radius:4px;overflow:hidden;background:#04070d;padding:4px 8px;margin-bottom:4px;">
-              <img src="assets/branding/van_allen_logo.svg" alt="Van Allen & Sons Vector Badge" style="width:100%;aspect-ratio:520/180;object-fit:contain;display:block;" />
-            </a>
-            <div style="color:var(--text-muted);font-size:0.62rem;border-top:1px dashed #1e293b;padding-top:3px;">
-              <div>• <b style="color:var(--cyan);">Belt-Master MV-6:</b> 6-Hydrocoptic Marzelvane clamps • <b style="color:var(--cyan);">Cryo-Toast 900:</b> 1.2 kW Foot-Warmers</div>
-            </div>
           </div>
         </div>
       </section>

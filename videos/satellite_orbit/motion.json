@@ -1,0 +1,17 @@
+{
+  "prefix": "satellite_orbit",
+  "html": "../../docs/tower-3d.html",
+  "injected_js_file": "../tour_choreography.js",
+  "query_params": {
+    "mode": "satellite_orbit"
+  },
+  "duration_sec": 30.0,
+  "fps": 30,
+  "warmup_frames": 0,
+  "thumb_sec": 3.0,
+  "audio_wav": "satellite_orbit.wav",
+  "wide_mp4": "satellite_orbit_1080p.mp4",
+  "wide_thumb": "satellite_orbit_thumb.png",
+  "render_short": false,
+  "ambient_drone": false
+}

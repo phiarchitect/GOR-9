@@ -28,7 +28,7 @@ This directory contains the parametric 3D CAD/scene generator for **Relay Statio
      - **Bay 3 (Starboard-Forward)**: `Van Allen ED-9 Euclidean Geometric Detector` (`ed9_4d_step4.png`) + overhead `Proposition I.45 Construction` (`ed9_4b_step1.png`)
      - **Bay 4 (Starboard-Aft)**: `Bogey-9 Perimeter Trail-Cam & UAP Correlator` (`bogey_4a_frame6.png`) + overhead `NVG Optical Sentinel` (`bogey_4a_nvg.png`)
      - **Bay 5 (Port-Forward)**: `Station Dossier & 2-Sided eQSL Archive` (`dos_3a_n24.png`) + overhead `2-Sided eQSL Reverse` (`dos_3d_octal_back.png`)
-   - Riveted **`Hauser Dynamics`** (`hauser_dynamics_logo.jpg`) and **`Van Allen & Sons Switchgear`** (`van_allen_switchgear_logo.jpg`) cast-brass manufacturer badges on the front console skirts.
+   - Riveted **`Hauser Dynamics`** (`hauser_logo.svg`) and **`Van Allen & Sons Switchgear`** (`van_allen_logo.svg`) cast-brass & brushed-gunmetal manufacturer badges on the front console skirts.
 7. **Operator Broadcast Desk, Articulated Studio Boom Microphone & Props (`6_Operator_Mic_Logbook_And_Props`)**:
    - Articulated twin-tube studio boom arm with brass friction joints, spider shock-mount cradle, classic side-address broadcast condenser microphone capsule, and illuminated crimson `"ON AIR • 0400 GCT"` tally ring.
    - Clear operator desk space around the microphone featuring the open spiral-bound **Station Logbook**, **2-Sided eQSL Collector Cards**, **`GO-9 SWL 1978` Brass Straight Morse Key**, **Weighted Barycentric VFO Jog Wheel**, and **`GALACTIC OUTPOST 9` Insulated Mug**.

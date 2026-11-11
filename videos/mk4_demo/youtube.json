@@ -1,0 +1,61 @@
+{
+  "short_code": "MK4-DEMO",
+  "g_id": "2736.305",
+  "channel": "@GOR-9-station",
+  "categoryId": "28",
+  "privacyStatus": "public",
+  "title_1080p": "GOR-9 \u2022 Hauser Dynamics MK-IV Wideband Barycentric DX Correlator \u2014 Console Operations Demo",
+  "description": "Component-by-component operational walkthrough of the Hauser Dynamics MK-IV Wideband Barycentric DX Correlator (3 kHz \u2013 1.5 GHz) aboard Galactic Outpost Radio (GOR-9) on Asteroid 3-5-1.\n\n0:00 S01_TELL_OVERVIEW \u2014 ACT I \u2022 CONSOLE OVERVIEW & EXPANDABLE BAYS\n0:04 S02_OVERVIEW_TUNER \u2014 BAY 1 \u2022 WIDEBAND TUNER & 4-MODE SPECTRUM MAPS\n0:11 S03_OVERVIEW_CORRELATOR \u2014 BAY 2 \u2022 VISUAL, PHASE & CIPHER CORRELATOR\n0:17 S04_OVERVIEW_ASTROMETRY \u2014 BAY 3 \u2022 GALACTIC ASTROMETRY & SINPO MATRIX\n0:24 S05_OVERVIEW_EQSL \u2014 BAY 4 \u2022 ROBOT-24 SSTV eQSL & DX MEMORY\n0:30 S06_TUNER_PRESETS_BANDS \u2014 6-CHANNEL PRESET BANK & WAVEBAND SELECTOR\n0:36 S07_TUNER_DIAL_VERNIER \u2014 SLIDING BAND-PLAN DIAL & CRYSTAL FILTER\n0:41 S08_TUNER_FREQ_MAPS \u2014 4-MODE FREQUENCY MAPS \u2022 WATERFALL TO DOPPLER I/Q\n0:48 S09_TUNER_MODAL_EXPAND \u2014 EXPANDED WIDEBAND GALACTIC SPECTRUM SCANNER\n0:55 S10_CORRELATOR_VIDEO_EXPAND \u2014 LIVE CAM-104 FEED & EXPANDED VISUAL THEATER\n1:01 S11_CORRELATOR_SPECTRUM_MASER \u2014 1420.406 MHz H-I MASER & 3:5 LISSAJOUS ROSE\n1:07 S12_CORRELATOR_CIPHER_CARTRIDGES \u2014 CARTRIDGE MATRIX \u2022 ALG-01 FAULT \u2192 ALG-02 LOCK\n1:14 S13_CORRELATOR_CIPHER_EXPAND_AUDIO \u2014 EXPANDED CIPHER THEATER & SHORTWAVE ENVELOPE SCOPE\n1:20 S14_ASTROMETRY_BEAM_SINPO \u2014 PHASED-ARRAY BEAM SLEW & 20-SEGMENT SINPO MATRIX\n1:26 S15_ASTROMETRY_GALAXY_MODAL \u2014 EXPANDED GALACTIC ASTROMETRY & CERES BASELINE ATLAS\n1:34 S16_EQSL_SSTV_WIPE \u2014 LIVE ROBOT-24 SSTV RASTER SCANLINE DECODE\n1:41 S17_EQSL_MODAL_AND_LOGS \u2014 EXPANDED SSTV eQSL DOSSIER & DX MEMORY SLOTS\n1:48 S18_RECAP_TUNER_CORRELATOR \u2014 ACT III RECAP \u2022 6-BAND TUNER & MULTI-MODE CORRELATOR\n1:54 S19_RECAP_ASTROMETRY_EQSL \u2014 ACT III RECAP \u2022 ASTROMETRY, SINPO & eQSL DOSSIERS\n2:02 S20_RECAP_SIGNOFF \u2014 73 DE GOR-9 \u2022 ASTEROID 3-5-1 \u2022 HAUSER MK-IV READY",
+  "tags": [
+    "GOR-9",
+    "Galactic Outpost Radio",
+    "Hauser MK-IV",
+    "Shortwave",
+    "Retro-Futurism",
+    "Console Demo"
+  ],
+  "files": {
+    "wide_1080p_mp4": "/home/phi/PROJECTS/phiarchitect/GOR-9/videos/mk4_demo/gor9_mk4_demo.mp4",
+    "thumbnail_16x9_png": "/home/phi/PROJECTS/phiarchitect/GOR-9/videos/mk4_demo/gor9_mk4_demo_thumb.jpg",
+    "audio_wav": "/home/phi/PROJECTS/phiarchitect/GOR-9/videos/mk4_demo/gor9_mk4_demo_audio.wav",
+    "script_scr": "/home/phi/PROJECTS/phiarchitect/GOR-9/videos/mk4_demo/script.scr"
+  },
+  "uploads": {
+    "wide_1080p": {
+      "version": 2,
+      "video_id": "4Pv6BXxQSi8",
+      "url": "https://youtu.be/4Pv6BXxQSi8",
+      "studio_url": "https://studio.youtube.com/video/4Pv6BXxQSi8/edit",
+      "caption_id": null,
+      "playlist_id": "PLSsrai1QfPe4",
+      "playlist_item_id": "UExTc3JhaTFRZlBlNC4yODlGNEE0NkRGMEEzMEQy",
+      "privacyStatus": "public",
+      "published_at": "2026-11-09T23:18:48.203328+00:00",
+      "uploaded_at": "2026-11-09T23:18:48.203328+00:00",
+      "thumbnail_set": true,
+      "updated_at": "2026-11-09T23:18:55.346652+00:00"
+    }
+  },
+  "history": {
+    "wide_1080p": [
+      {
+        "version": 1,
+        "video_id": "UpzdkAAWdZc",
+        "url": "https://youtu.be/UpzdkAAWdZc",
+        "studio_url": "https://studio.youtube.com/video/UpzdkAAWdZc/edit",
+        "caption_id": null,
+        "playlist_id": "PLSsrai1QfPe4",
+        "playlist_item_id": "UExTc3JhaTFRZlBlNC41NkI0NEY2RDEwNTU3Q0M2",
+        "privacyStatus": "unlisted",
+        "uploaded_at": "2026-11-09T17:10:34.748266+00:00",
+        "thumbnail_set": true,
+        "updated_at": "2026-11-09T17:10:45.081757+00:00",
+        "published_at": "2026-11-09T17:11:09.207057+00:00",
+        "superseded_by": "4Pv6BXxQSi8",
+        "superseded_at": "2026-11-09T23:18:48.203328+00:00",
+        "unlisted_confirmed": true
+      }
+    ]
+  },
+  "version": 2
+}

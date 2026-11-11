@@ -1,0 +1,79 @@
+1
+00:00:00,000 --> 00:00:04,780
+Here is the Hauser Mark Four—four core bays, each with an expandable theater display.
+
+2
+00:00:04,780 --> 00:00:11,140
+Top bay: the Wideband Tuner scans six wavebands, four frequency maps, and expands full screen.
+
+3
+00:00:11,140 --> 00:00:17,740
+Left bay: the Correlator decodes live cameras, phase plots, and cipher cartridges, then pops open.
+
+4
+00:00:17,740 --> 00:00:24,180
+Center bay: Galactic Astrometry slews our phased-array beam, grades SINPO merit, and opens the Atlas.
+
+5
+00:00:24,180 --> 00:00:30,220
+Right bay: the Verification Deck decodes slow-scan QSL cards and expands the hardware dossier.
+
+6
+00:00:30,220 --> 00:00:36,020
+Now let's operate the Tuner, jumping across ninety-meter cryo-scatter, octal relays, and hydrogen masers.
+
+7
+00:00:36,020 --> 00:00:41,600
+Spinning the vernier wheel slides the illuminated callsign scale and narrows the crystal passband filter.
+
+8
+00:00:41,600 --> 00:00:48,270
+Next door, the frequency map cycles between spectrogram waterfall, band allocation, three-D ridges, and Doppler phase.
+
+9
+00:00:48,270 --> 00:00:55,390
+Expanding the Band-Plan Scanner displays all six wavebands alongside intermediate-frequency passband zoom and Doppler lock.
+
+10
+00:00:55,390 --> 00:01:01,560
+In the Correlator Bay on Callisto, we lock live arc-camera video and expand the Visual Theater.
+
+11
+00:01:01,560 --> 00:01:07,780
+Tuning the Triangulum beacon in Three-D Spectrum mode pairs the hydrogen maser spike with a Lissajous rose.
+
+12
+00:01:07,780 --> 00:01:14,580
+On Trojan Octal frames, Algorithm One faults, while Algorithm Two locks and translates the Euclidean telemetry.
+
+13
+00:01:14,580 --> 00:01:20,280
+We pop open the full Cipher Theater, then audition the voice intercept and interval signal on the scope.
+
+14
+00:01:20,280 --> 00:01:26,800
+In the Center Bay, tuning slews our phased-array beam while the twenty-segment S-meter and SINPO matrix lock.
+
+15
+00:01:26,800 --> 00:01:34,520
+Expanding the Galactic Atlas reveals our Ceres Foundry parallax triangle, pulsar clock, and spiral-arm relay hops.
+
+16
+00:01:34,520 --> 00:01:41,560
+In the Right Bay, triggering a Robot-Twenty-Four slow-scan burst wipes down line by line to decode the QSL card.
+
+17
+00:01:41,560 --> 00:01:48,780
+Expanding the QSL Dossier reveals the subcarrier clue, while the memory tabs below cycle verified operator logs.
+
+18
+00:01:48,780 --> 00:01:54,880
+In summary: the Mark Four pairs a six-band tuner and four-mode spectrum map with an expandable correlator.
+
+19
+00:01:54,880 --> 00:02:02,440
+And it unites galactic beam triangulation and SINPO grading with slow-scan e-QSL dossiers and full-screen modals.
+
+20
+00:02:02,440 --> 00:02:11,090
+Four bays, four expandable theaters, one complete deep-space DX workstation—seventy-three from Galactic Outpost Radio Nine.

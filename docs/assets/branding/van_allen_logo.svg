@@ -1,93 +1,270 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 180" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 520 180" width="1040" height="360">
   <defs>
-    <linearGradient id="vaChassis" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#19212e" />
-      <stop offset="50%" stop-color="#0c1118" />
-      <stop offset="100%" stop-color="#070a0f" />
+    <!-- Pitted Black Foundry Cast-Iron Pattern -->
+    <pattern id="castIronPit" width="12" height="12" patternUnits="userSpaceOnUse">
+      <rect width="12" height="12" fill="#0d0f12" />
+      <circle cx="3" cy="3" r="1.1" fill="#14171c" />
+      <circle cx="9" cy="7" r="1.3" fill="#08090b" />
+      <circle cx="5" cy="10" r="0.9" fill="#171a20" />
+      <circle cx="10" cy="2" r="0.8" fill="#07080a" />
+      <path d="M 0,6 L 12,6 M 6,0 L 6,12" stroke="#12151a" stroke-width="0.4" opacity="0.45" />
+    </pattern>
+
+    <!-- Aged Cast-Brass Plaque Border Gradient -->
+    <linearGradient id="castBrassBevel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f3d47e" />
+      <stop offset="22%" stop-color="#c99b3b" />
+      <stop offset="50%" stop-color="#8c6518" />
+      <stop offset="78%" stop-color="#dfba60" />
+      <stop offset="100%" stop-color="#6b4b0e" />
     </linearGradient>
-    <linearGradient id="vaBrass" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#fde68a" />
-      <stop offset="35%" stop-color="#f59e0b" />
-      <stop offset="70%" stop-color="#b45309" />
-      <stop offset="100%" stop-color="#fbbf24" />
+
+    <!-- Raised Cast-Brass Lettering & Gear Gradient -->
+    <linearGradient id="brassReliefGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fae29c" />
+      <stop offset="35%" stop-color="#d8ab4c" />
+      <stop offset="75%" stop-color="#9e731e" />
+      <stop offset="100%" stop-color="#6e4d0c" />
     </linearGradient>
-    <linearGradient id="vaCyan" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.2" />
-      <stop offset="50%" stop-color="#22d3ee" stop-opacity="1.0" />
-      <stop offset="100%" stop-color="#22d3ee" stop-opacity="0.2" />
+
+    <!-- Weathered Hex Foundry Bolt Gradient -->
+    <radialGradient id="hexBrassBolt" cx="38%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#f2d380" />
+      <stop offset="45%" stop-color="#b5872a" />
+      <stop offset="85%" stop-color="#694a0e" />
+      <stop offset="100%" stop-color="#3d2a05" />
+    </radialGradient>
+
+    <!-- Glazed White/Cream Porcelain Marzelvane Insulator Shed Gradient -->
+    <linearGradient id="porcelainGlaze" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#9c9588" />
+      <stop offset="24%" stop-color="#f0ece1" />
+      <stop offset="46%" stop-color="#ffffff" />
+      <stop offset="72%" stop-color="#d8d1c3" />
+      <stop offset="100%" stop-color="#756e62" />
     </linearGradient>
-    <filter id="vaGlow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="2.5" result="blur" />
-      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+
+    <!-- Inner Foundry Plaque Vignette -->
+    <radialGradient id="plaqueInnerField" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#181c22" />
+      <stop offset="65%" stop-color="#0e1115" />
+      <stop offset="100%" stop-color="#07080b" />
+    </radialGradient>
+
+    <!-- Cherenkov Cyan Dipole Loop Neon Glow -->
+    <filter id="cyanDipoleGlow" x="-35%" y="-35%" width="170%" height="170%">
+      <feGaussianBlur stdDeviation="3.2" result="blur1" />
+      <feGaussianBlur stdDeviation="1.1" result="blur2" />
+      <feMerge>
+        <feMergeNode in="blur1" />
+        <feMergeNode in="blur2" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
     </filter>
+
+    <!-- Dilithium Amber Dipole Loop Plasma Glow -->
+    <filter id="amberDipoleGlow" x="-35%" y="-35%" width="170%" height="170%">
+      <feGaussianBlur stdDeviation="3.0" result="blur1" />
+      <feGaussianBlur stdDeviation="1.0" result="blur2" />
+      <feMerge>
+        <feMergeNode in="blur1" />
+        <feMergeNode in="blur2" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- Cast-Brass 3D Relief Shadow (SVG 1.1 Compatible) -->
+    <filter id="brassDropShadow" x="-15%" y="-15%" width="130%" height="135%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2.0" result="blur" />
+      <feOffset in="blur" dx="0" dy="2.2" result="offsetBlur" />
+      <feFlood flood-color="#000000" flood-opacity="0.88" result="shadowColor" />
+      <feComposite in="shadowColor" in2="offsetBlur" operator="in" result="dropShadow" />
+      <feMerge>
+        <feMergeNode in="dropShadow" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- Arched Text Path for VAN ALLEN & SONS -->
+    <path id="vanAllenTopArch" d="M 86,58 Q 260,8 434,58" />
+
+    <!-- Curved Bottom Scroll Path for IF IT ARCS, WE CLAMP IT -->
+    <path id="clampMottoScroll" d="M 148,155 Q 260,171 372,155" />
+
+    <!-- Reusable Heavy Hexagonal Cast-Brass Corner Bolt -->
+    <g id="foundryHexBolt" filter="url(#brassDropShadow)">
+      <circle r="10.5" fill="#17130a" stroke="#7a5918" stroke-width="1.1" />
+      <polygon points="0,-8.5 7.4,-4.2 7.4,4.2 0,8.5 -7.4,4.2 -7.4,-4.2" fill="url(#hexBrassBolt)" stroke="#3b2806" stroke-width="1.0" />
+      <circle r="4.8" fill="none" stroke="#fae29c" stroke-width="0.6" opacity="0.45" />
+    </g>
+
+    <!-- Reusable Glowing Interlocked Magnetospheric Dipole Pair (Outer Cyan + Inner Amber + Brass Bus Clamp) -->
+    <g id="dipoleLoopPairLeft">
+      <!-- Outer Left Cherenkov Cyan Flux Loop -->
+      <ellipse cx="-19" cy="0" rx="19.5" ry="22.5" fill="none" stroke="#00d8ff" stroke-width="4.8" opacity="0.42" filter="url(#cyanDipoleGlow)" />
+      <ellipse cx="-19" cy="0" rx="19.5" ry="22.5" fill="none" stroke="#70ffff" stroke-width="2.4" filter="url(#cyanDipoleGlow)" />
+      <ellipse cx="-19" cy="0" rx="14.5" ry="17.5" fill="none" stroke="#a8ffff" stroke-width="1.5" filter="url(#cyanDipoleGlow)" />
+
+      <!-- Inner Right Dilithium Amber Flux Loop -->
+      <ellipse cx="17" cy="0" rx="18.5" ry="21.5" fill="none" stroke="#ff9d00" stroke-width="4.6" opacity="0.42" filter="url(#amberDipoleGlow)" />
+      <ellipse cx="17" cy="0" rx="18.5" ry="21.5" fill="none" stroke="#ffd269" stroke-width="2.3" filter="url(#amberDipoleGlow)" />
+      <ellipse cx="17" cy="0" rx="13.5" ry="16.5" fill="none" stroke="#fff0b8" stroke-width="1.4" filter="url(#amberDipoleGlow)" />
+
+      <!-- Center Cast-Brass Ground-Bus Clamp Collar Locking the Two Flux Loops -->
+      <rect x="-10.5" y="-5" width="19" height="10" rx="2.5" fill="url(#brassReliefGrad)" stroke="#2b1d04" stroke-width="1.1" filter="url(#brassDropShadow)" />
+      <circle cx="-5.5" cy="0" r="1.3" fill="#2b1d04" />
+      <circle cx="3.5" cy="0" r="1.3" fill="#2b1d04" />
+      <!-- Side Equatorial Tick Clamps -->
+      <rect x="-41.5" y="-2.8" width="5.5" height="5.6" rx="1" fill="url(#brassReliefGrad)" stroke="#2b1d04" stroke-width="0.8" />
+      <rect x="33" y="-2.8" width="5.5" height="5.6" rx="1" fill="url(#brassReliefGrad)" stroke="#2b1d04" stroke-width="0.8" />
+    </g>
+
+    <g id="dipoleLoopPairRight">
+      <!-- Outer Right Dilithium Amber Flux Loop -->
+      <ellipse cx="19" cy="0" rx="19.5" ry="22.5" fill="none" stroke="#ff9d00" stroke-width="4.8" opacity="0.42" filter="url(#amberDipoleGlow)" />
+      <ellipse cx="19" cy="0" rx="19.5" ry="22.5" fill="none" stroke="#ffd269" stroke-width="2.4" filter="url(#amberDipoleGlow)" />
+      <ellipse cx="19" cy="0" rx="14.5" ry="17.5" fill="none" stroke="#fff0b8" stroke-width="1.5" filter="url(#amberDipoleGlow)" />
+
+      <!-- Inner Left Cherenkov Cyan Flux Loop -->
+      <ellipse cx="-17" cy="0" rx="18.5" ry="21.5" fill="none" stroke="#00d8ff" stroke-width="4.6" opacity="0.42" filter="url(#cyanDipoleGlow)" />
+      <ellipse cx="-17" cy="0" rx="18.5" ry="21.5" fill="none" stroke="#70ffff" stroke-width="2.3" filter="url(#cyanDipoleGlow)" />
+      <ellipse cx="-17" cy="0" rx="13.5" ry="16.5" fill="none" stroke="#a8ffff" stroke-width="1.4" filter="url(#cyanDipoleGlow)" />
+
+      <!-- Center Cast-Brass Ground-Bus Clamp Collar -->
+      <rect x="-8.5" y="-5" width="19" height="10" rx="2.5" fill="url(#brassReliefGrad)" stroke="#2b1d04" stroke-width="1.1" filter="url(#brassDropShadow)" />
+      <circle cx="-3.5" cy="0" r="1.3" fill="#2b1d04" />
+      <circle cx="5.5" cy="0" r="1.3" fill="#2b1d04" />
+      <!-- Side Equatorial Tick Clamps -->
+      <rect x="-38.5" y="-2.8" width="5.5" height="5.6" rx="1" fill="url(#brassReliefGrad)" stroke="#2b1d04" stroke-width="0.8" />
+      <rect x="36" y="-2.8" width="5.5" height="5.6" rx="1" fill="url(#brassReliefGrad)" stroke="#2b1d04" stroke-width="0.8" />
+    </g>
   </defs>
 
-  <!-- Outer Cast-Iron & Brass Beveled Plate -->
-  <polygon points="18,6 502,6 514,18 514,162 502,174 18,174 6,162 6,18"
-           fill="url(#vaChassis)" stroke="url(#vaBrass)" stroke-width="3" />
-  <polygon points="24,12 496,12 508,24 508,156 496,168 24,168 12,156 12,24"
-           fill="none" stroke="#334766" stroke-width="1" stroke-dasharray="6,3" />
+  <!-- 1. Heavy Cast-Iron Switchgear Cabinet Backdrop -->
+  <rect width="520" height="180" fill="url(#castIronPit)" />
+  <rect x="2" y="2" width="516" height="176" rx="4" fill="none" stroke="#2a2418" stroke-width="1.5" />
 
-  <!-- 4 Corner Hex Rivets -->
-  <g fill="#1e293b" stroke="url(#vaBrass)" stroke-width="1.5">
-    <circle cx="24" cy="24" r="6" />
-    <line x1="20" y1="24" x2="28" y2="24" />
-    <circle cx="496" cy="24" r="6" />
-    <line x1="492" y1="24" x2="500" y2="24" />
-    <circle cx="24" cy="156" r="6" />
-    <line x1="20" y1="156" x2="28" y2="156" />
-    <circle cx="496" cy="156" r="6" />
-    <line x1="492" y1="156" x2="500" y2="156" />
+  <!-- Outer Switchgear Panel Seam Rivets -->
+  <g fill="#262930" stroke="#08090b" stroke-width="0.8">
+    <circle cx="12" cy="18" r="2.5" />
+    <circle cx="12" cy="90" r="2.5" />
+    <circle cx="12" cy="162" r="2.5" />
+    <circle cx="508" cy="18" r="2.5" />
+    <circle cx="508" cy="90" r="2.5" />
+    <circle cx="508" cy="162" r="2.5" />
   </g>
 
-  <!-- LEFT EMBLEM: VAN ALLEN DIPOLE RADIATION BELTS + INSULATOR SWITCH -->
-  <g transform="translate(95, 90)">
-    <!-- Outer & Inner Dipole Radiation Belt Toroids (Left & Right Lobes) -->
-    <path d="M 0,-28 C -42,-64 -76,-36 -76,0 C -76,36 -42,64 0,28"
-          fill="none" stroke="#22d3ee" stroke-width="2.6" filter="url(#vaGlow)" />
-    <path d="M 0,-18 C -28,-44 -52,-24 -52,0 C -52,24 -28,44 0,18"
-          fill="none" stroke="#4ade80" stroke-width="1.8" stroke-dasharray="3,2" />
+  <!-- 2. Corner Bosses & 4 Heavy Hexagonal Foundry Bolts -->
+  <!-- Cast-Brass Corner Mounting Ears Behind the Octagonal Plaque -->
+  <rect x="24" y="8" width="472" height="164" rx="14" fill="#3a2a0b" stroke="#7d5c1a" stroke-width="1.6" filter="url(#brassDropShadow)" />
+  <rect x="27" y="11" width="466" height="158" rx="11" fill="#14110b" stroke="#4d380e" stroke-width="1.0" />
 
-    <path d="M 0,-28 C 42,-64 76,-36 76,0 C 76,36 42,64 0,28"
-          fill="none" stroke="#22d3ee" stroke-width="2.6" filter="url(#vaGlow)" />
-    <path d="M 0,-18 C 28,-44 52,-24 52,0 C 52,24 28,44 0,18"
-          fill="none" stroke="#4ade80" stroke-width="1.8" stroke-dasharray="3,2" />
+  <!-- 4 Hexagonal Foundry Corner Bolts -->
+  <use xlink:href="#foundryHexBolt" href="#foundryHexBolt" x="44" y="26" />
+  <use xlink:href="#foundryHexBolt" href="#foundryHexBolt" x="476" y="26" />
+  <use xlink:href="#foundryHexBolt" href="#foundryHexBolt" x="44" y="154" />
+  <use xlink:href="#foundryHexBolt" href="#foundryHexBolt" x="476" y="154" />
 
-    <!-- Central Core Planet / Reactor Sphere -->
-    <circle cx="0" cy="0" r="16" fill="#0b1320" stroke="url(#vaBrass)" stroke-width="2.5" />
+  <!-- 3. Symmetrical Chamfered Octagonal Cast-Brass Foundry Plaque -->
+  <!-- Outer Raised Cast-Brass Chamfered Frame -->
+  <polygon points="74,8 446,8 494,44 494,136 446,172 74,172 26,136 26,44"
+           fill="url(#castBrassBevel)" stroke="#2b1d04" stroke-width="1.6" filter="url(#brassDropShadow)" />
 
-    <!-- Ribbed Porcelain High-Voltage Marzelvane Insulator Spire -->
-    <line x1="0" y1="-56" x2="0" y2="56" stroke="url(#vaBrass)" stroke-width="3" />
-    <rect x="-10" y="-44" width="20" height="5" rx="2" fill="url(#vaBrass)" />
-    <rect x="-13" y="-34" width="26" height="5" rx="2" fill="url(#vaBrass)" />
-    <rect x="-13" y="29" width="26" height="5" rx="2" fill="url(#vaBrass)" />
-    <rect x="-10" y="39" width="20" height="5" rx="2" fill="url(#vaBrass)" />
+  <!-- Inner Pitted Cast-Iron Plaque Field -->
+  <polygon points="78,14 442,14 487,48 487,132 442,166 78,166 33,132 33,48"
+           fill="url(#plaqueInnerField)" stroke="#f5d98a" stroke-width="1.1" />
+  <polygon points="78,14 442,14 487,48 487,132 442,166 78,166 33,132 33,48"
+           fill="url(#castIronPit)" opacity="0.65" />
 
-    <!-- Central High-Voltage Lightning Arc -->
-    <polygon points="-3,-12 6,-2 0,-2 4,12 -6,1 0,1" fill="#fde68a" />
+  <!-- Inner Fine Brass Pinstripe Fillet -->
+  <polygon points="81,18 439,18 482,50 482,130 439,162 81,162 38,130 38,50"
+           fill="none" stroke="#9e741f" stroke-width="0.9" opacity="0.8" />
+
+  <!-- 4. Arched Cast-Brass Top Header: VAN ALLEN & SONS -->
+  <g filter="url(#brassDropShadow)">
+    <text fill="url(#brassReliefGrad)" stroke="#2b1d04" stroke-width="0.7"
+          font-family="'Cinzel', 'Georgia', 'Liberation Serif', serif" font-size="23.5" font-weight="900" letter-spacing="3.2">
+      <textPath xlink:href="#vanAllenTopArch" href="#vanAllenTopArch" startOffset="50%" text-anchor="middle">VAN ALLEN &amp; SONS</textPath>
+    </text>
   </g>
 
-  <!-- RIGHT TYPOGRAPHY: VINTAGE HEAVY SWITCHGEAR NAMEPLATE -->
-  <g font-family="'JetBrains Mono', 'Courier New', monospace">
-    <text x="186" y="42" fill="#94a3b8" font-size="9.5" font-weight="700" letter-spacing="1.4">
-      EST. 1958 IOWA CITY • CERES FOUNDRY NO. 7
-    </text>
+  <!-- 5. Left & Right Twin Glowing Magnetospheric Dipole Flux Loops (Cyan & Amber Clamped by Brass Bus Collars) -->
+  <use xlink:href="#dipoleLoopPairLeft" href="#dipoleLoopPairLeft" x="148" y="79" />
+  <use xlink:href="#dipoleLoopPairRight" href="#dipoleLoopPairRight" x="372" y="79" />
 
-    <text x="184" y="76" fill="url(#vaBrass)" font-size="26" font-weight="900" letter-spacing="1.2">
-      VAN ALLEN &amp; SONS
-    </text>
+  <!-- 6. Central 12-Tooth Cast-Brass Dynamo Gear + Triple-Skirted White Porcelain Insulator + Lightning Bolt (cx=260, cy=75) -->
+  <g transform="translate(260, 75)" filter="url(#brassDropShadow)">
+    <!-- 12-Tooth Cast-Brass Gear Wheel -->
+    <circle r="33" fill="none" stroke="url(#brassReliefGrad)" stroke-width="7.5" stroke-dasharray="6.8 10.48" />
+    <circle r="30.5" fill="#0d0f13" stroke="url(#brassReliefGrad)" stroke-width="5.2" />
+    <circle r="27.2" fill="none" stroke="#fae29c" stroke-width="0.7" opacity="0.65" />
 
-    <rect x="186" y="86" width="296" height="22" rx="3" fill="#131f31" stroke="#22d3ee" stroke-width="1" />
-    <text x="194" y="101" fill="#22d3ee" font-size="11" font-weight="800" letter-spacing="1.4">
-      SWITCHGEAR &amp; MAGNETOSPHERICS
-    </text>
+    <!-- 4 Structural Brass Gear Spokes -->
+    <line x1="-27" y1="0" x2="27" y2="0" stroke="url(#brassReliefGrad)" stroke-width="3.6" />
+    <line x1="0" y1="-27" x2="0" y2="27" stroke="url(#brassReliefGrad)" stroke-width="3.6" />
+    <circle r="24" fill="#0a0c10" stroke="#7d5b16" stroke-width="1.2" />
 
-    <text x="186" y="129" fill="#e2e8f0" font-size="10.2" font-weight="700" letter-spacing="0.5">
-      VA-4 WEATHER &amp; DILITHIUM BUS • ED-9 EUCLID SETI
-    </text>
+    <!-- Triple-Skirted Glazed White Porcelain Marzelvane Standoff Insulator -->
+    <!-- Top & Bottom Brass Terminal Caps -->
+    <rect x="-7.5" y="-23" width="15" height="5" rx="1.5" fill="url(#brassReliefGrad)" stroke="#2b1d04" stroke-width="0.9" />
+    <rect x="-9.5" y="17.5" width="19" height="5" rx="1.5" fill="url(#brassReliefGrad)" stroke="#2b1d04" stroke-width="0.9" />
 
-    <text x="186" y="150" fill="#4ade80" font-size="9.2" font-style="italic" font-weight="700" letter-spacing="0.2">
-      "From Radiation Belts to Reactor Beds — If It Arcs, We Clamp It."
+    <!-- Porcelain Core Neck -->
+    <rect x="-10" y="-18" width="20" height="36" rx="4" fill="url(#porcelainGlaze)" stroke="#3d3830" stroke-width="0.9" />
+
+    <!-- Three Glazed Porcelain Sheds (Top, Middle, Bottom) -->
+    <path d="M -14,-16 C -18,-16 -19,-9 -13,-9 L 13,-9 C 19,-9 18,-16 14,-16 Z"
+          fill="url(#porcelainGlaze)" stroke="#3d3830" stroke-width="1.0" />
+    <path d="M -16,-4.5 C -21,-4.5 -21,3.5 -15,3.5 L 15,3.5 C 21,3.5 21,-4.5 16,-4.5 Z"
+          fill="url(#porcelainGlaze)" stroke="#3d3830" stroke-width="1.0" />
+    <path d="M -14,7.5 C -19,7.5 -19,15.5 -13,15.5 L 13,15.5 C 19,15.5 19,7.5 14,7.5 Z"
+          fill="url(#porcelainGlaze)" stroke="#3d3830" stroke-width="1.0" />
+
+    <!-- Center Jagged Cast-Brass High-Voltage Lightning Bolt -->
+    <polygon points="3,-16 -6,0 1,0 -4,16 8,-2 0,-2"
+             fill="url(#brassReliefGrad)" stroke="#241703" stroke-width="1.1" />
+  </g>
+
+  <!-- 7. Lower Stacked Cast-Brass Typography: SWITCHGEAR & MODEL VA-4 • CERES FOUNDRY NO. 7 -->
+  <g filter="url(#brassDropShadow)" text-anchor="middle">
+    <text x="260" y="125" fill="url(#brassReliefGrad)" stroke="#241703" stroke-width="0.7"
+          font-family="'Eurostile', 'Arial Black', 'Liberation Sans', sans-serif" font-size="22.5" font-weight="900" letter-spacing="5.5">SWITCHGEAR</text>
+
+    <text x="260" y="138.5" fill="#e6c36e"
+          font-family="'Courier New', 'Liberation Mono', monospace" font-size="9.2" font-weight="bold" letter-spacing="1.5">MODEL VA-4 • CERES FOUNDRY NO. 7</text>
+  </g>
+
+  <!-- 8. Bottom Curved Cast-Brass Ribbon Scroll: IF IT ARCS, WE CLAMP IT -->
+  <g filter="url(#brassDropShadow)">
+    <!-- Swallowtail Ribbon Ends (Left & Right) -->
+    <polygon points="126,149 146,144 146,158 128,162 134,155" fill="#8f6718" stroke="#241703" stroke-width="1.0" />
+    <polygon points="394,149 374,144 374,158 392,162 386,155" fill="#8f6718" stroke="#241703" stroke-width="1.0" />
+
+    <!-- Main Curved Cast-Brass Scroll Banner -->
+    <path d="M 140,143 Q 260,159 380,143 L 375,158 Q 260,174 145,158 Z"
+          fill="url(#brassReliefGrad)" stroke="#241703" stroke-width="1.2" />
+    <path d="M 143,145.2 Q 260,161.2 377,145.2" fill="none" stroke="#fff0b8" stroke-width="0.7" opacity="0.65" />
+
+    <!-- Curved Foundry Motto Inside the Brass Scroll -->
+    <text fill="#171003" font-family="'Arial Black', 'Liberation Sans', sans-serif" font-size="9.4" font-weight="900" letter-spacing="1.4">
+      <textPath xlink:href="#clampMottoScroll" href="#clampMottoScroll" startOffset="50%" text-anchor="middle">IF IT ARCS, WE CLAMP IT</textPath>
     </text>
+  </g>
+
+  <!-- 9. Left & Right Foundry Die-Stamped Serial Number & Bus Rating Blocks -->
+  <g filter="url(#brassDropShadow)">
+    <!-- Left Stamped Serial Number Block (SER. NO. VA4-882-351) -->
+    <text x="86" y="121" fill="#d9b256" font-family="'Courier New', 'Liberation Mono', monospace" font-size="6.8" font-weight="bold" text-anchor="middle" letter-spacing="0.6">FOUNDRY SER. NO.</text>
+    <rect x="45" y="124" width="82" height="14.5" rx="2" fill="#120e07" stroke="url(#brassReliefGrad)" stroke-width="1.1" />
+    <circle cx="50" cy="131.2" r="1.3" fill="#c99b3b" />
+    <circle cx="122" cy="131.2" r="1.3" fill="#c99b3b" />
+    <text x="86" y="134.2" fill="#f7e29c" font-family="'Courier New', 'Liberation Mono', monospace" font-size="8.2" font-weight="bold" text-anchor="middle" letter-spacing="0.5">VA4-882-351</text>
+
+    <!-- Right Stamped Bus Rating & Lot Block (50kW • LOT C07) -->
+    <text x="434" y="121" fill="#d9b256" font-family="'Courier New', 'Liberation Mono', monospace" font-size="6.8" font-weight="bold" text-anchor="middle" letter-spacing="0.6">BUS RATING / LOT</text>
+    <rect x="393" y="124" width="82" height="14.5" rx="2" fill="#120e07" stroke="url(#brassReliefGrad)" stroke-width="1.1" />
+    <circle cx="398" cy="131.2" r="1.3" fill="#c99b3b" />
+    <circle cx="470" cy="131.2" r="1.3" fill="#c99b3b" />
+    <text x="434" y="134.2" fill="#f7e29c" font-family="'Courier New', 'Liberation Mono', monospace" font-size="8.0" font-weight="bold" text-anchor="middle" letter-spacing="0.4">50kW•LOT C07</text>
   </g>
 </svg>

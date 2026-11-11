@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GOR-9 • Celestial Sphere, Oort Planetary Neighbors &amp; 3D Relay Astrometry Navigator</title>
+  <title>GOR-9 • Celestial Sphere, 5' Solar Coronagraph &amp; Oort Relay Astrometry</title>
   <script src="data/stations_data.js"></script>
   <script src="assets/vendor/three.global.js"></script>
   <style>
     :root {
-      --bg-void: #03060b;
-      --bg-chassis: #080d16;
-      --bg-panel: #0c1422;
-      --bg-well: #050911;
-      --border-lo: #1a273d;
-      --border-hi: #2b4266;
+      --bg-void: #02050a;
+      --bg-chassis: #070c15;
+      --bg-panel: #0b1320;
+      --bg-well: #040810;
+      --border-lo: #18253a;
+      --border-hi: #294063;
       --amber: #f59e0b;
       --amber-dim: rgba(245, 158, 11, 0.16);
       --cyan: #38e8ff;
-      --cyan-dim: rgba(56, 232, 255, 0.15);
+      --cyan-dim: rgba(56, 232, 255, 0.14);
       --green: #4ade80;
-      --green-dim: rgba(74, 222, 128, 0.15);
+      --green-dim: rgba(74, 222, 128, 0.14);
       --red: #fb7185;
       --purple: #c084fc;
       --text: #e2e8f0;
@@ -35,20 +35,22 @@
       width: 100%;
       height: 100vh;
       overflow: hidden;
-      background: radial-gradient(circle at 50% 0%, #0f172a 0%, #03060b 80%);
+      background: radial-gradient(circle at 50% 0%, #0d1628 0%, #02050a 82%);
       color: var(--text);
       font-family: var(--mono);
-      font-size: 14px;
+      font-size: 13.5px;
       user-select: none;
     }
 
     body {
-      display: grid;
-      grid-template-rows: 46px 1fr;
+      display: flex;
+      flex-direction: column;
     }
 
-    /* TOP ATC NAVIGATION BAR */
+    /* TOP ATC NAVIGATION BAR (Replaced dynamically by gor9-nav.js frame header) */
     .atc-topbar {
+      height: 46px;
+      min-height: 46px;
       background: linear-gradient(90deg, #090e18 0%, #131f33 50%, #090e18 100%);
       border-bottom: 1px solid var(--border-hi);
       padding: 0 14px;
@@ -57,118 +59,166 @@
       justify-content: space-between;
       gap: 10px;
       z-index: 40;
+      flex-shrink: 0;
     }
 
-    .brand-cluster {
+    /* SWEEP .300 -> .310 BROADCAST ROLL-CALL & PULSAR TIME STRIP */
+    .sweep-rollcall-bar {
+      height: 40px;
+      min-height: 40px;
+      flex-shrink: 0;
+      margin: 8px 14px 0 14px;
+      padding: 0 12px;
+      background: linear-gradient(90deg, rgba(12, 22, 38, 0.96) 0%, rgba(18, 30, 52, 0.92) 48%, rgba(10, 18, 32, 0.96) 100%);
+      border: 1px solid var(--border-hi);
+      border-left: 3px solid var(--amber);
+      border-radius: 5px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.55);
     }
 
-    .on-air-pill {
-      background: rgba(251, 113, 133, 0.16);
-      border: 1px solid var(--red);
-      color: #fecdd3;
+    .pst-cluster {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      flex-shrink: 0;
+    }
+
+    .pst-badge {
+      background: rgba(74, 222, 128, 0.13);
+      border: 1px solid rgba(74, 222, 128, 0.55);
+      color: var(--green);
       font-size: 10.5px;
       font-weight: 800;
       padding: 3px 8px;
       border-radius: 3px;
-      display: flex;
+      letter-spacing: 0.05em;
+      display: inline-flex;
       align-items: center;
       gap: 6px;
-      letter-spacing: 0.08em;
+      white-space: nowrap;
     }
 
-    .on-air-dot {
-      width: 7px;
-      height: 7px;
+    .pst-dot {
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
-      background: var(--red);
-      box-shadow: 0 0 8px var(--red);
-      animation: pulseLed 1.4s infinite ease-in-out;
+      background: var(--green);
+      box-shadow: 0 0 7px var(--green);
     }
 
-    @keyframes pulseLed {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-
-    .station-title {
-      font-size: 13px;
-      font-weight: 800;
-      color: var(--amber);
-      letter-spacing: 0.07em;
-    }
-
-    .station-sub {
+    .pst-units-hint {
       font-size: 10px;
-      color: var(--cyan);
-      letter-spacing: 0.04em;
+      color: var(--muted);
+      white-space: nowrap;
     }
 
-    .top-telem-pills {
+    .rollcall-controls {
       display: flex;
-      gap: 8px;
       align-items: center;
-    }
-
-    .t-pill {
-      background: var(--bg-well);
-      border: 1px solid var(--border-lo);
-      padding: 3px 8px;
-      border-radius: 3px;
-      font-size: 10.5px;
-      color: var(--muted);
-    }
-
-    .t-pill b.amber { color: var(--amber); }
-    .t-pill b.cyan { color: var(--cyan); }
-    .t-pill b.green { color: var(--green); }
-
-    .nav-mode-tabs {
-      display: flex;
       gap: 5px;
-      flex-wrap: wrap;
+      flex-shrink: 0;
     }
 
-    .mode-tab {
-      background: #0d1524;
-      border: 1px solid var(--border-lo);
-      color: var(--muted);
-      padding: 5px 9px;
+    .rc-btn {
+      background: #0c1525;
+      border: 1px solid #294166;
+      color: var(--text);
       font-family: var(--mono);
       font-size: 10.5px;
-      font-weight: 700;
-      text-decoration: none;
+      font-weight: 800;
+      padding: 4px 9px;
       border-radius: 3px;
-      transition: all 0.14s ease;
+      cursor: pointer;
+      transition: all 0.12s ease;
+      white-space: nowrap;
     }
 
-    .mode-tab:hover {
-      color: #fff;
+    .rc-btn:hover {
       border-color: var(--cyan);
+      color: #ffffff;
     }
 
-    .mode-tab.active {
-      background: var(--cyan-dim);
-      border-color: var(--cyan);
+    .rc-btn.primary {
+      background: var(--amber-dim);
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+
+    .rc-btn.primary.playing {
+      background: rgba(251, 113, 133, 0.2);
+      border-color: var(--red);
+      color: #fecdd3;
+      box-shadow: 0 0 12px rgba(251, 113, 133, 0.28);
+    }
+
+    .rc-seq-pill {
+      background: #060b14;
+      border: 1px solid #223554;
       color: var(--cyan);
-      box-shadow: 0 0 12px rgba(56, 232, 255, 0.25);
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 3px;
+      white-space: nowrap;
     }
 
-    /* MAIN WORKSPACE GRID: LEFT NAVIGATOR RAIL + RIGHT MULTI-VIEW DECK */
+    .rc-log-ticker {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow: hidden;
+      font-size: 11px;
+      background: rgba(4, 8, 15, 0.72);
+      border: 1px solid #1a2942;
+      border-radius: 3px;
+      padding: 4px 10px;
+    }
+
+    .rc-log-freq {
+      color: var(--amber);
+      font-weight: 800;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .rc-log-sinpo {
+      color: var(--green);
+      font-size: 10px;
+      font-weight: 700;
+      background: rgba(74, 222, 128, 0.1);
+      border: 1px solid rgba(74, 222, 128, 0.32);
+      padding: 1px 5px;
+      border-radius: 2px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .rc-log-text {
+      color: #dbe7f5;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* MAIN WORKSPACE GRID */
     .atlas-workspace {
       display: grid;
-      grid-template-columns: 335px 1fr;
+      grid-template-columns: 338px 1fr;
       gap: 10px;
-      padding: 10px 12px;
-      height: calc(100vh - 46px);
+      padding: 8px 14px 10px 14px;
+      flex: 1;
       min-height: 0;
     }
 
     /* LEFT LOCATION NAVIGATOR RAIL */
     .nav-rail {
-      background: linear-gradient(180deg, #0d1524 0%, #070c15 100%);
+      background: linear-gradient(180deg, #0b1322 0%, #060a13 100%);
       border: 1px solid var(--border-hi);
       border-radius: 6px;
       display: flex;
@@ -179,8 +229,8 @@
     }
 
     .rail-hdr {
-      padding: 9px 11px;
-      background: linear-gradient(90deg, rgba(56, 232, 255, 0.14), rgba(13, 21, 36, 0.4));
+      padding: 8px 11px;
+      background: linear-gradient(90deg, rgba(56, 232, 255, 0.13), rgba(11, 19, 34, 0.4));
       border-bottom: 1px solid var(--border-hi);
       display: flex;
       justify-content: space-between;
@@ -188,30 +238,31 @@
       font-size: 11px;
       font-weight: 800;
       color: var(--cyan);
-      letter-spacing: 0.08em;
+      letter-spacing: 0.07em;
     }
 
     .cat-filter-bar {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 4px;
-      padding: 7px 8px;
-      background: #060a12;
+      padding: 6px 7px;
+      background: #050911;
       border-bottom: 1px solid var(--border-lo);
     }
 
     .cat-btn {
-      background: #0e1726;
-      border: 1px solid #22324d;
+      background: #0d1626;
+      border: 1px solid #20304b;
       color: var(--muted);
       font-family: var(--mono);
-      font-size: 9.5px;
+      font-size: 10px;
       font-weight: 800;
-      padding: 5px 4px;
+      padding: 5px 3px;
       border-radius: 3px;
       cursor: pointer;
       text-align: center;
       transition: all 0.12s;
+      white-space: nowrap;
     }
 
     .cat-btn:hover { color: #fff; border-color: var(--cyan); }
@@ -224,7 +275,7 @@
     .location-list {
       flex: 1;
       overflow-y: auto;
-      padding: 7px 8px;
+      padding: 6px 8px;
       display: flex;
       flex-direction: column;
       gap: 5px;
@@ -234,16 +285,17 @@
     .location-list::-webkit-scrollbar-thumb { background: #263856; border-radius: 3px; }
 
     .loc-item {
-      background: linear-gradient(180deg, #111a2c 0%, #0a101b 100%);
-      border: 1px solid #1f2e47;
+      background: linear-gradient(180deg, #0f1829 0%, #080e18 100%);
+      border: 1px solid #1b2a42;
       border-left: 3px solid var(--cyan);
       border-radius: 4px;
-      padding: 7px 9px;
+      padding: 6px 9px;
       cursor: pointer;
       transition: all 0.12s ease;
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 2px;
+      flex-shrink: 0;
     }
 
     .loc-item:hover {
@@ -252,10 +304,10 @@
     }
 
     .loc-item.active {
-      background: linear-gradient(90deg, rgba(245, 158, 11, 0.18), rgba(16, 25, 42, 0.95));
+      background: linear-gradient(90deg, rgba(245, 158, 11, 0.18), rgba(14, 22, 38, 0.96));
       border-color: var(--amber);
       border-left: 4px solid var(--amber);
-      box-shadow: 0 0 14px rgba(245, 158, 11, 0.22);
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.2);
     }
 
     .loc-row1 {
@@ -264,19 +316,20 @@
       align-items: center;
       font-size: 10.5px;
       font-weight: 800;
+      gap: 5px;
     }
 
     .loc-slot {
       padding: 1px 5px;
       border-radius: 2px;
       font-size: 9.5px;
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.06);
     }
 
     .loc-name {
-      font-size: 11.5px;
+      font-size: 12px;
       font-weight: 800;
-      color: #fff;
+      color: #f8fafc;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -287,26 +340,27 @@
       justify-content: space-between;
       font-size: 9.5px;
       color: var(--muted);
+      gap: 6px;
+      white-space: nowrap;
     }
 
-    /* RIGHT MULTI-VIEW DECK: TOP DUAL VIEWPORTS + BOTTOM ALL-SKY & TRIANGULATION */
+    /* RIGHT MULTI-VIEW DECK */
     .views-deck {
       display: grid;
-      grid-template-rows: 1.28fr 0.92fr;
+      grid-template-rows: 1.32fr 0.88fr;
       gap: 10px;
       min-height: 0;
-      height: 100%;
     }
 
     .top-dual-viewports {
       display: grid;
-      grid-template-columns: 1fr 1.08fr;
+      grid-template-columns: 1.05fr 1fr;
       gap: 10px;
       min-height: 0;
     }
 
     .viewport-card {
-      background: linear-gradient(180deg, #0d1524 0%, #070b14 100%);
+      background: linear-gradient(180deg, #0b1322 0%, #050911 100%);
       border: 1px solid var(--border-hi);
       border-radius: 6px;
       display: flex;
@@ -318,42 +372,52 @@
     }
 
     .vp-hdr {
-      height: 36px;
-      padding: 0 12px;
-      background: linear-gradient(90deg, rgba(245, 158, 11, 0.14), rgba(12, 20, 34, 0.6));
+      height: 34px;
+      min-height: 34px;
+      padding: 0 10px;
+      background: linear-gradient(90deg, rgba(245, 158, 11, 0.13), rgba(10, 17, 30, 0.7));
       border-bottom: 1px solid var(--border-hi);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
-      font-size: 11px;
+      gap: 6px;
+      font-size: 10.5px;
       font-weight: 800;
       color: var(--amber);
-      letter-spacing: 0.06em;
+      letter-spacing: 0.04em;
+    }
+
+    .vp-hdr > span:first-child {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
     }
 
     .vp-hdr.cyan-hdr {
-      background: linear-gradient(90deg, rgba(56, 232, 255, 0.14), rgba(12, 20, 34, 0.6));
+      background: linear-gradient(90deg, rgba(56, 232, 255, 0.13), rgba(10, 17, 30, 0.7));
       color: var(--cyan);
     }
 
     .vp-controls {
       display: flex;
-      gap: 5px;
+      gap: 4px;
       align-items: center;
+      flex-shrink: 0;
     }
 
     .vp-btn {
-      background: #0d1626;
-      border: 1px solid #283c5c;
+      background: #0c1525;
+      border: 1px solid #263a59;
       color: var(--muted);
       font-family: var(--mono);
-      font-size: 9.5px;
+      font-size: 9.8px;
       font-weight: 800;
       padding: 3px 7px;
       border-radius: 3px;
       cursor: pointer;
       transition: all 0.12s;
+      white-space: nowrap;
     }
 
     .vp-btn:hover { color: #fff; border-color: var(--cyan); }
@@ -371,7 +435,7 @@
     .vp-canvas-wrap {
       flex: 1;
       position: relative;
-      background: #020408;
+      background: #010307;
       overflow: hidden;
       min-height: 0;
     }
@@ -380,7 +444,7 @@
       width: 100%;
       height: 100%;
       display: block;
-      cursor: grab;
+      cursor: crosshair;
     }
 
     .vp-canvas-wrap canvas:active {
@@ -390,40 +454,47 @@
     /* HUD Overlays inside Viewports */
     .vp-hud-overlay {
       position: absolute;
-      left: 10px;
-      right: 10px;
-      bottom: 8px;
+      left: 8px;
+      right: 8px;
+      bottom: 7px;
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
       pointer-events: none;
       z-index: 10;
+      gap: 8px;
     }
 
     .hud-pill-box {
-      background: rgba(4, 8, 15, 0.86);
-      border: 1px solid rgba(56, 232, 255, 0.35);
+      background: rgba(3, 6, 12, 0.88);
+      border: 1px solid rgba(56, 232, 255, 0.3);
       border-radius: 4px;
       padding: 5px 9px;
       font-size: 10px;
-      line-height: 1.4;
+      line-height: 1.35;
       color: var(--text);
       backdrop-filter: blur(4px);
+      max-width: 56%;
     }
 
-    /* Picture-in-Picture Site Plate / QSL Inset in Sky View */
+    .hud-pill-box > div {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Optional Picture-in-Picture Site Plate / QSL Inset */
     .pip-site-card {
       position: absolute;
-      top: 10px;
-      right: 10px;
-      width: 210px;
-      background: rgba(5, 9, 16, 0.92);
+      top: 8px;
+      right: 8px;
+      width: 176px;
+      background: rgba(4, 8, 15, 0.94);
       border: 1px solid var(--amber);
-      border-radius: 5px;
+      border-radius: 4px;
       overflow: hidden;
       z-index: 12;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
-      transition: opacity 0.2s;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.85);
     }
 
     .pip-site-card.hidden {
@@ -440,30 +511,29 @@
 
     .pip-site-caption {
       padding: 4px 7px;
-      font-size: 9px;
+      font-size: 9.5px;
       color: var(--amber);
       font-weight: 700;
       display: flex;
       justify-content: space-between;
     }
 
-    /* BOTTOM DECK: 360° EQUIRECTANGULAR SKY MAP + CERES TRIANGULATION & RELAY DOSSIER */
+    /* BOTTOM DECK: 360° EQUIRECTANGULAR SKY MAP + ASTROMETRIC EPHEMERIS & FLUX-DUCT DOSSIER */
     .bottom-deck {
       display: grid;
-      grid-template-columns: 1.15fr 1fr;
+      grid-template-columns: 1.08fr 1fr;
       gap: 10px;
       min-height: 0;
     }
 
-    /* Right Bottom: Triangulation, Relay Chain & Site Dossier */
     .triangulation-body {
       flex: 1;
-      padding: 9px 12px;
+      padding: 7px 11px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 8px;
-      overflow-y: auto;
+      gap: 5px;
+      overflow: hidden;
       min-height: 0;
     }
 
@@ -473,11 +543,11 @@
       align-items: flex-start;
       gap: 8px;
       border-bottom: 1px solid var(--border-lo);
-      padding-bottom: 6px;
+      padding-bottom: 4px;
     }
 
     .target-title {
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 800;
       color: #fff;
     }
@@ -485,70 +555,80 @@
     .target-sub {
       font-size: 10.5px;
       color: var(--cyan);
-      margin-top: 2px;
+      margin-top: 1px;
     }
 
     .tri-metrics-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 6px;
+      gap: 5px;
     }
 
     .tri-cell {
       background: var(--bg-well);
       border: 1px solid var(--border-lo);
       border-radius: 4px;
-      padding: 5px 8px;
+      padding: 4px 7px;
+      min-width: 0;
     }
 
     .tri-cell .k {
-      font-size: 8.5px;
+      font-size: 9px;
       color: var(--muted);
       text-transform: uppercase;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .tri-cell .v {
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 800;
       margin-top: 2px;
       color: var(--amber);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    /* Relay Hop Chain Strip */
     .relay-chain-box {
-      background: #050912;
-      border: 1px solid #1e2f4a;
+      background: #040811;
+      border: 1px solid #1b2c46;
       border-radius: 4px;
-      padding: 6px 9px;
+      padding: 5px 8px;
     }
 
     .relay-chain-hdr {
       display: flex;
       justify-content: space-between;
-      font-size: 9px;
+      font-size: 9.5px;
       font-weight: 800;
       color: var(--cyan);
-      margin-bottom: 5px;
-      letter-spacing: 0.06em;
+      margin-bottom: 4px;
+      letter-spacing: 0.05em;
     }
 
     .relay-hops-row {
       display: flex;
       align-items: center;
-      gap: 6px;
-      flex-wrap: wrap;
+      gap: 4px;
+      flex-wrap: nowrap;
+      overflow: hidden;
     }
 
     .hop-node {
-      background: #0e1829;
-      border: 1px solid #2b4266;
-      padding: 3px 7px;
+      background: #0c1525;
+      border: 1px solid #263c5e;
+      padding: 2px 6px;
       border-radius: 3px;
       font-size: 9.5px;
       color: #e2e8f0;
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .hop-node.origin {
@@ -566,27 +646,28 @@
     .hop-arrow {
       color: var(--cyan);
       font-weight: 800;
-      font-size: 11px;
+      font-size: 10.5px;
+      flex-shrink: 0;
     }
 
     .appearance-lore-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
+      gap: 7px;
       flex: 1;
       min-height: 0;
     }
 
     .lore-box {
-      background: #060a13;
-      border: 1px solid #1b2a42;
+      background: #050912;
+      border: 1px solid #19273e;
       border-left: 3px solid var(--cyan);
       border-radius: 4px;
       padding: 6px 9px;
       font-size: 10.5px;
-      line-height: 1.42;
+      line-height: 1.38;
       color: #cbd5e1;
-      overflow-y: auto;
+      overflow: hidden;
     }
 
     .lore-box.amber-border {
@@ -594,93 +675,74 @@
     }
 
     .lore-box-title {
-      font-size: 9px;
+      font-size: 9.5px;
       font-weight: 800;
       color: var(--cyan);
-      letter-spacing: 0.06em;
+      letter-spacing: 0.05em;
       margin-bottom: 3px;
       text-transform: uppercase;
     }
 
+    #dos-appearance, #dos-lore {
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
     .action-links-row {
-      display: flex;
-      gap: 6px;
-    }
-
-    .cta-btn {
-      flex: 1;
-      text-align: center;
-      text-decoration: none;
-      font-size: 10px;
-      font-weight: 800;
-      padding: 6px 8px;
-      border-radius: 3px;
-      border: 1px solid var(--amber);
-      background: var(--amber-dim);
-      color: var(--amber);
-      transition: all 0.14s;
-    }
-
-    .cta-btn:hover {
-      background: var(--amber);
-      color: #03060b;
-    }
-
-    .cta-btn.cyan {
-      border-color: var(--cyan);
-      background: var(--cyan-dim);
-      color: var(--cyan);
-    }
-
-    .cta-btn.cyan:hover {
-      background: var(--cyan);
-      color: #03060b;
+      display: none !important;
     }
   </style>
 </head>
 <body>
 
-  <!-- TOP STATION NAVIGATION BAR -->
+  <!-- TOP STATION NAVIGATION BAR (Upgraded into Unified Console Header by gor9-nav.js) -->
   <header class="atc-topbar">
-    <div class="brand-cluster">
-      <div class="on-air-pill"><span class="on-air-dot"></span>ON AIR • 0400 GCT</div>
-      <div>
-        <div class="station-title">GOR-9 • CELESTIAL SPHERE, OORT NEIGHBORS &amp; 3D RELAY ASTROMETRY</div>
-        <div class="station-sub">ASTEROID 3-5-1 SKY TELESCOPE • CERES FOUNDRY #7 TRIANGULATION BASELINE (1,840 AU) • 3D RELAY SPHERE</div>
-      </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span style="color:var(--amber);font-weight:800;">GOR-9 • CELESTIAL SPHERE, 5' SOLAR CORONAGRAPH &amp; OORT RELAY RING</span>
+      <span style="color:var(--cyan);font-size:10.5px;">ASTEROID 3-5-1 (42,100 AU • INFALL -42.6 m/s • COMA ETA 1.39 Myr)</span>
     </div>
-
-    <div class="top-telem-pills">
-      <div class="t-pill">SOL: <b class="amber">m = -3.62 (42,100 AU • AZ 212.4°)</b></div>
-      <div class="t-pill">CERES BASELINE: <b class="cyan">CFS-7 (1,840 AU • AZ 272.0°)</b></div>
-      <div class="t-pill">PULSAR LOCK: <b class="green">PSR B1937+21 (641.928 Hz)</b></div>
-    </div>
-
-    <nav class="nav-mode-tabs">
-      <a href="index.html" class="mode-tab">🎛️ HAUSER MK-IV</a>
-      <a href="celestial-atlas.html" class="mode-tab active">🌌 CELESTIAL &amp; 3D ATLAS</a>
-      <a href="propagation.html" class="mode-tab">🌩️ VAN ALLEN VA-4</a>
-      <a href="euclidean-detector.html" class="mode-tab">📐 EUCLID ED-9</a>
-      <a href="bogey-detector.html" class="mode-tab">🛸 BOGEY-9</a>
-      <a href="station.html" class="mode-tab">🃏 DOSSIER &amp; QSL</a>
-      <a href="tower-3d.html" class="mode-tab">🗼 3D TOWER</a>
-    </nav>
   </header>
+
+  <!-- PULSAR BARYCENTRIC TIME (PST) & SWEEP .300 -> .310 ROLL-CALL OPENER BAR -->
+  <section class="sweep-rollcall-bar" aria-label="Pulsar Time and Sweep Roll-Call Controls">
+    <div class="pst-cluster">
+      <span class="pst-badge" title="Locked to Vulpecula Millisecond Pulsar PSR B1937+21 (641.928262 Hz • 1 Beat = 1,000 pulses = 1.5578s)">
+        <span class="pst-dot"></span>
+        <span id="pst-live-readout">EPOCH 254.310 • W0 • B0000 PST</span>
+      </span>
+      <span class="pst-units-hint">6W = 1 CYC (26.0h) • 10 CYC = 1 SWEEP</span>
+    </div>
+
+    <div class="rollcall-controls">
+      <button class="rc-btn primary" id="btn-rollcall-play" onclick="toggleSweepRollCall()" title="Auto-step through all 14 Sweep 254.300 → .310 contacts (Spacebar)">▶ SWEEP .310 ROLL-CALL</button>
+      <button class="rc-btn" onclick="stepSweepRollCall(-1)" title="Previous Sweep Contact ([)">◀</button>
+      <span class="rc-seq-pill" id="rc-seq-pill">SWEEP LOG 03 / 14 • CERES BELT</span>
+      <button class="rc-btn" onclick="stepSweepRollCall(1)" title="Next Sweep Contact (])">▶</button>
+    </div>
+
+    <div class="rc-log-ticker">
+      <span class="rc-log-freq" id="rc-log-freq">10,000 / 6,440 kHz</span>
+      <span class="rc-log-sinpo" id="rc-log-sinpo">SINPO 5-2-4-4-3</span>
+      <span class="rc-log-text" id="rc-log-text">Foundry #7 (±13.6" off Sol, 2.77 AU): Grade-B Dilithium +4.2%; Syndicate 6,440 kHz jammer fired on empty channel Cycle .306.</span>
+    </div>
+  </section>
 
   <!-- MAIN WORKSPACE -->
   <main class="atlas-workspace">
 
-    <!-- LEFT RAIL: 17 NAVIGABLE LOCATIONS (STATIONS, OORT NEIGHBORS, CERES, ANCHORS) -->
+    <!-- LEFT RAIL: NAVIGABLE STATIONS, SOLAR CORONAGRAPH ORBITS & OORT RELAY NODES -->
     <aside class="nav-rail">
       <div class="rail-hdr">
-        <span>CELESTIAL &amp; STATION TARGETS</span>
-        <span id="loc-count-lbl">17 BODIES</span>
+        <span>ASTROMETRIC &amp; DX CATALOG</span>
+        <span id="loc-count-lbl">20 TARGETS</span>
       </div>
       <div class="cat-filter-bar">
-        <button class="cat-btn active" data-filter="all" onclick="setCategoryFilter('all')">ALL (17)</button>
-        <button class="cat-btn" data-filter="station" onclick="setCategoryFilter('station')">📡 DX (8)</button>
-        <button class="cat-btn" data-filter="neighbor" onclick="setCategoryFilter('neighbor')">🪐 OORT (6)</button>
-        <button class="cat-btn" data-filter="anchor" onclick="setCategoryFilter('anchor')">✦ REF (3)</button>
+        <button class="cat-btn active" data-filter="all" onclick="setCategoryFilter('all')">ALL (20)</button>
+        <button class="cat-btn" data-filter="dx" onclick="setCategoryFilter('dx')">📡 DX (8)</button>
+        <button class="cat-btn" data-filter="solar" onclick="setCategoryFilter('solar')">☀️ SOLAR (9)</button>
+        <button class="cat-btn" data-filter="oort" onclick="setCategoryFilter('oort')">🛰️ OORT/DEEP</button>
       </div>
       <div class="location-list" id="location-list"></div>
     </aside>
@@ -691,23 +753,24 @@
       <!-- TOP DUAL SYNCHRONIZED VIEWPORTS -->
       <div class="top-dual-viewports">
 
-        <!-- VIEWPORT 1: SKY VIEW FROM ASTEROID 3-5-1 (TELESCOPE & HORIZON DOME) -->
+        <!-- VIEWPORT 1: MULTI-SCALE SKY TELESCOPE & 4.90"/AU SOLAR CORONAGRAPH -->
         <div class="viewport-card">
           <div class="vp-hdr">
-            <span>🔭 VIEW 1 • SKY VIEW FROM ASTEROID 3-5-1 (BOOTH TELESCOPE &amp; CLIFF HORIZON)</span>
+            <span>🔭 VIEW 1 • SKY &amp; SOLAR CORONAGRAPH (4.90"/AU)</span>
             <div class="vp-controls">
-              <button class="vp-btn amber-act" id="zoom-btn-1" onclick="setSkyZoom(1)">1x HORIZON</button>
-              <button class="vp-btn amber-act active" id="zoom-btn-6" onclick="setSkyZoom(6)">6x TRACKER</button>
-              <button class="vp-btn amber-act" id="zoom-btn-32" onclick="setSkyZoom(32)">32x PLANETARY</button>
-              <button class="vp-btn active" id="btn-sky-arcs" onclick="toggleSkyArcs()">📐 ARCS</button>
-              <button class="vp-btn active" id="btn-sky-pip" onclick="toggleSkyPip()">🖼️ SITE PIP</button>
+              <button class="vp-btn amber-act" id="zoom-btn-1" onclick="setSkyZoom(1, true)" title="90° Wide Horizon & Milky Way">1× WIDE</button>
+              <button class="vp-btn amber-act" id="zoom-btn-45" onclick="centerSolAndZoom(45)" title="2.0° Field: 90377 Sedna 1.28° Hills Cloud Loop">45× SEDNA</button>
+              <button class="vp-btn amber-act" id="zoom-btn-300" onclick="centerSolAndZoom(300)" title="18' Field: Eris (44°), Pluto, Neptune & Uranus Orbits">300× KUIPER</button>
+              <button class="vp-btn amber-act active" id="zoom-btn-1800" onclick="centerSolAndZoom(1800)" title="3.0' Lyot Coronagraph: Earth, Mars, Ceres, Jupiter+L4 & Saturn Orbits">1800× CORONAGRAPH</button>
+              <button class="vp-btn active" id="btn-sky-arcs" onclick="toggleSkyArcs()" title="Toggle Keplerian Orbits, Velocity Arrows & Relay Vectors">📐 ORBITS</button>
+              <button class="vp-btn" id="btn-sky-pip" onclick="toggleSkyPip()" title="Toggle Visual Site / eQSL Plate Inset">🖼️ PIP</button>
             </div>
           </div>
           <div class="vp-canvas-wrap">
             <canvas id="sky-view-canvas"></canvas>
 
-            <!-- Picture-in-Picture Site / QSL Inset -->
-            <div class="pip-site-card" id="sky-pip-card">
+            <!-- Optional Picture-in-Picture Site / QSL Inset -->
+            <div class="pip-site-card hidden" id="sky-pip-card">
               <img id="sky-pip-img" src="assets/plates/qsl_plate_radio_corrugated.jpg" alt="Target Visual Plate" />
               <div class="pip-site-caption">
                 <span id="sky-pip-tag">SITE / QSL FEED</span>
@@ -717,38 +780,38 @@
 
             <div class="vp-hud-overlay">
               <div class="hud-pill-box">
-                <div>POINTING: <b style="color:var(--amber);" id="sky-hud-azel">AZ 212.4° • EL +17.2°</b></div>
-                <div style="color:var(--muted);font-size:9px;" id="sky-hud-window">South-West Coreward Window (Sol–Jovian Duct)</div>
+                <div>LOCK: <b style="color:var(--amber);" id="sky-hud-azel">AZ 212.400° • EL +22.400°</b></div>
+                <div style="color:var(--muted);font-size:9.5px;" id="sky-hud-window">South-West Coreward Window (Sol 5' Coronagraph Lock)</div>
               </div>
               <div class="hud-pill-box" style="text-align:right;">
-                <div>FOV: <b style="color:var(--cyan);" id="sky-hud-fov">20.0° × 11.2° (6x TRACKER)</b></div>
-                <div style="color:var(--muted);font-size:9px;">DRAG TO PAN SKY • WHEEL TO ZOOM</div>
+                <div>FOV: <b style="color:var(--cyan);" id="sky-hud-fov">3.00' × 1.72' (LYOT CORONAGRAPH)</b></div>
+                <div style="color:var(--muted);font-size:9.5px;" id="sky-hud-sub">UNRESOLVED POINT OPTICS • DRAG PAN • WHEEL 1×–4000×</div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- VIEWPORT 2: INTERACTIVE 3D ASTROMETRY, RELAY CHAIN & CERES TRIANGULATION SPHERE -->
+        <!-- VIEWPORT 2: 3D COMETARY INFALL ORBIT, 12-STATION OORT RING & KEPLERIAN ORRERY -->
         <div class="viewport-card">
           <div class="vp-hdr cyan-hdr">
-            <span>🌐 VIEW 2 • 3D ASTROMETRY SPHERE (ASTEROID 3-5-1 → RELAYS → TARGET)</span>
+            <span>🌐 VIEW 2 • 3D ORBIT, OORT RING &amp; DUCTS</span>
             <div class="vp-controls">
-              <button class="vp-btn active" id="cam3d-vector" onclick="set3DCameraMode('vector')">🎯 RELAY VECTOR</button>
-              <button class="vp-btn" id="cam3d-ceres" onclick="set3DCameraMode('ceres')">📐 CERES TRIANGLE</button>
-              <button class="vp-btn" id="cam3d-oort" onclick="set3DCameraMode('oort')">🪐 OORT SHELL</button>
-              <button class="vp-btn" id="cam3d-galaxy" onclick="set3DCameraMode('galaxy')">🌌 FULL 3D</button>
-              <button class="vp-btn active" id="btn-3d-spin" onclick="toggle3DSpin()">⟳ SPIN</button>
+              <button class="vp-btn active" id="cam3d-cometary" onclick="set3DCameraMode('cometary')" title="Asteroid 3-5-1's 3.10 Myr Cometary Infall + 12-Station GOR-1..12 Oort Ring">☄️ OUR ORBIT &amp; RING</button>
+              <button class="vp-btn" id="cam3d-orrery" onclick="set3DCameraMode('orrery')" title="3D Inclined Keplerian Orbits (Earth, Ceres, Jupiter L4, Saturn, Pluto, Eris, Sedna)">🪐 ORRERY</button>
+              <button class="vp-btn" id="cam3d-ducts" onclick="set3DCameraMode('ducts')" title="Marzelvane 14.285 MHz Standing-Wave Flux-Ducts & Multi-Hop Relays">⚡ DUCTS</button>
+              <button class="vp-btn" id="cam3d-galaxy" onclick="set3DCameraMode('galaxy')" title="Logarithmic Reach from Oort Shell (42k AU) to Triangulum M-33 (2.73 Mly)">🌌 REACH</button>
+              <button class="vp-btn active" id="btn-3d-spin" onclick="toggle3DSpin()" title="Toggle Slow Turntable Orbit">⟳</button>
             </div>
           </div>
           <div class="vp-canvas-wrap" id="sphere3d-container">
             <div class="vp-hud-overlay">
               <div class="hud-pill-box">
-                <div>3D VECTOR: <b style="color:var(--cyan);" id="hud3d-path">GOR-9 → 2 RELAYS → SW4-CORR</b></div>
-                <div style="color:var(--muted);font-size:9px;" id="hud3d-shells">HYBRID RADIAL SHELLS: OORT (0.28) • SOL/CERES (0.48) • ARMS (0.78) • M-33 (0.95)</div>
+                <div>3D MODE: <b style="color:var(--cyan);" id="hud3d-path">3-5-1 COMETARY INFALL &amp; 12-RELAY OORT RING</b></div>
+                <div style="color:var(--muted);font-size:9.5px;" id="hud3d-shells">Q = 42,500 AU → q = 1.22 AU (i = 104.2° • P = 3.10 Myr • v_r = -42.6 m/s)</div>
               </div>
               <div class="hud-pill-box" style="text-align:right;">
-                <div>CERES BASELINE: <b style="color:var(--amber);" id="hud3d-ceres">Δθ 57.2° • 40,564 AU</b></div>
-                <div style="color:var(--muted);font-size:9px;">LMB ORBIT • RMB PAN • WHEEL ZOOM</div>
+                <div>FROST LINE ETA: <b style="color:var(--amber);" id="hud3d-ceres">1.392 Myr (470,100 SWEEPS)</b></div>
+                <div style="color:var(--muted);font-size:9.5px;">VLBI: GOR-9 ↔ GOR-3 (83,900 AU / 1.33 ly)</div>
               </div>
             </div>
           </div>
@@ -756,15 +819,15 @@
 
       </div>
 
-      <!-- BOTTOM DECK: 360° EQUIRECTANGULAR CELESTIAL SPHERE MAP + TRIANGULATION & RELAY DOSSIER -->
+      <!-- BOTTOM DECK: 360° ALL-SKY SWEEP MAP + ASTROMETRIC EPHEMERIS & FLUX-DUCT DOSSIER -->
       <div class="bottom-deck">
 
-        <!-- BOTTOM LEFT: 360° EQUIRECTANGULAR ALL-SKY CELESTIAL SPHERE MAP -->
+        <!-- BOTTOM LEFT: 360° EQUIRECTANGULAR ALL-SKY CELESTIAL SPHERE & SWEEP CONTACTS -->
         <div class="viewport-card">
           <div class="vp-hdr">
-            <span>🗺️ VIEW 3 • 360° EQUIRECTANGULAR CELESTIAL SPHERE (CLICK ANYWHERE TO STEER SKY TELESCOPE)</span>
+            <span>🗺️ VIEW 3 • 360° ALL-SKY &amp; SWEEP .310 BEARINGS</span>
             <div class="vp-controls">
-              <span style="font-size:9.5px;color:var(--cyan);">CYAN BOX = VIEW 1 TELESCOPE FOV</span>
+              <span style="font-size:9.5px;color:var(--cyan);">88.4° S POLAR LOCK • CLICK TO SLEW VIEW 1</span>
             </div>
           </div>
           <div class="vp-canvas-wrap">
@@ -772,63 +835,63 @@
           </div>
         </div>
 
-        <!-- BOTTOM RIGHT: CERES TRIANGULATION, 3D RELAY HOP CHAIN & VISUAL DOSSIER -->
+        <!-- BOTTOM RIGHT: ASTROMETRIC EPHEMERIS, MARZELVANE FLUX-DUCT CHAIN & LORE -->
         <div class="viewport-card">
           <div class="vp-hdr cyan-hdr">
-            <span>📐 ASTROMETRIC TRIANGULATION, 3D RELAY HOP CHAIN &amp; OBSERVATION DOSSIER</span>
-            <span id="dos-slot-badge" style="color:var(--amber);">P-01 • SW4-CORR</span>
+            <span>📐 ASTROMETRIC EPHEMERIS, MARZELVANE FLUX-DUCT &amp; SECTOR DOSSIER</span>
+            <span id="dos-slot-badge" style="color:var(--amber);">CFS-7 • 1 CERES</span>
           </div>
           <div class="triangulation-body">
             <div class="target-banner">
-              <div>
-                <div class="target-title" id="dos-title">Radio Corrugated — Callisto Dome-4</div>
-                <div class="target-sub" id="dos-sub">Unlicensed Market Pirate • 11,410.0 kHz AM-W • Orion–Cygnus Spur</div>
+              <div style="min-width:0;">
+                <div class="target-title" id="dos-title">Ceres Foundry #7 (Main Asteroid Belt • 2.77 AU)</div>
+                <div class="target-sub" id="dos-sub">Van Allen Switchgear HQ • 10,000.0 kHz Std / 6,440.0 kHz Jammer</div>
               </div>
-              <span id="dos-cat-pill" style="background:var(--amber-dim);border:1px solid var(--amber);color:var(--amber);padding:3px 8px;border-radius:3px;font-size:9.5px;font-weight:800;">STATION P-01</span>
+              <span id="dos-cat-pill" style="background:var(--amber-dim);border:1px solid var(--amber);color:var(--amber);padding:2px 7px;border-radius:3px;font-size:9px;font-weight:800;white-space:nowrap;flex-shrink:0;">CORONAGRAPH CORE</span>
             </div>
 
             <div class="tri-metrics-grid">
               <div class="tri-cell">
                 <div class="k">GOR-9 SKY BEARING</div>
-                <div class="v" id="tri-bearing">AZ 212.4° / +17.2°</div>
+                <div class="v" id="tri-bearing">AZ 212.403° / +22.398°</div>
               </div>
               <div class="tri-cell">
-                <div class="k">RANGE &amp; APPARENT</div>
-                <div class="v" id="tri-range" style="color:var(--green);">0.66 ly (42,095 AU)</div>
+                <div class="k">RANGE &amp; PHOTOMETRY</div>
+                <div class="v" id="tri-range" style="color:var(--green);">42,098 AU (m = +23.8)</div>
               </div>
               <div class="tri-cell">
-                <div class="k">CERES FOUNDRY #7 Δ</div>
-                <div class="v" id="tri-ceres" style="color:var(--cyan);">57.2° • 41,210 AU</div>
+                <div class="k">ORBITAL / KINEMATICS</div>
+                <div class="v" id="tri-kinematics" style="color:var(--cyan);">a=2.77 AU • 17.9 km/s</div>
               </div>
               <div class="tri-cell">
                 <div class="k">SOL / PSR B1937 Δ</div>
-                <div class="v" id="tri-sol-psr">Sol 5.2° • PSR 135.8°</div>
+                <div class="v" id="tri-sol-psr">ΔSol 13.6" • PSR 135.2°</div>
               </div>
             </div>
 
             <div class="relay-chain-box">
               <div class="relay-chain-hdr">
-                <span>3D MULTI-HOP PROPAGATION &amp; RELAY VECTOR CHAIN</span>
-                <span id="relay-freq-lbl" style="color:var(--amber);">11,410.0 kHz AM-W</span>
+                <span>⚡ MARZELVANE BARYCENTRIC FLUX-DUCT &amp; RELAY CHAIN (λ = 20.985m BIAS)</span>
+                <span id="relay-freq-lbl" style="color:var(--amber);">10,000.0 kHz</span>
               </div>
               <div class="relay-hops-row" id="relay-hops-row"></div>
             </div>
 
             <div class="appearance-lore-grid">
               <div class="lore-box">
-                <div class="lore-box-title">🔭 APPEARANCE IN ASTEROID 3-5-1 SKY TELESCOPE</div>
+                <div class="lore-box-title">🔭 UNRESOLVED POINT OPTICS &amp; CORONAGRAPH VIEW</div>
                 <div id="dos-appearance"></div>
               </div>
               <div class="lore-box amber-border">
-                <div class="lore-box-title" style="color:var(--amber);">📐 TRIANGULATION &amp; SECTOR WORLDBUILDING</div>
+                <div class="lore-box-title" style="color:var(--amber);">📡 NETWORK ROLE &amp; SWEEP .310 LOG</div>
                 <div id="dos-lore"></div>
               </div>
             </div>
 
             <div class="action-links-row">
-              <a href="index.html" id="btn-open-mk4" class="cta-btn">🎛️ TUNE IN HAUSER MK-IV RECEIVER ↗</a>
-              <a href="propagation.html" id="btn-open-va4" class="cta-btn cyan">🌩️ PROBE CORRIDOR IN VAN ALLEN VA-4 ↗</a>
-              <a href="station.html" id="btn-open-qsl" class="cta-btn cyan">🃏 RECEIVED STATION eQSL DOSSIER ↗</a>
+              <a href="index.html" id="btn-open-mk4">MK-IV</a>
+              <a href="propagation.html" id="btn-open-va4">VA-4</a>
+              <a href="station.html" id="btn-open-qsl">QSL</a>
             </div>
           </div>
         </div>
@@ -842,10 +905,24 @@
   <script>
     const THREE = window.THREE;
     const OrbitControls = window.OrbitControls || THREE.OrbitControls;
+    const STATIONS_RAW = window.GOR9_STATIONS_DATA || { presets: [], celestial_neighbors: [], solar_system_orbits: [], oort_relay_ring: [], sweep_roundup_log: [] };
 
-    const STATIONS_RAW = window.GOR9_STATIONS_DATA || { presets: [], celestial_neighbors: [] };
+    // ── Canonical Astrometric Constants (`42,100 AU` in Oort Sector 9) ─────────
+    const SOL_AZ = 212.4000;
+    const SOL_EL = 22.4000;
+    const SOL_COS_EL = Math.cos((SOL_EL * Math.PI) / 180.0);
+    const SOL_DIST_AU = 42100.0;
+    const ARCSEC_PER_AU = 206264.806 / SOL_DIST_AU; // 4.8994015 "/AU
+    const ECLIPTIC_TILT_DEG = 58.0;
+    const ECLIPTIC_PA_DEG = -24.0;
 
-    // ── Build Unified 17-Body Catalog (8 Stations + 6 Oort Neighbors + 3 Cosmic Anchors) ──
+    const SOLAR_ORBITS = STATIONS_RAW.solar_system_orbits || [];
+    const SOLAR_ORBIT_MAP = new Map(SOLAR_ORBITS.map((o) => [o.id, o]));
+    const TROJAN_SWARMS = STATIONS_RAW.trojan_swarms || {};
+    const GOR9_ORBIT = STATIONS_RAW.gor9_orbit || {};
+    const OORT_RING = STATIONS_RAW.oort_relay_ring || [];
+    const SWEEP_LOG = STATIONS_RAW.sweep_roundup_log || [];
+
     const PALETTE_BY_SLOT = {
       'P-01': '#ffae2b',
       'P-02': '#38eaff',
@@ -857,10 +934,46 @@
       'P-08': '#60a5fa',
     };
 
+    // ── Exact Keplerian Heliocentric & Sky-Plane Projection Helpers ───────────
+    function keplerHelioXYZ(orb, nuDeg) {
+      const nu = (nuDeg * Math.PI) / 180.0;
+      const a = orb.a_au;
+      const e = orb.e;
+      const rAu = (a * (1.0 - e * e)) / (1.0 + e * Math.cos(nu));
+      const u = ((orb.arg_peri_deg || 0) * Math.PI) / 180.0 + nu;
+      const om = ((orb.node_deg || 0) * Math.PI) / 180.0;
+      const inc = ((orb.inc_deg || 0) * Math.PI) / 180.0;
+
+      const xh = rAu * (Math.cos(om) * Math.cos(u) - Math.sin(om) * Math.sin(u) * Math.cos(inc));
+      const yh = rAu * (Math.sin(om) * Math.cos(u) + Math.cos(om) * Math.sin(u) * Math.cos(inc));
+      const zh = rAu * (Math.sin(u) * Math.sin(inc));
+      return { xh, yh, zh, rAu };
+    }
+
+    function helioToSkyOffsetArcsec(xh, yh, zh) {
+      const tilt = (ECLIPTIC_TILT_DEG * Math.PI) / 180.0;
+      const pa = (ECLIPTIC_PA_DEG * Math.PI) / 180.0;
+      const sx0 = xh;
+      const sy0 = yh * Math.sin(tilt) + zh * Math.cos(tilt);
+      const depthAu = yh * Math.cos(tilt) - zh * Math.sin(tilt);
+
+      const sx = sx0 * Math.cos(pa) - sy0 * Math.sin(pa);
+      const sy = sx0 * Math.sin(pa) + sy0 * Math.cos(pa);
+      return {
+        dAzArcsec: sx * ARCSEC_PER_AU,
+        dElArcsec: sy * ARCSEC_PER_AU,
+        depthAu,
+      };
+    }
+
+    function solOffsetToAzEl(dAzArcsec, dElArcsec) {
+      return {
+        az: (((SOL_AZ + (dAzArcsec / 3600.0) / SOL_COS_EL) % 360.0) + 360.0) % 360.0,
+        el: SOL_EL + dElArcsec / 3600.0,
+      };
+    }
+
     function azElToUnitXYZ(azDeg, elDeg) {
-      // Three.js Y-up convention matching our 3D sphere:
-      // Az = 0° -> North (-Z), Az = 90° -> East (+X), Az = 180° -> South (+Z), Az = 270° -> West (-X)
-      // Y = sin(el)
       const azR = (azDeg * Math.PI) / 180.0;
       const elR = (elDeg * Math.PI) / 180.0;
       const cosEl = Math.cos(elR);
@@ -889,18 +1002,83 @@
       return Math.max(-8.0, Math.min(68.0, galLatDeg * 0.55 + tilt));
     }
 
+    function formatAngleSep(degVal) {
+      if (degVal < 1.0 / 60.0) {
+        return `${(degVal * 3600.0).toFixed(1)}"`;
+      }
+      if (degVal < 1.0) {
+        const arcsec = degVal * 3600.0;
+        return arcsec < 120 ? `${arcsec.toFixed(1)}"` : `${(degVal * 60.0).toFixed(2)}'`;
+      }
+      return `${degVal.toFixed(1)}°`;
+    }
+
+    // Precompute sampled sky-plane polylines for all 10 Solar System Keplerian Orbits
+    const PRECOMPUTED_ORBITS = SOLAR_ORBITS.map((orb) => {
+      const samples = [];
+      const steps = orb.e > 0.5 ? 180 : 120;
+      for (let i = 0; i <= steps; i++) {
+        const nu = (i / steps) * 360.0;
+        const { xh, yh, zh, rAu } = keplerHelioXYZ(orb, nu);
+        const { dAzArcsec, dElArcsec, depthAu } = helioToSkyOffsetArcsec(xh, yh, zh);
+        const { az, el } = solOffsetToAzEl(dAzArcsec, dElArcsec);
+        samples.push({ nu, xh, yh, zh, rAu, dAzArcsec, dElArcsec, depthAu, az, el });
+      }
+      // Exact current body position + forward prograde velocity arc (+16° in true anomaly)
+      const nowH = keplerHelioXYZ(orb, orb.true_anom_deg);
+      const nowS = helioToSkyOffsetArcsec(nowH.xh, nowH.yh, nowH.zh);
+      const nowPos = solOffsetToAzEl(nowS.dAzArcsec, nowS.dElArcsec);
+
+      const trailArc = [];
+      for (let dn = -26; dn <= 0; dn += 2) {
+        const h = keplerHelioXYZ(orb, orb.true_anom_deg + dn);
+        const s = helioToSkyOffsetArcsec(h.xh, h.yh, h.zh);
+        trailArc.push(solOffsetToAzEl(s.dAzArcsec, s.dElArcsec));
+      }
+
+      const fwdArc = [];
+      const dNuFwd = orb.e > 0.5 ? 9 : 16;
+      for (let dn = 0; dn <= dNuFwd; dn += 2) {
+        const h = keplerHelioXYZ(orb, orb.true_anom_deg + dn);
+        const s = helioToSkyOffsetArcsec(h.xh, h.yh, h.zh);
+        fwdArc.push(solOffsetToAzEl(s.dAzArcsec, s.dElArcsec));
+      }
+
+      return {
+        ...orb,
+        samples,
+        nowPos,
+        nowHelio: nowH,
+        nowOffsetArcsec: [nowS.dAzArcsec, nowS.dElArcsec],
+        trailArc,
+        fwdArc,
+      };
+    });
+
+    // ── Build Unified 20-Target Astrometric & DX Catalog ──────────────────────
     const ALL_LOCATIONS = [];
 
-    // 1. Add 8 Intercepted DX Stations
+    // 1. 8 Intercepted DX Stations
     (STATIONS_RAW.presets || []).forEach((p) => {
       const gal = p.galactic || {};
       const rf = p.rf || {};
       const slot = p.preset_slot || 'P-00';
-      const az = Number(gal.azimuth_deg || 0);
-      const el = Number(gal.local_el_deg !== undefined ? gal.local_el_deg : galacticToLocalEl(az, gal.elevation_deg || 0));
+      const orbitObj = gal.orbit_id ? SOLAR_ORBIT_MAP.get(gal.orbit_id) : null;
+
+      let az = Number(gal.azimuth_deg || 0);
+      let el = Number(gal.local_el_deg !== undefined ? gal.local_el_deg : galacticToLocalEl(az, gal.elevation_deg || 0));
+      if (Array.isArray(gal.sol_offset_arcsec) && gal.sol_offset_arcsec.length === 2) {
+        const exact = solOffsetToAzEl(gal.sol_offset_arcsec[0], gal.sol_offset_arcsec[1]);
+        az = exact.az;
+        el = exact.el;
+      }
+
       const hex = PALETTE_BY_SLOT[slot] || '#38e8ff';
       const khz = Number(rf.frequency_khz || 0);
       const freqStr = khz >= 100000 ? `${(khz / 1000).toFixed(3)} MHz` : `${khz.toLocaleString('en-US', { minimumFractionDigits: 1 })} kHz`;
+      const isSolar = Boolean(gal.orbit_id);
+      const sepSol = angularSepDeg(az, el, SOL_AZ, SOL_EL);
+      const sepPsr = angularSepDeg(az, el, 57.5, 24.8);
 
       ALL_LOCATIONS.push({
         id: p.id,
@@ -908,49 +1086,68 @@
         callsign: p.callsign,
         name: p.name,
         subtitle: `${p.origin?.body || ''} • ${p.subtitle || ''}`,
-        filterGroup: 'station',
-        visualType: 'station_node',
-        categoryLabel: `INTERCEPTED STATION • ${slot}`,
+        isDx: true,
+        isSolar,
+        isOortDeep: !isSolar,
+        orbitId: gal.orbit_id || null,
+        solOffsetArcsec: gal.sol_offset_arcsec || null,
+        recommendedZoom: isSolar ? 1800 : 6,
+        categoryLabel: isSolar ? `SOLAR DX • ${slot}` : `DEEP DX • ${slot}`,
         az_deg: az,
         local_el_deg: el,
-        gal_lat_deg: Number(gal.elevation_deg || 0),
         range_label: gal.range_label || p.origin?.distance || '',
-        apparent_size: `${rf.s_meter || 'S9'} (${rf.tx_power_label || ''})`,
+        photometry_label: `${rf.s_meter || 'S9'} (${rf.tx_power_label || ''})`,
+        kinematics_label: orbitObj
+          ? `a=${orbitObj.a_au.toFixed(2)} AU • ${orbitObj.v_kms.toFixed(1)} km/s`
+          : (gal.range_ly > 10 ? `Flux-Duct • ${gal.range_label}` : `Oort Drift • ${gal.triangulation?.baseline_parallax || ''}`),
         radial_norm: Number(gal.radial_norm || 0.55),
         freq_label: `${freqStr} ${rf.mode || ''}`,
-        arm: gal.arm || 'Orion–Cygnus Spur',
-        booth_window: gal.booth_window || 'Octagonal Booth Perimeter',
-        sep_sol_deg: Number(gal.sep_sol_deg || angularSepDeg(az, el, 212.4, 22.4)),
-        sep_ceres_deg: Number(gal.sep_ceres_deg || angularSepDeg(az, el, 272.0, 14.6)),
-        sep_psr_deg: Number(gal.sep_psr_deg || angularSepDeg(az, el, 57.5, 24.8)),
-        ceres_dist_label: gal.triangulation?.ceres_dist_label || gal.range_label,
-        baseline_parallax: gal.triangulation?.baseline_parallax || '0.04"',
+        booth_window: gal.booth_window || 'South-West Coreward Window',
+        sep_sol_deg: sepSol,
+        sep_psr_deg: sepPsr,
         relay_nodes: gal.relay_nodes || [],
-        receive_antenna: p.hardware_dossier?.receive_antenna_at_gor9 || '4-Ring Marzelvane Phased Array',
+        receive_antenna: p.hardware_dossier?.receive_antenna_at_gor9 || '4-Ring Marzelvane Array',
         plate_src: p.media?.qsl_plate_src || p.media?.poster_src || 'assets/plates/qsl_plate_radio_corrugated.jpg',
-        qsl_gif_src: p.qsl?.gif_src || '',
-        appearance_from_gor9: `From Asteroid 3-5-1, the phased-array beam locks onto Az ${az.toFixed(1)}°, Local El ${el >= 0 ? '+' : ''}${el.toFixed(1)}° (${gal.booth_window || 'Booth Window'}). Incoming signal arrives via ${rf.relay_path || 'deep-space duct'} at ${rf.s_meter || 'S9'} (${rf.peak_modulation_db || ''}).`,
+        appearance_from_gor9: isSolar
+          ? `Unresolved point-source ${formatAngleSep(sepSol)} from Sol inside the 5' Solar System core. Under 1800× Lyot Coronagraph lock, tracks prograde along ${orbitObj ? orbShortDesc(orbitObj) : 'heliocentric orbit'}; low-wattage RF (${rf.tx_power_label || 'HF'}) arrives live via Marzelvane-biased heliospheric flux-duct.`
+          : `Unresolved point bearing Az ${az.toFixed(2)}°, El ${el >= 0 ? '+' : ''}${el.toFixed(2)}° (${gal.booth_window || 'Booth Window'}). Signal coupled into GOR-9's λ=20.985m Marzelvane standing-wave duct at ${rf.s_meter || 'S9'}.`,
         lore: `${p.worldbuilding?.habitat_and_culture || ''} ${p.worldbuilding?.hauser_commentary || ''}`,
         hex,
+        pointMag: isSolar ? 16.5 : 14.0,
         stationRef: p,
       });
     });
 
-    // 2. Add Oort Sector 9 Planetary Neighbors, Ceres Foundry #7, and Cosmic Anchors
+    function orbShortDesc(orb) {
+      return `${orb.name} (a = ${orb.a_au} AU, P = ${orb.period_yr} yr, v = ${orb.v_kms} km/s)`;
+    }
+
+    // 2. 9 Celestial, Coronagraph & Oort Relay Neighbors from `celestial_neighbors`
+    const plateMap = {
+      'sol-oort-star': 'assets/plates/celestial_signal_chart.jpg',
+      'ceres-foundry-7': 'assets/plates/van_allen_switchgear_logo.jpg',
+      'sedna-hills-relay': 'assets/plates/cam00_aurora_sky_bg.jpg',
+      'tartarus-buoy12': 'assets/plates/cam04_crater_dish.jpg',
+      'quarry-44k': 'assets/plates/cam44k_quarry_start.jpg',
+      'gor-8-trunk': 'assets/plates/cam00b_closeup_tower.jpg',
+      'ors-351-halo': 'assets/plates/cam_sat09_orbital_downlook.jpg',
+      'psr-b1937': 'assets/plates/celestial_sky_annotated.jpg',
+      'sgr-a-core': 'assets/plates/cam00_sky_plate_clean.jpg',
+    };
+
     (STATIONS_RAW.celestial_neighbors || []).forEach((nb) => {
-      const isAnchor = ['sol-oort-star', 'psr-b1937', 'sgr-a-core'].includes(nb.id);
-      const plateMap = {
-        'ceres-foundry-7': 'assets/plates/van_allen_switchgear_logo.jpg',
-        'persephone-sedna9': 'assets/plates/cam00_aurora_sky_bg.jpg',
-        'tartarus-buoy12': 'assets/plates/cam04_crater_dish.jpg',
-        'quarry-44k': 'assets/plates/cam44k_quarry_start.jpg',
-        'comet-c2736-k4': 'assets/plates/flow_pedregal_bridge_pov.jpg',
-        'ors-351-halo': 'assets/plates/cam_sat09_orbital_downlook.jpg',
-        'sol-oort-star': 'assets/plates/celestial_signal_chart.jpg',
-        'psr-b1937': 'assets/plates/celestial_sky_annotated.jpg',
-        'sgr-a-core': 'assets/plates/cam00_sky_plate_clean.jpg',
-      };
-      const dCeres = nb.id === 'ceres-foundry-7' ? '0 AU (ORIGIN)' : nb.range_label;
+      let az = Number(nb.az_deg);
+      let el = Number(nb.local_el_deg);
+      if (Array.isArray(nb.sol_offset_arcsec) && nb.sol_offset_arcsec.length === 2) {
+        const exact = solOffsetToAzEl(nb.sol_offset_arcsec[0], nb.sol_offset_arcsec[1]);
+        az = exact.az;
+        el = exact.el;
+      }
+      const orbitObj = nb.orbit_id ? SOLAR_ORBIT_MAP.get(nb.orbit_id) : null;
+      const isSolar = nb.id === 'sol-oort-star' || Boolean(nb.orbit_id);
+      const sepSol = nb.id === 'sol-oort-star' ? 0.0 : angularSepDeg(az, el, SOL_AZ, SOL_EL);
+      const sepPsr = angularSepDeg(az, el, 57.5, 24.8);
+      const recZoom = nb.id === 'sedna-hills-relay' ? 45 : (isSolar ? 1800 : (nb.id === 'gor-8-trunk' ? 2 : 6));
 
       ALL_LOCATIONS.push({
         id: nb.id,
@@ -958,78 +1155,277 @@
         callsign: nb.callsign,
         name: nb.name,
         subtitle: nb.subtitle,
-        filterGroup: isAnchor ? 'anchor' : 'neighbor',
-        visualType: nb.visual_type,
+        isDx: false,
+        isSolar,
+        isOortDeep: !isSolar,
+        orbitId: nb.orbit_id || null,
+        solOffsetArcsec: nb.sol_offset_arcsec || null,
+        recommendedZoom: recZoom,
         categoryLabel: nb.category.toUpperCase(),
-        az_deg: Number(nb.az_deg),
-        local_el_deg: Number(nb.local_el_deg),
-        gal_lat_deg: Number(nb.gal_lat_deg || 0),
+        az_deg: az,
+        local_el_deg: el,
         range_label: nb.range_label,
-        apparent_size: `${nb.apparent_size} (m = ${nb.apparent_mag})`,
-        radial_norm: Number(nb.radial_norm || 0.35),
+        photometry_label: `m = ${nb.apparent_mag}`,
+        kinematics_label: nb.id === 'sol-oort-star'
+          ? `3-5-1 Infall -42.6 m/s • 1.39 Myr`
+          : (orbitObj ? `a=${orbitObj.a_au} AU • ${orbitObj.v_kms} km/s` : nb.apparent_size),
+        radial_norm: Number(nb.radial_norm || 0.42),
         freq_label: nb.freq_label,
-        arm: nb.arm,
         booth_window: nb.booth_window,
-        sep_sol_deg: Number(nb.sep_sol_deg || angularSepDeg(nb.az_deg, nb.local_el_deg, 212.4, 22.4)),
-        sep_ceres_deg: Number(nb.sep_ceres_deg || angularSepDeg(nb.az_deg, nb.local_el_deg, 272.0, 14.6)),
-        sep_psr_deg: Number(nb.sep_psr_deg || angularSepDeg(nb.az_deg, nb.local_el_deg, 57.5, 24.8)),
-        ceres_dist_label: dCeres,
-        baseline_parallax: nb.id === 'ceres-foundry-7' ? '1,840 AU BASELINE' : `${nb.sep_ceres_deg}° Sep`,
+        sep_sol_deg: sepSol,
+        sep_psr_deg: sepPsr,
         relay_nodes: nb.relay_nodes || [],
-        receive_antenna: 'Optical Booth Telescope & 4-Ring Marzelvane Array',
+        receive_antenna: 'Sidereal Coronagraph & 4-Ring Marzelvane Array',
         plate_src: plateMap[nb.id] || 'assets/plates/celestial_signal_chart.jpg',
         appearance_from_gor9: nb.appearance_from_gor9,
-        lore: `${nb.triangulation_role} — ${nb.lore}`,
+        lore: `${nb.triangulation_role} ${nb.lore}`,
         hex: nb.hex || '#38e8ff',
+        pointMag: nb.id === 'sol-oort-star' ? -3.62 : (nb.id === 'ors-351-halo' ? -2.4 : 16.0),
         stationRef: null,
       });
     });
 
+    // 3. Add 3 Direct Planetary & VLBI Benchmarks (`Earth 1.00 AU`, `Eris 67.9 AU`, `Antipodal Relay GOR-3`)
+    const earthOrb = PRECOMPUTED_ORBITS.find((o) => o.id === 'orbit-earth');
+    if (earthOrb) {
+      ALL_LOCATIONS.push({
+        id: 'planet-earth',
+        slot: 'SOL-03',
+        callsign: 'TERRA (1.00 AU)',
+        name: 'Earth–Moon Barycenter (1.00 AU Reference Orbit)',
+        subtitle: 'Inner Coronagraph Benchmark (±4.90" off Sol • P = 1.00 yr • 29.8 km/s)',
+        isDx: false,
+        isSolar: true,
+        isOortDeep: false,
+        orbitId: 'orbit-earth',
+        solOffsetArcsec: earthOrb.nowOffsetArcsec,
+        recommendedZoom: 1800,
+        categoryLabel: 'INNER PLANETARY BENCHMARK',
+        az_deg: earthOrb.nowPos.az,
+        local_el_deg: earthOrb.nowPos.el,
+        range_label: '42,100 AU (±4.90" off Sol)',
+        photometry_label: 'm = +18.2 Point',
+        kinematics_label: 'a=1.00 AU • 29.8 km/s (33.8 Swp)',
+        radial_norm: 0.44,
+        freq_label: 'Legacy 20m / Planetary Leakage',
+        booth_window: 'South-West Coreward Window (Sol 5\' Coronagraph Lock)',
+        sep_sol_deg: angularSepDeg(earthOrb.nowPos.az, earthOrb.nowPos.el, SOL_AZ, SOL_EL),
+        sep_psr_deg: angularSepDeg(earthOrb.nowPos.az, earthOrb.nowPos.el, 57.5, 24.8),
+        relay_nodes: [{ name: 'Sedna Hills Gate (SEDNA-H1)', az_deg: SOL_AZ + 0.2, el_deg: SOL_EL - 0.1, r_norm: 0.42 }],
+        receive_antenna: 'Lyot Solar Coronagraph & 4-Ring Marzelvane Array',
+        plate_src: 'assets/plates/celestial_signal_chart.jpg',
+        appearance_from_gor9: 'At 42,100 AU, Earth is an unresolved magnitude +18.2 blue-white speck skimming just ±4.90 arcseconds outside the Lyot coronagraph mask, completing one prograde circuit every 33.76 Pulsar Sweeps (1.00 Julian yr).',
+        lore: 'Defines the 1.00 AU astronomical unit (4.8994" angular radius from GOR-9). Asteroid 3-5-1\'s current -42.6 m/s cometary infall will reach perihelion at q = 1.22 AU—just outside Earth\'s orbit—in 1.55 million years.',
+        hex: '#60a5fa',
+        pointMag: 18.2,
+        stationRef: null,
+      });
+    }
+
+    const erisOrb = PRECOMPUTED_ORBITS.find((o) => o.id === 'orbit-eris');
+    if (erisOrb) {
+      ALL_LOCATIONS.push({
+        id: 'dwarf-eris',
+        slot: 'ERIS',
+        callsign: '136199 ERIS',
+        name: '136199 Eris & Dysnomia (67.9 AU Scattered Disk)',
+        subtitle: 'High-Inclination (i = 44.0°) Outer Dwarf Planet • P = 559 yr',
+        isDx: false,
+        isSolar: true,
+        isOortDeep: false,
+        orbitId: 'orbit-eris',
+        solOffsetArcsec: erisOrb.nowOffsetArcsec,
+        recommendedZoom: 300,
+        categoryLabel: 'SCATTERED DISK DWARF PLANET',
+        az_deg: erisOrb.nowPos.az,
+        local_el_deg: erisOrb.nowPos.el,
+        range_label: '42,035 AU (±5.5\' off Sol)',
+        photometry_label: 'm = +27.4 Point',
+        kinematics_label: 'a=67.9 AU • i=44.0° • 3.4 km/s',
+        radial_norm: 0.44,
+        freq_label: 'Scattered-Disk Passive Albedo Point',
+        booth_window: 'South-West Coreward Window (300× Kuiper View)',
+        sep_sol_deg: angularSepDeg(erisOrb.nowPos.az, erisOrb.nowPos.el, SOL_AZ, SOL_EL),
+        sep_psr_deg: angularSepDeg(erisOrb.nowPos.az, erisOrb.nowPos.el, 57.5, 24.8),
+        relay_nodes: [],
+        receive_antenna: '300× Kuiper Astrometric Field',
+        plate_src: 'assets/plates/cam00_sky_plate_clean.jpg',
+        appearance_from_gor9: 'Switch to 300× KUIPER zoom to see Eris\'s steep 44.0°-inclined Keplerian ellipse slashing diagonally across the coplanar Neptune/Uranus disk out to 97.5 AU (8.0 arcminutes from Sol).',
+        lore: 'Most massive Scattered-Disk dwarf planet; bridges the classical 30 AU Kuiper Belt and 90377 Sedna\'s 937 AU Inner Oort loop.',
+        hex: '#c084fc',
+        pointMag: 27.4,
+        stationRef: null,
+      });
+    }
+
+    const gor3Node = OORT_RING.find((r) => r.callsign === 'GOR-3');
+    if (gor3Node) {
+      ALL_LOCATIONS.push({
+        id: 'gor-3-vlbi',
+        slot: 'GOR-03',
+        callsign: 'RELAY GOR-3 (VLBI)',
+        name: 'Antipodal Outpost GOR-3 (Oort Sector 3 • 83,900 AU)',
+        subtitle: '1.33-Light-Year Euclidean VLBI Interferometer Partner Across Sol',
+        isDx: false,
+        isSolar: false,
+        isOortDeep: true,
+        orbitId: null,
+        solOffsetArcsec: null,
+        recommendedZoom: 6,
+        categoryLabel: 'OORT 12-RELAY VLBI PARTNER',
+        az_deg: Number(gor3Node.az_deg),
+        local_el_deg: Number(gor3Node.local_el_deg),
+        range_label: '83,900 AU (1.33 ly across Sol)',
+        photometry_label: '14,095.1 kHz Trunk',
+        kinematics_label: '1.33 ly VLBI Baseline (0.0001")',
+        radial_norm: 0.54,
+        freq_label: '14,095.1 kHz VLBI Phase Link',
+        booth_window: 'South-West Coreward Window (Antipodal Past Sol)',
+        sep_sol_deg: angularSepDeg(gor3Node.az_deg, gor3Node.local_el_deg, SOL_AZ, SOL_EL),
+        sep_psr_deg: angularSepDeg(gor3Node.az_deg, gor3Node.local_el_deg, 57.5, 24.8),
+        relay_nodes: [{ name: 'Perimeter Trunk GOR-5', az_deg: 204.2, el_deg: 31.8, r_norm: 0.46 }],
+        receive_antenna: '4-Ring Marzelvane Perimeter Array',
+        plate_src: 'assets/plates/cam_vat19_parallelogram.jpg',
+        appearance_from_gor9: 'Positioned on the far side of the Solar System (41,800 AU beyond Sol, 83,900 AU total chord from GOR-9), appearing within 0.6° of Sol\'s sky bearing.',
+        lore: 'Paired with GOR-9 via PSR B1937+21 phase-coherent timing to form the 1.33-light-year VLBI baseline that resolved the Euclid I.34 parallelogram on Callisto Vat 19 to 0.0001 arcseconds.',
+        hex: '#2dd4bf',
+        pointMag: 19.0,
+        stationRef: null,
+      });
+    }
+
+    // Update filter tab counts dynamically
+    function updateFilterCounts() {
+      const nAll = ALL_LOCATIONS.length;
+      const nDx = ALL_LOCATIONS.filter((l) => l.isDx).length;
+      const nSol = ALL_LOCATIONS.filter((l) => l.isSolar).length;
+      const nOort = ALL_LOCATIONS.filter((l) => l.isOortDeep).length;
+      const mapTxt = {
+        all: `ALL (${nAll})`,
+        dx: `📡 DX (${nDx})`,
+        solar: `☀️ SOLAR (${nSol})`,
+        oort: `🛰️ OORT (${nOort})`,
+      };
+      document.querySelectorAll('.cat-btn').forEach((b) => {
+        if (mapTxt[b.dataset.filter]) b.textContent = mapTxt[b.dataset.filter];
+      });
+    }
+    updateFilterCounts();
+
     const SOL_LOC = ALL_LOCATIONS.find((x) => x.id === 'sol-oort-star') || ALL_LOCATIONS[0];
-    const CERES_LOC = ALL_LOCATIONS.find((x) => x.id === 'ceres-foundry-7') || ALL_LOCATIONS[0];
-    const PSR_LOC = ALL_LOCATIONS.find((x) => x.id === 'psr-b1937') || ALL_LOCATIONS[0];
+    const KZ9_LOC = ALL_LOCATIONS.find((x) => x.id === 'kz9-omega') || ALL_LOCATIONS[0];
 
     let currentFilter = 'all';
     let activeLoc = ALL_LOCATIONS.find((x) => x.id === 'ceres-foundry-7') || ALL_LOCATIONS[0];
 
-    // Sky View Camera State
-    let skyCamAz = activeLoc.az_deg;
-    let skyCamEl = activeLoc.local_el_deg;
-    let targetSkyAz = activeLoc.az_deg;
-    let targetSkyEl = activeLoc.local_el_deg;
-    let skyZoom = 6.0; // 1 = 90° FOV, 6 = 22° FOV, 32 = 5.5° planetary telescope FOV
-    let targetSkyZoom = 6.0;
+    // ── Sky View Sidereal Camera State (`1×` to `4000×`) ──────────────────────
+    let skyCamAz = SOL_AZ;
+    let skyCamEl = SOL_EL;
+    let targetSkyAz = SOL_AZ;
+    let targetSkyEl = SOL_EL;
+    let skyZoom = 1800.0; // Default: 1800x Lyot Solar Coronagraph showing Earth/Ceres/Jupiter/Saturn orbits!
+    let targetSkyZoom = 1800.0;
     let showSkyArcs = true;
-    let showSkyPip = true;
+    let showSkyPip = false;
 
-    // Load 4K Clean Celestial Sky Image for 2D Sky Telescope & 360° Equirectangular Map
     const skyBgImg = new Image();
     skyBgImg.src = 'assets/plates/celestial_sky_clean.jpg';
 
-    // ── UI: Render Left Location List ────────────────────────────────
+    // ── Pulsar Beat Live Clock & Sweep `.310` Roll-Call Controller ───────────
+    const pstStartMs = Date.now();
+    function updatePstClockUI() {
+      const elapsedBeats = Math.floor((Date.now() - pstStartMs) / 1557.80645);
+      const beat = elapsedBeats % 10000;
+      const watch = Math.floor(elapsedBeats / 10000) % 6;
+      const el = document.getElementById('pst-live-readout');
+      if (el) {
+        el.textContent = `EPOCH 254.310 • W${watch} • B${String(beat).padStart(4, '0')} PST`;
+      }
+    }
+    setInterval(updatePstClockUI, 390);
+
+    let sweepIdx = Math.max(0, SWEEP_LOG.findIndex((s) => s.target_id === 'ceres-foundry-7'));
+    let rollCallTimer = null;
+
+    function syncRollCallBanner(entry) {
+      if (!entry) return;
+      document.getElementById('rc-seq-pill').textContent =
+        `SWEEP LOG ${String(entry.seq).padStart(2, '0')} / ${String(SWEEP_LOG.length).padStart(2, '0')} • ${entry.territory}`;
+      document.getElementById('rc-log-freq').textContent = entry.freq;
+      document.getElementById('rc-log-sinpo').textContent = `SINPO ${entry.sinpo}`;
+      document.getElementById('rc-log-text').textContent = entry.summary;
+    }
+
+    function applyRollCallStep(idx) {
+      if (!SWEEP_LOG.length) return;
+      sweepIdx = ((idx % SWEEP_LOG.length) + SWEEP_LOG.length) % SWEEP_LOG.length;
+      const entry = SWEEP_LOG[sweepIdx];
+      syncRollCallBanner(entry);
+      const zoomOverride = entry.zoom >= 1000 ? 1800 : (entry.zoom >= 30 ? 45 : entry.zoom);
+      window.selectLocation(entry.target_id, false, zoomOverride);
+    }
+
+    window.stepSweepRollCall = function (delta) {
+      applyRollCallStep(sweepIdx + delta);
+    };
+
+    window.toggleSweepRollCall = function () {
+      const btn = document.getElementById('btn-rollcall-play');
+      if (rollCallTimer) {
+        clearInterval(rollCallTimer);
+        rollCallTimer = null;
+        btn.classList.remove('playing');
+        btn.textContent = '▶ SWEEP .310 ROLL-CALL';
+      } else {
+        btn.classList.add('playing');
+        btn.textContent = '⏸ ROLL-CALL LIVE';
+        applyRollCallStep(sweepIdx);
+        rollCallTimer = setInterval(() => {
+          applyRollCallStep(sweepIdx + 1);
+        }, 6200);
+      }
+    };
+
+    window.addEventListener('keydown', (e) => {
+      if (e.target && ['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return;
+      if (e.key === '[') window.stepSweepRollCall(-1);
+      else if (e.key === ']') window.stepSweepRollCall(1);
+      else if (e.code === 'Space') {
+        e.preventDefault();
+        window.toggleSweepRollCall();
+      }
+    });
+
+    // ── Left Rail Location List ───────────────────────────────────────────────
     function renderLocationList() {
       const container = document.getElementById('location-list');
       const filtered = ALL_LOCATIONS.filter((loc) => {
         if (currentFilter === 'all') return true;
-        return loc.filterGroup === currentFilter;
+        if (currentFilter === 'dx') return loc.isDx;
+        if (currentFilter === 'solar') return loc.isSolar;
+        if (currentFilter === 'oort') return loc.isOortDeep;
+        return true;
       });
-      document.getElementById('loc-count-lbl').textContent = `${filtered.length} BODIES`;
+      document.getElementById('loc-count-lbl').textContent = `${filtered.length} TARGETS`;
 
       container.innerHTML = filtered
         .map((loc) => {
           const isAct = activeLoc && activeLoc.id === loc.id;
           const elSign = loc.local_el_deg >= 0 ? '+' : '';
+          const sepTag = loc.id === 'sol-oort-star'
+            ? 'ORIGIN 0.0"'
+            : `ΔSol ${formatAngleSep(loc.sep_sol_deg)}`;
           return `
             <div class="loc-item ${isAct ? 'active' : ''}" style="border-left-color:${loc.hex};" onclick="window.selectLocation('${loc.id}')">
               <div class="loc-row1">
                 <span class="loc-slot" style="color:${loc.hex};border:1px solid ${loc.hex}55;">${loc.slot}</span>
-                <span style="color:var(--muted);">${loc.callsign}</span>
-                <span style="color:${loc.hex};">AZ ${loc.az_deg.toFixed(1)}°</span>
+                <span style="color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${loc.callsign}</span>
+                <span style="color:${loc.hex};">${sepTag}</span>
               </div>
               <div class="loc-name">${loc.name}</div>
               <div class="loc-row3">
-                <span>EL ${elSign}${loc.local_el_deg.toFixed(1)}° • ${loc.range_label}</span>
-                <span style="color:var(--cyan);">ΔCeres ${loc.sep_ceres_deg.toFixed(1)}°</span>
+                <span>AZ ${loc.az_deg.toFixed(1)}° ${elSign}${loc.local_el_deg.toFixed(1)}°</span>
+                <span style="color:var(--cyan);">${loc.kinematics_label.slice(0, 24)}</span>
               </div>
             </div>
           `;
@@ -1045,11 +1441,27 @@
       renderLocationList();
     };
 
-    window.setSkyZoom = function (z) {
+    function syncZoomButtons(z) {
+      document.getElementById('zoom-btn-1').classList.toggle('active', z < 20);
+      document.getElementById('zoom-btn-45').classList.toggle('active', z >= 20 && z < 140);
+      document.getElementById('zoom-btn-300').classList.toggle('active', z >= 140 && z < 900);
+      document.getElementById('zoom-btn-1800').classList.toggle('active', z >= 900);
+    }
+
+    window.setSkyZoom = function (z, keepPointing = false) {
       targetSkyZoom = z;
-      document.getElementById('zoom-btn-1').classList.toggle('active', z === 1);
-      document.getElementById('zoom-btn-6').classList.toggle('active', z === 6);
-      document.getElementById('zoom-btn-32').classList.toggle('active', z === 32);
+      if (!keepPointing && z >= 40 && activeLoc && !activeLoc.isSolar) {
+        targetSkyAz = SOL_AZ;
+        targetSkyEl = SOL_EL;
+      }
+      syncZoomButtons(z);
+    };
+
+    window.centerSolAndZoom = function (z) {
+      targetSkyAz = SOL_AZ;
+      targetSkyEl = SOL_EL;
+      targetSkyZoom = z;
+      syncZoomButtons(z);
     };
 
     window.toggleSkyArcs = function () {
@@ -1063,9 +1475,9 @@
       document.getElementById('sky-pip-card').classList.toggle('hidden', !showSkyPip);
     };
 
-    // ═════════════════════════════════════════════════════════════════
-    // VIEWPORT 2: THREE.JS 3D ASTROMETRY, RELAY & TRIANGULATION SPHERE
-    // ═════════════════════════════════════════════════════════════════
+    // ═════════════════════════════════════════════════════════════════════════
+    // VIEWPORT 2: 3D COMETARY ORBIT, 12-STATION OORT RING, ORRERY & FLUX-DUCTS
+    // ═════════════════════════════════════════════════════════════════════════
     const sphereContainer = document.getElementById('sphere3d-container');
     let renderer3D = null;
     try {
@@ -1074,11 +1486,9 @@
       renderer3D.setSize(sphereContainer.clientWidth || 640, sphereContainer.clientHeight || 420);
       sphereContainer.appendChild(renderer3D.domElement);
     } catch (err) {
-      console.warn('WebGLRenderer unavailable, using 2D-projected 3D Astrometry Sphere canvas:', err);
       renderer3D = null;
     }
 
-    // Projected 2D Canvas Overlay (and full 3D projection canvas when WebGL is unavailable)
     const labelCanvas3D = document.createElement('canvas');
     labelCanvas3D.style.position = 'absolute';
     labelCanvas3D.style.inset = '0';
@@ -1086,25 +1496,25 @@
     sphereContainer.appendChild(labelCanvas3D);
 
     const scene3D = new THREE.Scene();
-    scene3D.background = new THREE.Color(0x03060c);
+    scene3D.background = new THREE.Color(0x02050a);
 
     const camera3D = new THREE.PerspectiveCamera(
-      48,
+      46,
       (sphereContainer.clientWidth || 640) / (sphereContainer.clientHeight || 420),
-      0.5,
-      1200
+      0.4,
+      1500
     );
-    camera3D.position.set(68, 52, 95);
+    camera3D.position.set(66, 54, 98);
 
     const interactive3DDom = renderer3D ? renderer3D.domElement : labelCanvas3D;
     const controls3D = new OrbitControls(camera3D, interactive3DDom);
     controls3D.enableDamping = true;
-    controls3D.dampingFactor = 0.07;
-    controls3D.minDistance = 12;
-    controls3D.maxDistance = 320;
+    controls3D.dampingFactor = 0.08;
+    controls3D.minDistance = 10;
+    controls3D.maxDistance = 360;
 
     let autoSpin3D = true;
-    let cameraMode3D = 'vector';
+    let cameraMode3D = 'cometary'; // 'cometary' | 'orrery' | 'ducts' | 'galaxy'
     let desiredCamPos3D = null;
     let desiredCamTarget3D = null;
 
@@ -1118,28 +1528,27 @@
       desiredCamTarget3D = null;
     });
 
-    // 3D Sphere Scale: R_MAX = 100 units
-    const R_MAX = 100.0;
-
-    function get3DPos(azDeg, elDeg, rNorm) {
+    const R_MAX = 96.0;
+    function getObserver3DPos(azDeg, elDeg, rNorm) {
       return azElToUnitXYZ(azDeg, elDeg).multiplyScalar(rNorm * R_MAX);
     }
+    ALL_LOCATIONS.forEach((loc) => {
+      loc.pos3D = getObserver3DPos(loc.az_deg, loc.local_el_deg, loc.radial_norm);
+    });
 
-    // Ambient & Point Lights in 3D Astrometry Sphere
-    scene3D.add(new THREE.AmbientLight(0x88aacc, 1.4));
-    const centerLight = new THREE.PointLight(0x38e8ff, 3.5, 160);
-    scene3D.add(centerLight);
-
-    // 1. Background Starfield inside 3D Viewer
+    // Subtle 3D background starfield
     const bgStarsGeom = new THREE.BufferGeometry();
-    const bgStarCount = 1600;
+    const bgStarCount = 1400;
     const bgStarPos = new Float32Array(bgStarCount * 3);
+    let seed = 35109;
+    function randDet() {
+      seed = (seed * 1664525 + 1013904223) >>> 0;
+      return seed / 4294967296;
+    }
     for (let i = 0; i < bgStarCount; i++) {
-      const u = Math.random();
-      const v = Math.random();
-      const theta = 2 * Math.PI * u;
-      const phi = Math.acos(2 * v - 1);
-      const r = 240 + Math.random() * 80;
+      const theta = 2 * Math.PI * randDet();
+      const phi = Math.acos(2 * randDet() - 1);
+      const r = 260 + randDet() * 90;
       bgStarPos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
       bgStarPos[i * 3 + 1] = r * Math.cos(phi);
       bgStarPos[i * 3 + 2] = r * Math.sin(phi) * Math.sin(theta);
@@ -1148,384 +1557,479 @@
     scene3D.add(
       new THREE.Points(
         bgStarsGeom,
-        new THREE.PointsMaterial({ color: 0x99bbff, size: 1.1, transparent: true, opacity: 0.55 })
+        new THREE.PointsMaterial({ color: 0x9cb8e8, size: 1.0, transparent: true, opacity: 0.45 })
       )
     );
 
-    // 2. Concentric 3D Coordinate Shells & Galactic Equator Grid
-    const shellsGroup = new THREE.Group();
-    scene3D.add(shellsGroup);
+    // Master 3D Mode Scene Container & Overlay Descriptor Lists
+    const modeSceneGroup = new THREE.Group();
+    scene3D.add(modeSceneGroup);
 
-    const shellSpecs = [
-      { r: 0.28 * R_MAX, color: 0x38e8ff, op: 0.16, label: 'OORT SECTOR 9 SHELL (<4,000 AU)' },
-      { r: 0.48 * R_MAX, color: 0xf59e0b, op: 0.18, label: 'HELIOSPHERE & SOL/CERES RING (42,100 AU)' },
-      { r: 0.78 * R_MAX, color: 0x60a5fa, op: 0.14, label: 'ORION & PERSEUS SPIRAL ARMS (kpc)' },
-      { r: 0.96 * R_MAX, color: 0xc084fc, op: 0.12, label: 'EXTRAGALACTIC HALO & MICRO-LENS (2.73 Mly)' },
-    ];
+    let overlayLabels3D = [];
+    let softwarePolylines3D = [];
+    let softwarePoints3D = [];
+    let pickablePoints3D = [];
+    let animatedPackets3D = [];
 
-    shellSpecs.forEach((sh) => {
-      // Equatorial circle on XZ plane
-      const ringPts = [];
-      for (let i = 0; i <= 96; i++) {
-        const a = (i / 96) * Math.PI * 2;
-        ringPts.push(new THREE.Vector3(Math.cos(a) * sh.r, 0, Math.sin(a) * sh.r));
-      }
-      const ringGeom = new THREE.BufferGeometry().setFromPoints(ringPts);
-      shellsGroup.add(
-        new THREE.Line(
-          ringGeom,
-          new THREE.LineBasicMaterial({ color: sh.color, transparent: true, opacity: sh.op * 1.9 })
-        )
-      );
-
-      // Subtle wireframe sphere for outer & inner shells
-      const wfSphere = new THREE.Mesh(
-        new THREE.SphereGeometry(sh.r, 24, 16),
-        new THREE.MeshBasicMaterial({
-          color: sh.color,
-          wireframe: true,
-          transparent: true,
-          opacity: sh.op * 0.28,
-        })
-      );
-      shellsGroup.add(wfSphere);
-    });
-
-    // Cardinal Azimuth Axes (N=0°, E=90°, S=180°, W=270°) & Vertical Polar Axis
-    for (let az = 0; az < 360; az += 45) {
-      const pEnd = get3DPos(az, 0, 0.96);
-      const g = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), pEnd]);
-      shellsGroup.add(
-        new THREE.Line(
-          g,
-          new THREE.LineBasicMaterial({
-            color: az % 90 === 0 ? 0x38e8ff : 0x263854,
-            transparent: true,
-            opacity: az % 90 === 0 ? 0.35 : 0.18,
-          })
-        )
-      );
-    }
-
-    // Tilted Galactic Plane Curve at R = 0.78 * R_MAX
-    const galPlanePts = [];
-    for (let az = 0; az <= 360; az += 3) {
-      const el = galacticToLocalEl(az, 0.0);
-      galPlanePts.push(get3DPos(az, el, 0.78));
-    }
-    shellsGroup.add(
-      new THREE.Line(
-        new THREE.BufferGeometry().setFromPoints(galPlanePts),
-        new THREE.LineBasicMaterial({ color: 0xf59e0b, transparent: true, opacity: 0.42 })
-      )
-    );
-
-    // 3. Center Node `(0, 0, 0)`: Asteroid 3-5-1 (`GOR-9`) Miniature Crag & 4-Ring Lighthouse
-    const gor9CenterGroup = new THREE.Group();
-    scene3D.add(gor9CenterGroup);
-
-    const cragMesh = new THREE.Mesh(
-      new THREE.CylinderGeometry(2.2, 1.4, 2.2, 6),
-      new THREE.MeshStandardMaterial({ color: 0x2b3548, roughness: 0.8, flatShading: true })
-    );
-    cragMesh.position.y = -1.1;
-    gor9CenterGroup.add(cragMesh);
-
-    const spireMesh = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.12, 0.45, 3.8, 6),
-      new THREE.MeshBasicMaterial({ color: 0xffae2b })
-    );
-    spireMesh.position.y = 1.9;
-    gor9CenterGroup.add(spireMesh);
-
-    [1.1, 1.7, 2.3, 2.9].forEach((rr) => {
-      const torus = new THREE.Mesh(
-        new THREE.TorusGeometry(rr, 0.06, 6, 24),
-        new THREE.MeshBasicMaterial({ color: 0x38e8ff })
-      );
-      torus.rotation.x = Math.PI / 2;
-      torus.position.y = 3.2;
-      gor9CenterGroup.add(torus);
-    });
-
-    // 4. Create 3D Nodes for All 17 Locations
-    const locationMeshes3D = new Map();
-    const pickableMeshes3D = [];
-
-    ALL_LOCATIONS.forEach((loc) => {
-      const pos = get3DPos(loc.az_deg, loc.local_el_deg, loc.radial_norm);
-      loc.pos3D = pos;
-
-      const nodeGrp = new THREE.Group();
-      nodeGrp.position.copy(pos);
-      scene3D.add(nodeGrp);
-
-      const col = new THREE.Color(loc.hex);
-      let coreMesh;
-
-      if (loc.id === 'sol-oort-star') {
-        coreMesh = new THREE.Mesh(
-          new THREE.SphereGeometry(2.3, 20, 16),
-          new THREE.MeshBasicMaterial({ color: 0xfff4cc })
-        );
-        // 3D Star spikes
-        const spikeMat = new THREE.MeshBasicMaterial({ color: 0xffedba });
-        [
-          new THREE.Vector3(1, 0, 0),
-          new THREE.Vector3(0, 1, 0),
-          new THREE.Vector3(0, 0, 1),
-        ].forEach((axis) => {
-          const sp = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 9.0, 6), spikeMat);
-          if (axis.x === 1) sp.rotation.z = Math.PI / 2;
-          if (axis.z === 1) sp.rotation.x = Math.PI / 2;
-          nodeGrp.add(sp);
-        });
-      } else if (loc.id === 'persephone-sedna9') {
-        // Ringed Oort Cryo-Planet in 3D!
-        coreMesh = new THREE.Mesh(
-          new THREE.SphereGeometry(1.75, 20, 16),
-          new THREE.MeshStandardMaterial({ color: 0x3df0d9, emissive: 0x11554d, roughness: 0.4 })
-        );
-        const r1 = new THREE.Mesh(
-          new THREE.RingGeometry(2.3, 3.6, 32),
-          new THREE.MeshBasicMaterial({ color: 0x6fffe9, side: THREE.DoubleSide, transparent: true, opacity: 0.75 })
-        );
-        r1.rotation.x = Math.PI * 0.38;
-        nodeGrp.add(r1);
-      } else if (loc.id === 'ceres-foundry-7') {
-        // Ceres Foundry #7 Dwarf Planet + Baseline Ring
-        coreMesh = new THREE.Mesh(
-          new THREE.SphereGeometry(1.9, 20, 16),
-          new THREE.MeshStandardMaterial({ color: 0xff9e38, emissive: 0x662d00, roughness: 0.55 })
-        );
-        const bRing = new THREE.Mesh(
-          new THREE.TorusGeometry(3.2, 0.12, 8, 28),
-          new THREE.MeshBasicMaterial({ color: 0xffae2b })
-        );
-        bRing.rotation.x = Math.PI / 2;
-        nodeGrp.add(bRing);
-      } else if (loc.id === 'tartarus-buoy12') {
-        // Binary Dwarf Pair
-        coreMesh = new THREE.Mesh(
-          new THREE.SphereGeometry(1.3, 16, 12),
-          new THREE.MeshBasicMaterial({ color: 0xb8a3fa })
-        );
-        const moon = new THREE.Mesh(
-          new THREE.SphereGeometry(0.75, 12, 10),
-          new THREE.MeshBasicMaterial({ color: 0xd8cbff })
-        );
-        moon.position.set(2.2, 0.5, 0);
-        nodeGrp.add(moon);
-      } else if (loc.filterGroup === 'station') {
-        coreMesh = new THREE.Mesh(
-          new THREE.OctahedronGeometry(1.55, 0),
-          new THREE.MeshBasicMaterial({ color: col })
-        );
-        const ring = new THREE.Mesh(
-          new THREE.TorusGeometry(2.4, 0.08, 6, 20),
-          new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.65 })
-        );
-        ring.rotation.x = Math.PI / 2;
-        nodeGrp.add(ring);
-      } else {
-        coreMesh = new THREE.Mesh(
-          new THREE.SphereGeometry(1.4, 16, 12),
-          new THREE.MeshBasicMaterial({ color: col })
-        );
-      }
-
-      coreMesh.userData = { locId: loc.id };
-      nodeGrp.add(coreMesh);
-      pickableMeshes3D.push(coreMesh);
-
-      // Vertical stem dropping to the XZ Equatorial Plane so 3D elevation is immediately legible!
-      const dropGeom = new THREE.BufferGeometry().setFromPoints([
-        new THREE.Vector3(0, 0, 0),
-        new THREE.Vector3(0, -pos.y, 0),
-      ]);
-      const dropLine = new THREE.Line(
-        dropGeom,
-        new THREE.LineBasicMaterial({ color: col, transparent: true, opacity: 0.25 })
-      );
-      nodeGrp.add(dropLine);
-
-      locationMeshes3D.set(loc.id, { group: nodeGrp, core: coreMesh });
-    });
-
-    // 5. Dynamic 3D Active Relay Path, Signal Packets, Phased Beam Cone & Ceres Triangulation Triangle
-    const dynamic3DGroup = new THREE.Group();
-    scene3D.add(dynamic3DGroup);
-
-    let packetMeshes3D = [];
-    let activePathPoints3D = [];
-    let targetReticle3D = null;
-
-    function rebuildActive3DOverlays(loc) {
-      while (dynamic3DGroup.children.length > 0) {
-        dynamic3DGroup.remove(dynamic3DGroup.children[0]);
-      }
-      packetMeshes3D = [];
-      activePathPoints3D = [];
-
-      const col = new THREE.Color(loc.hex);
-      const targetPos = loc.pos3D.clone();
-
-      // Build ordered 3D hop path: Target -> Relay Nodes -> GOR-9 (0,0,0)
-      activePathPoints3D.push(targetPos);
-      (loc.relay_nodes || []).forEach((rn) => {
-        const rPos = get3DPos(rn.az_deg, rn.el_deg || 15.0, rn.r_norm || 0.25);
-        activePathPoints3D.push(rPos);
-
-        // Draw 3D Relay Diamond + Torus at each intermediate relay hop
-        const rMesh = new THREE.Mesh(
-          new THREE.OctahedronGeometry(1.15, 0),
-          new THREE.MeshBasicMaterial({ color: 0x38e8ff })
-        );
-        rMesh.position.copy(rPos);
-        dynamic3DGroup.add(rMesh);
-
-        const rTorus = new THREE.Mesh(
-          new THREE.TorusGeometry(1.9, 0.08, 6, 20),
-          new THREE.MeshBasicMaterial({ color: 0xffae2b })
-        );
-        rTorus.position.copy(rPos);
-        rTorus.lookAt(new THREE.Vector3(0, 0, 0));
-        dynamic3DGroup.add(rTorus);
-
-        // Drop stem from relay node to XZ plane
-        const rStem = new THREE.Line(
-          new THREE.BufferGeometry().setFromPoints([rPos, new THREE.Vector3(rPos.x, 0, rPos.z)]),
-          new THREE.LineBasicMaterial({ color: 0x38e8ff, transparent: true, opacity: 0.35 })
-        );
-        dynamic3DGroup.add(rStem);
+    function addLine3D(pts, hexStr, opacity = 0.7, dashed = false, widthHint = 1.2) {
+      const col = new THREE.Color(hexStr);
+      const geom = new THREE.BufferGeometry().setFromPoints(pts);
+      const mat = new THREE.LineBasicMaterial({ color: col, transparent: true, opacity });
+      modeSceneGroup.add(new THREE.Line(geom, mat));
+      softwarePolylines3D.push({
+        pts,
+        stroke: hexToRgba(hexStr, opacity),
+        width: widthHint,
+        dash: dashed ? [4, 4] : [],
       });
-      activePathPoints3D.push(new THREE.Vector3(0, 0, 0));
-
-      // Glowing 3D Tube along the Relay Path
-      for (let i = 0; i < activePathPoints3D.length - 1; i++) {
-        const pA = activePathPoints3D[i];
-        const pB = activePathPoints3D[i + 1];
-        const curve = new THREE.LineCurve3(pA, pB);
-        const tubeGeom = new THREE.TubeGeometry(curve, 16, 0.28, 8, false);
-        const tubeMesh = new THREE.Mesh(
-          tubeGeom,
-          new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.85 })
-        );
-        dynamic3DGroup.add(tubeMesh);
-      }
-
-      // Create 4 Animated Signal Packet Spheres traveling along the 3D Relay Path
-      for (let i = 0; i < 4; i++) {
-        const pkt = new THREE.Mesh(
-          new THREE.SphereGeometry(0.68, 12, 10),
-          new THREE.MeshBasicMaterial({ color: 0xffffff })
-        );
-        dynamic3DGroup.add(pkt);
-        packetMeshes3D.push(pkt);
-      }
-
-      // Phased-Array Receive Beam Cone from GOR-9 `(0,0,0)` toward the final hop
-      const firstHopFromGor = activePathPoints3D[activePathPoints3D.length - 2] || targetPos;
-      const beamLen = Math.min(24.0, firstHopFromGor.length() * 0.85);
-      const coneGeom = new THREE.ConeGeometry(beamLen * 0.16, beamLen, 20, 1, true);
-      coneGeom.translate(0, -beamLen * 0.5, 0);
-      coneGeom.rotateX(-Math.PI / 2);
-      const coneMesh = new THREE.Mesh(
-        coneGeom,
-        new THREE.MeshBasicMaterial({
-          color: col,
-          transparent: true,
-          opacity: 0.18,
-          side: THREE.DoubleSide,
-          depthWrite: false,
-        })
-      );
-      coneMesh.lookAt(firstHopFromGor);
-      dynamic3DGroup.add(coneMesh);
-
-      // 3D Triangulation Baseline Triangle: GOR-9 (0,0,0) <-> Ceres Foundry #7 <-> Target
-      if (CERES_LOC && loc.id !== 'ceres-foundry-7') {
-        const ceresPos = CERES_LOC.pos3D.clone();
-        const triLineGeom = new THREE.BufferGeometry().setFromPoints([
-          new THREE.Vector3(0, 0, 0),
-          ceresPos,
-          targetPos,
-          new THREE.Vector3(0, 0, 0),
-        ]);
-        const triLine = new THREE.Line(
-          triLineGeom,
-          new THREE.LineBasicMaterial({ color: 0xff9e38, transparent: true, opacity: 0.65 })
-        );
-        dynamic3DGroup.add(triLine);
-
-        // Filled translucent triangulation plane
-        const triFaceGeom = new THREE.BufferGeometry().setFromPoints([
-          new THREE.Vector3(0, 0, 0),
-          ceresPos,
-          targetPos,
-        ]);
-        triFaceGeom.computeVertexNormals();
-        const triFace = new THREE.Mesh(
-          triFaceGeom,
-          new THREE.MeshBasicMaterial({
-            color: 0xff9e38,
-            transparent: true,
-            opacity: 0.08,
-            side: THREE.DoubleSide,
-            depthWrite: false,
-          })
-        );
-        dynamic3DGroup.add(triFace);
-      }
-
-      // Sol Reference Line
-      if (SOL_LOC && loc.id !== 'sol-oort-star') {
-        const solLine = new THREE.Line(
-          new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), SOL_LOC.pos3D]),
-          new THREE.LineBasicMaterial({ color: 0xffedba, transparent: true, opacity: 0.32 })
-        );
-        dynamic3DGroup.add(solLine);
-      }
-
-      // Pulsing 3D Target Reticle Ring around Selected Location
-      targetReticle3D = new THREE.Mesh(
-        new THREE.TorusGeometry(3.8, 0.16, 8, 32),
-        new THREE.MeshBasicMaterial({ color: 0xffffff })
-      );
-      targetReticle3D.position.copy(targetPos);
-      dynamic3DGroup.add(targetReticle3D);
     }
 
-    window.set3DCameraMode = function (mode) {
+    function addPoint3D(pos, hexStr, radius = 0.9, locId = null, isSelected = false) {
+      const col = new THREE.Color(hexStr);
+      const rWorld = (isSelected ? radius * 0.52 : radius * 0.38);
+      const mesh = new THREE.Mesh(
+        new THREE.SphereGeometry(rWorld, 12, 10),
+        new THREE.MeshBasicMaterial({ color: isSelected ? 0xffffff : col })
+      );
+      mesh.position.copy(pos);
+      if (locId) {
+        mesh.userData = { locId };
+        pickablePoints3D.push({ pos: pos.clone(), locId, mesh });
+      }
+      modeSceneGroup.add(mesh);
+      softwarePoints3D.push({ pos: pos.clone(), hex: hexStr, r: isSelected ? 4.4 : 2.8, isSelected });
+      return mesh;
+    }
+
+    function hexToRgba(hex, alpha) {
+      const c = hex.replace('#', '');
+      const n = parseInt(c.length === 3 ? c.split('').map((x) => x + x).join('') : c, 16);
+      const r = (n >> 16) & 255;
+      const g = (n >> 8) & 255;
+      const b = n & 255;
+      return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    }
+
+    // Power-law heliocentric scaling for 3D Solar Orrery (`1 AU -> 11.2`, `30 AU -> 38`, `506 AU -> 86`)
+    function orreryHelioVec(xh, yh, zh) {
+      const rAu = Math.hypot(xh, yh, zh);
+      if (rAu < 1e-6) return new THREE.Vector3(0, 0, 0);
+      const rVis = 10.6 * Math.pow(rAu, 0.34);
+      const s = rVis / rAu;
+      // Map ecliptic (xh, yh, zh) to Three.js (x = xh, y = zh, z = -yh)
+      return new THREE.Vector3(xh * s, zh * s, -yh * s);
+    }
+
+    function rebuild3DScene() {
+      while (modeSceneGroup.children.length > 0) {
+        modeSceneGroup.remove(modeSceneGroup.children[0]);
+      }
+      overlayLabels3D = [];
+      softwarePolylines3D = [];
+      softwarePoints3D = [];
+      pickablePoints3D = [];
+      animatedPackets3D = [];
+
+      if (cameraMode3D === 'cometary') {
+        // ── MODE 1: ASTEROID 3-5-1 COMETARY INFALL + 12-STATION OORT RELAY RING ──
+        // Sol at (0, 0, 0); Scale: 42,500 AU = 54.0 units so all 12 Oort Ring relays fit inside View 2
+        const AU_SCALE = 54.0 / 42500.0;
+        const solFromGorVec = azElToUnitXYZ(SOL_AZ, SOL_EL).multiplyScalar(SOL_DIST_AU);
+
+        // Sol pinpoint at gravitational focus (0, 0, 0)
+        addPoint3D(new THREE.Vector3(0, 0, 0), '#fff3c4', 1.35, 'sol-oort-star', activeLoc?.id === 'sol-oort-star');
+        overlayLabels3D.push({
+          pos: new THREE.Vector3(0, 0, 0),
+          title: '✦ SOL & 5\' SOLAR CORE',
+          sub: 'Focus (0,0,0) • q = 1.22 AU Perihelion',
+          hex: '#ffedba',
+          priority: 1,
+          isSelected: activeLoc?.id === 'sol-oort-star',
+        });
+
+        // 10 AU Saturn Frost-Line Sublimation Halo around Sol (magnified to R=4.2 for 3D clarity)
+        const frostPts = [];
+        for (let i = 0; i <= 64; i++) {
+          const a = (i / 64) * Math.PI * 2;
+          frostPts.push(new THREE.Vector3(Math.cos(a) * 4.2, 0, Math.sin(a) * 4.2));
+        }
+        addLine3D(frostPts, '#38e8ff', 0.55, true, 1.1);
+
+        // Unperturbed 8.64 Myr Circular Oort Shell Reference Ring (R = 54.0)
+        const oortRefPts = [];
+        for (let i = 0; i <= 96; i++) {
+          const a = (i / 96) * Math.PI * 2;
+          oortRefPts.push(new THREE.Vector3(Math.cos(a) * 54.0, 0, Math.sin(a) * 54.0));
+        }
+        addLine3D(oortRefPts, '#294063', 0.45, true, 1.0);
+
+        // Heliocentric positions of all 12 Oort Trunk Relays (GOR-1 .. GOR-12)
+        const relay3DMap = new Map();
+        const ringOrder = [];
+        OORT_RING.forEach((rn) => {
+          let hPos;
+          if (rn.is_self) {
+            hPos = solFromGorVec.clone().negate().multiplyScalar(AU_SCALE);
+          } else {
+            const locVec = azElToUnitXYZ(rn.az_deg, rn.local_el_deg).multiplyScalar(rn.dist_from_gor9_au);
+            hPos = locVec.sub(solFromGorVec).multiplyScalar(AU_SCALE);
+          }
+          relay3DMap.set(rn.callsign, { rn, pos: hPos });
+          ringOrder.push({ rn, pos: hPos });
+
+          const mapLocId = rn.callsign === 'GOR-8' ? 'gor-8-trunk' : (rn.callsign === 'GOR-3' ? 'gor-3-vlbi' : null);
+          const isSelf = rn.is_self;
+          const isSel = isSelf || Boolean(mapLocId && activeLoc?.id === mapLocId);
+          addPoint3D(
+            hPos,
+            isSelf ? '#f59e0b' : (rn.callsign === 'GOR-3' ? '#2dd4bf' : '#38bdf8'),
+            isSelf ? 1.45 : 0.95,
+            mapLocId,
+            isSel
+          );
+
+          // Subtle drop stem to ecliptic plane
+          addLine3D([hPos, new THREE.Vector3(hPos.x, 0, hPos.z)], isSelf ? '#f59e0b' : '#1e3a5f', 0.25, false, 0.8);
+
+          if (isSelf) {
+            overlayLabels3D.push({
+              pos: hPos,
+              title: '● GOR-9 (ASTEROID 3-5-1 • US)',
+              sub: '42,100 AU • Infall v_r = -42.6 m/s',
+              hex: '#f59e0b',
+              priority: 1,
+              isSelected: true,
+            });
+          } else if (rn.callsign === 'GOR-3' || rn.callsign === 'GOR-8' || rn.callsign === 'GOR-10') {
+            overlayLabels3D.push({
+              pos: hPos,
+              title: rn.callsign === 'GOR-3' ? '◆ GOR-3 (1.33 ly VLBI)' : `◆ ${rn.callsign}`,
+              sub: `${(rn.dist_from_gor9_au / 1000).toFixed(1)}k AU chord`,
+              hex: rn.callsign === 'GOR-3' ? '#2dd4bf' : '#38bdf8',
+              priority: rn.callsign === 'GOR-3' ? 1 : 2,
+              isSelected: isSel,
+            });
+          } else {
+            overlayLabels3D.push({
+              pos: hPos,
+              title: rn.callsign,
+              sub: '',
+              hex: '#7dd3fc',
+              priority: 3,
+              isSelected: false,
+            });
+          }
+        });
+
+        // Connect Lateral 12-Relay Oort Perimeter Web (each relay to its 2 nearest Oort neighbors)
+        ringOrder.forEach((a) => {
+          const sorted = ringOrder
+            .filter((b) => b.rn.callsign !== a.rn.callsign)
+            .sort((u, v) => a.pos.distanceTo(u.pos) - a.pos.distanceTo(v.pos))
+            .slice(0, 2);
+          sorted.forEach((b) => {
+            addLine3D([a.pos, b.pos], '#38bdf8', 0.28, false, 1.0);
+          });
+        });
+
+        // Highlight 83,900 AU (1.33 ly) Antipodal VLBI Baseline: GOR-9 <-> GOR-3 across Sol!
+        const g9 = relay3DMap.get('GOR-9');
+        const g3 = relay3DMap.get('GOR-3');
+        if (g9 && g3) {
+          addLine3D([g9.pos, g3.pos], '#2dd4bf', 0.72, true, 1.6);
+        }
+
+        // ── Asteroid 3-5-1's Plunging 104.2° Retrograde Cometary Ellipse (`Q=42,500 AU -> q=1.22 AU`) ──
+        if (g9) {
+          const rGor = g9.pos.length(); // ~53.5
+          const uMajor = g9.pos.clone().normalize(); // Sol -> Aphelion axis
+          const refAxis = new THREE.Vector3(0.24, 1.0, 0.18).normalize();
+          const uMinor = new THREE.Vector3().crossVectors(uMajor, refAxis).normalize();
+
+          const qVis = 1.3;
+          const bVis = 8.6;
+          const thetaGor = 0.22;
+          const aVis = (rGor + qVis) * 0.5;
+          const cVis = aVis - qVis;
+
+          function cometPt(th) {
+            const x = cVis + aVis * Math.cos(th);
+            const y = bVis * Math.sin(th);
+            return uMajor.clone().multiplyScalar(x).add(uMinor.clone().multiplyScalar(y));
+          }
+          const rawAtGor = cometPt(thetaGor);
+          const rotQuat = new THREE.Quaternion().setFromUnitVectors(
+            rawAtGor.clone().normalize(),
+            g9.pos.clone().normalize()
+          );
+          const scaleFix = g9.pos.length() / rawAtGor.length();
+          function exactCometPt(th) {
+            return cometPt(th).applyQuaternion(rotQuat).multiplyScalar(scaleFix);
+          }
+
+          // Inbound plunging leg (thetaGor -> PI perihelion): bright amber!
+          const inboundPts = [];
+          for (let i = 0; i <= 90; i++) {
+            const th = thetaGor + (i / 90) * (Math.PI - thetaGor);
+            inboundPts.push(exactCometPt(th));
+          }
+          addLine3D(inboundPts, '#f59e0b', 0.95, false, 2.2);
+
+          // Outbound post-perihelion & past-aphelion leg (PI -> 2*PI + thetaGor): subtle dashed amber
+          const returnPts = [];
+          for (let i = 0; i <= 90; i++) {
+            const th = Math.PI + (i / 90) * (Math.PI + thetaGor);
+            returnPts.push(exactCometPt(th));
+          }
+          addLine3D(returnPts, '#f59e0b', 0.34, true, 1.2);
+
+          // Explicit Infall Velocity Vector Arrow (`v_r = -42.6 m/s`) at GOR-9
+          const pAhead = exactCometPt(thetaGor + 0.26);
+          addLine3D([g9.pos, pAhead], '#ffffff', 0.95, false, 2.4);
+
+          // Frost-line coma ignition marker along inbound plunge (~35% out from Sol so callout separates cleanly from Sol)
+          const pFrost = exactCometPt(Math.PI - 0.52);
+          addPoint3D(pFrost, '#38e8ff', 0.85, null, false);
+          overlayLabels3D.push({
+            pos: pFrost,
+            title: '☄️ 10 AU FROST-LINE IGNITION',
+            sub: 'ETA 1.392 Myr • Great Comet Eruption',
+            hex: '#38e8ff',
+            priority: 1,
+            isSelected: false,
+          });
+
+          // Animate 3 crisp pinpoint markers drifting slowly from GOR-9 toward Sol along inboundPts
+          for (let k = 0; k < 3; k++) {
+            const m = new THREE.Mesh(
+              new THREE.SphereGeometry(0.28, 10, 8),
+              new THREE.MeshBasicMaterial({ color: 0xffedba })
+            );
+            modeSceneGroup.add(m);
+            animatedPackets3D.push({ mesh: m, path: inboundPts, phase: k / 3, speed: 0.12 });
+          }
+        }
+
+        document.getElementById('hud3d-path').textContent = '3-5-1 COMETARY INFALL & 12-RELAY OORT RING';
+        document.getElementById('hud3d-shells').textContent =
+          `Q = ${GOR9_ORBIT.aphelion_q_max_au?.toLocaleString() || '42,500'} AU → q = ${GOR9_ORBIT.perihelion_q_min_au || 1.22} AU (i = 104.2° • P = 3.10 Myr)`;
+        document.getElementById('hud3d-ceres').textContent = '1.392 Myr (470,100 SWEEPS)';
+      } else if (cameraMode3D === 'orrery') {
+        // ── MODE 2: 3D SOLAR SYSTEM KEPLERIAN ORRERY (`Earth` 1 AU -> `Sedna` 506 AU) ──
+        addPoint3D(new THREE.Vector3(0, 0, 0), '#fff4cc', 1.4, 'sol-oort-star', activeLoc?.id === 'sol-oort-star');
+        overlayLabels3D.push({
+          pos: new THREE.Vector3(0, 0, 0),
+          title: '✦ SOL (G2V)',
+          sub: 'Heliocentric Focus',
+          hex: '#ffedba',
+          priority: 1,
+          isSelected: activeLoc?.id === 'sol-oort-star',
+        });
+
+        PRECOMPUTED_ORBITS.forEach((orb) => {
+          const pts3D = orb.samples.map((s) => orreryHelioVec(s.xh, s.yh, s.zh));
+          const isActOrb = Boolean(activeLoc && activeLoc.orbitId === orb.id);
+          addLine3D(pts3D, orb.hex, isActOrb ? 0.92 : 0.48, false, isActOrb ? 2.0 : 1.15);
+
+          const bodyPos = orreryHelioVec(orb.nowHelio.xh, orb.nowHelio.yh, orb.nowHelio.zh);
+          const fwdH = keplerHelioXYZ(orb, orb.true_anom_deg + (orb.e > 0.5 ? 10 : 18));
+          const fwdPos = orreryHelioVec(fwdH.xh, fwdH.yh, fwdH.zh);
+          addLine3D([bodyPos, fwdPos], '#ffffff', 0.85, false, 1.8);
+
+          const linkedLoc = ALL_LOCATIONS.find((l) => l.orbitId === orb.id);
+          addPoint3D(bodyPos, orb.hex, isActOrb ? 1.25 : 0.85, linkedLoc ? linkedLoc.id : null, isActOrb);
+          addLine3D([bodyPos, new THREE.Vector3(bodyPos.x, 0, bodyPos.z)], orb.hex, 0.22, false, 0.8);
+
+          overlayLabels3D.push({
+            pos: bodyPos,
+            title: `${orb.short} (${orb.a_au < 10 ? orb.a_au.toFixed(2) : orb.a_au.toFixed(0)} AU)`,
+            sub: isActOrb ? `${orb.v_kms} km/s • i=${orb.inc_deg.toFixed(1)}°` : `${orb.v_kms} km/s`,
+            hex: orb.hex,
+            priority: isActOrb ? 1 : 2,
+            isSelected: isActOrb,
+          });
+        });
+
+        // Jupiter L4 (624 Hektor) & Ceres -> Hektor 6,440 kHz Jammer Line in 3D!
+        const jupOrb = PRECOMPUTED_ORBITS.find((o) => o.id === 'orbit-jupiter');
+        const cerOrb = PRECOMPUTED_ORBITS.find((o) => o.id === 'orbit-ceres');
+        if (jupOrb) {
+          const hekH = keplerHelioXYZ(
+            { a_au: 5.257, e: 0.023, inc_deg: 18.18, node_deg: 342.8, arg_peri_deg: 178.9 },
+            (jupOrb.true_anom_deg + 60.0) % 360.0
+          );
+          const hekPos = orreryHelioVec(hekH.xh, hekH.yh, hekH.zh);
+          const isHekSel = ['trojan-octal', 'radio-free-hektor'].includes(activeLoc?.id);
+          addPoint3D(hekPos, '#c084fc', 1.05, 'trojan-octal', isHekSel);
+          overlayLabels3D.push({
+            pos: hekPos,
+            title: '◆ 624 HEKTOR (L4 +60°)',
+            sub: isHekSel ? 'E08-OCTAL & RFH-HOP' : '',
+            hex: '#c084fc',
+            priority: isHekSel ? 1 : 2,
+            isSelected: isHekSel,
+          });
+          if (cerOrb) {
+            const cerPos = orreryHelioVec(cerOrb.nowHelio.xh, cerOrb.nowHelio.yh, cerOrb.nowHelio.zh);
+            addLine3D([cerPos, hekPos], '#fb7185', 0.72, true, 1.4);
+          }
+        }
+
+        // Incoming 104.2° Retrograde Plunge Vector of Asteroid 3-5-1 (`GOR-9`) aiming at q = 1.22 AU!
+        const plungePts = [];
+        for (let i = 0; i <= 40; i++) {
+          const u = i / 40;
+          const rAu = 1.22 + Math.pow(u, 2.2) * 320.0;
+          const incR = (104.2 * Math.PI) / 180.0;
+          const ang = -Math.PI * 0.15 + (1.0 - u) * 1.35;
+          const xh = rAu * Math.cos(ang) * Math.cos(incR);
+          const yh = rAu * Math.sin(ang);
+          const zh = -rAu * Math.cos(ang) * Math.sin(incR);
+          plungePts.push(orreryHelioVec(xh, yh, zh));
+        }
+        addLine3D(plungePts, '#f59e0b', 0.75, true, 1.6);
+        overlayLabels3D.push({
+          pos: plungePts[Math.floor(plungePts.length * 0.72)],
+          title: '☄️ 3-5-1 INFALL (i=104.2°)',
+          sub: 'From 42,100 AU → q = 1.22 AU',
+          hex: '#f59e0b',
+          priority: 1,
+          isSelected: false,
+        });
+
+        document.getElementById('hud3d-path').textContent = '3D SOLAR SYSTEM KEPLERIAN ORRERY (POWER-LAW AU)';
+        document.getElementById('hud3d-shells').textContent = '10 INCLINED ORBITS: TERRA (1 AU) • CERES • JUPITER/L4 • SATURN • ERIS (44°) • SEDNA';
+        document.getElementById('hud3d-ceres').textContent = '4.90"/AU AT 42,100 AU';
+      } else {
+        // ── MODE 3 (`ducts`) & MODE 4 (`galaxy`): OBSERVER-CENTRIC LOGARITHMIC SPHERE ──
+        [
+          { r: 0.28 * R_MAX, hex: '#38e8ff', op: 0.22 },
+          { r: 0.45 * R_MAX, hex: '#f59e0b', op: 0.26 },
+          { r: 0.78 * R_MAX, hex: '#60a5fa', op: 0.20 },
+          { r: 0.96 * R_MAX, hex: '#c084fc', op: 0.18 },
+        ].forEach((sh) => {
+          const pts = [];
+          for (let i = 0; i <= 80; i++) {
+            const a = (i / 80) * Math.PI * 2;
+            pts.push(new THREE.Vector3(Math.cos(a) * sh.r, 0, Math.sin(a) * sh.r));
+          }
+          addLine3D(pts, sh.hex, sh.op, false, 1.0);
+        });
+
+        // Galactic Plane
+        const galPts = [];
+        for (let az = 0; az <= 360; az += 4) {
+          galPts.push(getObserver3DPos(az, galacticToLocalEl(az, 0), 0.78));
+        }
+        addLine3D(galPts, '#f59e0b', 0.35, true, 1.1);
+
+        // Origin: GOR-9 at (0,0,0)
+        addPoint3D(new THREE.Vector3(0, 0, 0), '#f59e0b', 1.25, null, true);
+        overlayLabels3D.push({
+          pos: new THREE.Vector3(0, 0, 0),
+          title: '● GOR-9 (ASTEROID 3-5-1)',
+          sub: '50 kW Marzelvane Bias Hub',
+          hex: '#f59e0b',
+          priority: 1,
+          isSelected: false,
+        });
+
+        ALL_LOCATIONS.forEach((loc) => {
+          const isAct = Boolean(activeLoc && activeLoc.id === loc.id);
+          // Avoid plotting stacked Solar core dots right on top of Sol in observer-centric view unless active
+          if (loc.isSolar && loc.id !== 'sol-oort-star' && loc.id !== 'sedna-hills-relay' && !isAct) {
+            return;
+          }
+          addPoint3D(loc.pos3D, loc.hex, isAct ? 1.25 : 0.82, loc.id, isAct);
+          addLine3D([loc.pos3D, new THREE.Vector3(loc.pos3D.x, 0, loc.pos3D.z)], loc.hex, 0.2, false, 0.8);
+
+          if (isAct || ['sol-oort-star', 'psr-b1937', 'm33-drift-buoy', 'st-jerome-slag', 'kz9-omega', 'pedregal-utility'].includes(loc.id)) {
+            overlayLabels3D.push({
+              pos: loc.pos3D,
+              title: `${loc.slot} • ${loc.callsign}`,
+              sub: isAct ? loc.range_label : '',
+              hex: loc.hex,
+              priority: isAct ? 1 : 2,
+              isSelected: isAct,
+            });
+          }
+        });
+
+        // Active Marzelvane Standing-Wave Flux-Duct Chain + Signal Packets
+        if (activeLoc) {
+          const pathPts = [activeLoc.pos3D.clone()];
+          (activeLoc.relay_nodes || []).forEach((rn, idx) => {
+            const rPos = getObserver3DPos(rn.az_deg, rn.el_deg || 15.0, rn.r_norm || 0.28);
+            pathPts.push(rPos);
+            addPoint3D(rPos, '#38e8ff', 0.9, null, false);
+            overlayLabels3D.push({
+              pos: rPos,
+              title: `↳ HOP #${idx + 1}: ${rn.name}`,
+              sub: rn.role || '',
+              hex: '#38e8ff',
+              priority: 1,
+              isSelected: false,
+            });
+          });
+          pathPts.push(new THREE.Vector3(0, 0, 0));
+          addLine3D(pathPts, activeLoc.hex, 0.95, false, 2.3);
+
+          // Local Oort 1,420 AU Baseline Triangle (GOR-9 <-> KZ9-OMEGA <-> Target)
+          if (KZ9_LOC && activeLoc.id !== 'kz9-omega') {
+            addLine3D([new THREE.Vector3(0, 0, 0), KZ9_LOC.pos3D, activeLoc.pos3D], '#38bdf8', 0.45, true, 1.2);
+          }
+
+          for (let k = 0; k < 4; k++) {
+            const pkt = new THREE.Mesh(
+              new THREE.SphereGeometry(0.32, 10, 8),
+              new THREE.MeshBasicMaterial({ color: 0xffffff })
+            );
+            modeSceneGroup.add(pkt);
+            animatedPackets3D.push({ mesh: pkt, path: pathPts, phase: k / 4, speed: 0.30 });
+          }
+
+          const hops = (activeLoc.relay_nodes || []).length;
+          document.getElementById('hud3d-path').textContent =
+            `FLUX-DUCT: ${activeLoc.callsign} → ${hops ? `${hops} HOP${hops > 1 ? 'S' : ''} → ` : ''}GOR-9`;
+        }
+        document.getElementById('hud3d-shells').textContent =
+          'LOG10(AU) SHELLS: OORT (<4k AU) • HELIOSPHERE (42k AU) • ARMS (1–26 kly) • M-33 (2.73 Mly)';
+        document.getElementById('hud3d-ceres').textContent = 'λ = 20.985m DUCT LOCK';
+      }
+    }
+
+    window.set3DCameraMode = function (mode, snap = false) {
       cameraMode3D = mode;
-      ['vector', 'ceres', 'oort', 'galaxy'].forEach((m) => {
+      ['cometary', 'orrery', 'ducts', 'galaxy'].forEach((m) => {
         const btn = document.getElementById(`cam3d-${m}`);
         if (btn) btn.classList.toggle('active', m === mode);
       });
+      rebuild3DScene();
 
-      const tPos = activeLoc.pos3D.clone();
-      if (mode === 'vector') {
-        const mid = tPos.clone().multiplyScalar(0.45);
-        const side = new THREE.Vector3(-tPos.z, 0, tPos.x).normalize().multiplyScalar(Math.max(38, tPos.length() * 0.72));
+      if (mode === 'cometary') {
+        desiredCamTarget3D = new THREE.Vector3(0, -3, 0);
+        desiredCamPos3D = new THREE.Vector3(78, 60, 122);
+      } else if (mode === 'orrery') {
+        desiredCamTarget3D = new THREE.Vector3(0, 0, 0);
+        desiredCamPos3D = new THREE.Vector3(48, 44, 72);
+      } else if (mode === 'ducts' && activeLoc) {
+        const mid = activeLoc.pos3D.clone().multiplyScalar(0.45);
         desiredCamTarget3D = mid;
-        desiredCamPos3D = mid.clone().add(side).add(new THREE.Vector3(0, Math.max(24, tPos.length() * 0.38), 0));
-      } else if (mode === 'ceres') {
-        const cPos = CERES_LOC.pos3D.clone();
-        const centroid = tPos.clone().add(cPos).multiplyScalar(0.33);
-        desiredCamTarget3D = centroid;
-        desiredCamPos3D = centroid.clone().add(new THREE.Vector3(25, 62, 68));
-      } else if (mode === 'oort') {
-        desiredCamTarget3D = new THREE.Vector3(0, 4, 0);
-        desiredCamPos3D = new THREE.Vector3(36, 28, 44);
+        desiredCamPos3D = mid.clone().add(new THREE.Vector3(42, 34, 58));
       } else {
         desiredCamTarget3D = new THREE.Vector3(0, 0, 0);
-        desiredCamPos3D = new THREE.Vector3(85, 72, 125);
+        desiredCamPos3D = new THREE.Vector3(82, 66, 118);
+      }
+
+      if (snap && desiredCamPos3D && desiredCamTarget3D) {
+        camera3D.position.copy(desiredCamPos3D);
+        controls3D.target.copy(desiredCamTarget3D);
+        desiredCamPos3D = null;
+        desiredCamTarget3D = null;
       }
     };
 
-    // Click picking inside 3D Sphere
-    const raycaster3D = new THREE.Raycaster();
-    const mouse3D = new THREE.Vector2();
+    // Click picking inside View 2
     let downPos3D = { x: 0, y: 0 };
     interactive3DDom.addEventListener('pointerdown', (e) => {
       downPos3D = { x: e.clientX, y: e.clientY };
@@ -1533,17 +2037,26 @@
     interactive3DDom.addEventListener('pointerup', (e) => {
       if (Math.hypot(e.clientX - downPos3D.x, e.clientY - downPos3D.y) > 6) return;
       const rect = interactive3DDom.getBoundingClientRect();
-      mouse3D.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      mouse3D.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
       camera3D.updateMatrixWorld();
-      raycaster3D.setFromCamera(mouse3D, camera3D);
-      const hits = raycaster3D.intersectObjects(pickableMeshes3D, false);
-      if (hits.length > 0 && hits[0].object.userData.locId) {
-        window.selectLocation(hits[0].object.userData.locId);
-      }
+      let best = null;
+      let bestDist = 18;
+      pickablePoints3D.forEach((item) => {
+        const v = item.pos.clone().project(camera3D);
+        if (v.z < -1 || v.z > 1) return;
+        const sx = (v.x * 0.5 + 0.5) * rect.width;
+        const sy = (-v.y * 0.5 + 0.5) * rect.height;
+        const d = Math.hypot(mx - sx, my - sy);
+        if (d < bestDist) {
+          bestDist = d;
+          best = item.locId;
+        }
+      });
+      if (best) window.selectLocation(best);
     });
 
-    function draw3DLabelsOverlay(t = 0) {
+    function draw3DLabelsOverlay(t) {
       const w = sphereContainer.clientWidth || 640;
       const h = sphereContainer.clientHeight || 420;
       if (labelCanvas3D.width !== w || labelCanvas3D.height !== h) {
@@ -1552,255 +2065,144 @@
       }
       const ctx = labelCanvas3D.getContext('2d');
       ctx.clearRect(0, 0, w, h);
-
       camera3D.updateMatrixWorld();
 
       function project3D(vec) {
         const v = vec.clone().project(camera3D);
         if (v.z > 1.0 || v.z < -1.0) return null;
-        return {
-          x: (v.x * 0.5 + 0.5) * w,
-          y: (-v.y * 0.5 + 0.5) * h,
-          z: v.z,
-        };
+        return { x: (v.x * 0.5 + 0.5) * w, y: (-v.y * 0.5 + 0.5) * h };
       }
 
-      function stroke3DPolyline(pts3D, strokeStyle, lineWidth = 1, dash = []) {
-        ctx.save();
-        ctx.strokeStyle = strokeStyle;
-        ctx.lineWidth = lineWidth;
-        if (dash.length) ctx.setLineDash(dash);
-        ctx.beginPath();
-        let penDown = false;
-        for (let i = 0; i < pts3D.length; i++) {
-          const p = project3D(pts3D[i]);
-          if (!p) {
-            penDown = false;
-            continue;
-          }
-          if (!penDown) {
-            ctx.moveTo(p.x, p.y);
-            penDown = true;
-          } else {
-            ctx.lineTo(p.x, p.y);
-          }
-        }
-        ctx.stroke();
-        ctx.restore();
-      }
-
-      // Software 3D Astrometry Sphere Renderer (used automatically if WebGL context is unavailable)
+      // Software projection fallback if WebGL is disabled in headless environment
       if (!renderer3D) {
-        ctx.fillStyle = '#03060c';
+        ctx.fillStyle = '#02050a';
         ctx.fillRect(0, 0, w, h);
 
-        // 1. Concentric equatorial shells
-        [
-          { r: 0.28 * R_MAX, col: 'rgba(56, 232, 255, 0.28)' },
-          { r: 0.48 * R_MAX, col: 'rgba(245, 158, 11, 0.34)' },
-          { r: 0.78 * R_MAX, col: 'rgba(96, 165, 250, 0.25)' },
-          { r: 0.96 * R_MAX, col: 'rgba(192, 132, 252, 0.20)' },
-        ].forEach((sh) => {
-          const ringPts = [];
-          for (let i = 0; i <= 72; i++) {
-            const a = (i / 72) * Math.PI * 2;
-            ringPts.push(new THREE.Vector3(Math.cos(a) * sh.r, 0, Math.sin(a) * sh.r));
-          }
-          stroke3DPolyline(ringPts, sh.col, 1.1);
+        softwarePolylines3D.forEach((pl) => {
+          ctx.save();
+          ctx.strokeStyle = pl.stroke;
+          ctx.lineWidth = pl.width;
+          if (pl.dash.length) ctx.setLineDash(pl.dash);
+          ctx.beginPath();
+          let pen = false;
+          pl.pts.forEach((pt) => {
+            const p = project3D(pt);
+            if (!p) { pen = false; return; }
+            if (!pen) { ctx.moveTo(p.x, p.y); pen = true; }
+            else ctx.lineTo(p.x, p.y);
+          });
+          ctx.stroke();
+          ctx.restore();
         });
 
-        // 2. Cardinal Azimuth axes
-        for (let az = 0; az < 360; az += 45) {
-          stroke3DPolyline(
-            [new THREE.Vector3(0, 0, 0), get3DPos(az, 0, 0.96)],
-            az % 90 === 0 ? 'rgba(56, 232, 255, 0.32)' : 'rgba(38, 56, 84, 0.24)',
-            1
-          );
-        }
+        softwarePoints3D.forEach((sp) => {
+          const p = project3D(sp.pos);
+          if (!p) return;
+          const g = ctx.createRadialGradient(p.x, p.y, 0.5, p.x, p.y, sp.r * 3.0);
+          g.addColorStop(0, '#ffffff');
+          g.addColorStop(0.35, sp.hex);
+          g.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, sp.r * 3.0, 0, Math.PI * 2);
+          ctx.fill();
+        });
 
-        // 3. Tilted Galactic Plane
-        stroke3DPolyline(galPlanePts, 'rgba(245, 158, 11, 0.42)', 1.3, [4, 4]);
-
-        // 4. Ceres Triangulation Triangle (GOR-9 <-> Ceres Foundry #7 <-> Active Target)
-        if (activeLoc && CERES_LOC && activeLoc.id !== 'ceres-foundry-7') {
-          const p0 = project3D(new THREE.Vector3(0, 0, 0));
-          const pC = project3D(CERES_LOC.pos3D);
-          const pT = project3D(activeLoc.pos3D);
-          if (p0 && pC && pT) {
-            ctx.fillStyle = 'rgba(255, 158, 56, 0.09)';
+        animatedPackets3D.forEach((ap) => {
+          const p = project3D(ap.mesh.position);
+          if (p) {
+            ctx.fillStyle = '#ffffff';
             ctx.beginPath();
-            ctx.moveTo(p0.x, p0.y);
-            ctx.lineTo(pC.x, pC.y);
-            ctx.lineTo(pT.x, pT.y);
-            ctx.closePath();
+            ctx.arc(p.x, p.y, 2.5, 0, Math.PI * 2);
             ctx.fill();
           }
-          stroke3DPolyline(
-            [new THREE.Vector3(0, 0, 0), CERES_LOC.pos3D, activeLoc.pos3D, new THREE.Vector3(0, 0, 0)],
-            'rgba(255, 158, 56, 0.72)',
-            1.5,
-            [4, 3]
-          );
-        }
+        });
+      }
 
-        // 5. Active 3D Relay Path & Animated Signal Packets
-        if (activePathPoints3D.length >= 2 && activeLoc) {
-          stroke3DPolyline(activePathPoints3D, activeLoc.hex, 2.6);
-          packetMeshes3D.forEach((pkt) => {
-            const pp = project3D(pkt.position);
-            if (pp) {
-              ctx.fillStyle = '#ffffff';
-              ctx.beginPath();
-              ctx.arc(pp.x, pp.y, 4.0, 0, Math.PI * 2);
-              ctx.fill();
-            }
+      // Crisp 2D Corner Reticles on Selected 3D Pinpoints + Collision-Free Vector Callouts
+      const placed = [];
+      const sorted = [...overlayLabels3D].sort((a, b) => a.priority - b.priority);
+      sorted.forEach((lbl) => {
+        const p = project3D(lbl.pos);
+        if (!p || p.x < 8 || p.x > w - 8 || p.y < 10 || p.y > h - 42) return;
+
+        if (lbl.isSelected) {
+          const b = 7.5 + 1.2 * Math.sin(t * 4.2);
+          const leg = 3.4;
+          ctx.strokeStyle = '#ffffff';
+          ctx.lineWidth = 1.25;
+          [[-1, -1], [1, -1], [1, 1], [-1, 1]].forEach(([sx, sy]) => {
+            ctx.beginPath();
+            ctx.moveTo(p.x + sx * b, p.y + sy * (b - leg));
+            ctx.lineTo(p.x + sx * b, p.y + sy * b);
+            ctx.lineTo(p.x + sx * (b - leg), p.y + sy * b);
+            ctx.stroke();
           });
         }
 
-        // 6. All 17 3D Nodes & Vertical Drop Stems to XZ Plane
-        ALL_LOCATIONS.forEach((loc) => {
-          const pNode = project3D(loc.pos3D);
-          const pBase = project3D(new THREE.Vector3(loc.pos3D.x, 0, loc.pos3D.z));
-          if (pNode && pBase) {
-            ctx.strokeStyle = `${loc.hex}44`;
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(pNode.x, pNode.y);
-            ctx.lineTo(pBase.x, pBase.y);
-            ctx.stroke();
-          }
-          if (pNode) {
-            const isAct = activeLoc && activeLoc.id === loc.id;
-            ctx.fillStyle = loc.hex;
-            ctx.beginPath();
-            ctx.arc(pNode.x, pNode.y, isAct ? 6.5 : 4.2, 0, Math.PI * 2);
-            ctx.fill();
-            if (isAct) {
-              ctx.strokeStyle = '#ffffff';
-              ctx.lineWidth = 1.8;
-              ctx.beginPath();
-              ctx.arc(pNode.x, pNode.y, 11 + 2 * Math.sin(t * 4.0), 0, Math.PI * 2);
-              ctx.stroke();
-            }
-          }
-        });
+        const tw = Math.max(lbl.title.length, (lbl.sub || '').length) * 5.8 + 12;
+        const th = lbl.sub ? 23 : 13;
+        const candidates = [
+          { dx: 11, dy: -5 },
+          { dx: 11, dy: 16 },
+          { dx: -tw - 9, dy: -5 },
+          { dx: -tw - 9, dy: -22 },
+          { dx: 11, dy: -26 },
+          { dx: -tw - 9, dy: 16 },
+          { dx: -tw * 0.5, dy: -28 },
+          { dx: -tw * 0.5, dy: 24 },
+          { dx: 20, dy: -42 },
+          { dx: -tw - 18, dy: -42 },
+          { dx: 20, dy: 34 },
+          { dx: -tw - 18, dy: 34 },
+        ];
 
-        // 7. Center Node (0,0,0): GOR-9 Asteroid 3-5-1
-        const pCenter = project3D(new THREE.Vector3(0, 0, 0));
-        if (pCenter) {
-          ctx.fillStyle = '#ffae2b';
-          ctx.beginPath();
-          ctx.arc(pCenter.x, pCenter.y, 5.5, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.strokeStyle = '#38e8ff';
-          ctx.lineWidth = 1.4;
-          ctx.beginPath();
-          ctx.arc(pCenter.x, pCenter.y, 9.5, 0, Math.PI * 2);
-          ctx.stroke();
-        }
-      }
-
-      const placedBoxes = [];
-      function tryPlaceLabel(x, y, textW, textH, force = false) {
-        let cy = y;
-        for (let attempt = 0; attempt < 5; attempt++) {
-          const box = { x1: x, y1: cy - textH + 2, x2: x + textW, y2: cy + 4 };
-          const hit = placedBoxes.some(
-            (b) => !(box.x2 < b.x1 || box.x1 > b.x2 || box.y2 < b.y1 || box.y1 > b.y2)
-          );
+        let chosen = null;
+        for (const c of candidates) {
+          const lx = p.x + c.dx;
+          const ly = p.y + c.dy;
+          if (lx < 8 || lx + tw > w - 8 || ly - 11 < 8 || ly + th > h - 48) continue;
+          const box = { x1: lx - 4, y1: ly - 11, x2: lx + tw + 2, y2: ly + th - 6 };
+          const hit = placed.some((b) => !(box.x2 < b.x1 || box.x1 > b.x2 || box.y2 < b.y1 || box.y1 > b.y2));
           if (!hit) {
-            placedBoxes.push(box);
-            return cy;
+            placed.push(box);
+            chosen = { lx, ly };
+            break;
           }
-          cy += attempt % 2 === 0 ? 14 : -22;
         }
-        if (force) {
-          placedBoxes.push({ x1: x, y1: y - textH + 2, x2: x + textW, y2: y + 4 });
-          return y;
-        }
-        return null;
-      }
+        if (!chosen) return;
 
-      // 1. Highest priority: Active Target Location
-      if (activeLoc) {
-        const pAct = project3D(activeLoc.pos3D);
-        if (pAct) {
-          const ly = tryPlaceLabel(pAct.x + 10, pAct.y, 175, 26, true);
-          ctx.fillStyle = 'rgba(4, 9, 18, 0.82)';
-          ctx.fillRect(pAct.x + 7, ly - 12, 172, 27);
-          ctx.strokeStyle = activeLoc.hex;
+        // Crisp hairline leader connecting pinpoint to callout
+        const anchorX = chosen.lx < p.x ? Math.min(chosen.lx + tw - 2, Math.max(chosen.lx, p.x)) : chosen.lx - 3;
+        const anchorY = Math.min(chosen.ly + th - 8, Math.max(chosen.ly - 8, p.y));
+        ctx.strokeStyle = hexToRgba(lbl.hex, lbl.priority === 1 ? 0.65 : 0.35);
+        ctx.lineWidth = 0.9;
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(anchorX, anchorY);
+        ctx.stroke();
+
+        if (lbl.priority === 1 && lbl.sub) {
+          ctx.fillStyle = 'rgba(3, 7, 15, 0.86)';
+          ctx.fillRect(chosen.lx - 3, chosen.ly - 10, tw, th + 2);
+          ctx.strokeStyle = hexToRgba(lbl.hex, 0.62);
           ctx.lineWidth = 1;
-          ctx.strokeRect(pAct.x + 7, ly - 12, 172, 27);
-          ctx.font = 'bold 10.5px JetBrains Mono, monospace';
-          ctx.fillStyle = '#ffffff';
-          ctx.fillText(`${activeLoc.slot} ${activeLoc.callsign}`, pAct.x + 12, ly - 1);
-          ctx.font = '9px JetBrains Mono, monospace';
-          ctx.fillStyle = activeLoc.hex;
-          ctx.fillText(`${activeLoc.range_label} • AZ ${activeLoc.az_deg.toFixed(1)}°`, pAct.x + 12, ly + 11);
+          ctx.strokeRect(chosen.lx - 3, chosen.ly - 10, tw, th + 2);
         }
-      }
-
-      // 2. Relay hop labels for active location
-      (activeLoc.relay_nodes || []).forEach((rn, idx) => {
-        const rPos = get3DPos(rn.az_deg, rn.el_deg || 15.0, rn.r_norm || 0.25);
-        const pr = project3D(rPos);
-        if (pr) {
-          const lbl = `↳ HOP #${idx + 1}: ${rn.name}`;
-          const ly = tryPlaceLabel(pr.x + 8, pr.y - 4, lbl.length * 6.2, 13, true);
-          if (ly !== null) {
-            ctx.font = 'bold 9.5px JetBrains Mono, monospace';
-            ctx.fillStyle = '#38e8ff';
-            ctx.fillText(lbl, pr.x + 8, ly);
-          }
-        }
-      });
-
-      // 3. Origin label: GOR-9 (Asteroid 3-5-1)
-      const pGor = project3D(new THREE.Vector3(0, -2.5, 0));
-      if (pGor) {
-        const ly = tryPlaceLabel(pGor.x + 8, pGor.y + 6, 155, 14, true);
-        if (ly !== null) {
-          ctx.font = 'bold 10px JetBrains Mono, monospace';
-          ctx.fillStyle = '#ffae2b';
-          ctx.fillText('● GOR-9 (ASTEROID 3-5-1)', pGor.x + 8, ly);
-        }
-      }
-
-      // 4. Ceres Foundry #7 Triangulation Baseline Anchor (if not already active)
-      if (CERES_LOC && (!activeLoc || activeLoc.id !== 'ceres-foundry-7')) {
-        const pCer = project3D(CERES_LOC.pos3D);
-        if (pCer) {
-          const ly = tryPlaceLabel(pCer.x + 8, pCer.y + 3, 148, 14, true);
-          if (ly !== null) {
-            ctx.font = 'bold 9.5px JetBrains Mono, monospace';
-            ctx.fillStyle = '#fbbf24';
-            ctx.fillText('▲ CFS-7 CERES (1,840 AU)', pCer.x + 8, ly);
-          }
-        }
-      }
-
-      // 5. Other Locations (decluttered: only drawn if non-overlapping)
-      ALL_LOCATIONS.forEach((loc) => {
-        if (activeLoc && activeLoc.id === loc.id) return;
-        if (loc.id === 'ceres-foundry-7') return;
-        if (currentFilter !== 'all' && loc.filterGroup !== currentFilter) return;
-
-        const p2 = project3D(loc.pos3D);
-        if (!p2 || p2.x < 10 || p2.x > w - 80 || p2.y < 18 || p2.y > h - 38) return;
-
-        const lbl = `${loc.slot} ${loc.callsign}`;
-        const ly = tryPlaceLabel(p2.x + 7, p2.y + 3, lbl.length * 6.0, 13, false);
-        if (ly !== null) {
-          ctx.font = '9px JetBrains Mono, monospace';
-          ctx.fillStyle = loc.hex;
-          ctx.fillText(lbl, p2.x + 7, ly);
+        ctx.font = `${lbl.priority === 1 ? 'bold 9.6px' : '8.8px'} JetBrains Mono, monospace`;
+        ctx.fillStyle = lbl.priority === 1 ? '#f8fafc' : lbl.hex;
+        ctx.fillText(lbl.title, chosen.lx, chosen.ly);
+        if (lbl.sub) {
+          ctx.font = '8.5px JetBrains Mono, monospace';
+          ctx.fillStyle = lbl.hex;
+          ctx.fillText(lbl.sub, chosen.lx, chosen.ly + 11);
         }
       });
     }
 
-    // ═════════════════════════════════════════════════════════════════
-    // VIEWPORT 1: SKY VIEW FROM ASTEROID 3-5-1 (POINTING TELESCOPE)
-    // ═════════════════════════════════════════════════════════════════
+    // ═════════════════════════════════════════════════════════════════════════
+    // VIEWPORT 1: MULTI-SCALE SIDEREAL SKY & 4.90"/AU LYOT SOLAR CORONAGRAPH
+    // ═════════════════════════════════════════════════════════════════════════
     const skyCanvas = document.getElementById('sky-view-canvas');
     let skyHitBoxes = [];
     let isDraggingSky = false;
@@ -1812,11 +2214,12 @@
     });
     window.addEventListener('pointermove', (e) => {
       if (!isDraggingSky) return;
-      const fovAz = 110.0 / skyZoom;
+      const fovDeg = 90.0 / skyZoom;
       const dx = e.clientX - skyDragStart.x;
       const dy = e.clientY - skyDragStart.y;
-      const scale = fovAz / (skyCanvas.clientWidth || 600);
-      targetSkyAz = (skyDragStart.az - dx * scale + 360.0) % 360.0;
+      const scale = fovDeg / Math.max(200, skyCanvas.clientWidth || 600);
+      const cosEl = Math.max(0.2, Math.cos((skyDragStart.el * Math.PI) / 180.0));
+      targetSkyAz = (((skyDragStart.az - (dx * scale) / cosEl) % 360.0) + 360.0) % 360.0;
       targetSkyEl = Math.max(-18.0, Math.min(78.0, skyDragStart.el + dy * scale));
     });
     window.addEventListener('pointerup', (e) => {
@@ -1826,26 +2229,25 @@
         const rect = skyCanvas.getBoundingClientRect();
         const mx = (e.clientX - rect.left) * (skyCanvas.width / rect.width);
         const my = (e.clientY - rect.top) * (skyCanvas.height / rect.height);
+        let best = null;
+        let bestD = 18;
         for (const hb of skyHitBoxes) {
-          if (Math.hypot(mx - hb.x, my - hb.y) <= hb.r + 10) {
-            window.selectLocation(hb.id);
-            break;
+          const d = Math.hypot(mx - hb.x, my - hb.y);
+          if (d < bestD) {
+            bestD = d;
+            best = hb.id;
           }
         }
+        if (best) window.selectLocation(best, false, Math.round(targetSkyZoom));
       }
     });
     skyCanvas.addEventListener(
       'wheel',
       (e) => {
         e.preventDefault();
-        if (e.deltaY < 0) {
-          targetSkyZoom = Math.min(36.0, targetSkyZoom * 1.35);
-        } else {
-          targetSkyZoom = Math.max(1.0, targetSkyZoom / 1.35);
-        }
-        document.getElementById('zoom-btn-1').classList.toggle('active', targetSkyZoom < 2.2);
-        document.getElementById('zoom-btn-6').classList.toggle('active', targetSkyZoom >= 2.2 && targetSkyZoom < 16);
-        document.getElementById('zoom-btn-32').classList.toggle('active', targetSkyZoom >= 16);
+        const factor = e.deltaY < 0 ? 1.38 : 1 / 1.38;
+        targetSkyZoom = Math.max(1.0, Math.min(4200.0, targetSkyZoom * factor));
+        syncZoomButtons(targetSkyZoom);
       },
       { passive: false }
     );
@@ -1854,187 +2256,100 @@
       return ((az - centerAz + 540.0) % 360.0) - 180.0;
     }
 
-    function drawResolvedBodyInSky(ctx, loc, px, py, scaleMult, t) {
-      ctx.save();
-      ctx.translate(px, py);
+    // Photometric Unresolved Point-of-Light Renderer (Zero Cartoon Spheres!)
+    function drawPhotometricPoint(ctx, x, y, hex, mag = 16.0, isSelected = false, isOccultedSol = false, t = 0) {
+      if (isOccultedSol) return; // Masked behind Lyot Coronagraph occulting disk!
 
-      if (loc.id === 'sol-oort-star') {
-        // Sol (m = -3.62) at 42,100 AU: Razor-sharp stellar point-source + 6 diffraction spikes
-        const rGlow = 26 * Math.sqrt(scaleMult);
-        const g = ctx.createRadialGradient(0, 0, 1, 0, 0, rGlow);
-        g.addColorStop(0, 'rgba(255, 255, 250, 1)');
-        g.addColorStop(0.18, 'rgba(255, 240, 195, 0.85)');
-        g.addColorStop(0.5, 'rgba(255, 190, 95, 0.25)');
+      ctx.save();
+      ctx.translate(x, y);
+
+      if (mag < 0) {
+        // Bright unresolved stellar point (e.g. Sol m = -3.62 at wide zoom, or O.R.S. 351 m = -2.4)
+        const rAiry = mag < -3 ? 18 : 10;
+        const g = ctx.createRadialGradient(0, 0, 0.5, 0, 0, rAiry);
+        g.addColorStop(0, '#ffffff');
+        g.addColorStop(0.22, hex);
+        g.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(0, 0, rAiry, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (mag < -3) {
+          // Delicate optical spider-vane diffraction spikes for unocculted Sol
+          ctx.strokeStyle = 'rgba(255, 244, 210, 0.65)';
+          ctx.lineWidth = 1.0;
+          const spLen = 24;
+          [0, Math.PI / 2].forEach((ang) => {
+            ctx.beginPath();
+            ctx.moveTo(-Math.cos(ang) * spLen, -Math.sin(ang) * spLen);
+            ctx.lineTo(Math.cos(ang) * spLen, Math.sin(ang) * spLen);
+            ctx.stroke();
+          });
+        }
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(0, 0, 2.5, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        // Distant Planet / Dwarf Planet / Asteroid / Relay: Pure sub-pixel Airy pinpoint!
+        const rGlow = isSelected ? 9.5 : 6.0;
+        const g = ctx.createRadialGradient(0, 0, 0.4, 0, 0, rGlow);
+        g.addColorStop(0, '#ffffff');
+        g.addColorStop(0.32, hex);
         g.addColorStop(1, 'rgba(0, 0, 0, 0)');
         ctx.fillStyle = g;
         ctx.beginPath();
         ctx.arc(0, 0, rGlow, 0, Math.PI * 2);
         ctx.fill();
 
-        ctx.strokeStyle = 'rgba(255, 245, 210, 0.78)';
-        ctx.lineWidth = 1.4;
-        for (let a = 0; a < 3; a++) {
-          const ang = (a * Math.PI) / 3;
-          const len = rGlow * 1.35;
-          ctx.beginPath();
-          ctx.moveTo(-Math.cos(ang) * len, -Math.sin(ang) * len);
-          ctx.lineTo(Math.cos(ang) * len, Math.sin(ang) * len);
-          ctx.stroke();
-        }
         ctx.fillStyle = '#ffffff';
         ctx.beginPath();
-        ctx.arc(0, 0, 3.8, 0, Math.PI * 2);
-        ctx.fill();
-      } else if (loc.id === 'persephone-sedna9') {
-        // Persephone (Sedna-IX): Resolved Ringed Oort Cryo-Planet in Crescent Phase!
-        const rDisk = Math.max(12, 9.5 * scaleMult);
-        const halo = ctx.createRadialGradient(0, 0, rDisk * 0.4, 0, 0, rDisk * 3.4);
-        halo.addColorStop(0, 'rgba(61, 240, 217, 0.42)');
-        halo.addColorStop(1, 'rgba(0, 0, 0, 0)');
-        ctx.fillStyle = halo;
-        ctx.beginPath();
-        ctx.arc(0, 0, rDisk * 3.4, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.rotate(-0.32);
-        // Double crystalline methane-ice rings
-        ctx.strokeStyle = 'rgba(110, 255, 238, 0.92)';
-        ctx.lineWidth = Math.max(2.2, 2.8 * (scaleMult * 0.45));
-        ctx.beginPath();
-        ctx.ellipse(0, 0, rDisk * 2.55, rDisk * 0.72, 0, 0, Math.PI * 2);
-        ctx.stroke();
-
-        ctx.strokeStyle = 'rgba(56, 189, 248, 0.65)';
-        ctx.lineWidth = Math.max(1.5, 1.8 * (scaleMult * 0.45));
-        ctx.beginPath();
-        ctx.ellipse(0, 0, rDisk * 3.15, rDisk * 0.92, 0, 0, Math.PI * 2);
-        ctx.stroke();
-
-        // Planet globe + terminator shadow
-        const pGrad = ctx.createRadialGradient(rDisk * 0.35, -rDisk * 0.2, rDisk * 0.1, 0, 0, rDisk);
-        pGrad.addColorStop(0, '#a5fff2');
-        pGrad.addColorStop(0.55, '#1ca89c');
-        pGrad.addColorStop(1, '#07222c');
-        ctx.fillStyle = pGrad;
-        ctx.beginPath();
-        ctx.arc(0, 0, rDisk, 0, Math.PI * 2);
-        ctx.fill();
-      } else if (loc.id === 'ceres-foundry-7') {
-        // Ceres Foundry #7 (CFS-7): Resolved Amber Dwarf Planet + Night-Side Sodium Smelter Glow!
-        const rDisk = Math.max(11, 8.8 * scaleMult);
-        const halo = ctx.createRadialGradient(0, 0, rDisk * 0.3, 0, 0, rDisk * 3.0);
-        halo.addColorStop(0, 'rgba(255, 158, 56, 0.48)');
-        halo.addColorStop(1, 'rgba(0, 0, 0, 0)');
-        ctx.fillStyle = halo;
-        ctx.beginPath();
-        ctx.arc(0, 0, rDisk * 3.0, 0, Math.PI * 2);
-        ctx.fill();
-
-        const cGrad = ctx.createRadialGradient(-rDisk * 0.3, rDisk * 0.2, rDisk * 0.1, 0, 0, rDisk);
-        cGrad.addColorStop(0, '#ffd494');
-        cGrad.addColorStop(0.55, '#b85d18');
-        cGrad.addColorStop(1, '#1e1108');
-        ctx.fillStyle = cGrad;
-        ctx.beginPath();
-        ctx.arc(0, 0, rDisk, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Glowing Foundry #7 slag rivers on dark hemisphere
-        ctx.strokeStyle = '#ffae2b';
-        ctx.lineWidth = Math.max(1.4, rDisk * 0.08);
-        ctx.beginPath();
-        ctx.moveTo(rDisk * 0.1, -rDisk * 0.25);
-        ctx.lineTo(rDisk * 0.55, 0);
-        ctx.lineTo(rDisk * 0.25, rDisk * 0.35);
-        ctx.stroke();
-
-        // Pulsing Syndicate Jammer / CFS-7 Beacon dot
-        ctx.fillStyle = Math.sin(t * 7.0) > 0 ? '#ff3b30' : '#38e8ff';
-        ctx.beginPath();
-        ctx.arc(rDisk * 0.42, -rDisk * 0.15, Math.max(2.4, rDisk * 0.14), 0, Math.PI * 2);
-        ctx.fill();
-      } else if (loc.id === 'tartarus-buoy12') {
-        // Tartarus Binary Plutoid + Quarantine Buoy 12
-        const rA = Math.max(5.0, 4.2 * scaleMult);
-        const rB = rA * 0.56;
-        const sep = rA * 2.1;
-        const ang = t * 0.35;
-        const ax = Math.cos(ang) * sep * 0.35;
-        const ay = Math.sin(ang) * sep * 0.22;
-        const bx = -Math.cos(ang) * sep * 0.65;
-        const by = -Math.sin(ang) * sep * 0.42;
-
-        ctx.strokeStyle = 'rgba(184, 163, 250, 0.35)';
-        ctx.setLineDash([2, 2]);
-        ctx.beginPath();
-        ctx.ellipse(0, 0, sep, sep * 0.65, 0, 0, Math.PI * 2);
-        ctx.stroke();
-        ctx.setLineDash([]);
-
-        ctx.fillStyle = '#b8a3fa';
-        ctx.beginPath();
-        ctx.arc(ax, ay, rA, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.fillStyle = '#dcd0ff';
-        ctx.beginPath();
-        ctx.arc(bx, by, rB, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Quarantine Buoy 12 amber strobe at L1 barycenter
-        ctx.fillStyle = Math.sin(t * 6.0) > 0 ? '#f59e0b' : '#38e8ff';
-        ctx.beginPath();
-        ctx.arc(0, 0, 2.5, 0, Math.PI * 2);
-        ctx.fill();
-      } else if (loc.id === 'comet-c2736-k4') {
-        // Comet C/2736-K4 Cyanogen Coma & Double Tail
-        const tailLen = Math.max(48, 36 * scaleMult);
-        ctx.save();
-        ctx.rotate(-0.38);
-        const tGrad = ctx.createLinearGradient(0, 0, tailLen, 0);
-        tGrad.addColorStop(0, 'rgba(64, 250, 199, 0.85)');
-        tGrad.addColorStop(0.45, 'rgba(56, 232, 255, 0.32)');
-        tGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-        ctx.fillStyle = tGrad;
-        ctx.beginPath();
-        ctx.ellipse(tailLen * 0.48, 0, tailLen * 0.52, Math.max(7, 4.5 * scaleMult), 0, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-
-        const cR = Math.max(9, 7 * scaleMult);
-        const cGrad = ctx.createRadialGradient(0, 0, 1, 0, 0, cR);
-        cGrad.addColorStop(0, '#ffffff');
-        cGrad.addColorStop(0.35, '#40fac7');
-        cGrad.addColorStop(1, 'rgba(0,0,0,0)');
-        ctx.fillStyle = cGrad;
-        ctx.beginPath();
-        ctx.arc(0, 0, cR, 0, Math.PI * 2);
-        ctx.fill();
-      } else if (loc.id === 'ors-351-halo') {
-        // O.R.S. 351 Orbital Relay Satellite
-        const s = Math.max(6, 4.8 * scaleMult);
-        ctx.strokeStyle = '#ffae2b';
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.moveTo(-s * 2.1, 0);
-        ctx.lineTo(s * 2.1, 0);
-        ctx.stroke();
-
-        ctx.fillStyle = '#c8963e';
-        ctx.fillRect(-s * 0.5, -s * 0.5, s, s);
-        ctx.fillStyle = Math.sin(t * 8.0) > 0 ? '#38e8ff' : '#ff3b30';
-        ctx.beginPath();
-        ctx.arc(0, 0, 2.8, 0, Math.PI * 2);
-        ctx.fill();
-      } else {
-        // Station / Pulsar / Quarry / Galactic Core Beacon
-        const r = Math.max(4.5, 3.4 * Math.sqrt(scaleMult));
-        ctx.fillStyle = loc.hex;
-        ctx.beginPath();
-        ctx.arc(0, 0, r, 0, Math.PI * 2);
+        ctx.arc(0, 0, isSelected ? 2.3 : 1.65, 0, Math.PI * 2);
         ctx.fill();
       }
 
+      // Precision Sci-Fi Instrument Reticle (Corner brackets / gated vernier when selected)
+      if (isSelected) {
+        const b = 9.5 + 1.4 * Math.sin(t * 4.2);
+        const leg = 4.2;
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 1.4;
+        [
+          [-1, -1],
+          [1, -1],
+          [1, 1],
+          [-1, 1],
+        ].forEach(([sx, sy]) => {
+          ctx.beginPath();
+          ctx.moveTo(sx * b, sy * (b - leg));
+          ctx.lineTo(sx * b, sy * b);
+          ctx.lineTo(sx * (b - leg), sy * b);
+          ctx.stroke();
+        });
+        ctx.strokeStyle = hexToRgba(hex, 0.65);
+        ctx.lineWidth = 1.0;
+        ctx.beginPath();
+        ctx.arc(0, 0, b + 4.5, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      ctx.restore();
+    }
+
+    function drawArrowHead(ctx, x1, y1, x2, y2, color, size = 5.5) {
+      const ang = Math.atan2(y2 - y1, x2 - x1);
+      ctx.save();
+      ctx.fillStyle = color;
+      ctx.translate(x2, y2);
+      ctx.rotate(ang);
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(-size, -size * 0.52);
+      ctx.lineTo(-size * 0.72, 0);
+      ctx.lineTo(-size, size * 0.52);
+      ctx.closePath();
+      ctx.fill();
       ctx.restore();
     }
 
@@ -2052,295 +2367,523 @@
       const W = skyCanvas.width;
       const H = skyCanvas.height;
 
-      // Smoothly interpolate sky camera toward target
+      // Smooth exponential camera slew & logarithmic zoom interpolation
       const dAz = shortestAzDiff(targetSkyAz, skyCamAz);
-      skyCamAz = (skyCamAz + dAz * 0.14 + 360.0) % 360.0;
-      skyCamEl = skyCamEl + (targetSkyEl - skyCamEl) * 0.14;
-      skyZoom = skyZoom + (targetSkyZoom - skyZoom) * 0.16;
+      skyCamAz = (((skyCamAz + dAz * 0.18) % 360.0) + 360.0) % 360.0;
+      skyCamEl = skyCamEl + (targetSkyEl - skyCamEl) * 0.18;
+      const logZ = Math.log(skyZoom) + (Math.log(targetSkyZoom) - Math.log(skyZoom)) * 0.18;
+      skyZoom = Math.exp(logZ);
 
-      const fovAz = 110.0 / skyZoom;
-      const fovEl = fovAz * (H / Math.max(1, W));
+      const fovHorizDeg = 90.0 / skyZoom;
+      const fovVertDeg = fovHorizDeg * (H / Math.max(1, W));
+      const pxPerArcsec = W / (fovHorizDeg * 3600.0);
+      const cosCamEl = Math.max(0.2, Math.cos((skyCamEl * Math.PI) / 180.0));
 
       function skyToScreen(az, el) {
-        const da = shortestAzDiff(az, skyCamAz);
-        const de = el - skyCamEl;
+        const daTrueDeg = shortestAzDiff(az, skyCamAz) * cosCamEl;
+        const deTrueDeg = el - skyCamEl;
         return {
-          x: W * 0.5 + (da / fovAz) * W,
-          y: H * 0.5 - (de / fovEl) * H,
-          da,
-          de,
+          x: W * 0.5 + (daTrueDeg / fovHorizDeg) * W,
+          y: H * 0.5 - (deTrueDeg / fovVertDeg) * H,
         };
       }
 
-      // 1. Draw Background Celestial Sphere Texture (or deep-space fallback)
-      ctx.fillStyle = '#020409';
+      // 1. Deep-Space Background + Procedural High-Magnification Field Stars
+      ctx.fillStyle = '#02040a';
       ctx.fillRect(0, 0, W, H);
 
-      if (skyBgImg.complete && skyBgImg.naturalWidth > 0) {
-        // Sample equirectangular patches across screen
+      if (skyBgImg.complete && skyBgImg.naturalWidth > 0 && skyZoom < 65) {
+        const alpha = Math.max(0.12, Math.min(0.88, 1.0 - Math.log10(Math.max(1, skyZoom)) * 0.42));
+        ctx.save();
+        ctx.globalAlpha = alpha;
         const uvCenter = azElToEquirectUV(skyCamAz, skyCamEl);
-        const uSpan = fovAz / 360.0;
-        const vSpan = fovEl / 180.0;
+        const uSpan = (fovHorizDeg / cosCamEl) / 360.0;
+        const vSpan = fovVertDeg / 180.0;
         const sx = ((uvCenter.u - uSpan * 0.5 + 1.0) % 1.0) * skyBgImg.naturalWidth;
         const sy = Math.max(0, (1.0 - (uvCenter.v + vSpan * 0.5)) * skyBgImg.naturalHeight);
-        const sw = uSpan * skyBgImg.naturalWidth;
-        const sh = vSpan * skyBgImg.naturalHeight;
+        const sw = Math.max(2, uSpan * skyBgImg.naturalWidth);
+        const sh = Math.max(2, vSpan * skyBgImg.naturalHeight);
 
         if (sx + sw <= skyBgImg.naturalWidth) {
           ctx.drawImage(skyBgImg, sx, sy, sw, sh, 0, 0, W, H);
         } else {
-          // Seam wrap at u = 1.0 -> 0.0 (Az = 270°)
           const sw1 = skyBgImg.naturalWidth - sx;
           const sw2 = sw - sw1;
           const w1 = (sw1 / sw) * W;
           ctx.drawImage(skyBgImg, sx, sy, sw1, sh, 0, 0, w1, H);
           ctx.drawImage(skyBgImg, 0, sy, sw2, sh, w1, 0, W - w1, H);
         }
+        ctx.restore();
       }
 
-      // 2. Azimuth / Elevation Coordinate Grid in Sky View
-      ctx.strokeStyle = 'rgba(56, 232, 255, 0.14)';
-      ctx.lineWidth = 1;
-      const azStep = skyZoom > 12 ? 2 : skyZoom > 3 ? 5 : 15;
-      const elStep = skyZoom > 12 ? 2 : skyZoom > 3 ? 5 : 15;
-
-      const startAz = Math.floor((skyCamAz - fovAz * 0.6) / azStep) * azStep;
-      for (let a = startAz; a <= skyCamAz + fovAz * 0.6; a += azStep) {
-        const normA = (a + 360) % 360;
-        const p = skyToScreen(normA, skyCamEl);
-        if (p.x >= 0 && p.x <= W) {
+      // Crisp deterministic sub-pixel field stars at telescope zoom so high magnification looks authentic
+      if (skyZoom >= 12) {
+        ctx.fillStyle = 'rgba(186, 208, 242, 0.35)';
+        for (let i = 0; i < 95; i++) {
+          const fx = ((Math.sin(i * 127.1 + 311.7) * 43758.5453) % 1 + 1) % 1;
+          const fy = ((Math.sin(i * 269.5 + 183.3) * 43758.5453) % 1 + 1) % 1;
+          const r = i % 9 === 0 ? 1.15 : 0.75;
           ctx.beginPath();
-          ctx.moveTo(p.x, 0);
-          ctx.lineTo(p.x, H);
-          ctx.stroke();
-          ctx.fillStyle = 'rgba(148, 163, 184, 0.55)';
-          ctx.font = '9px JetBrains Mono, monospace';
-          ctx.fillText(`${normA.toFixed(0)}°`, p.x + 3, 14);
+          ctx.arc(fx * W, fy * H, r, 0, Math.PI * 2);
+          ctx.fill();
         }
       }
 
-      const startEl = Math.max(-30, Math.floor((skyCamEl - fovEl * 0.6) / elStep) * elStep);
-      for (let e = startEl; e <= Math.min(85, skyCamEl + fovEl * 0.6); e += elStep) {
-        const p = skyToScreen(skyCamAz, e);
-        if (p.y >= 0 && p.y <= H) {
-          ctx.beginPath();
-          ctx.moveTo(0, p.y);
-          ctx.lineTo(W, p.y);
-          ctx.stroke();
-          ctx.fillStyle = 'rgba(148, 163, 184, 0.55)';
-          ctx.font = '9px JetBrains Mono, monospace';
-          ctx.fillText(`${e >= 0 ? '+' : ''}${e.toFixed(0)}°`, 6, p.y - 3);
+      // 2. Multi-Scale Astrometric Grid (Degrees at Wide -> Arcminutes at Kuiper -> Arcseconds at Coronagraph!)
+      const pSol = skyToScreen(SOL_AZ, SOL_EL);
+      const coronagraphActive = skyZoom >= 80 && Math.hypot(pSol.x - W * 0.5, pSol.y - H * 0.5) < Math.max(W, H) * 1.4;
+
+      if (coronagraphActive) {
+        // Tangent-plane arcsecond / arcminute grid centered on Sol (0", 0")
+        const spanArcsec = fovHorizDeg * 3600.0;
+        const stepArcsec = spanArcsec < 240 ? 25 : (spanArcsec < 1600 ? 120 : 900);
+        ctx.strokeStyle = 'rgba(56, 232, 255, 0.10)';
+        ctx.lineWidth = 1;
+        const maxN = Math.ceil(spanArcsec / stepArcsec) + 1;
+        for (let k = -maxN; k <= maxN; k++) {
+          const off = k * stepArcsec;
+          const gx = pSol.x + off * pxPerArcsec;
+          const gy = pSol.y - off * pxPerArcsec;
+          if (gx >= 0 && gx <= W) {
+            ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, H); ctx.stroke();
+            if (k !== 0) {
+              ctx.fillStyle = 'rgba(148, 163, 184, 0.5)';
+              ctx.font = '8.5px JetBrains Mono, monospace';
+              const lbl = stepArcsec >= 60 ? `${(off / 60).toFixed(0)}'` : `${off > 0 ? '+' : ''}${off}"`;
+              ctx.fillText(lbl, gx + 3, 12);
+            }
+          }
+          if (gy >= 0 && gy <= H) {
+            ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(W, gy); ctx.stroke();
+            if (k !== 0) {
+              ctx.fillStyle = 'rgba(148, 163, 184, 0.5)';
+              ctx.font = '8.5px JetBrains Mono, monospace';
+              const lbl = stepArcsec >= 60 ? `${(off / 60).toFixed(0)}'` : `${off > 0 ? '+' : ''}${off}"`;
+              ctx.fillText(lbl, 5, gy - 3);
+            }
+          }
+        }
+      } else {
+        // Standard Sidereal Azimuth / Elevation Grid
+        ctx.strokeStyle = 'rgba(56, 232, 255, 0.12)';
+        ctx.lineWidth = 1;
+        const stepDeg = skyZoom > 18 ? 0.5 : (skyZoom > 4 ? 5 : 15);
+        const startAz = Math.floor((skyCamAz - (fovHorizDeg / cosCamEl) * 0.6) / stepDeg) * stepDeg;
+        for (let a = startAz; a <= skyCamAz + (fovHorizDeg / cosCamEl) * 0.6; a += stepDeg) {
+          const normA = ((a % 360) + 360) % 360;
+          const p = skyToScreen(normA, skyCamEl);
+          if (p.x >= 0 && p.x <= W) {
+            ctx.beginPath(); ctx.moveTo(p.x, 0); ctx.lineTo(p.x, H); ctx.stroke();
+            ctx.fillStyle = 'rgba(148, 163, 184, 0.52)';
+            ctx.font = '8.5px JetBrains Mono, monospace';
+            ctx.fillText(`${normA.toFixed(stepDeg < 1 ? 1 : 0)}°`, p.x + 3, 12);
+          }
+        }
+        const startEl = Math.max(-30, Math.floor((skyCamEl - fovVertDeg * 0.6) / stepDeg) * stepDeg);
+        for (let e = startEl; e <= Math.min(85, skyCamEl + fovVertDeg * 0.6); e += stepDeg) {
+          const p = skyToScreen(skyCamAz, e);
+          if (p.y >= 0 && p.y <= H) {
+            ctx.beginPath(); ctx.moveTo(0, p.y); ctx.lineTo(W, p.y); ctx.stroke();
+            ctx.fillStyle = 'rgba(148, 163, 184, 0.52)';
+            ctx.font = '8.5px JetBrains Mono, monospace';
+            ctx.fillText(`${e >= 0 ? '+' : ''}${e.toFixed(stepDeg < 1 ? 1 : 0)}°`, 5, p.y - 3);
+          }
         }
       }
 
-      // 3. Galactic Plane Curve
-      ctx.strokeStyle = 'rgba(245, 158, 11, 0.35)';
-      ctx.lineWidth = 1.5;
-      ctx.setLineDash([4, 4]);
-      ctx.beginPath();
-      let startedGal = false;
-      for (let da = -fovAz * 0.55; da <= fovAz * 0.55; da += 1.5) {
-        const az = (skyCamAz + da + 360) % 360;
-        const el = galacticToLocalEl(az, 0.0);
-        const pt = skyToScreen(az, el);
-        if (!startedGal) {
-          ctx.moveTo(pt.x, pt.y);
-          startedGal = true;
-        } else {
-          ctx.lineTo(pt.x, pt.y);
+      // 3. Galactic Plane Curve (when visible at wide/medium zoom)
+      if (skyZoom < 40) {
+        ctx.strokeStyle = 'rgba(245, 158, 11, 0.3)';
+        ctx.lineWidth = 1.2;
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        let started = false;
+        for (let da = -fovHorizDeg * 0.7; da <= fovHorizDeg * 0.7; da += 1.5) {
+          const az = (skyCamAz + da / cosCamEl + 360) % 360;
+          const pt = skyToScreen(az, galacticToLocalEl(az, 0.0));
+          if (!started) { ctx.moveTo(pt.x, pt.y); started = true; }
+          else ctx.lineTo(pt.x, pt.y);
+        }
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      const placedSkyLabels = [];
+      if (coronagraphActive) {
+        // Reserve top-left angular scale bar zone so no orbital or target tag ever overlaps it
+        placedSkyLabels.push({ x1: 4, y1: 8, x2: 195, y2: 42 });
+      }
+      function placeSkyTag(px, py, line1, line2, hex, priority = 2) {
+        if (px < -10 || px > W + 10 || py < 12 || py > H - 36) return;
+        const tw = Math.max(line1.length, (line2 || '').length) * 5.8 + 10;
+        const th = line2 ? 22 : 12;
+        const candidates = [
+          { dx: 12, dy: -4 },
+          { dx: 12, dy: 15 },
+          { dx: -tw - 10, dy: -4 },
+          { dx: -tw - 10, dy: 15 },
+          { dx: 12, dy: -23 },
+          { dx: -tw - 10, dy: -23 },
+          { dx: -tw * 0.5, dy: -22 },
+          { dx: -tw * 0.5, dy: 25 },
+        ];
+        let chosen = null;
+        for (const c of candidates) {
+          const lx = px + c.dx;
+          const ly = py + c.dy;
+          if (lx < 6 || lx + tw > W - 6 || ly - 10 < 14 || ly + th > H - 42) continue;
+          const box = { x1: lx - 3, y1: ly - 11, x2: lx + tw + 2, y2: ly + th - 6 };
+          const hit = placedSkyLabels.some((b) => !(box.x2 < b.x1 || box.x1 > b.x2 || box.y2 < b.y1 || box.y1 > b.y2));
+          if (!hit) {
+            placedSkyLabels.push(box);
+            chosen = { lx, ly };
+            break;
+          }
+        }
+        if (!chosen) {
+          if (priority > 1) return;
+          chosen = { lx: Math.min(W - tw - 8, Math.max(8, px + 12)), ly: Math.min(H - 48, Math.max(24, py - 4)) };
+          placedSkyLabels.push({ x1: chosen.lx - 3, y1: chosen.ly - 11, x2: chosen.lx + tw + 2, y2: chosen.ly + th });
+        }
+
+        // Delicate leader hairline from pinpoint to tag
+        ctx.strokeStyle = hexToRgba(hex, priority === 1 ? 0.72 : 0.4);
+        ctx.lineWidth = 0.9;
+        ctx.beginPath();
+        ctx.moveTo(px, py);
+        ctx.lineTo(chosen.lx < px ? chosen.lx + tw - 4 : chosen.lx - 3, chosen.ly - 3);
+        ctx.stroke();
+
+        if (priority === 1) {
+          ctx.fillStyle = 'rgba(3, 7, 15, 0.88)';
+          ctx.fillRect(chosen.lx - 3, chosen.ly - 10, tw, th + 2);
+          ctx.strokeStyle = hexToRgba(hex, 0.72);
+          ctx.lineWidth = 1;
+          ctx.strokeRect(chosen.lx - 3, chosen.ly - 10, tw, th + 2);
+        }
+        ctx.font = `${priority === 1 ? 'bold 10px' : '9px'} JetBrains Mono, monospace`;
+        ctx.fillStyle = priority === 1 ? '#ffffff' : hex;
+        ctx.fillText(line1, chosen.lx, chosen.ly);
+        if (line2) {
+          ctx.font = '8.5px JetBrains Mono, monospace';
+          ctx.fillStyle = priority === 1 ? hex : 'rgba(203, 213, 225, 0.82)';
+          ctx.fillText(line2, chosen.lx, chosen.ly + 10.5);
         }
       }
-      ctx.stroke();
-      ctx.setLineDash([]);
 
-      // 4. Great-Circle Triangulation Baseline Arcs (Active Target <-> Ceres Foundry #7 & Sol)
-      if (showSkyArcs && activeLoc) {
-        const pAct = skyToScreen(activeLoc.az_deg, activeLoc.local_el_deg);
+      // 4. True Keplerian Planetary & Dwarf Planet Orbits + Prograde Motion Arrows (`4.8994"/AU`)
+      if (showSkyArcs) {
+        PRECOMPUTED_ORBITS.forEach((orb) => {
+          const pxRadius = orb.angular_radius_arcsec * pxPerArcsec;
+          if (pxRadius < 5.5 || pxRadius > Math.max(W, H) * 4.5) return;
 
-        // Arc to Ceres Foundry #7
-        if (CERES_LOC && activeLoc.id !== 'ceres-foundry-7') {
-          const pCer = skyToScreen(CERES_LOC.az_deg, CERES_LOC.local_el_deg);
-          ctx.strokeStyle = 'rgba(255, 158, 56, 0.68)';
-          ctx.lineWidth = 1.5;
-          ctx.setLineDash([5, 4]);
-          ctx.beginPath();
-          ctx.moveTo(pAct.x, pAct.y);
-          ctx.lineTo(pCer.x, pCer.y);
-          ctx.stroke();
+          const isSelectedOrbit = activeLoc && activeLoc.orbitId === orb.id;
+
+          // Draw Near vs Far Keplerian Ellipse halves so 3D tilt & inclination are legible
+          ctx.save();
+          for (let i = 0; i < orb.samples.length - 1; i++) {
+            const sA = orb.samples[i];
+            const sB = orb.samples[i + 1];
+            const pA = skyToScreen(sA.az, sA.el);
+            const pB = skyToScreen(sB.az, sB.el);
+            const isNear = sA.depthAu <= 0;
+            ctx.strokeStyle = hexToRgba(orb.hex, isSelectedOrbit ? (isNear ? 0.85 : 0.45) : (isNear ? 0.48 : 0.24));
+            ctx.lineWidth = isSelectedOrbit ? 1.55 : 0.95;
+            ctx.setLineDash(isNear ? [] : [2, 3]);
+            ctx.beginPath();
+            ctx.moveTo(pA.x, pA.y);
+            ctx.lineTo(pB.x, pB.y);
+            ctx.stroke();
+          }
           ctx.setLineDash([]);
 
-          const mx = (pAct.x + pCer.x) * 0.5;
-          const my = (pAct.y + pCer.y) * 0.5;
-          if (mx > 20 && mx < W - 80 && my > 20 && my < H - 40) {
-            ctx.fillStyle = '#ff9e38';
-            ctx.font = 'bold 9.5px JetBrains Mono, monospace';
-            ctx.fillText(`↔ CERES BASELINE (${activeLoc.sep_ceres_deg.toFixed(1)}°)`, mx + 6, my - 4);
+          // Trailing prograde motion wake (-26° -> now)
+          ctx.strokeStyle = hexToRgba(orb.hex, 0.88);
+          ctx.lineWidth = isSelectedOrbit ? 2.1 : 1.4;
+          ctx.beginPath();
+          orb.trailArc.forEach((pt, idx) => {
+            const sp = skyToScreen(pt.az, pt.el);
+            if (idx === 0) ctx.moveTo(sp.x, sp.y);
+            else ctx.lineTo(sp.x, sp.y);
+          });
+          ctx.stroke();
+
+          // Forward prograde velocity vector & directional arrowhead (+16° ahead)
+          if (pxRadius >= 14) {
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 1.25;
+            ctx.beginPath();
+            orb.fwdArc.forEach((pt, idx) => {
+              const sp = skyToScreen(pt.az, pt.el);
+              if (idx === 0) ctx.moveTo(sp.x, sp.y);
+              else ctx.lineTo(sp.x, sp.y);
+            });
+            ctx.stroke();
+            const pPrev = skyToScreen(orb.fwdArc[orb.fwdArc.length - 2].az, orb.fwdArc[orb.fwdArc.length - 2].el);
+            const pTip = skyToScreen(orb.fwdArc[orb.fwdArc.length - 1].az, orb.fwdArc[orb.fwdArc.length - 1].el);
+            drawArrowHead(ctx, pPrev.x, pPrev.y, pTip.x, pTip.y, orb.hex, 5.8);
+          }
+
+          // If this orbit isn't already represented by an ALL_LOCATIONS entry (e.g. Mars, Uranus, Neptune, Pluto),
+          // plot its unresolved planetary pinpoint & subtle orbital label!
+          const hasCatalogLoc = ALL_LOCATIONS.some((l) => l.orbitId === orb.id);
+          const pNow = skyToScreen(orb.nowPos.az, orb.nowPos.el);
+          if (!hasCatalogLoc) {
+            drawPhotometricPoint(ctx, pNow.x, pNow.y, orb.hex, 20.0, false, false, t);
+            if (pxRadius >= 24 && pxRadius <= W * 0.72) {
+              placeSkyTag(
+                pNow.x,
+                pNow.y,
+                `${orb.short} (${orb.a_au.toFixed(1)} AU)`,
+                `→ ${orb.v_kms.toFixed(1)} km/s`,
+                orb.hex,
+                3
+              );
+            }
+          }
+          ctx.restore();
+        });
+
+        // Jupiter Trojan L5 (-60° Patroclus) marker & L4/L5 +/-60° libration brackets when Jupiter orbit is resolved
+        const jupOrb = PRECOMPUTED_ORBITS.find((o) => o.id === 'orbit-jupiter');
+        if (jupOrb && jupOrb.angular_radius_arcsec * pxPerArcsec >= 28 && TROJAN_SWARMS.L5_patroclus) {
+          const l5Pos = solOffsetToAzEl(TROJAN_SWARMS.L5_patroclus.d_az_arcsec, TROJAN_SWARMS.L5_patroclus.d_el_arcsec);
+          const pL5 = skyToScreen(l5Pos.az, l5Pos.el);
+          drawPhotometricPoint(ctx, pL5.x, pL5.y, '#94a3b8', 22.0, false, false, t);
+          placeSkyTag(pL5.x, pL5.y, 'TROJAN L5 (-60°)', '617 Patroclus', '#94a3b8', 3);
+        }
+
+        // Ceres Foundry #7 (2.77 AU) -> 624 Hektor (5.26 AU L4) 6,440 kHz Syndicate Jammer Vector!
+        if (
+          coronagraphActive &&
+          ['ceres-foundry-7', 'trojan-octal', 'radio-free-hektor'].includes(activeLoc?.id)
+        ) {
+          const cerLoc = ALL_LOCATIONS.find((l) => l.id === 'ceres-foundry-7');
+          const hekLoc = ALL_LOCATIONS.find((l) => l.id === 'trojan-octal');
+          if (cerLoc && hekLoc) {
+            const pC = skyToScreen(cerLoc.az_deg, cerLoc.local_el_deg);
+            const pH = skyToScreen(hekLoc.az_deg, hekLoc.local_el_deg);
+            ctx.save();
+            ctx.strokeStyle = 'rgba(251, 113, 133, 0.85)';
+            ctx.lineWidth = 1.4;
+            ctx.setLineDash([4, 3]);
+            ctx.beginPath();
+            ctx.moveTo(pC.x, pC.y);
+            ctx.lineTo(pH.x, pH.y);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            drawArrowHead(ctx, pC.x, pC.y, pH.x, pH.y, '#fb7185', 6.0);
+            ctx.fillStyle = '#fb7185';
+            ctx.font = 'bold 8.5px JetBrains Mono, monospace';
+            ctx.fillText('6440 JAMMER', (pC.x + pH.x) * 0.5 + 4, (pC.y + pH.y) * 0.5 - 4);
+            ctx.restore();
           }
         }
 
-        // Arc to Sol
-        if (SOL_LOC && activeLoc.id !== 'sol-oort-star') {
-          const pSol = skyToScreen(SOL_LOC.az_deg, SOL_LOC.local_el_deg);
-          ctx.strokeStyle = 'rgba(255, 237, 186, 0.45)';
-          ctx.lineWidth = 1.2;
-          ctx.setLineDash([2, 4]);
-          ctx.beginPath();
-          ctx.moveTo(pAct.x, pAct.y);
-          ctx.lineTo(pSol.x, pSol.y);
-          ctx.stroke();
-          ctx.setLineDash([]);
+        // Wide-field Relay Hop Vectors when not inside high-zoom Coronagraph
+        if (activeLoc && skyZoom < 80 && (activeLoc.relay_nodes || []).length > 0) {
+          let prev = skyToScreen(activeLoc.az_deg, activeLoc.local_el_deg);
+          (activeLoc.relay_nodes || []).forEach((rn, idx) => {
+            const pRn = skyToScreen(rn.az_deg, rn.el_deg || 15.0);
+            ctx.strokeStyle = 'rgba(56, 232, 255, 0.65)';
+            ctx.lineWidth = 1.2;
+            ctx.setLineDash([4, 3]);
+            ctx.beginPath();
+            ctx.moveTo(prev.x, prev.y);
+            ctx.lineTo(pRn.x, pRn.y);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            drawPhotometricPoint(ctx, pRn.x, pRn.y, '#38e8ff', 16.0, false, false, t);
+            placeSkyTag(pRn.x, pRn.y, `HOP #${idx + 1}: ${rn.name}`, rn.range_label || '', '#38e8ff', 2);
+            prev = pRn;
+          });
         }
-
-        // Draw Relay Hop bearings in the Sky View!
-        let prevPt = pAct;
-        (activeLoc.relay_nodes || []).forEach((rn, idx) => {
-          const pRn = skyToScreen(rn.az_deg, rn.el_deg || 15.0);
-          ctx.strokeStyle = 'rgba(56, 232, 255, 0.72)';
-          ctx.lineWidth = 1.4;
-          ctx.beginPath();
-          ctx.moveTo(prevPt.x, prevPt.y);
-          ctx.lineTo(pRn.x, pRn.y);
-          ctx.stroke();
-
-          ctx.fillStyle = '#38e8ff';
-          ctx.fillRect(pRn.x - 3.5, pRn.y - 3.5, 7, 7);
-          ctx.font = '9px JetBrains Mono, monospace';
-          ctx.fillText(`↳ RELAY #${idx + 1}: ${rn.name}`, pRn.x + 7, pRn.y + 3);
-          prevPt = pRn;
-        });
       }
 
-      // 5. Render All Visible Locations in the Sky View
-      skyHitBoxes = [];
-      const scaleMult = Math.pow(skyZoom, 0.58);
+      // 5. Lyot Solar Coronagraph Occulting Mask over Sol (`m = -3.62`) when zoomed >= 80x!
+      if (coronagraphActive) {
+        const maskArcsec = skyZoom >= 900 ? 2.6 : 6.0;
+        const rMaskPx = Math.max(7.5, Math.min(22.0, maskArcsec * pxPerArcsec));
 
-      ALL_LOCATIONS.forEach((loc) => {
-        const pt = skyToScreen(loc.az_deg, loc.local_el_deg);
-        if (pt.x < -80 || pt.x > W + 80 || pt.y < -80 || pt.y > H + 80) return;
-
-        const isAct = activeLoc && activeLoc.id === loc.id;
-        skyHitBoxes.push({ id: loc.id, x: pt.x, y: pt.y, r: isAct ? 18 : 12 });
-
-        drawResolvedBodyInSky(ctx, loc, pt.x, pt.y, scaleMult, t);
-
-        // Target Reticle & Callout
-        const rRet = isAct ? 16 + 2.5 * Math.sin(t * 4.5) : 10;
-        ctx.strokeStyle = isAct ? '#ffffff' : loc.hex;
-        ctx.lineWidth = isAct ? 1.8 : 1.2;
+        // Subtle F-Corona / K-Corona suppressed diffraction halo outside occulting stop
+        const corG = ctx.createRadialGradient(pSol.x, pSol.y, rMaskPx * 0.85, pSol.x, pSol.y, rMaskPx * 2.9);
+        corG.addColorStop(0, 'rgba(255, 232, 175, 0.36)');
+        corG.addColorStop(0.45, 'rgba(56, 232, 255, 0.10)');
+        corG.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = corG;
         ctx.beginPath();
-        ctx.arc(pt.x, pt.y, rRet, 0, Math.PI * 2);
+        ctx.arc(pSol.x, pSol.y, rMaskPx * 2.9, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Dark Lyot Occulting Disk blocking Sol's m = -3.62 glare
+        ctx.fillStyle = '#03060c';
+        ctx.beginPath();
+        ctx.arc(pSol.x, pSol.y, rMaskPx, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(245, 158, 11, 0.85)';
+        ctx.lineWidth = 1.3;
+        ctx.beginPath();
+        ctx.arc(pSol.x, pSol.y, rMaskPx, 0, Math.PI * 2);
         ctx.stroke();
 
-        if (isAct) {
-          ctx.strokeStyle = loc.hex;
+        // Sub-arcsecond solar center crosshair inside mask
+        ctx.strokeStyle = 'rgba(255, 237, 186, 0.6)';
+        ctx.lineWidth = 0.9;
+        ctx.beginPath();
+        ctx.moveTo(pSol.x - 3.5, pSol.y); ctx.lineTo(pSol.x + 3.5, pSol.y);
+        ctx.moveTo(pSol.x, pSol.y - 3.5); ctx.lineTo(pSol.x, pSol.y + 3.5);
+        ctx.stroke();
+
+        // Angular Scale Bar in Top-Left of Sky Viewport (`25" = 5.1 AU` or `2' = 24 AU`)
+        const barArcsec = skyZoom >= 900 ? 25 : (skyZoom >= 200 ? 120 : 900);
+        const barPx = barArcsec * pxPerArcsec;
+        if (barPx >= 24 && barPx <= W * 0.45) {
+          const bx = 14;
+          const by = 28;
+          ctx.fillStyle = 'rgba(3, 7, 15, 0.85)';
+          ctx.fillRect(bx - 6, by - 14, barPx + 12, 24);
+          ctx.strokeStyle = '#38e8ff';
+          ctx.lineWidth = 1.4;
           ctx.beginPath();
-          ctx.moveTo(pt.x - rRet - 8, pt.y);
-          ctx.lineTo(pt.x - rRet + 3, pt.y);
-          ctx.moveTo(pt.x + rRet - 3, pt.y);
-          ctx.lineTo(pt.x + rRet + 8, pt.y);
-          ctx.moveTo(pt.x, pt.y - rRet - 8);
-          ctx.lineTo(pt.x, pt.y - rRet + 3);
-          ctx.moveTo(pt.x, pt.y + rRet - 3);
-          ctx.lineTo(pt.x, pt.y + rRet + 8);
+          ctx.moveTo(bx, by); ctx.lineTo(bx + barPx, by);
+          ctx.moveTo(bx, by - 4); ctx.lineTo(bx, by + 4);
+          ctx.moveTo(bx + barPx, by - 4); ctx.lineTo(bx + barPx, by + 4);
           ctx.stroke();
-        }
-
-        ctx.font = `${isAct ? 'bold 11px' : '9.5px'} JetBrains Mono, monospace`;
-        ctx.fillStyle = isAct ? '#ffffff' : loc.hex;
-        ctx.fillText(`${loc.slot} • ${loc.callsign}`, pt.x + rRet + 6, pt.y - 2);
-        ctx.font = '9px JetBrains Mono, monospace';
-        ctx.fillStyle = 'rgba(226, 232, 240, 0.85)';
-        ctx.fillText(`${loc.name.slice(0, 28)} (${loc.range_label})`, pt.x + rRet + 6, pt.y + 10);
-      });
-
-      // 6. Asteroid 3-5-1 Columnar-Basalt Cliff Horizon Silhouette along Local Horizon (el <= 0°..5°)
-      ctx.beginPath();
-      let firstH = true;
-      for (let x = 0; x <= W; x += 8) {
-        const az = (skyCamAz + ((x / W - 0.5) * fovAz) + 360.0) % 360.0;
-        // Basalt Massif rises higher on West (270°) & North-West, drops into Acheron Chasm on East (90°)
-        const massif =
-          3.2 * Math.cos(((az - 275.0) * Math.PI) / 180.0) +
-          1.4 * Math.sin((az * 6.0 * Math.PI) / 180.0) +
-          0.6 * Math.cos((az * 18.0 * Math.PI) / 180.0) -
-          1.0;
-        const pH = skyToScreen(az, massif);
-        if (firstH) {
-          ctx.moveTo(x, H);
-          ctx.lineTo(x, pH.y);
-          firstH = false;
-        } else {
-          ctx.lineTo(x, pH.y);
+          ctx.fillStyle = '#38e8ff';
+          ctx.font = 'bold 9px JetBrains Mono, monospace';
+          const barLbl = barArcsec >= 60
+            ? `${(barArcsec / 60).toFixed(0)}' (${(barArcsec / ARCSEC_PER_AU).toFixed(0)} AU)`
+            : `${barArcsec}" (${(barArcsec / ARCSEC_PER_AU).toFixed(1)} AU)`;
+          ctx.fillText(barLbl, bx + 4, by - 4);
         }
       }
-      ctx.lineTo(W, H);
-      ctx.closePath();
-      ctx.fillStyle = 'rgba(8, 12, 20, 0.94)';
-      ctx.fill();
-      ctx.strokeStyle = '#2b4266';
-      ctx.lineWidth = 1.6;
-      ctx.stroke();
 
-      // Cardinal Horizon Badges
-      [
-        { lbl: 'N • 000° BOOTH DESK', az: 0 },
-        { lbl: 'E • 090° ACHERON CHASM', az: 90 },
-        { lbl: 'S • 180° CATWALK', az: 180 },
-        { lbl: 'W • 270° CERES & MASSIF', az: 270 },
-      ].forEach((c) => {
-        const pc = skyToScreen(c.az, 0.0);
-        if (pc.x > 40 && pc.x < W - 40 && pc.y > 10 && pc.y < H + 15) {
-          ctx.fillStyle = 'rgba(10, 16, 28, 0.88)';
-          ctx.fillRect(pc.x - 68, Math.min(H - 46, pc.y + 4), 136, 16);
-          ctx.strokeStyle = 'rgba(245, 158, 11, 0.55)';
-          ctx.strokeRect(pc.x - 68, Math.min(H - 46, pc.y + 4), 136, 16);
-          ctx.fillStyle = '#f59e0b';
-          ctx.font = 'bold 8.5px JetBrains Mono, monospace';
-          ctx.fillText(c.lbl, pc.x - 62, Math.min(H - 46, pc.y + 4) + 11);
+      // 6. Plot All Catalog Targets as Crisp Photometric Pinpoints (decluttered by pixel separation from Sol!)
+      skyHitBoxes = [];
+      const visibleLocs = [];
+      ALL_LOCATIONS.forEach((loc) => {
+        const isAct = Boolean(activeLoc && activeLoc.id === loc.id);
+        const sepPx = loc.sep_sol_deg * 3600.0 * pxPerArcsec;
+        // Whenever an unselected Solar System body is < 26 px from Sol on screen, collapse it cleanly into Sol's core!
+        if (loc.isSolar && loc.id !== 'sol-oort-star' && !isAct && sepPx < 26.0) {
+          return;
         }
+        const pt = skyToScreen(loc.az_deg, loc.local_el_deg);
+        if (pt.x < -40 || pt.x > W + 40 || pt.y < -40 || pt.y > H + 40) return;
+
+        const isOccultedSol = coronagraphActive && loc.id === 'sol-oort-star';
+        skyHitBoxes.push({ id: loc.id, x: pt.x, y: pt.y, r: isAct ? 14 : 9 });
+        visibleLocs.push({ loc, pt, isAct, isOccultedSol });
       });
 
-      // Center Telescope Optical Crosshair Reticle
-      const cx = W * 0.5;
-      const cy = H * 0.5;
-      ctx.strokeStyle = 'rgba(56, 232, 255, 0.32)';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.arc(cx, cy, Math.min(W, H) * 0.36, 0, Math.PI * 2);
-      ctx.stroke();
+      // Draw non-active pinpoints first, then active pinpoint on top
+      visibleLocs
+        .slice()
+        .sort((a, b) => (a.isAct ? 1 : 0) - (b.isAct ? 1 : 0))
+        .forEach(({ loc, pt, isAct, isOccultedSol }) => {
+          drawPhotometricPoint(ctx, pt.x, pt.y, loc.hex, loc.pointMag, isAct, isOccultedSol, t);
+        });
 
-      // Update Sky HUD labels
+      // Place activeLoc's priority-1 boxed callout FIRST so secondary tags route around it cleanly!
+      visibleLocs
+        .slice()
+        .sort((a, b) => {
+          const pa = a.isAct ? 0 : (a.loc.isDx ? 1 : 2);
+          const pb = b.isAct ? 0 : (b.loc.isDx ? 1 : 2);
+          return pa - pb;
+        })
+        .forEach(({ loc, pt, isAct, isOccultedSol }) => {
+          if (isOccultedSol && !isAct) return;
+          const prio = isAct ? 1 : (loc.isDx ? 2 : 3);
+          const subLine = isAct
+            ? `${loc.kinematics_label}`
+            : (coronagraphActive && loc.orbitId ? loc.callsign : '');
+          const headLine = coronagraphActive && loc.isDx
+            ? `${loc.slot} • ${loc.callsign}`
+            : `${loc.slot} ${loc.callsign}`;
+          placeSkyTag(pt.x, pt.y, headLine, subLine, loc.hex, prio);
+        });
+
+      // 7. Asteroid 3-5-1 Columnar-Basalt Cliff Horizon Silhouette (visible when low elevation is in FOV)
+      if (skyCamEl - fovVertDeg * 0.6 < 6.0 && skyZoom < 30) {
+        ctx.beginPath();
+        let firstH = true;
+        for (let x = 0; x <= W; x += 8) {
+          const az = (((skyCamAz + (((x / W - 0.5) * fovHorizDeg) / cosCamEl)) % 360.0) + 360.0) % 360.0;
+          const massif =
+            3.2 * Math.cos(((az - 275.0) * Math.PI) / 180.0) +
+            1.4 * Math.sin((az * 6.0 * Math.PI) / 180.0) +
+            0.6 * Math.cos((az * 18.0 * Math.PI) / 180.0) -
+            1.0;
+          const pH = skyToScreen(az, massif);
+          if (firstH) {
+            ctx.moveTo(x, H);
+            ctx.lineTo(x, pH.y);
+            firstH = false;
+          } else {
+            ctx.lineTo(x, pH.y);
+          }
+        }
+        ctx.lineTo(W, H);
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(6, 10, 18, 0.95)';
+        ctx.fill();
+        ctx.strokeStyle = '#294063';
+        ctx.lineWidth = 1.4;
+        ctx.stroke();
+      }
+
+      // 8. Update Sky HUD Readouts with Sub-Arcsecond Precision at High Zoom
       const elSign = skyCamEl >= 0 ? '+' : '';
-      document.getElementById('sky-hud-azel').textContent = `AZ ${skyCamAz.toFixed(1)}° • EL ${elSign}${skyCamEl.toFixed(1)}°`;
-      const modeName = skyZoom >= 16 ? '32x PLANETARY TELESCOPE' : skyZoom >= 3 ? '6x STAR TRACKER' : '1x WIDE HORIZON';
-      document.getElementById('sky-hud-fov').textContent = `${fovAz.toFixed(1)}° × ${fovEl.toFixed(1)}° (${modeName})`;
+      if (coronagraphActive) {
+        const dAzArcsec = shortestAzDiff(skyCamAz, SOL_AZ) * SOL_COS_EL * 3600.0;
+        const dElArcsec = (skyCamEl - SOL_EL) * 3600.0;
+        document.getElementById('sky-hud-azel').textContent =
+          `AZ ${skyCamAz.toFixed(3)}° ${elSign}${skyCamEl.toFixed(3)}° (ΔSol ${dAzArcsec >= 0 ? '+' : ''}${dAzArcsec.toFixed(1)}", ${dElArcsec >= 0 ? '+' : ''}${dElArcsec.toFixed(1)}")`;
+      } else {
+        document.getElementById('sky-hud-azel').textContent =
+          `AZ ${skyCamAz.toFixed(2)}° • EL ${elSign}${skyCamEl.toFixed(2)}° (88.4° S SIDEREAL LOCK)`;
+      }
+
+      let fovText;
+      if (fovHorizDeg < 1.0 / 60.0) {
+        fovText = `${(fovHorizDeg * 3600).toFixed(0)}" × ${(fovVertDeg * 3600).toFixed(0)}"`;
+      } else if (fovHorizDeg < 1.0) {
+        fovText = `${(fovHorizDeg * 60).toFixed(2)}' × ${(fovVertDeg * 60).toFixed(2)}'`;
+      } else {
+        fovText = `${fovHorizDeg.toFixed(1)}° × ${fovVertDeg.toFixed(1)}°`;
+      }
+      const opticalMode = skyZoom >= 900
+        ? `${Math.round(skyZoom)}× LYOT CORONAGRAPH`
+        : (skyZoom >= 140 ? `${Math.round(skyZoom)}× KUIPER ASTROMETRY` : (skyZoom >= 20 ? `${Math.round(skyZoom)}× HILLS TRACKER` : `${skyZoom.toFixed(0)}× WIDE SKY`));
+      document.getElementById('sky-hud-fov').textContent = `${fovText} (${opticalMode})`;
     }
 
-    // ═════════════════════════════════════════════════════════════════
-    // VIEWPORT 3 (BOTTOM LEFT): 360° EQUIRECTANGULAR CELESTIAL SPHERE
-    // ═════════════════════════════════════════════════════════════════
+    // ═════════════════════════════════════════════════════════════════════════
+    // VIEWPORT 3 (BOTTOM LEFT): 360° SIDEREAL ALL-SKY CHART & SWEEP BEARINGS
+    // ═════════════════════════════════════════════════════════════════════════
     const eqCanvas = document.getElementById('equirect-map-canvas');
     let eqHitBoxes = [];
 
-    function handleEquirectPointer(e) {
+    eqCanvas.addEventListener('pointerdown', (e) => {
       const rect = eqCanvas.getBoundingClientRect();
       const mx = (e.clientX - rect.left) * (eqCanvas.width / rect.width);
       const my = (e.clientY - rect.top) * (eqCanvas.height / rect.height);
 
       for (const hb of eqHitBoxes) {
-        if (Math.hypot(mx - hb.x, my - hb.y) <= hb.r + 7) {
+        if (Math.hypot(mx - hb.x, my - hb.y) <= hb.r + 6) {
           window.selectLocation(hb.id);
           return;
         }
       }
-      // Otherwise steer Sky View Telescope to clicked (Az, El)
       const u = mx / eqCanvas.width;
       const v = 1.0 - my / eqCanvas.height;
-      targetSkyAz = ((u - 0.25 + 1.0) % 1.0) * 360.0;
+      targetSkyAz = (((u - 0.25 + 1.0) % 1.0) * 360.0 + 360.0) % 360.0;
       targetSkyEl = Math.max(-20.0, Math.min(75.0, (v - 0.5) * 180.0));
-    }
-
-    eqCanvas.addEventListener('pointerdown', handleEquirectPointer);
+      if (targetSkyZoom > 50 && angularSepDeg(targetSkyAz, targetSkyEl, SOL_AZ, SOL_EL) > 3.0) {
+        window.setSkyZoom(6, true);
+      }
+    });
 
     function drawEquirectangularMap(t) {
       const rect = eqCanvas.getBoundingClientRect();
@@ -2356,41 +2899,43 @@
       const W = eqCanvas.width;
       const H = eqCanvas.height;
 
-      ctx.fillStyle = '#03060c';
+      ctx.fillStyle = '#02050b';
       ctx.fillRect(0, 0, W, H);
 
       if (skyBgImg.complete && skyBgImg.naturalWidth > 0) {
+        ctx.save();
+        ctx.globalAlpha = 0.72;
         ctx.drawImage(skyBgImg, 0, 0, W, H);
+        ctx.restore();
       }
 
-      // Grid lines
-      ctx.strokeStyle = 'rgba(56, 232, 255, 0.16)';
+      // Sidereal Az/El Grid
+      ctx.strokeStyle = 'rgba(56, 232, 255, 0.14)';
       ctx.lineWidth = 1;
       for (let az = 0; az < 360; az += 30) {
         const { u } = azElToEquirectUV(az, 0);
         const x = u * W;
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, H);
-        ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+        if (az % 90 === 0) {
+          ctx.fillStyle = 'rgba(148, 163, 184, 0.6)';
+          ctx.font = '8.5px JetBrains Mono, monospace';
+          const card = az === 0 ? 'N 0°' : (az === 90 ? 'E 90°' : (az === 180 ? 'S 180°' : 'W 270°'));
+          ctx.fillText(card, x + 3, 11);
+        }
       }
       [-30, 0, 30, 60].forEach((el) => {
         const { v } = azElToEquirectUV(0, el);
         const y = (1.0 - v) * H;
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(W, y);
-        ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
       });
 
       // Galactic Plane Curve
-      ctx.strokeStyle = 'rgba(245, 158, 11, 0.45)';
+      ctx.strokeStyle = 'rgba(245, 158, 11, 0.38)';
       ctx.setLineDash([3, 3]);
       ctx.beginPath();
       const pts = [];
       for (let az = 0; az <= 360; az += 2) {
-        const el = galacticToLocalEl(az, 0);
-        const { u, v } = azElToEquirectUV(az, el);
+        const { u, v } = azElToEquirectUV(az, galacticToLocalEl(az, 0));
         pts.push({ x: u * W, y: (1.0 - v) * H });
       }
       pts.sort((a, b) => a.x - b.x);
@@ -2401,136 +2946,208 @@
       ctx.stroke();
       ctx.setLineDash([]);
 
-      // Plot all 17 locations
+      // Plot 12-Station Oort Relay Ring (`GOR-1 .. GOR-12`) subtle perimeter diamonds across the 360° sky!
+      OORT_RING.forEach((rn) => {
+        if (rn.is_self) return;
+        const { u, v } = azElToEquirectUV(rn.az_deg, rn.local_el_deg);
+        const x = u * W;
+        const y = (1.0 - v) * H;
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.42)';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(x - 2.2, y - 2.2, 4.4, 4.4);
+      });
+
+      // Highlight Sol's 5-Arcminute Solar System Core Marker (where 9 planetary/station targets cluster!)
+      const uvSol = azElToEquirectUV(SOL_AZ, SOL_EL);
+      const solX = uvSol.u * W;
+      const solY = (1.0 - uvSol.v) * H;
+      ctx.strokeStyle = 'rgba(255, 237, 186, 0.72)';
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.arc(solX, solY, 8.5, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Plot Catalog Pinpoints (skipping stacked Solar sub-arcminute bodies on 360° map unless active, since Sol Core ring represents the 5' cluster cleanly!)
       eqHitBoxes = [];
+      const placedEq = [];
+      const eqItems = [];
       ALL_LOCATIONS.forEach((loc) => {
+        const isAct = Boolean(activeLoc && activeLoc.id === loc.id);
+        if (loc.isSolar && loc.id !== 'sol-oort-star' && !isAct) {
+          eqHitBoxes.push({ id: loc.id, x: solX, y: solY, r: 8 });
+          return;
+        }
         const { u, v } = azElToEquirectUV(loc.az_deg, loc.local_el_deg);
         const x = u * W;
         const y = (1.0 - v) * H;
-        const isAct = activeLoc && activeLoc.id === loc.id;
-
         eqHitBoxes.push({ id: loc.id, x, y, r: isAct ? 9 : 6 });
-
-        ctx.fillStyle = loc.hex;
-        ctx.beginPath();
-        ctx.arc(x, y, isAct ? 5.2 : 3.4, 0, Math.PI * 2);
-        ctx.fill();
-
-        if (isAct) {
-          ctx.strokeStyle = '#ffffff';
-          ctx.lineWidth = 1.6;
-          ctx.beginPath();
-          ctx.arc(x, y, 9.5 + 2 * Math.sin(t * 4.5), 0, Math.PI * 2);
-          ctx.stroke();
-        }
-
-        ctx.font = `${isAct ? 'bold 9.5px' : '8.5px'} JetBrains Mono, monospace`;
-        ctx.fillStyle = isAct ? '#ffffff' : loc.hex;
-        const dx = x > W * 0.86 ? -78 : 7;
-        ctx.fillText(`${loc.slot}`, x + dx, y + 3);
+        eqItems.push({ loc, x, y, isAct });
       });
 
-      // Draw Current Sky View Camera FOV Box on the 360° Map
-      const fovAz = 110.0 / skyZoom;
-      const fovEl = fovAz * 0.56;
+      // Draw non-active dots first, then active dot on top
+      eqItems
+        .slice()
+        .sort((a, b) => (a.isAct ? 1 : 0) - (b.isAct ? 1 : 0))
+        .forEach(({ loc, x, y, isAct }) => {
+          ctx.fillStyle = '#ffffff';
+          ctx.beginPath();
+          ctx.arc(x, y, isAct ? 3.2 : 2.0, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.strokeStyle = loc.hex;
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.arc(x, y, isAct ? 6.5 + 1.8 * Math.sin(t * 4.5) : 4.2, 0, Math.PI * 2);
+          ctx.stroke();
+        });
+
+      // Reserve activeLoc label box FIRST so nearby neighbors (like GOR-03 near Sol) route around it cleanly
+      eqItems
+        .slice()
+        .sort((a, b) => (b.isAct ? 1 : 0) - (a.isAct ? 1 : 0))
+        .forEach(({ loc, x, y, isAct }) => {
+          const tag = loc.id === 'sol-oort-star' && !isAct ? 'SOL (5\' CORE)' : loc.slot;
+          const tw = tag.length * 5.6 + 6;
+          const cands = [
+            { dx: 8, dy: 3 },
+            { dx: -tw - 6, dy: 3 },
+            { dx: -tw * 0.5, dy: -9 },
+            { dx: -tw * 0.5, dy: 14 },
+          ];
+          let chosen = null;
+          for (const c of cands) {
+            const lx = x + c.dx;
+            const ly = y + c.dy;
+            if (lx < 4 || lx + tw > W - 4 || ly - 8 < 12 || ly + 3 > H - 4) continue;
+            const box = { x1: lx - 2, y1: ly - 9, x2: lx + tw, y2: ly + 4 };
+            const hit = placedEq.some((b) => !(box.x2 < b.x1 || box.x1 > b.x2 || box.y2 < b.y1 || box.y1 > b.y2));
+            if (!hit) {
+              placedEq.push(box);
+              chosen = { lx, ly };
+              break;
+            }
+          }
+          if (!chosen && isAct) {
+            const lx = Math.min(W - tw - 4, Math.max(4, x + 8));
+            const ly = Math.min(H - 6, Math.max(14, y + 3));
+            placedEq.push({ x1: lx - 2, y1: ly - 9, x2: lx + tw, y2: ly + 4 });
+            chosen = { lx, ly };
+          }
+          if (chosen) {
+            if (isAct) {
+              ctx.fillStyle = 'rgba(3, 7, 15, 0.85)';
+              ctx.fillRect(chosen.lx - 2, chosen.ly - 8, tw, 11);
+            }
+            ctx.font = `${isAct ? 'bold 9px' : '8px'} JetBrains Mono, monospace`;
+            ctx.fillStyle = isAct ? '#ffffff' : loc.hex;
+            ctx.fillText(tag, chosen.lx, chosen.ly);
+          }
+        });
+
+      // Draw Current View 1 Telescope / Coronagraph FOV Box on 360° Map
+      const fovAz = (90.0 / skyZoom) / Math.max(0.2, Math.cos((skyCamEl * Math.PI) / 180.0));
+      const fovEl = 90.0 / skyZoom * 0.56;
       const uvCam = azElToEquirectUV(skyCamAz, skyCamEl);
-      const bw = Math.max(14, (fovAz / 360.0) * W);
-      const bh = Math.max(10, (fovEl / 180.0) * H);
+      const bw = Math.max(10, (fovAz / 360.0) * W);
+      const bh = Math.max(8, (fovEl / 180.0) * H);
       const bx = uvCam.u * W - bw * 0.5;
       const by = (1.0 - uvCam.v) * H - bh * 0.5;
 
       ctx.strokeStyle = '#38e8ff';
-      ctx.lineWidth = 1.6;
+      ctx.lineWidth = 1.4;
       ctx.strokeRect(bx, by, bw, bh);
-      ctx.fillStyle = 'rgba(56, 232, 255, 0.08)';
-      ctx.fillRect(bx, by, bw, bh);
     }
 
-    // ═════════════════════════════════════════════════════════════════
-    // SELECT LOCATION & UPDATE ALL SYNCHRONIZED VIEWS + DOSSIER
-    // ═════════════════════════════════════════════════════════════════
-    window.selectLocation = function (locId, snapImmediate = false) {
+    // ═════════════════════════════════════════════════════════════════════════
+    // SELECT TARGET & SYNCHRONIZE ALL VIEWS + EPHEMERIS DOSSIER
+    // ═════════════════════════════════════════════════════════════════════════
+    window.selectLocation = function (locId, snapImmediate = false, explicitZoom = null) {
       const found = ALL_LOCATIONS.find((x) => x.id === locId);
       if (!found) return;
       activeLoc = found;
 
-      // Slew Sky View Telescope to target
-      targetSkyAz = found.az_deg;
-      targetSkyEl = found.local_el_deg;
-      if (!snapImmediate) {
-        const isResolvedPlanet = ['persephone-sedna9', 'ceres-foundry-7', 'tartarus-buoy12', 'quarry-44k'].includes(found.id);
-        window.setSkyZoom(isResolvedPlanet ? 32 : 6);
+      // Sync Sweep Roll-Call Banner if target has an entry in `sweep_roundup_log`
+      const logMatchIdx = SWEEP_LOG.findIndex((s) => s.target_id === found.id);
+      if (logMatchIdx >= 0) {
+        sweepIdx = logMatchIdx;
+        syncRollCallBanner(SWEEP_LOG[logMatchIdx]);
       }
+
+      const nextZoom = explicitZoom !== null ? explicitZoom : found.recommendedZoom;
+
+      // Smart Astrometric Framing:
+      // - Inside the 1800x Lyot Coronagraph (<1.8' from Sol), keep Sol centered behind the occulting mask!
+      // - At 300x Kuiper (Eris) or 45x Hills (Sedna), frame both Sol and the outer eccentric ellipse together!
+      if (nextZoom >= 900 && found.sep_sol_deg < 0.03) {
+        targetSkyAz = SOL_AZ;
+        targetSkyEl = SOL_EL;
+      } else if (found.id === 'dwarf-eris' && nextZoom >= 140 && nextZoom < 900) {
+        targetSkyAz = SOL_AZ + shortestAzDiff(found.az_deg, SOL_AZ) * 0.42;
+        targetSkyEl = SOL_EL + (found.local_el_deg - SOL_EL) * 0.42;
+      } else if (found.id === 'sedna-hills-relay' && nextZoom >= 20 && nextZoom < 140) {
+        targetSkyAz = SOL_AZ + shortestAzDiff(found.az_deg, SOL_AZ) * 0.25;
+        targetSkyEl = SOL_EL + (found.local_el_deg - SOL_EL) * 0.25;
+      } else {
+        targetSkyAz = found.az_deg;
+        targetSkyEl = found.local_el_deg;
+      }
+      window.setSkyZoom(nextZoom, true);
+
       if (snapImmediate) {
         skyCamAz = targetSkyAz;
         skyCamEl = targetSkyEl;
         skyZoom = targetSkyZoom;
       }
 
-      // Update Left List highlight
       renderLocationList();
-
-      // Update 3D Sphere Overlays & Camera
-      rebuildActive3DOverlays(found);
-      if (cameraMode3D === 'vector' || cameraMode3D === 'ceres') {
-        window.set3DCameraMode(cameraMode3D);
-      }
-      if (snapImmediate && desiredCamPos3D && desiredCamTarget3D) {
-        camera3D.position.copy(desiredCamPos3D);
-        controls3D.target.copy(desiredCamTarget3D);
-        desiredCamPos3D = null;
-        desiredCamTarget3D = null;
+      rebuild3DScene();
+      if (cameraMode3D === 'ducts') {
+        window.set3DCameraMode('ducts', snapImmediate);
       }
 
-      // Update Sky View HUD & PIP
+      // Update View 1 HUD & PIP
       document.getElementById('sky-hud-window').textContent = found.booth_window;
       document.getElementById('sky-pip-img').src = found.plate_src;
       document.getElementById('sky-pip-tag').textContent = found.callsign;
       document.getElementById('sky-pip-slot').textContent = found.slot;
 
-      // Update 3D HUD
-      const hopCount = (found.relay_nodes || []).length;
-      document.getElementById('hud3d-path').textContent =
-        hopCount > 0 ? `GOR-9 ↔ ${hopCount} RELAY HOP${hopCount > 1 ? 'S' : ''} ↔ ${found.callsign}` : `GOR-9 ↔ DIRECT LINE ↔ ${found.callsign}`;
-      document.getElementById('hud3d-ceres').textContent = `Δθ ${found.sep_ceres_deg.toFixed(1)}° • ${found.ceres_dist_label}`;
-
-      // Update Bottom-Right Triangulation & Relay Dossier
+      // Update Bottom-Right Astrometric Ephemeris & Flux-Duct Dossier
       document.getElementById('dos-slot-badge').textContent = `${found.slot} • ${found.callsign}`;
-      document.getElementById('dos-title').textContent = `${found.name}`;
-      document.getElementById('dos-sub').textContent = `${found.subtitle} • ${found.freq_label}`;
+      document.getElementById('dos-title').textContent = found.name;
+      document.getElementById('dos-sub').textContent = `${found.subtitle}`;
       document.getElementById('dos-cat-pill').textContent = found.categoryLabel;
       document.getElementById('dos-cat-pill').style.color = found.hex;
       document.getElementById('dos-cat-pill').style.borderColor = found.hex;
 
       const elSign = found.local_el_deg >= 0 ? '+' : '';
-      document.getElementById('tri-bearing').textContent = `AZ ${found.az_deg.toFixed(1)}° / EL ${elSign}${found.local_el_deg.toFixed(1)}°`;
-      document.getElementById('tri-range').textContent = `${found.range_label} • ${found.apparent_size.split('(')[0].trim()}`;
-      document.getElementById('tri-ceres').textContent = `${found.sep_ceres_deg.toFixed(1)}° • ${found.ceres_dist_label}`;
-      document.getElementById('tri-sol-psr').textContent = `Sol ${found.sep_sol_deg.toFixed(1)}° • PSR ${found.sep_psr_deg.toFixed(1)}°`;
+      const prec = found.isSolar ? 3 : 1;
+      document.getElementById('tri-bearing').textContent =
+        `AZ ${found.az_deg.toFixed(prec)}° / ${elSign}${found.local_el_deg.toFixed(prec)}°`;
+      document.getElementById('tri-range').textContent = `${found.range_label}`;
+      document.getElementById('tri-kinematics').textContent = found.kinematics_label;
+      document.getElementById('tri-sol-psr').textContent =
+        `ΔSol ${formatAngleSep(found.sep_sol_deg)} • PSR ${found.sep_psr_deg.toFixed(1)}°`;
       document.getElementById('relay-freq-lbl').textContent = found.freq_label;
 
-      // Render Relay Hop Breadcrumb Chain
+      // Render Marzelvane Flux-Duct & Relay Hop Chain
       const hopsRow = document.getElementById('relay-hops-row');
-      const hopsHtml = [`<div class="hop-node origin">📡 ${found.slot} ${found.callsign} (${found.range_label})</div>`];
+      const hopsHtml = [`<div class="hop-node origin">● ${found.slot} ${found.callsign}</div>`];
       (found.relay_nodes || []).forEach((rn) => {
         hopsHtml.push(`<span class="hop-arrow">→</span>`);
-        hopsHtml.push(`<div class="hop-node">🛰️ ${rn.name} <span style="color:var(--cyan);">[AZ ${rn.az_deg}°]</span></div>`);
+        hopsHtml.push(`<div class="hop-node">◆ ${rn.name}</div>`);
       });
       hopsHtml.push(`<span class="hop-arrow">→</span>`);
-      hopsHtml.push(`<div class="hop-node dest">🗼 GOR-9 ASTEROID 3-5-1 (${found.receive_antenna.slice(0, 28)})</div>`);
+      hopsHtml.push(`<div class="hop-node dest">🗼 GOR-9 (${found.receive_antenna.slice(0, 26)})</div>`);
       hopsRow.innerHTML = hopsHtml.join('');
 
       document.getElementById('dos-appearance').textContent = found.appearance_from_gor9;
-      document.getElementById('dos-lore').textContent = found.lore;
+      const logEntry = logMatchIdx >= 0 ? `[SWEEP .310 LOG]: ${SWEEP_LOG[logMatchIdx].summary} — ` : '';
+      document.getElementById('dos-lore').textContent = `${logEntry}${found.lore}`;
 
       const stationId = found.stationRef ? found.id : 'radio-corrugated';
-      document.getElementById('btn-open-mk4').href = `index.html?id=${stationId}`;
-      document.getElementById('btn-open-va4').href = `propagation.html`;
-      document.getElementById('btn-open-qsl').href = `station.html?id=${stationId}`;
       if (window.updateGor9NavStation) window.updateGor9NavStation(stationId);
     };
 
-    // Resize handling
     window.addEventListener('resize', () => {
       const w = sphereContainer.clientWidth || 640;
       const h = sphereContainer.clientHeight || 420;
@@ -2539,63 +3156,47 @@
       if (renderer3D) renderer3D.setSize(w, h);
     });
 
-    // Initialize from URL query `?id=...&zoom=...&cam=...` or default to Ceres Foundry #7 / P-01
+    // Initialize from URL query `?id=...&zoom=...&cam=...&rollcall=1`
     const urlParams = new URLSearchParams(window.location.search);
     const startId = urlParams.get('id') || 'ceres-foundry-7';
-    if (urlParams.get('zoom')) {
-      const zVal = Number(urlParams.get('zoom'));
-      if (zVal > 0) {
-        window.setSkyZoom(zVal);
-        skyZoom = zVal;
-      }
-    }
-    if (urlParams.get('cam')) {
-      cameraMode3D = urlParams.get('cam');
-    }
-    window.selectLocation(startId, true);
+    const initCam = urlParams.get('cam') || 'cometary';
+    const initZoom = urlParams.get('zoom') ? Number(urlParams.get('zoom')) : null;
 
-    // Master Animation Loop
+    window.set3DCameraMode(initCam, true);
+    window.selectLocation(startId, true, initZoom);
+    if (urlParams.get('rollcall') === '1') {
+      window.toggleSweepRollCall();
+    }
+
+    // Master Sidereal Render Loop (Zero Fake Sky Spin!)
     let clockTime = 0;
     function animate() {
       clockTime += 0.025;
 
-      // 1. Update Sky View Telescope
       drawSkyView(clockTime);
-
-      // 2. Update 360° Equirectangular Map
       drawEquirectangularMap(clockTime);
 
-      // 3. Update 3D Astrometry Sphere
       if (desiredCamPos3D && desiredCamTarget3D) {
-        camera3D.position.lerp(desiredCamPos3D, 0.08);
-        controls3D.target.lerp(desiredCamTarget3D, 0.08);
+        camera3D.position.lerp(desiredCamPos3D, 0.10);
+        controls3D.target.lerp(desiredCamTarget3D, 0.10);
         if (camera3D.position.distanceTo(desiredCamPos3D) < 0.4) {
           desiredCamPos3D = null;
           desiredCamTarget3D = null;
         }
       } else if (autoSpin3D) {
         const offset = camera3D.position.clone().sub(controls3D.target);
-        offset.applyAxisAngle(new THREE.Vector3(0, 1, 0), 0.0022);
+        offset.applyAxisAngle(new THREE.Vector3(0, 1, 0), 0.0018);
         camera3D.position.copy(controls3D.target).add(offset);
       }
 
-      // Animate 3D Signal Packets along activePathPoints3D
-      if (activePathPoints3D.length >= 2 && packetMeshes3D.length > 0) {
-        const totalSegs = activePathPoints3D.length - 1;
-        packetMeshes3D.forEach((pkt, idx) => {
-          const u = (clockTime * 0.28 + idx / packetMeshes3D.length) % 1.0;
-          const segFloat = u * totalSegs;
-          const segIdx = Math.min(totalSegs - 1, Math.floor(segFloat));
-          const frac = segFloat - segIdx;
-          pkt.position.lerpVectors(activePathPoints3D[segIdx], activePathPoints3D[segIdx + 1], frac);
-        });
-      }
-
-      if (targetReticle3D) {
-        targetReticle3D.lookAt(camera3D.position);
-        const s = 1.0 + 0.14 * Math.sin(clockTime * 4.0);
-        targetReticle3D.scale.set(s, s, s);
-      }
+      animatedPackets3D.forEach((ap) => {
+        if (!ap.path || ap.path.length < 2) return;
+        const totalSegs = ap.path.length - 1;
+        const u = (clockTime * ap.speed + ap.phase) % 1.0;
+        const segF = u * totalSegs;
+        const sIdx = Math.min(totalSegs - 1, Math.floor(segF));
+        ap.mesh.position.lerpVectors(ap.path[sIdx], ap.path[sIdx + 1], segF - sIdx);
+      });
 
       controls3D.update();
       if (renderer3D) renderer3D.render(scene3D, camera3D);

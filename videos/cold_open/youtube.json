@@ -1,0 +1,35 @@
+{
+  "short_code": "COLD-OPEN",
+  "g_id": "2736.305",
+  "channel": "@GOR-9-station",
+  "categoryId": "24",
+  "privacyStatus": "public",
+  "title_1080p": "GOR-9 \u2022 Galactic Outpost Radio: High Basalt Shelf Tower Cold Open (14,285.7 kHz USB \u2022 0400 GCT)",
+  "description": "This is GOR-9. Galactic Outpost Radio, broadcasting at 50 kilowatts from the High Basalt Shelf Tower on Asteroid 3-5-1, 42,100 AU out in Oort Cloud Sector 9.\n14,285.7 kHz Upper Sideband \u2022 Epoch 2736.305 \u2022 0400 Galactic Coordinated Time.\n\n0:00 Station Power-Up & Vertical GOR-9 Sign Ignition\n0:04 4-Ring Marzelvane Cherenkov Burst & 1B C-Lydian Signal Lock\n0:11 Central Lift Tube Emerge & Octagonal Broadcast Deck Glide",
+  "tags": [
+    "GOR-9",
+    "Galactic Outpost Radio",
+    "Marzelvane",
+    "Shortwave",
+    "Sci-Fi"
+  ],
+  "files": {
+    "wide_1080p_mp4": "/home/phi/PROJECTS/phiarchitect/GOR-9/videos/cold_open/gor9_cold_open.mp4",
+    "thumbnail_16x9_png": "/home/phi/PROJECTS/phiarchitect/GOR-9/videos/cold_open/gor9_cold_open_thumb.jpg"
+  },
+  "uploads": {
+    "wide_1080p": {
+      "video_id": "5jQ-FNOVuco",
+      "url": "https://youtu.be/5jQ-FNOVuco",
+      "studio_url": "https://studio.youtube.com/video/5jQ-FNOVuco/edit",
+      "privacyStatus": "public",
+      "thumbnail_set": true,
+      "version": 1,
+      "uploaded_at": "2026-11-08T16:17:43Z",
+      "updated_at": "2026-11-08T16:17:43Z"
+    }
+  },
+  "history": {
+    "wide_1080p": []
+  }
+}

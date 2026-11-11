@@ -1,0 +1,188 @@
+{
+  "model": "docs/tower-3d.html",
+  "mode": "drone_tour",
+  "title": "GOR-9 \u2022 High Basalt Shelf Tower 360\u00b0 Inspection Drone Tour (14,285.7 kHz USB \u2022 0400 GCT)",
+  "short_code": "DRONE-TOUR",
+  "duration": 30.0,
+  "fps": 30,
+  "is_loop": false,
+  "coordinate_system": "tower_cylindrical",
+  "mp4_name": "gor9_drone_tour.mp4",
+  "wav_name": "gor9_drone_tour_audio.wav",
+  "thumb_name": "gor9_drone_tour_thumb.jpg",
+  "thumb_frame": 692,
+  "test_frames": [
+    0,
+    120,
+    225,
+    330,
+    384,
+    495,
+    618,
+    692
+  ],
+  "bursts": {
+    "starts": [
+      20.6
+    ],
+    "duration": 7.8,
+    "ring_step": 0.45,
+    "spire_lock_offset": 1.95
+  },
+  "keyframes": [
+    {
+      "t": 0.0,
+      "camAz": 0.38,
+      "camR": 92.0,
+      "camY": 34.0,
+      "lookAz": 0.38,
+      "lookR": 0.0,
+      "lookY": 44.0,
+      "fov": 48.0,
+      "note": "Wide Acheron Chasm starting vantage"
+    },
+    {
+      "t": 1.9,
+      "camAz": 0.84,
+      "camR": 44.0,
+      "camY": 26.8,
+      "lookAz": 0.84,
+      "lookR": 0.0,
+      "lookY": 28.8,
+      "fov": 46.5,
+      "note": "Inbound swoop toward +26m Broadcast Booth"
+    },
+    {
+      "t": 3.8,
+      "camAz": 1.28,
+      "camR": 16.6,
+      "camY": 28.4,
+      "lookAz": 1.28,
+      "lookR": 0.0,
+      "lookY": 27.6,
+      "fov": 45.0,
+      "note": "Booth detail orbit entry"
+    },
+    {
+      "t": 6.2,
+      "camAz": 1.92,
+      "camR": 16.2,
+      "camY": 28.8,
+      "lookAz": 1.92,
+      "lookR": 0.0,
+      "lookY": 27.8,
+      "fov": 45.0,
+      "note": "Booth detail orbit mid-pass"
+    },
+    {
+      "t": 8.7,
+      "camAz": 2.56,
+      "camR": 16.2,
+      "camY": 29.3,
+      "lookAz": 2.56,
+      "lookR": 0.0,
+      "lookY": 28.1,
+      "fov": 45.0,
+      "note": "Booth detail orbit West bay"
+    },
+    {
+      "t": 11.2,
+      "camAz": 3.2,
+      "camR": 16.6,
+      "camY": 29.8,
+      "lookAz": 3.2,
+      "lookR": 0.0,
+      "lookY": 28.4,
+      "fov": 45.0,
+      "note": "Booth detail orbit exit"
+    },
+    {
+      "t": 12.8,
+      "camAz": 3.72,
+      "camR": 26.5,
+      "camY": 48.0,
+      "lookAz": 3.72,
+      "lookR": 0.0,
+      "lookY": 45.5,
+      "fov": 46.5,
+      "note": "Mid-tower G/O/R/\u25ce/9 sign ascent"
+    },
+    {
+      "t": 14.4,
+      "camAz": 4.25,
+      "camR": 32.5,
+      "camY": 78.2,
+      "lookAz": 4.25,
+      "lookR": 0.0,
+      "lookY": 72.2,
+      "fov": 47.0,
+      "note": "4-Ring Marzelvane Crown orbit entry"
+    },
+    {
+      "t": 16.6,
+      "camAz": 4.76,
+      "camR": 31.6,
+      "camY": 77.8,
+      "lookAz": 4.76,
+      "lookR": 0.0,
+      "lookY": 72.2,
+      "fov": 47.0,
+      "note": "4-Ring Marzelvane Crown orbit mid-pass"
+    },
+    {
+      "t": 18.8,
+      "camAz": 5.27,
+      "camR": 31.6,
+      "camY": 77.3,
+      "lookAz": 5.27,
+      "lookR": 0.0,
+      "lookY": 72.2,
+      "fov": 47.0,
+      "note": "4-Ring Marzelvane Crown detail"
+    },
+    {
+      "t": 20.8,
+      "camAz": 5.74,
+      "camR": 33.5,
+      "camY": 76.2,
+      "lookAz": 5.74,
+      "lookR": 0.0,
+      "lookY": 71.5,
+      "fov": 47.5,
+      "note": "Crown departure as Marzelvane rings ignite"
+    },
+    {
+      "t": 23.0,
+      "camAz": 6.18,
+      "camR": 84.0,
+      "camY": 42.0,
+      "lookAz": 6.18,
+      "lookR": 0.0,
+      "lookY": 52.0,
+      "fov": 48.0,
+      "note": "Fly-away standoff for 82m Barycentric Shockwave Burst"
+    },
+    {
+      "t": 25.8,
+      "camAz": 6.48,
+      "camR": 90.5,
+      "camY": 35.5,
+      "lookAz": 6.48,
+      "lookR": 0.0,
+      "lookY": 45.0,
+      "fov": 48.0,
+      "note": "Wide chasm drift during shockwave dissipation"
+    },
+    {
+      "t": 30.0,
+      "camAz": 6.6631853,
+      "camR": 92.0,
+      "camY": 34.0,
+      "lookAz": 6.6631853,
+      "lookR": 0.0,
+      "lookY": 44.0,
+      "fov": 48.0,
+      "note": "Complete 360\u00b0 cycle back at starting pose"
+    }
+  ]
+}

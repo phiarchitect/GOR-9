@@ -1,87 +1,320 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 180" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 520 180" width="1040" height="360">
   <defs>
-    <linearGradient id="hdGunmetal" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#1e293b" />
-      <stop offset="50%" stop-color="#0f172a" />
-      <stop offset="100%" stop-color="#060a12" />
+    <!-- Dark Crinkled Gunmetal Radio Front-Panel Texture -->
+    <pattern id="chassisCrinkle" width="8" height="8" patternUnits="userSpaceOnUse">
+      <rect width="8" height="8" fill="#161a20" />
+      <circle cx="2" cy="2" r="0.9" fill="#1e242c" />
+      <circle cx="6" cy="5" r="0.8" fill="#101318" />
+      <circle cx="3" cy="7" r="0.7" fill="#1d222a" />
+      <circle cx="7" cy="1" r="0.6" fill="#0f1217" />
+    </pattern>
+
+    <!-- Fine Horizontal Brushed Satin Aluminum Pattern -->
+    <pattern id="satinAluminumBrush" width="40" height="4" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0.8" x2="40" y2="0.8" stroke="#ffffff" stroke-width="0.45" stroke-opacity="0.35" />
+      <line x1="0" y1="1.8" x2="40" y2="1.8" stroke="#6c7886" stroke-width="0.4" stroke-opacity="0.28" />
+      <line x1="0" y1="2.9" x2="40" y2="2.9" stroke="#ffffff" stroke-width="0.35" stroke-opacity="0.25" />
+      <line x1="0" y1="3.7" x2="40" y2="3.7" stroke="#535e6b" stroke-width="0.35" stroke-opacity="0.22" />
+    </pattern>
+
+    <!-- Anodized Gunmetal Escutcheon Body Gradient -->
+    <linearGradient id="escutcheonBody" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#353d47" />
+      <stop offset="18%" stop-color="#262c34" />
+      <stop offset="55%" stop-color="#1d2229" />
+      <stop offset="88%" stop-color="#15191f" />
+      <stop offset="100%" stop-color="#282f38" />
     </linearGradient>
-    <linearGradient id="hdChrome" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f8fafc" />
-      <stop offset="40%" stop-color="#cbd5e1" />
-      <stop offset="70%" stop-color="#64748b" />
-      <stop offset="100%" stop-color="#e2e8f0" />
+
+    <!-- Brushed Satin Aluminum Inlay Plate Gradient -->
+    <linearGradient id="brushedSilverPlate" x1="0%" y1="0%" x2="100%" y2="12%">
+      <stop offset="0%" stop-color="#c5ced8" />
+      <stop offset="22%" stop-color="#e4ebf2" />
+      <stop offset="48%" stop-color="#b6c0cc" />
+      <stop offset="72%" stop-color="#dce4ec" />
+      <stop offset="90%" stop-color="#aeb8c4" />
+      <stop offset="100%" stop-color="#cfd7e0" />
     </linearGradient>
-    <linearGradient id="hdAmber" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#f59e0b" />
-      <stop offset="50%" stop-color="#fde68a" />
-      <stop offset="100%" stop-color="#f59e0b" />
+
+    <!-- Raised Chrome Stadium Pill Bar Gradient -->
+    <linearGradient id="chromePillGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f0f5fa" />
+      <stop offset="20%" stop-color="#ced7e0" />
+      <stop offset="52%" stop-color="#a8b3bf" />
+      <stop offset="82%" stop-color="#7c8794" />
+      <stop offset="100%" stop-color="#bac4d0" />
     </linearGradient>
-    <filter id="hdGlow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="2.2" result="blur" />
-      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+
+    <!-- Machined Aluminum VFO Outer Collar Gradient -->
+    <linearGradient id="vfoCollarGrad" x1="15%" y1="10%" x2="85%" y2="90%">
+      <stop offset="0%" stop-color="#f2f6fa" />
+      <stop offset="30%" stop-color="#bdcad6" />
+      <stop offset="55%" stop-color="#7c8896" />
+      <stop offset="80%" stop-color="#d4dee8" />
+      <stop offset="100%" stop-color="#606b78" />
+    </linearGradient>
+
+    <!-- Dark Gunmetal Knurled VFO Bezel Ring -->
+    <linearGradient id="vfoKnurlGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#434c57" />
+      <stop offset="45%" stop-color="#22272e" />
+      <stop offset="75%" stop-color="#12161a" />
+      <stop offset="100%" stop-color="#313842" />
+    </linearGradient>
+
+    <!-- Warm Amber Backlit Optical VFO Dial Glow -->
+    <radialGradient id="amberVfoLens" cx="52%" cy="50%" r="52%" fx="44%" fy="42%">
+      <stop offset="0%" stop-color="#7a3e06" />
+      <stop offset="38%" stop-color="#522603" />
+      <stop offset="68%" stop-color="#2c1301" />
+      <stop offset="88%" stop-color="#140900" />
+      <stop offset="100%" stop-color="#080400" />
+    </radialGradient>
+
+    <!-- Stainless Allen Cap Screw Gradient -->
+    <linearGradient id="allenBoltGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#eef3f7" />
+      <stop offset="45%" stop-color="#9ca7b4" />
+      <stop offset="100%" stop-color="#47505c" />
+    </linearGradient>
+
+    <!-- Cyan Carrier Phosphor Bloom -->
+    <filter id="cyanCarrierGlow" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="2.4" result="blur1" />
+      <feGaussianBlur stdDeviation="0.8" result="blur2" />
+      <feMerge>
+        <feMergeNode in="blur1" />
+        <feMergeNode in="blur2" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
     </filter>
+
+    <!-- Warm Amber Scale Glow -->
+    <filter id="amberScaleGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.1" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- Drop Shadow for Escutcheon & VFO Turret (SVG 1.1 Compatible) -->
+    <filter id="heavyDropShadow" x="-15%" y="-15%" width="130%" height="135%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2.8" result="blur" />
+      <feOffset in="blur" dx="0" dy="2.8" result="offsetBlur" />
+      <feFlood flood-color="#000000" flood-opacity="0.82" result="shadowColor" />
+      <feComposite in="shadowColor" in2="offsetBlur" operator="in" result="dropShadow" />
+      <feMerge>
+        <feMergeNode in="dropShadow" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- Reusable Stainless Socket Cap Screw -->
+    <g id="allenScrew">
+      <circle r="7.5" fill="#0f1318" stroke="#38414d" stroke-width="0.9" />
+      <circle r="5.6" fill="url(#allenBoltGrad)" stroke="#232931" stroke-width="0.8" />
+      <circle r="3.9" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.5" />
+      <polygon points="0,-2.8 2.4,-1.4 2.4,1.4 0,2.8 -2.4,1.4 -2.4,-1.4" fill="#171c22" stroke="#5b6673" stroke-width="0.5" />
+    </g>
+
+    <!-- Clip Path for the Circular VFO Optical Lens -->
+    <clipPath id="vfoLensClip">
+      <circle cx="358" cy="78" r="46.5" />
+    </clipPath>
   </defs>
 
-  <!-- Precision Machined Anodized Gunmetal & Satin Chrome Chassis Plate -->
-  <rect x="6" y="6" width="508" height="168" rx="8"
-        fill="url(#hdGunmetal)" stroke="url(#hdChrome)" stroke-width="2.5" />
-  <rect x="13" y="13" width="494" height="154" rx="5"
-        fill="none" stroke="#38bdf8" stroke-width="0.8" stroke-opacity="0.45" />
+  <!-- 1. Full Opaque Crinkled Gunmetal Radio Chassis Backdrop -->
+  <rect width="520" height="180" fill="url(#chassisCrinkle)" />
+  <rect x="2" y="2" width="516" height="176" rx="6" fill="none" stroke="#2c343e" stroke-width="1.5" />
+  <!-- Top & bottom recessed receiver chassis grooves -->
+  <line x1="0" y1="5" x2="520" y2="5" stroke="#0b0d10" stroke-width="1.8" />
+  <line x1="0" y1="175" x2="520" y2="175" stroke="#0b0d10" stroke-width="1.8" />
 
-  <!-- 4 Knurled Socket Cap Instrument Screws -->
-  <g fill="#0f172a" stroke="url(#hdChrome)" stroke-width="1.5">
-    <circle cx="24" cy="24" r="5.5" />
-    <circle cx="24" cy="24" r="2" fill="#94a3b8" />
-    <circle cx="496" cy="24" r="5.5" />
-    <circle cx="496" cy="24" r="2" fill="#94a3b8" />
-    <circle cx="24" cy="156" r="5.5" />
-    <circle cx="24" cy="156" r="2" fill="#94a3b8" />
-    <circle cx="496" cy="156" r="5.5" />
-    <circle cx="496" cy="156" r="2" fill="#94a3b8" />
+  <!-- 2. Contoured Cast-Gunmetal Escutcheon Base Plate (Asymmetric with Circular Bulge around VFO at cx=358, cy=78, R=71) -->
+  <path d="M 28,19
+           L 314,19
+           A 71,71 0 0,1 402,19
+           L 490,19
+           A 12,12 0 0,1 502,31
+           L 502,157
+           A 12,12 0 0,1 490,169
+           L 28,169
+           A 12,12 0 0,1 16,157
+           L 16,31
+           A 12,12 0 0,1 28,19 Z"
+        fill="url(#escutcheonBody)" stroke="#4d5866" stroke-width="1.6" filter="url(#heavyDropShadow)" />
+
+  <!-- Inner Escutcheon Bevel Line -->
+  <path d="M 30,22.5
+           L 317,22.5
+           A 67.5,67.5 0 0,1 399,22.5
+           L 488,22.5
+           A 9,9 0 0,1 497,31.5
+           L 497,155.5
+           A 9,9 0 0,1 488,164.5
+           L 30,164.5
+           A 9,9 0 0,1 21,155.5
+           L 21,31.5
+           A 9,9 0 0,1 30,22.5 Z"
+        fill="none" stroke="#101419" stroke-width="1.4" />
+
+  <!-- 3. Brushed Satin Aluminum Center Inlay Plate (Spans Left Typography -> Right VFO -> Right Spec Tab) -->
+  <g filter="url(#heavyDropShadow)">
+    <rect x="24" y="40" width="470" height="78" rx="5" fill="url(#brushedSilverPlate)" stroke="#5c6773" stroke-width="1.2" />
+    <rect x="24" y="40" width="470" height="78" rx="5" fill="url(#satinAluminumBrush)" />
+    <!-- Top specular highlight & bottom shadow bevel on the aluminum plate -->
+    <line x1="26" y1="41.5" x2="492" y2="41.5" stroke="#ffffff" stroke-width="1.3" opacity="0.75" />
+    <line x1="26" y1="116.5" x2="492" y2="116.5" stroke="#424b54" stroke-width="1.3" opacity="0.85" />
   </g>
 
-  <!-- LEFT EMBLEM: KNURLED VFO VERNIER RETICLE & HETERODYNE CARRIER WAVE -->
-  <g transform="translate(95, 90)">
-    <!-- Outer Knurled Bezel Ring -->
-    <circle cx="0" cy="0" r="60" fill="#050811" stroke="url(#hdChrome)" stroke-width="3" />
-    <circle cx="0" cy="0" r="54" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="2,4" />
-    <circle cx="0" cy="0" r="46" fill="#070d19" stroke="#1e3a5f" stroke-width="1.2" />
+  <!-- 4. Six Stainless Hex-Socket Allen Cap Screws (Flanking Left Plate & VFO Turret Neck & Right Edge) -->
+  <use xlink:href="#allenScrew" href="#allenScrew" x="38" y="28" />
+  <use xlink:href="#allenScrew" href="#allenScrew" x="38" y="131" />
+  <use xlink:href="#allenScrew" href="#allenScrew" x="284" y="28" />
+  <use xlink:href="#allenScrew" href="#allenScrew" x="284" y="131" />
+  <use xlink:href="#allenScrew" href="#allenScrew" x="480" y="28" />
+  <use xlink:href="#allenScrew" href="#allenScrew" x="480" y="131" />
 
-    <!-- Vernier Crosshair Graticule -->
-    <line x1="-44" y1="0" x2="44" y2="0" stroke="#334155" stroke-width="1" />
-    <line x1="0" y1="-44" x2="0" y2="44" stroke="#f43f5e" stroke-width="1.2" stroke-opacity="0.85" />
-
-    <!-- Glowing Cyan Carrier Envelope + Amber Sine Wave -->
-    <path d="M -42,0 Q -31,-32 -21,0 T 0,0 T 21,0 T 42,0"
-          fill="none" stroke="#38bdf8" stroke-width="2.5" filter="url(#hdGlow)" />
-    <path d="M -42,0 Q -31,26 -21,0 T 0,0 T 21,0 T 42,0"
-          fill="none" stroke="#f59e0b" stroke-width="1.8" stroke-opacity="0.9" />
-
-    <!-- Center Phase-Lock Jewel -->
-    <circle cx="0" cy="0" r="4.5" fill="#4ade80" filter="url(#hdGlow)" />
+  <!-- 4B. Riveted Stamped-Metal Serial Number & Calibration Plate (Top Escutcheon Channel, x=56..266, y=21..36) -->
+  <g>
+    <!-- Recessed slot in gunmetal escutcheon -->
+    <rect x="55" y="21" width="212" height="14.5" rx="2.2" fill="#0d1014" stroke="#3c4652" stroke-width="0.9" />
+    <!-- Left dark anodized label tab: SER. NO. -->
+    <rect x="56.5" y="22.2" width="62" height="12.1" rx="1.5" fill="#181e26" stroke="#495462" stroke-width="0.6" />
+    <circle cx="61.5" cy="28.2" r="1.4" fill="#9aa6b4" stroke="#101419" stroke-width="0.5" />
+    <text x="90" y="31.1" fill="#c8d3df" font-family="'Courier New', 'Liberation Mono', monospace" font-size="8.0" font-weight="bold" text-anchor="middle" letter-spacing="0.6">SER. NO.</text>
+    <!-- Right bare stamped-aluminum punch strip: HD-MK4-00351-G9 -->
+    <rect x="120" y="22.2" width="145.5" height="12.1" rx="1.5" fill="url(#brushedSilverPlate)" stroke="#5c6773" stroke-width="0.6" />
+    <circle cx="260.5" cy="28.2" r="1.4" fill="#7c8794" stroke="#101419" stroke-width="0.5" />
+    <text x="191" y="31.3" fill="#11161c" font-family="'Courier New', 'Liberation Mono', monospace" font-size="8.8" font-weight="bold" text-anchor="middle" letter-spacing="1.1">HD-MK4-00351-G9</text>
   </g>
 
-  <!-- RIGHT TYPOGRAPHY: HAUSER DYNAMICS PRECISION TELEMETRY -->
-  <g font-family="'JetBrains Mono', 'Courier New', monospace">
-    <text x="182" y="42" fill="#38bdf8" font-size="9.2" font-weight="700" letter-spacing="1.1">
-      EST. 2026 ENID • GANYMEDE ORBITAL PRECISION WORKS
-    </text>
+  <!-- 5. Left Stacked Bold Engraved Typography on Brushed Satin Aluminum (Ganymede Precision Works) -->
+  <!-- Subtle white bottom-etch highlight for stamped metal depth -->
+  <g fill="#ffffff" opacity="0.55" transform="translate(0, 1)">
+    <text x="38" y="73" font-family="'Eurostile', 'Microgramma', 'Arial Black', 'Liberation Sans', sans-serif" font-size="35" font-weight="900" letter-spacing="3.2">HAUSER</text>
+    <text x="38" y="99" font-family="'Eurostile', 'Microgramma', 'Arial Black', 'Liberation Sans', sans-serif" font-size="27.5" font-weight="900" letter-spacing="2.4">DYNAMICS</text>
+  </g>
+  <!-- Deep etched charcoal-black primary typography -->
+  <text x="38" y="73" fill="#12171d" font-family="'Eurostile', 'Microgramma', 'Arial Black', 'Liberation Sans', sans-serif" font-size="35" font-weight="900" letter-spacing="3.2">HAUSER</text>
+  <text x="38" y="99" fill="#12171d" font-family="'Eurostile', 'Microgramma', 'Arial Black', 'Liberation Sans', sans-serif" font-size="27.5" font-weight="900" letter-spacing="2.4">DYNAMICS</text>
 
-    <text x="180" y="76" fill="url(#hdChrome)" font-size="26" font-weight="900" letter-spacing="1.5">
-      HAUSER DYNAMICS
-    </text>
+  <!-- Crisp condensed technical sub-line -->
+  <text x="39" y="112" fill="#1b222b" font-family="'Courier New', 'Liberation Mono', monospace" font-size="8.3" font-weight="bold" letter-spacing="0.55">MODEL MK-IV • GANYMEDE PRECISION WORKS</text>
 
-    <rect x="182" y="86" width="300" height="22" rx="3" fill="#131c2e" stroke="#f59e0b" stroke-width="1" />
-    <text x="190" y="101" fill="url(#hdAmber)" font-size="11" font-weight="800" letter-spacing="1.2">
-      WIDEBAND BARYCENTRIC RF CORRELATORS
-    </text>
+  <!-- 6. Right-Side Knurled Circular Optical VFO Oscilloscope Window (cx=358, cy=78) -->
+  <g filter="url(#heavyDropShadow)">
+    <!-- Outer Machined Silver Bevel Collar -->
+    <circle cx="358" cy="78" r="64" fill="url(#vfoCollarGrad)" stroke="#1a2026" stroke-width="1.5" />
+    <circle cx="358" cy="78" r="61.5" fill="none" stroke="#ffffff" stroke-width="0.9" opacity="0.65" />
 
-    <text x="182" y="129" fill="#e2e8f0" font-size="10.2" font-weight="700" letter-spacing="0.5">
-      MK-IV DX CORRELATOR • BOGEY-9 KEPLERIAN SCANNER
-    </text>
+    <!-- Dark Gunmetal Knurled Turret Ring -->
+    <circle cx="358" cy="78" r="58.5" fill="url(#vfoKnurlGrad)" stroke="#0d1014" stroke-width="1.4" />
+    <!-- Knurled Grip Serrations around VFO Turret Perimeter -->
+    <circle cx="358" cy="78" r="55.5" fill="none" stroke="#090b0e" stroke-width="4.5" stroke-dasharray="2.1 2.1" />
+    <circle cx="358" cy="78" r="53.0" fill="none" stroke="#5b6775" stroke-width="1.1" />
 
-    <text x="182" y="150" fill="#38bdf8" font-size="9.8" font-style="italic" font-weight="700" letter-spacing="0.4">
-      "Every Carrier in the Noise — 3 kHz to 1.5 GHz."
-    </text>
+    <!-- Deep Inner Shadow Recess Ring -->
+    <circle cx="358" cy="78" r="49.5" fill="#090603" stroke="#2c333b" stroke-width="1.2" />
+  </g>
+
+  <!-- 7. Amber Backlit Optical VFO Drum Scale & Cyan Carrier Waveform Inside Lens (Clipped to r=46.5) -->
+  <g clip-path="url(#vfoLensClip)">
+    <!-- Warm Amber Radial Backlight -->
+    <circle cx="358" cy="78" r="47" fill="url(#amberVfoLens)" />
+
+    <!-- Subtle Optical Drum Horizontal Curvature Grid Lines -->
+    <line x1="310" y1="56" x2="406" y2="56" stroke="#ff9d2e" stroke-width="0.6" opacity="0.45" />
+    <line x1="310" y1="100" x2="406" y2="100" stroke="#ff9d2e" stroke-width="0.6" opacity="0.45" />
+
+    <!-- Upper Vernier Tick Marks (y=49..56) -->
+    <line x1="318" y1="52" x2="398" y2="52" stroke="#ffb84d" stroke-width="5" stroke-dasharray="1.1 3.9" opacity="0.85" />
+    <line x1="318" y1="50" x2="398" y2="50" stroke="#ffd27d" stroke-width="8" stroke-dasharray="1.3 18.7" opacity="0.95" />
+
+    <!-- Lower Vernier Tick Marks (y=100..107) -->
+    <line x1="318" y1="104" x2="398" y2="104" stroke="#ffb84d" stroke-width="5" stroke-dasharray="1.1 3.9" opacity="0.85" />
+    <line x1="318" y1="106" x2="398" y2="106" stroke="#ffd27d" stroke-width="8" stroke-dasharray="1.3 18.7" opacity="0.95" />
+
+    <!-- Left & Right Zero-Beat Horizon Index Ticks -->
+    <line x1="311" y1="78" x2="324" y2="78" stroke="#ffc15e" stroke-width="1.6" filter="url(#amberScaleGlow)" />
+    <line x1="392" y1="78" x2="405" y2="78" stroke="#ffc15e" stroke-width="1.6" filter="url(#amberScaleGlow)" />
+    <!-- Vertical Center Tuning Hairline -->
+    <line x1="358" y1="32" x2="358" y2="124" stroke="#ffae38" stroke-width="0.6" stroke-dasharray="2 3" opacity="0.55" />
+
+    <!-- Amber VFO Scale Numbers -->
+    <g fill="#ffcc66" font-family="'Courier New', 'Liberation Mono', monospace" font-weight="bold" text-anchor="middle" filter="url(#amberScaleGlow)">
+      <text x="358" y="44" font-size="8.5">70</text>
+      <text x="331" y="64" font-size="7.8">-100</text>
+      <text x="358" y="64" font-size="8.2">0</text>
+      <text x="378" y="64" font-size="7.8">10</text>
+      <text x="394" y="75" font-size="7.2">MHz</text>
+
+      <text x="354" y="96" font-size="7.8">50</text>
+      <text x="382" y="96" font-size="7.8">100</text>
+      <text x="342" y="116" font-size="7.8">7.025</text>
+      <text x="376" y="116" font-size="7.8">7.030</text>
+    </g>
+
+    <!-- Glowing Cherenkov Cyan Carrier Sine Wave + High-Frequency Harmonic Lock Burst -->
+    <path d="M 325,80
+             C 332,54 341,54 348,80
+             C 355,106 364,106 371,80
+             L 375,64
+             L 379,91
+             L 383,70
+             L 387,84
+             L 390,78
+             L 396,78"
+          fill="none" stroke="#00e5ff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.45" filter="url(#cyanCarrierGlow)" />
+    <path d="M 325,80
+             C 332,54 341,54 348,80
+             C 355,106 364,106 371,80
+             L 375,64
+             L 379,91
+             L 383,70
+             L 387,84
+             L 390,78
+             L 396,78"
+          fill="none" stroke="#80ffff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" filter="url(#cyanCarrierGlow)" />
+
+    <!-- Curved Convex Glass Lens Reflection Highlight -->
+    <path d="M 316,58 A 44,44 0 0,1 388,40 A 48,40 0 0,0 322,68 Z" fill="#ffffff" opacity="0.14" />
+  </g>
+
+  <!-- 8. Right-Hand Brushed Aluminum Precision Spec Tab (x=426..490, y=44..114) -->
+  <!-- Ruby PLL Lock Jewel Lamp -->
+  <circle cx="442" cy="53" r="5.2" fill="#1a0505" stroke="#454f5b" stroke-width="1.0" />
+  <circle cx="442" cy="53" r="3.6" fill="#ff2a2a" />
+  <circle cx="440.8" cy="51.8" r="1.2" fill="#ffb3b3" />
+  <text x="451" y="56" fill="#181f26" font-family="'Courier New', 'Liberation Mono', monospace" font-size="7.5" font-weight="bold">LOCK</text>
+
+  <!-- Mini Recessed Amber Frequency Readout Window -->
+  <rect x="427" y="62" width="60" height="16" rx="2.5" fill="#140c04" stroke="#4e5864" stroke-width="1.0" />
+  <text x="457" y="73" fill="#ffb03a" font-family="'Courier New', 'Liberation Mono', monospace" font-size="9.0" font-weight="bold" text-anchor="middle" letter-spacing="0.4">7.028.5</text>
+
+  <!-- Engraved Spec & Calibration Stamp -->
+  <text x="457" y="90" fill="#141920" font-family="'Courier New', 'Liberation Mono', monospace" font-size="7.2" font-weight="bold" text-anchor="middle">3kHz–1.5GHz</text>
+  <rect x="428" y="95" width="58" height="13" rx="1.8" fill="#181e26" stroke="#535e6b" stroke-width="0.7" />
+  <text x="457" y="104" fill="#d8e2ec" font-family="'Courier New', 'Liberation Mono', monospace" font-size="7.0" font-weight="bold" text-anchor="middle" letter-spacing="0.4">CAL•2184-G9</text>
+
+  <!-- 9. Bottom Raised Brushed-Chrome Stadium Pill Motto Plate ('EVERY CARRIER IN THE NOISE') -->
+  <g filter="url(#heavyDropShadow)">
+    <!-- Outer Recessed Slot in Gunmetal Escutcheon -->
+    <rect x="64" y="138" width="388" height="23" rx="11.5" fill="#0d1014" stroke="#363f4a" stroke-width="1.0" />
+    <!-- Raised Brushed Chrome Stadium Strip -->
+    <rect x="66.5" y="140" width="383" height="19" rx="9.5" fill="url(#chromePillGrad)" stroke="#535e6b" stroke-width="0.9" />
+    <rect x="66.5" y="140" width="383" height="19" rx="9.5" fill="url(#satinAluminumBrush)" />
+    <!-- Top Chrome Specular Edge -->
+    <path d="M 76,141.2 L 440,141.2" stroke="#ffffff" stroke-width="1.1" opacity="0.8" />
+    <!-- Left & Right Chrome Retaining Pins -->
+    <circle cx="80" cy="149.5" r="2.6" fill="#707b88" stroke="#232931" stroke-width="0.7" />
+    <circle cx="79.3" cy="148.8" r="0.9" fill="#ffffff" opacity="0.8" />
+    <circle cx="436" cy="149.5" r="2.6" fill="#707b88" stroke="#232931" stroke-width="0.7" />
+    <circle cx="435.3" cy="148.8" r="0.9" fill="#ffffff" opacity="0.8" />
+
+    <!-- Deep Etched Motto Typography -->
+    <text x="258" y="154.2" fill="#ffffff" opacity="0.55" font-family="'Eurostile', 'Arial', 'Liberation Sans', sans-serif" font-size="11.8" font-weight="900" letter-spacing="1.8" text-anchor="middle">‘EVERY CARRIER IN THE NOISE’</text>
+    <text x="258" y="153.2" fill="#141920" font-family="'Eurostile', 'Arial', 'Liberation Sans', sans-serif" font-size="11.8" font-weight="900" letter-spacing="1.8" text-anchor="middle">‘EVERY CARRIER IN THE NOISE’</text>
   </g>
 </svg>

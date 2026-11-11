@@ -474,8 +474,13 @@
   .page-wrap {
     max-width: none;
     width: 100%;
-    padding: 10px 16px 40px;
-    gap: 12px;
+    height: 100%;
+    flex: 1;
+    min-height: 0;
+    padding: 10px 14px;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 10px;
   }
   body.capture-mode {
     height: 100vh;
@@ -483,28 +488,30 @@
   }
   body.capture-mode .page-wrap {
     flex: 1;
-    height: calc(100vh - 44px);
-    padding: 10px 16px 14px;
+    height: 100%;
+    min-height: 0;
+    padding: 10px 14px;
     display: grid;
     grid-template-rows: auto 1fr;
-    gap: 12px;
+    gap: 10px;
   }
   .selector-strip {
     display: grid;
     grid-template-columns: auto 1fr;
-    gap: 12px;
-    padding: 8px 14px;
+    gap: 10px;
+    padding: 7px 12px;
     align-items: center;
   }
   #station-selector-btns {
     display: grid !important;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 6px;
     width: 100%;
   }
   .selector-pill {
-    font-size: 12px;
-    padding: 8px 10px;
+    font-size: 11.5px;
+    font-weight: 800;
+    padding: 7px 6px;
     text-align: center;
     white-space: nowrap;
     overflow: hidden;
@@ -512,21 +519,26 @@
   }
   .dossier-hero {
     display: grid;
-    grid-template-columns: 500px 1fr;
-    gap: 16px;
+    grid-template-columns: 490px 1fr;
+    gap: 14px;
     align-items: stretch;
     height: 100%;
+    min-height: 0;
   }
   .collector-stage {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
     height: 100%;
+    min-height: 0;
   }
   .collector-card-3d {
     flex: 1;
     min-height: 0;
     height: 100%;
+  }
+  .card-face {
+    padding: 14px 16px;
   }
   .card-face.front > div:first-child {
     display: flex;
@@ -538,7 +550,7 @@
   .card-qsl-art-box {
     width: 100%;
     height: auto !important;
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 16 / 9.5;
     flex: 0 0 auto;
     background: #04070d;
   }
@@ -555,17 +567,20 @@
   }
   .card-series-tag { font-size: 11.5px; }
   .card-qsl-id { font-size: 12.5px; }
-  .card-station-name { font-size: 24px; }
-  .card-station-sub { font-size: 12.5px; }
+  .card-station-name { font-size: 23px; }
+  .card-station-sub { font-size: 12px; }
   .stat-lbl { font-size: 10px; }
   .stat-val { font-size: 13px; }
   .card-motto-banner {
     font-size: 12px;
     padding: 8px 10px;
-    margin-top: 0;
+    margin-top: auto;
   }
-  .card-footer-strip { font-size: 11px; margin-top: 8px; }
-  .flip-btn { font-size: 12.5px; padding: 11px; }
+  #card-front-log {
+    display: none !important;
+  }
+  .card-footer-strip { font-size: 11.5px; margin-top: 8px; }
+  .flip-btn { font-size: 12px; padding: 9px 12px; flex-shrink: 0; }
   .dossier-main {
     display: flex;
     flex-direction: column;
@@ -573,20 +588,24 @@
     min-height: 0;
   }
   .dossier-hdr {
-    padding: 9px 16px;
+    padding: 8px 16px;
+  }
+  #tune-in-mk4-btn {
+    display: none !important;
   }
   .dossier-body {
     flex: 1;
-    padding: 12px 16px;
+    padding: 10px 14px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
     min-height: 0;
+    overflow: hidden;
   }
   .dossier-media-grid {
     display: grid;
-    grid-template-columns: 1.18fr 1fr;
-    gap: 14px;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 12px;
     align-items: stretch;
     flex: 0.92;
     min-height: 0;
@@ -594,7 +613,7 @@
   .dossier-video-box {
     width: 100%;
     height: 100%;
-    min-height: 210px;
+    min-height: 195px;
     max-height: none;
     aspect-ratio: auto;
   }
@@ -605,52 +624,56 @@
     display: block;
   }
   .audio-rack-card {
-    padding: 11px 14px;
+    padding: 10px 14px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    gap: 7px;
+    justify-content: space-between;
+    gap: 6px;
     min-height: 0;
   }
-  .audio-track-row label { font-size: 11px; margin-bottom: 2px; }
-  .audio-track-row audio { height: 27px; }
+  .audio-track-row {
+    background: #060b14;
+    border: 1px solid #1e2d45;
+    border-radius: 3px;
+    padding: 5px 9px;
+  }
+  .audio-track-row label { font-size: 11.5px; margin-bottom: 0; color: var(--text); font-weight: 700; }
+  .audio-track-row audio { display: none; }
   .info-columns {
     display: grid;
-    grid-template-columns: 1.18fr 1fr;
-    gap: 14px;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 12px;
     align-items: stretch;
     flex: 1.08;
     min-height: 0;
   }
   .info-box {
-    font-size: 12px;
-    line-height: 1.44;
-    padding: 11px 14px;
+    font-size: 12.5px;
+    line-height: 1.46;
+    padding: 10px 14px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     gap: 6px;
     min-height: 0;
+    overflow: hidden;
   }
-  .info-box h3 { font-size: 12px; margin-bottom: 4px; }
-  body.capture-mode .collector-card-3d {
-    transition: none !important;
-  }
-  body.capture-mode .collector-card-3d.flipped {
+  .info-box h3 { font-size: 12.5px; margin-bottom: 4px; }
+  .collector-card-3d.flipped {
     transform: none !important;
   }
-  body.capture-mode .collector-card-3d.flipped .card-face:not(.back) {
+  .collector-card-3d.flipped .card-face:not(.back) {
     display: none !important;
   }
-  body.capture-mode .collector-card-3d.flipped .card-face.back {
+  .collector-card-3d.flipped .card-face.back {
     transform: none !important;
     backface-visibility: visible !important;
   }
-  body.capture-mode #dos-decoder-box,
-  body.capture-mode #dos-worldbuilding-box,
-  body.capture-mode #dos-flow-plates-box,
-  body.capture-mode #dos-logs-panel,
-  body.capture-mode .section-card {
+  #dos-decoder-box,
+  #dos-worldbuilding-box,
+  #dos-flow-plates-box,
+  #dos-logs-panel,
+  .section-card {
     display: none !important;
   }
 </style>
@@ -995,7 +1018,7 @@ function renderSelectorButtons() {
   const wrap = document.getElementById('station-selector-btns');
   wrap.innerHTML = DATA.presets.map(p => `
     <button class="selector-pill" id="sel-${p.id}" onclick="selectStation('${p.id}')">
-      ${p.preset_slot} • ${p.name} (${p.rf.frequency_khz} kHz)
+      ${p.preset_slot} • ${p.callsign}
     </button>
   `).join('');
 }
@@ -1054,7 +1077,7 @@ function selectStation(id) {
   const trBox = document.getElementById('dos-transcript-box');
   if (trBox && p.media) {
     const langs = Array.isArray(p.media.languages) ? p.media.languages.join(' / ') : 'RF';
-    trBox.innerHTML = `<div style="font-size:10.5px;color:var(--amber);font-weight:800;margin-bottom:2px;">INTERVAL SIGNAL: ${p.media.interval_signal_name.toUpperCase()} (${langs})</div><div style="color:#e2e8f0;">${p.media.transcript_excerpt || ''}</div>`;
+    trBox.innerHTML = `<div style="font-size:11px;color:var(--amber);font-weight:800;margin-bottom:3px;">INTERVAL SIGNAL: ${p.media.interval_signal_name.toUpperCase()} (${langs})</div><div style="color:#e2e8f0;font-size:12px;">${p.media.transcript_excerpt || ''}</div>`;
   }
 
   document.getElementById('dos-cat').textContent = `${p.category.toUpperCase()} • PRESET ${p.preset_slot}`;
@@ -1084,17 +1107,17 @@ function selectStation(id) {
 
   document.getElementById('dos-origin-html').innerHTML = `
     <div><b>Galactic Sector:</b> <span style="color:var(--amber);">${p.galactic ? p.galactic.sector : p.origin.body}</span></div>
-    <div><b>Bearing from GOR-9:</b> <span style="color:var(--cyan);">Azimuth ${p.galactic ? p.galactic.azimuth_deg : 0}° • Plane Inclination ${p.galactic ? p.galactic.elevation_deg : 0}° • Range ${p.galactic ? p.galactic.range_label : p.origin.distance}</span></div>
-    <div><b>Transmitter Site:</b> ${p.origin.site} (${p.origin.coordinates})</div>
+    <div><b>Bearing from GOR-9:</b> <span style="color:var(--cyan);">Azimuth ${p.galactic ? p.galactic.azimuth_deg : 0}° • Inclination ${p.galactic ? p.galactic.elevation_deg : 0}° • ${p.galactic ? p.galactic.range_label : p.origin.distance}</span></div>
+    <div><b>Transmitter Site:</b> ${p.origin.site}</div>
     <div><b>Relay Path:</b> <span style="color:var(--green);">${p.rf.relay_path}</span></div>
   `;
 
   document.getElementById('dos-hw-html').innerHTML = `
     <div><b>Power Rating:</b> <span style="color:var(--amber);">${p.rf.tx_power_label}</span></div>
-    <div><b>Antenna:</b> ${p.rf.antenna}</div>
+    <div><b>Antenna System:</b> ${p.rf.antenna}</div>
     <div><b>GOR-9 Receive Array:</b> <span style="color:var(--cyan);">${p.hardware_dossier.receive_antenna_at_gor9}</span></div>
-    <div style="margin-top:4px;"><b>Transmitter Rig:</b> ${p.hardware_dossier.transmitter}</div>
-    <div style="margin-top:4px;color:var(--muted);"><b>Anomaly Note:</b> ${p.hardware_dossier.feedline_anomaly}</div>
+    <div><b>Transmitter Rig:</b> ${p.hardware_dossier.transmitter}</div>
+    <div><b>Embedded Clue:</b> <span style="color:var(--green);">${p.qsl.embedded_clue}</span></div>
   `;
 
   if (p.decoder) {

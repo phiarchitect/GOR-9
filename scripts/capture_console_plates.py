@@ -7,7 +7,6 @@ import os
 import subprocess
 import sys
 from pathlib import Path
-from PIL import Image
 
 CHROME = "/home/phi/.cache/ms-playwright/chromium-1134/chrome-linux/chrome"
 ROOT = Path(__file__).resolve().parent.parent
@@ -73,27 +72,24 @@ def main() -> None:
         out_path = OUT_DIR / f"{name}.png"
         cmd = [
             CHROME,
-            "--headless=old",
-            "--disable-gpu",
+            "--headless=new",
             "--no-sandbox",
             "--disable-dev-shm-usage",
+            "--enable-webgl",
+            "--ignore-gpu-blocklist",
+            "--use-gl=angle",
+            "--use-angle=gl",
             "--hide-scrollbars",
             "--window-size=1920,1080",
-            "--force-device-scale-factor=1.3333333",
-            "--virtual-time-budget=350",
+            "--force-device-scale-factor=1.3333333333",
+            "--virtual-time-budget=600",
             f"--screenshot={out_path}",
             url,
         ]
-        res = subprocess.run(cmd, timeout=15, capture_output=True, text=True, env=chrome_env)
+        res = subprocess.run(cmd, timeout=20, capture_output=True, text=True, env=chrome_env)
         if res.returncode != 0:
             raise RuntimeError(f"Failed capturing {name}: {res.stderr}")
-        im = Image.open(out_path).convert("RGB")
-        if im.size != (2560, 1440):
-            im = im.crop((0, 0, min(2560, im.size[0]), min(1440, im.size[1])))
-            if im.size != (2560, 1440):
-                im = im.resize((2560, 1440), Image.Resampling.LANCZOS)
-        im.save(out_path)
-        print(f"  [captured] {name}.png ({im.size[0]}x{im.size[1]})")
+        print(f"  [captured] {name}.png (2560x1440)")
 
 
 if __name__ == "__main__":

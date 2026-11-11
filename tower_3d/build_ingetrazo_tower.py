@@ -198,6 +198,7 @@ def capture_web_renders(repo_root: Path):
             ("cliff_compound", "web3d_04_cliff_compound.png"),
             ("operator_pov", "web3d_05_operator_booth_pov.png"),
             ("booth_wide", "web3d_06_booth_wide.png"),
+            ("lift_emerge", "web3d_07_lift_emerge_pov.png"),
         ]
         if browser_bin:
             for cam_key, fname in shots:

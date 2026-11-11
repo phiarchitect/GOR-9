@@ -1,0 +1,120 @@
+console: HAUSER MK-IV
+title: Hauser Dynamics MK-IV Wideband Barycentric DX Correlator — Fast-Paced 3-Act Console Tour
+g_id: 2736.305
+folio: GOR-9 • ASTEROID 3-5-1 • HAUSER MK-IV OPERATIONS
+url: docs/index.html
+
+=== act1_overview ===
+[bell:intro]
+
+[screen: S01_TELL_OVERVIEW | target: OVERVIEW]
+active: .gor9-console-frame
+symbolic: ACT I • CONSOLE OVERVIEW & EXPANDABLE BAYS
+say: [sfx:point] Here is the Hauser Mark Four—four core bays, each with an expandable theater display.
+
+[screen: S02_OVERVIEW_TUNER | target: TUNER_STRIP]
+active: .top-tuner-strip
+symbolic: BAY 1 • WIDEBAND TUNER & 4-MODE SPECTRUM MAPS
+say: [sfx:segment] Top bay: the Wideband Tuner scans six wavebands, four frequency maps, and expands full screen.
+
+[screen: S03_OVERVIEW_CORRELATOR | target: CORRELATOR_BAY]
+active: .workspace-grid > .bay-col:nth-child(1)
+symbolic: BAY 2 • VISUAL, PHASE & CIPHER CORRELATOR
+say: [sfx:circle] Left bay: the Correlator decodes live cameras, phase plots, and cipher cartridges, then pops open.
+
+[screen: S04_OVERVIEW_ASTROMETRY | target: ASTROMETRY_BAY]
+active: .workspace-grid > .bay-col:nth-child(2)
+symbolic: BAY 3 • GALACTIC ASTROMETRY & SINPO MATRIX
+say: [sfx:intersect] Center bay: Galactic Astrometry slews our phased-array beam, grades SINPO merit, and opens the Atlas.
+
+[screen: S05_OVERVIEW_EQSL | target: EQSL_BAY]
+active: .workspace-grid > .bay-col:nth-child(3)
+symbolic: BAY 4 • ROBOT-24 SSTV eQSL & DX MEMORY
+say: [sfx:concur] Right bay: the Verification Deck decodes slow-scan QSL cards and expands the hardware dossier.
+
+=== act2_tuner ===
+[bell:givens]
+
+[screen: S06_TUNER_PRESETS_BANDS | target: PRESETS_AND_BANDS]
+active: #rack-mod-presets
+symbolic: 6-CHANNEL PRESET BANK & WAVEBAND SELECTOR
+say: [sfx:point] Now let's operate the Tuner, jumping across ninety-meter cryo-scatter, octal relays, and hydrogen masers.
+
+[screen: S07_TUNER_DIAL_VERNIER | target: VFO_DIAL]
+active: #rack-mod-vfo
+symbolic: SLIDING BAND-PLAN DIAL & CRYSTAL FILTER
+say: [sfx:ratio] Spinning the vernier wheel slides the illuminated callsign scale and narrows the crystal passband filter.
+
+[screen: S08_TUNER_FREQ_MAPS | target: FREQ_MAPS]
+active: #rack-mod-waterfall
+symbolic: 4-MODE FREQUENCY MAPS • WATERFALL TO DOPPLER I/Q
+say: [sfx:conjugate] Next door, the frequency map cycles between spectrogram waterfall, band allocation, three-D ridges, and Doppler phase.
+
+[screen: S09_TUNER_MODAL_EXPAND | target: TUNER_MODAL]
+active: #tuner-modal .modal-card
+symbolic: EXPANDED WIDEBAND GALACTIC SPECTRUM SCANNER
+say: [sfx:concur] Expanding the Band-Plan Scanner displays all six wavebands alongside intermediate-frequency passband zoom and Doppler lock.
+
+=== act2_correlator ===
+[bell:construction]
+
+[screen: S10_CORRELATOR_VIDEO_EXPAND | target: VIDEO_CORRELATOR]
+active: #correlator-viewport-wrap
+symbolic: LIVE CAM-104 FEED & EXPANDED VISUAL THEATER
+say: [sfx:circle] In the Correlator Bay on Callisto, we lock live arc-camera video and expand the Visual Theater.
+
+[screen: S11_CORRELATOR_SPECTRUM_MASER | target: MASER_SPECTRUM]
+active: #correlator-viewport-wrap
+symbolic: 1420.406 MHz H-I MASER & 3:5 LISSAJOUS ROSE
+say: [sfx:ratio] Tuning the Triangulum beacon in Three-D Spectrum mode pairs the hydrogen maser spike with a Lissajous rose.
+
+[screen: S12_CORRELATOR_CIPHER_CARTRIDGES | target: CIPHER_CARTRIDGES]
+active: #alg-selector-row
+symbolic: CARTRIDGE MATRIX • ALG-01 FAULT → ALG-02 LOCK
+say: [sfx:intersect] On Trojan Octal frames, Algorithm One faults, while Algorithm Two locks and translates the Euclidean telemetry.
+
+[screen: S13_CORRELATOR_CIPHER_EXPAND_AUDIO | target: CIPHER_THEATER_AUDIO]
+active: #audio-audition-deck
+symbolic: EXPANDED CIPHER THEATER & SHORTWAVE ENVELOPE SCOPE
+say: [sfx:equal] We pop open the full Cipher Theater, then audition the voice intercept and interval signal on the scope.
+
+=== act2_astrometry_eqsl ===
+[bell:proof]
+
+[screen: S14_ASTROMETRY_BEAM_SINPO | target: BEAM_AND_SINPO]
+active: .workspace-grid > .bay-col:nth-child(2)
+symbolic: PHASED-ARRAY BEAM SLEW & 20-SEGMENT SINPO MATRIX
+say: [sfx:segment] In the Center Bay, tuning slews our phased-array beam while the twenty-segment S-meter and SINPO matrix lock.
+
+[screen: S15_ASTROMETRY_GALAXY_MODAL | target: GALAXY_MODAL]
+active: #galaxy-modal .modal-card
+symbolic: EXPANDED GALACTIC ASTROMETRY & CERES BASELINE ATLAS
+say: [sfx:concur] Expanding the Galactic Atlas reveals our Ceres Foundry parallax triangle, pulsar clock, and spiral-arm relay hops.
+
+[screen: S16_EQSL_SSTV_WIPE | target: SSTV_DECODE]
+active: .qsl-img-container
+symbolic: LIVE ROBOT-24 SSTV RASTER SCANLINE DECODE
+say: [sfx:circle] In the Right Bay, triggering a Robot-Twenty-Four slow-scan burst wipes down line by line to decode the QSL card.
+
+[screen: S17_EQSL_MODAL_AND_LOGS | target: QSL_MODAL_LOGS]
+active: #qsl-modal .modal-card
+symbolic: EXPANDED SSTV eQSL DOSSIER & DX MEMORY SLOTS
+say: [sfx:invariant] Expanding the QSL Dossier reveals the subcarrier clue, while the memory tabs below cycle verified operator logs.
+
+=== act3_recap ===
+[bell:outro]
+
+[screen: S18_RECAP_TUNER_CORRELATOR | target: RECAP_PART_1]
+active: .top-tuner-strip
+symbolic: ACT III RECAP • 6-BAND TUNER & MULTI-MODE CORRELATOR
+say: [sfx:equal] In summary: the Mark Four pairs a six-band tuner and four-mode spectrum map with an expandable correlator.
+
+[screen: S19_RECAP_ASTROMETRY_EQSL | target: RECAP_PART_2]
+active: .workspace-grid
+symbolic: ACT III RECAP • ASTROMETRY, SINPO & eQSL DOSSIERS
+say: [sfx:concur] And it unites galactic beam triangulation and SINPO grading with slow-scan e-QSL dossiers and full-screen modals.
+
+[screen: S20_RECAP_SIGNOFF | target: SIGNOFF]
+active: .gor9-console-frame
+symbolic: 73 DE GOR-9 • ASTEROID 3-5-1 • HAUSER MK-IV READY
+say: [sfx:qed] Four bays, four expandable theaters, one complete deep-space DX workstation—seventy-three from Galactic Outpost Radio Nine.

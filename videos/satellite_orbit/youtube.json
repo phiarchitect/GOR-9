@@ -1,0 +1,38 @@
+{
+  "short_code": "SAT-ORBIT",
+  "g_id": "2736.305",
+  "channel": "@GOR-9-station",
+  "categoryId": "24",
+  "privacyStatus": "unlisted",
+  "title_1080p": "GOR-9 \u2022 O.R.S. 351 Satellite Orbit Over Asteroid 3-5-1 (14,285.7 kHz USB \u2022 0400 GCT)",
+  "description": "One complete 360\u00b0 orbital reconnaissance pass of O.R.S. 351 (415m altitude) over the High Basalt Shelf and 50 kW Marzelvane Broadcast Spire on Asteroid 3-5-1 in Oort Cloud Sector 9.\n14,285.7 kHz Upper Sideband \u2022 Epoch 2736.305 \u2022 0400 Galactic Coordinated Time.\n\n0:00 High Basalt Shelf Acquisition & Orbital Burst #1 (3.00s)\n0:10 Deep-Space Terminator Pass & Orbital Burst #2 (13.00s)\n0:20 Perigee Downlink Lock & Orbital Burst #3 (23.00s)",
+  "tags": [
+    "GOR-9",
+    "Galactic Outpost Radio",
+    "Marzelvane",
+    "Shortwave",
+    "Sci-Fi"
+  ],
+  "files": {
+    "wide_1080p_mp4": "/home/phi/PROJECTS/phiarchitect/GOR-9/videos/satellite_orbit/gor9_satellite_orbit.mp4",
+    "thumbnail_16x9_png": "/home/phi/PROJECTS/phiarchitect/GOR-9/videos/satellite_orbit/gor9_satellite_orbit_thumb.jpg"
+  },
+  "uploads": {
+    "wide_1080p": {
+      "version": 1,
+      "video_id": "LxcZ4hhUrgg",
+      "url": "https://youtu.be/LxcZ4hhUrgg",
+      "studio_url": "https://studio.youtube.com/video/LxcZ4hhUrgg/edit",
+      "caption_id": null,
+      "playlist_id": null,
+      "playlist_item_id": null,
+      "privacyStatus": "public",
+      "uploaded_at": "2026-11-08T19:21:24.489089+00:00",
+      "thumbnail_set": true,
+      "updated_at": "2026-11-08T19:22:16.165859+00:00"
+    }
+  },
+  "history": {
+    "wide_1080p": []
+  }
+}

@@ -22,9 +22,30 @@
 /tower_3d/history/*.mtl
 /tower_3d/history/*.igz
 
+# Standalone video packages: frames, thumbnails, TTS cache, stage scratch & logs
+/videos/**/frames/
+/videos/**/test_frames/
+/videos/**/segments/
+/videos/**/stage.html
+/videos/**/*.png
+/videos/**/*.jpg
+/videos/**/*.webp
+/videos/**/*.log
+/videos/**/daemon.pid
+.tts_cache/
+/videos/**/.tts_cache/
+*.partial
+
+# Web console temporary clip frame caches
+/docs/assets/clips/_*_frames/
+
+# Blender backup files
+*.blend1
+
 # Python / OS cache
 __pycache__/
 *.py[cod]
 .DS_Store
+
 
 

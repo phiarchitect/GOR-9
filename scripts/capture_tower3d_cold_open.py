@@ -1,18 +1,22 @@
 #!/usr/bin/env python3
-"""Capture the 30fps GOR-9 Cold Open 3D Power-Up Sequence from `docs/tower-3d.html`
+"""Capture the 30fps GOR-9 Cold Open 3D Power-Up & Lift-to-Dashboard Sequence from `docs/tower-3d.html`
 without modifying `docs/tower-3d.html` on disk, and encode to 2560x1440 QHD MP4
-following the GEOMETOR VIDEO_PIPELINE.md specification.
+following the GEOMETOR VIDEO_PIPELINE.md and PHOTON Studio specifications.
 
 Choreography synced to `episodes/ep01_2736.305_parallelogram/audio/cam00_cold_open_mix.wav` (21.62s):
   1. 0.00s - 0.35s : Dark Station in deep-space starfield (Tower, Sign, Marzelvane, and Booth OFF)
   2. 0.35s - 1.20s : Station Power-Up — Base Compound (Reactor #2, Habitat, Pad Beacons) & Tower Climb Spine [L]
-  3. 0.85s - 2.45s : Vertical 3D 'G / O / R / ◎ / 9' Sign Animates (G -> O -> R -> ◎ -> 9 -> ALL LIT) [S]
-  4. 2.35s - 3.45s : Marzelvane Power On — 4 concentric rings energize from dark steel to Cherenkov cyan
-  5. 3.45s - 4.10s : Broadcast Booth 'ON AIR' Crimson Lights strike on [A]
-  6. 4.18s - 10.98s: Marzelvane Burst synced 1:1 to the 1B C-Lydian Opening Chime:
+  3. 0.85s - 2.35s : Vertical 3D 'G / O / R / ◎ / 9' Sign Animates (G -> O -> R -> ◎ -> 9 -> ALL LIT) [S]
+  4. 2.35s - 3.35s : Marzelvane Power On — 4 concentric rings energize from dark steel to Cherenkov cyan
+  5. 3.45s - 3.95s : Broadcast Booth 'ON AIR' Crimson Lights strike on [A]
+  6. 4.18s - 9.18s : 30.00 fps Marzelvane Burst synced 1:1 to the 1B C-Lydian Opening Chime:
                      Ring 1 (4.18s C4) -> Ring 2 (4.38s G4) -> Ring 3 (4.58s D5) -> Ring 4 (4.78s F#5)
-                     -> Spire Lock & Expanding Barycentric Shockwave Burst (5.02s G5 chord + 5.25s sustain)
-  7. 13.60s - 21.62s: Interior Cut to the Crimson ON-AIR Broadcast Booth (`booth_wide` -> `operator_pov`)
+                     -> Spire Lock & Expanding Barycentric Shockwave Burst (5.02s G5 chord + sustain)
+  7. 9.18s - 11.20s: Full Station On-Air Below-Cliff Hero Hold
+  8. 11.20s - 21.62s: Hard-Cut into the North-facing Central Lift Tube at +26.0m (`lift_emerge`, d = 4.45m),
+                     then a continuous 30.00 fps glide leaving the lift, passing the swiveled Broadcast Stool
+                     (`operator_pov`, d = 2.08m), and tilting perpendicular (0.18 rad) into the 16:9
+                     Master Show Director HUD Dashboard (`cold_open_final`, d = 1.36m, fov = 48°).
 """
 
 from __future__ import annotations
@@ -31,9 +35,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 DOCS_DIR = ROOT / "docs"
 EP_DIR = ROOT / "episodes" / "ep01_2736.305_parallelogram"
-COLD_OPEN_WAV = EP_DIR / "audio" / "cam00_cold_open_mix.wav"
-FRAMES_DIR = EP_DIR / "frames_cold_open_3d"
-OUT_COLD_OPEN_MP4 = EP_DIR / "gor9_cold_open_tower3d.mp4"
+VIDEO_DIR = ROOT / "videos" / "cold_open"
+SRC_COLD_OPEN_WAV = EP_DIR / "audio" / "cam00_cold_open_mix.wav"
+COLD_OPEN_WAV = VIDEO_DIR / "cold_open.wav"
+FRAMES_DIR = VIDEO_DIR / "frames"
+OUT_COLD_OPEN_MP4 = VIDEO_DIR / "gor9_cold_open.mp4"
+OUT_COLD_OPEN_1080P_MP4 = VIDEO_DIR / "cold_open_1080p.mp4"
+OUT_COLD_OPEN_THUMB = VIDEO_DIR / "gor9_cold_open_thumb.jpg"
 
 
 INJECTED_CAPTURE_JS = r"""
@@ -41,6 +49,7 @@ INJECTED_CAPTURE_JS = r"""
     // IN-MEMORY DETERMINISTIC 30FPS BROADCAST COLD-OPEN CAPTURE ENGINE
     // (Served dynamically without modifying docs/tower-3d.html on disk)
     // ═════════════════════════════════════════════════════════════════
+    let _lastShowHudIdx = -1;
     function setStationStateAtTime(t, dt) {
       // Hide HTML HUD overlays for clean full-bleed 16:9 cinema capture
       const topNav = document.querySelector('.top-nav');
@@ -52,14 +61,48 @@ INJECTED_CAPTURE_JS = r"""
       const hudB = document.getElementById('hud-bottom');
       if (hudB) hudB.style.display = 'none';
 
-      // ── 0. CAMERA CHOREOGRAPHY (FIXED DRAMATIC VIEW FROM BELOW THE CLIFFS LOOKING UP) ──
-      // Elevated slightly (y = +12.5m at r = 104m) so the sightline to the '9' slot (+31.8m)
-      // clears the octagonal Broadcast Booth roof (+29.0m) with clean separation while keeping
-      // the newly textured stepped basalt asteroid cliffs prominent across the bottom foreground
-      camera.position.set(86.0, 12.5, 59.0);
-      controls.target.set(-2.0, 33.5, 0.0);
-      camera.fov = 56.0;
+      // ── 0. CAMERA CHOREOGRAPHY ──
+      // Act I (0.00s .. 11.20s): Fixed dramatic view from below the basalt cliffs looking up
+      // Act II (11.20s .. 21.62s): Hard-cut into the North-facing Central Lift Tube at +26.0m (`lift_emerge`),
+      //   holding 0.90s (11.20s .. 12.10s) inside the crimson lift portal, then gliding smoothly at 30fps
+      //   (12.10s .. 19.60s) past the swiveled Broadcast Stool (`operator_pov`, d = 2.08m) to `cold_open_final`
+      //   (`d = 1.36m`, `tilt = HERO_SCREEN_TILT = 0.18 rad`, `fov = 48.0°`) 100% perpendicular to the
+      //   16:9 Master Show Director HUD screen!
+      if (t < 11.20) {
+        camera.position.set(78.0, -14.0, 54.0);
+        controls.target.set(-2.0, 32.5, 0.0);
+        camera.fov = 56.0;
+      } else {
+        const u = smoothstep(12.10, 19.60, t);
+        const curDist = COLD_OPEN_DIST_START * (1.0 - u) + COLD_OPEN_DIST_END * u;
+        const curTilt = COLD_OPEN_TILT_START * (1.0 - u) + COLD_OPEN_TILT_END * u;
+        const curFov = 58.0 * (1.0 - u) + 48.0 * u;
+        camera.fov = curFov;
+        camera.position.set(
+          HERO_SCREEN_CENTER.x,
+          HERO_SCREEN_CENTER.y + curDist * Math.sin(curTilt),
+          HERO_SCREEN_CENTER.z + curDist * Math.cos(curTilt)
+        );
+        controls.target.copy(HERO_SCREEN_CENTER);
+      }
       camera.updateProjectionMatrix();
+
+      // Update the live 16:9 Master Show Director HUD canvas (`renderBroadcastShowDashboard`)
+      // and perimeter console screens on interior beats without overwriting Bay 0's `showHudTex`!
+      const cState = t < 13.80 ? 0 : (t < 16.50 ? 1 : (t < 19.20 ? 2 : (t < 20.60 ? 3 : 0)));
+      if (_lastShowHudIdx !== cState && typeof renderBroadcastShowDashboard === 'function') {
+        _lastShowHudIdx = cState;
+        renderBroadcastShowDashboard(cState);
+      }
+      CONSOLE_BAYS.forEach((bay, bIdx) => {
+        if (bay.machineType === 'broadcast_cockpit_3screen') return;
+        const idx = (bIdx + cState) % bay.screens.length;
+        if (bay.screenStateIdx !== idx && bay.screenTextures && bay.screenTextures[idx] && bay.screenMat) {
+          bay.screenStateIdx = idx;
+          bay.screenMat.map = bay.screenTextures[idx];
+          bay.screenMat.needsUpdate = true;
+        }
+      });
 
       // ── 1. DARK STATION -> BASE COMPOUND & TOWER SPINE POWER-UP (t = 0.35s .. 1.20s) ──
       const pTower = smoothstep(0.35, 1.20, t);
@@ -355,6 +398,76 @@ INJECTED_CAPTURE_JS = r"""
       deskFillLight.intensity = 3.8 * pOnAir;
       boothBeaconLight.intensity = 12.0 * pOnAir;
 
+      // ── 5. O.R.S. 351 ORBIT, VAN ALLEN STROBES & ASTEROID 3-5-1 SIDEREAL SKY SPIN ──
+      const satPhase = t * 0.055;
+      ors351Sat.position
+        .copy(satOrbitCenter)
+        .addScaledVector(satOrbitU1, satOrbitR * Math.cos(satPhase))
+        .addScaledVector(satOrbitU2, satOrbitR * Math.sin(satPhase));
+      ors351Sat.lookAt(satOrbitCenter);
+      ors351Sat.updateMatrixWorld(true);
+
+      const blinkSlot = Math.floor(t * 1.25) % 2;
+      const cyanOn = blinkSlot === 0 ? 1.0 : 0.0;
+      const amberOn = blinkSlot === 1 ? 1.0 : 0.0;
+      if (cyanOn > 0.5) {
+        satCyanBeaconMat.color.setHex(0x38e8ff);
+        satAmberBeaconMat.color.setHex(0x221608);
+      } else {
+        satCyanBeaconMat.color.setHex(0x0a1e24);
+        satAmberBeaconMat.color.setHex(0xffaa2b);
+      }
+      orbitalSatellites.forEach((sat) => {
+        const distToCam = camera.position.distanceTo(sat.group.position);
+        const isDistantBoothView = distToCam > 60.0;
+        const bodyDistFactor = isDistantBoothView
+          ? Math.min(3.4, 1.15 + (distToCam - 60.0) * 0.008)
+          : 0.70;
+        const towerFacingDistFactor = isDistantBoothView
+          ? Math.min(7.8, 2.4 + (distToCam - 60.0) * 0.022)
+          : 0.58;
+        sat.cyanFlares.forEach((fl) => {
+          const df = fl.isTowerFacing ? towerFacingDistFactor : bodyDistFactor;
+          const s = fl.baseScale * df;
+          fl.sprite.scale.set(s, s, 1.0);
+          fl.mat.opacity = (fl.isTowerFacing ? (isDistantBoothView ? 0.90 : 0.34) : 0.48) * cyanOn;
+        });
+        sat.amberFlares.forEach((fl) => {
+          const df = fl.isTowerFacing ? towerFacingDistFactor : bodyDistFactor;
+          const s = fl.baseScale * df;
+          fl.sprite.scale.set(s, s, 1.0);
+          fl.mat.opacity = (fl.isTowerFacing ? (isDistantBoothView ? 0.90 : 0.34) : 0.48) * amberOn;
+        });
+        sat.amberLights[0].intensity = 2.6 * amberOn;
+        sat.amberLights[1].intensity = 1.8 * amberOn;
+        sat.cyanLights[0].intensity = 2.6 * cyanOn;
+        sat.cyanLights[1].intensity = 1.8 * cyanOn;
+      });
+
+      const ASTEROID_SPIN_RATE = 0.015; // rad/s
+      const spinAngle = t * ASTEROID_SPIN_RATE;
+      skyGroup.rotation.y = -spinAngle;
+      skyGroup.rotation.x = 0.038 * Math.sin(spinAngle * 0.5);
+
+      const starMapUVShift = ((spinAngle / (Math.PI * 2.0)) % 1.0 + 1.0) % 1.0;
+      starMapPanTextures.forEach((stTex) => {
+        stTex.offset.x = starMapUVShift;
+      });
+      if (armillarySpinGroup) {
+        armillarySpinGroup.rotation.y = -spinAngle * 2.4;
+      }
+      driftingAsteroids.forEach((a, idx) => {
+        a.mesh.rotation.x = idx * 0.7 + t * a.rx * 30.0;
+        a.mesh.rotation.y = idx * 1.3 + t * a.ry * 30.0;
+      });
+
+      controls.enableDamping = false;
+      if (renderer.domElement.width !== 2560 || renderer.domElement.height !== 1440) {
+        renderer.setPixelRatio(1);
+        renderer.setSize(2560, 1440, false);
+      }
+      camera.aspect = 2560 / 1440;
+      camera.updateProjectionMatrix();
       controls.update();
       renderer.render(scene, camera);
     }
@@ -363,7 +476,8 @@ INJECTED_CAPTURE_JS = r"""
       const params = new URLSearchParams(window.location.search);
       const fps = parseFloat(params.get('fps') || '30');
       const duration = parseFloat(params.get('dur') || '21.62');
-      const testTimesStr = params.get('test_times');
+      const workerId = params.get('wid') || '0';
+      const pairsStr = params.get('pairs');
 
       // Wait for all Three.js textures (basalt PBR maps, sky dome, console screens) to finish loading
       await new Promise((resolve) => {
@@ -377,6 +491,7 @@ INJECTED_CAPTURE_JS = r"""
         THREE.DefaultLoadingManager.onLoad = done;
         setTimeout(done, 2400);
       });
+      _lastShowHudIdx = -1;
 
       // Upgrade shockwave rings & discharge sphere to high-segment smooth geometry for 30fps radiation
       marzelShockwaves.forEach((sw) => {
@@ -386,22 +501,41 @@ INJECTED_CAPTURE_JS = r"""
       burstSphereMesh.geometry.dispose();
       burstSphereMesh.geometry = new THREE.SphereGeometry(1.0, 64, 48);
 
-      // Force exact 1920x1080 (16:9) WebGL canvas dimensions regardless of headless window chrome
+      const capW = parseInt(params.get('w') || '2560', 10);
+      const capH = parseInt(params.get('h') || '1440', 10);
+
+      // Force exact 2560x1440 (16:9 QHD) WebGL canvas dimensions regardless of headless window chrome
       renderer.setPixelRatio(1);
-      renderer.setSize(1920, 1080, false);
-      camera.aspect = 1920 / 1080;
+      renderer.setSize(capW, capH, false);
+      camera.aspect = capW / capH;
       camera.updateProjectionMatrix();
 
-      const dt = 1.0 / fps;
-      if (testTimesStr) {
-        const times = testTimesStr.split(',').map((s) => parseFloat(s));
-        for (let i = 0; i < times.length; i++) {
-          const t = times[i];
-          setStationStateAtTime(t, dt);
-          const blob = await new Promise((res) => renderer.domElement.toBlob(res, 'image/png'));
-          await fetch(`/__frame/${i}`, { method: 'POST', body: blob });
+      const gl = renderer.getContext();
+      const pixelBuf = new Uint8Array(capW * capH * 4);
+      async function sendFrame(actualIdx) {
+        gl.finish();
+        gl.readPixels(0, 0, capW, capH, gl.RGBA, gl.UNSIGNED_BYTE, pixelBuf);
+        for (let att = 0; att < 5; att++) {
+          try {
+            const resp = await fetch(`/__raw_rgba/${actualIdx}`, { method: 'POST', body: pixelBuf });
+            if (resp.ok) break;
+          } catch (err) {}
+          await new Promise((r) => setTimeout(r, 60));
         }
-        await fetch('/__done', { method: 'POST' });
+      }
+
+      const dt = 1.0 / fps;
+      if (pairsStr) {
+        const items = pairsStr.split(',');
+        await fetch('/__js_log', { method: 'POST', body: `wid=${workerId} starting ${items.length} frames at ${capW}x${capH}` });
+        for (let i = 0; i < items.length; i++) {
+          const [idxStr, tStr] = items[i].split(':');
+          const actualIdx = parseInt(idxStr, 10);
+          const t = parseFloat(tStr);
+          setStationStateAtTime(t, dt);
+          await sendFrame(actualIdx);
+        }
+        await fetch(`/__done/${workerId}`, { method: 'POST' });
         return;
       }
 
@@ -409,32 +543,48 @@ INJECTED_CAPTURE_JS = r"""
       for (let f = 0; f < totalFrames; f++) {
         const t = f / fps;
         setStationStateAtTime(t, dt);
-        const blob = await new Promise((res) => renderer.domElement.toBlob(res, 'image/png'));
-        await fetch(`/__frame/${f}`, { method: 'POST', body: blob });
+        await sendFrame(f);
       }
-      await fetch('/__done', { method: 'POST' });
+      await fetch(`/__done/${workerId}`, { method: 'POST' });
     }
 
-    runColdOpenCapture();
+    runColdOpenCapture().catch((err) => {
+      fetch('/__js_log', { method: 'POST', body: 'JS_ERR: ' + String((err && err.stack) || err) });
+    });
 """
 
 
-def _build_cold_open_concat_steps() -> list[tuple[float, float, str]]:
-    """Build 30.00 fps steps across the active power-up, sign sequence, and radiating
-    Marzelvane burst (0.35s .. 9.05s) so the burst radiates smoothly at 30fps without stutter,
-    followed by a single lossless hold frame for the steady state (9.05s .. 21.62s).
+def _rgba_bottom_up_to_png_bytes(data: bytes, width: int, height: int) -> bytes:
+    """Convert bottom-up WebGL RGBA bytes into a valid lossless PNG in ~20ms using stdlib zlib."""
+    import struct
+    import zlib
+
+    row_bytes = width * 4
+    scanlines = b"".join(
+        b"\x00" + data[(height - 1 - y) * row_bytes : (height - y) * row_bytes]
+        for y in range(height)
+    )
+    ihdr = struct.pack(">IIBBBBB", width, height, 8, 6, 0, 0, 0)
+    idat = zlib.compress(scanlines, level=1)
+
+    def _chunk(tag: bytes, payload: bytes) -> bytes:
+        crc = zlib.crc32(tag + payload) & 0xFFFFFFFF
+        return struct.pack(">I", len(payload)) + tag + payload + struct.pack(">I", crc)
+
+    return b"\x89PNG\r\n\x1a\n" + _chunk(b"IHDR", ihdr) + _chunk(b"IDAT", idat) + _chunk(b"IEND", b"")
+
+
+def _build_cold_open_concat_steps(total_dur: float = 21.62, fps: int = 30) -> list[tuple[float, float, str]]:
+    """Build full 30.00 fps Cold Open frame steps (649 frames at 1/30s = 21.62s)
+    so that Asteroid 3-5-1's sidereal starfield spin, O.R.S. 351's orbit, the Marzelvane burst,
+    and the Lift-to-Dashboard glide all animate continuously at 30.00 fps on both static and moving shots.
     """
-    steps: list[tuple[float, float, str]] = [
-        (0.15, 0.35, "000: Dark station in deep-space starlight"),
-    ]
-    fps = 30.0
-    dt = 1.0 / fps
-    num_active_frames = 261  # 261 * (1/30s) = 8.70s -> covers t = 0.35s .. 9.05s at true 30fps
-    for i in range(num_active_frames):
-        t_sample = round(0.35 + i * dt, 5)
-        steps.append((t_sample, round(dt, 6), f"30fps active frame {i + 1:03d} (t={t_sample:.3f}s)"))
-    # Remaining steady state hold from 9.05s to 21.62s (12.57s)
-    steps.append((9.25, 12.57, "262: Full Station On-Air Below-Cliff Hero Hold"))
+    n_frames = int(round(total_dur * fps))
+    dt = 1.0 / float(fps)
+    steps: list[tuple[float, float, str]] = []
+    for f in range(n_frames):
+        t_sample = round(f * dt, 5)
+        steps.append((t_sample, round(dt, 6), f"Cold Open 30fps frame {f:04d} (t={t_sample:.3f}s)"))
     return steps
 
 
@@ -462,38 +612,40 @@ def capture_sequence(
     out_dir: Path,
     fps: int = 30,
     duration: float = 21.62,
-    width: int = 1920,
-    height: int = 1080,
+    width: int = 2560,
+    height: int = 1440,
     test_times: list[float] | None = None,
-    clean: bool = False,
+    clean: bool = True,
+    workers: int = 4,
+    time_budget: float = 0.0,
 ) -> list[Path]:
+    import time
+
+    t_global_start = time.monotonic()
+    subprocess.run(["pkill", "-9", "-f", "gor9_coldopen_w"], check=False)
     if clean and out_dir.exists():
         shutil.rmtree(out_dir, ignore_errors=True)
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    if test_times is not None:
-        missing_pairs = [
-            (idx, t)
-            for idx, t in enumerate(test_times)
-            if not (out_dir / f"frame_{idx:04d}.png").exists()
-        ]
-        if not missing_pairs:
-            print(f"  [tower-3d capture] All {len(test_times)} frames already present in {out_dir}")
-            return [out_dir / f"frame_{i:04d}.png" for i in range(len(test_times))]
-    else:
-        missing_pairs = None
-
-    done_event = threading.Event()
-    received_count = 0
-    expected_count = len(missing_pairs) if missing_pairs is not None else int(round(duration * fps))
+    times_list = test_times if test_times is not None else [f / float(fps) for f in range(int(round(duration * fps)))]
 
     # Read docs/tower-3d.html dynamically into memory without touching the file on disk
+    # and disable window.addEventListener('resize' so headless Chromium window chrome never resizes the canvas.
     raw_html = (DOCS_DIR / "tower-3d.html").read_text(encoding="utf-8")
+    raw_html = raw_html.replace(
+        "window.addEventListener('resize'",
+        "window.addEventListener('__disabled_resize'",
+    )
     target_anchor = "    animate();\n  </script>"
     if target_anchor not in raw_html:
         target_anchor = "animate();"
     injected_html = raw_html.replace(target_anchor, INJECTED_CAPTURE_JS + "\n  </script>", 1)
     injected_bytes = injected_html.encode("utf-8")
+
+    lock = threading.Lock()
+    existing_initial = sum(1 for idx in range(len(times_list)) if (out_dir / f"frame_{idx:04d}.png").exists())
+    received_count = existing_initial
+    done_workers: set[str] = set()
 
     class CaptureRequestHandler(http.server.SimpleHTTPRequestHandler):
         def __init__(self, *args, **kwargs):
@@ -514,25 +666,48 @@ def capture_sequence(
 
         def do_POST(self):
             nonlocal received_count
-            if self.path.startswith("/__frame/"):
-                raw_idx = int(self.path.split("/__frame/")[1])
-                actual_idx = missing_pairs[raw_idx][0] if missing_pairs is not None else raw_idx
+            if self.path.startswith("/__js_log"):
                 length = int(self.headers.get("Content-Length", "0"))
-                data = self.rfile.read(length)
-                frame_path = out_dir / f"frame_{actual_idx:04d}.png"
-                frame_path.write_bytes(data)
-                received_count += 1
-                if received_count % 10 == 0 or received_count == expected_count:
-                    print(f"  [tower-3d capture] {received_count}/{expected_count} frames (saved frame_{actual_idx:04d}.png)")
+                msg = self.rfile.read(length).decode("utf-8", errors="replace")
+                print(f"  [JS] {msg}", flush=True)
                 self.send_response(200)
+                self.send_header("Content-Length", "2")
                 self.end_headers()
                 self.wfile.write(b"OK")
                 return
-            if self.path.startswith("/__done"):
-                self.send_response(200)
-                self.end_headers()
-                self.wfile.write(b"DONE")
-                done_event.set()
+            if self.path.startswith("/__raw_rgba/"):
+                actual_idx = int(self.path.split("/__raw_rgba/")[1])
+                length = int(self.headers.get("Content-Length", "0"))
+                data = self.rfile.read(length)
+                png_bytes = _rgba_bottom_up_to_png_bytes(data, width, height)
+                frame_path = out_dir / f"frame_{actual_idx:04d}.png"
+                frame_path.write_bytes(png_bytes)
+                with lock:
+                    received_count += 1
+                    rc = received_count
+                if rc % 5 == 0 or rc == len(times_list):
+                    print(f"  [tower-3d capture] {rc}/{len(times_list)} frames (saved frame_{actual_idx:04d}.png)", flush=True)
+                try:
+                    self.send_response(200)
+                    self.send_header("Content-Length", "2")
+                    self.send_header("Connection", "close")
+                    self.end_headers()
+                    self.wfile.write(b"OK")
+                except BrokenPipeError:
+                    pass
+                return
+            if self.path.startswith("/__done/"):
+                wid = self.path.split("/__done/")[1]
+                with lock:
+                    done_workers.add(wid)
+                try:
+                    self.send_response(200)
+                    self.send_header("Content-Length", "4")
+                    self.send_header("Connection", "close")
+                    self.end_headers()
+                    self.wfile.write(b"DONE")
+                except BrokenPipeError:
+                    pass
                 return
             self.send_response(404)
             self.end_headers()
@@ -541,172 +716,295 @@ def capture_sequence(
         allow_reuse_address = True
         daemon_threads = True
 
+    chrome_bin = find_chrome_binary()
+
     with ThreadedTCPServer(("127.0.0.1", 0), CaptureRequestHandler) as httpd:
         port = httpd.server_address[1]
         server_thread = threading.Thread(target=httpd.serve_forever, daemon=True)
         server_thread.start()
 
-        q = f"fps={fps}&dur={duration:.3f}"
-        if missing_pairs is not None:
-            q += "&test_times=" + ",".join(f"{t:.5f}" for _, t in missing_pairs)
-        url = f"http://127.0.0.1:{port}/__capture_cold_open.html?{q}"
+        # Loop until all frames are present on disk (resumes automatically if any worker stalls)
+        for pass_num in range(10):
+            if time_budget > 0.0 and (time.monotonic() - t_global_start) >= time_budget - 3.0:
+                break
+            missing_pairs = [
+                (idx, t)
+                for idx, t in enumerate(times_list)
+                if not (out_dir / f"frame_{idx:04d}.png").exists()
+            ]
+            if not missing_pairs:
+                break
 
-        chrome_bin = find_chrome_binary()
-        tmp_profile = Path(f"/tmp/gor9_tower3d_chrome_{os.getpid()}")
-        tmp_profile.mkdir(parents=True, exist_ok=True)
+            n_workers = min(workers, len(missing_pairs))
+            chunks = [missing_pairs[w::n_workers] for w in range(n_workers)]
+            print(
+                f"Launching {n_workers} parallel WebGL workers (pass {pass_num + 1}) "
+                f"for {len(missing_pairs)} missing frames at {width}x{height}...",
+                flush=True,
+            )
+            with lock:
+                done_workers.clear()
 
-        cmd = [
-            chrome_bin,
-            "--headless=new",
-            f"--user-data-dir={tmp_profile}",
-            "--no-sandbox",
-            "--disable-dev-shm-usage",
-            "--enable-webgl",
-            "--ignore-gpu-blocklist",
-            "--use-gl=angle",
-            "--use-angle=swiftshader",
-            "--hide-scrollbars",
-            "--force-device-scale-factor=1",
-            f"--window-size={width},{height + 160}",
-            url,
-        ]
-        print(f"Launching headless WebGL capture ({width}x{height}) for {expected_count} frames")
-        proc = subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        try:
-            done_event.wait(timeout=1200)
-        finally:
-            proc.terminate()
-            try:
-                proc.wait(timeout=5)
-            except subprocess.TimeoutExpired:
-                proc.kill()
-            shutil.rmtree(tmp_profile, ignore_errors=True)
-            httpd.shutdown()
-    if test_times is not None:
-        return [out_dir / f"frame_{i:04d}.png" for i in range(len(test_times))]
-    return sorted(out_dir.glob("frame_*.png"))
+            procs: list[tuple[subprocess.Popen, Path]] = []
+            win_h = max(height + 120, 1560)
+            for w, chunk in enumerate(chunks):
+                wid = str(w)
+                pairs_q = ",".join(f"{idx}:{t:.5f}" for idx, t in chunk)
+                url = (
+                    f"http://127.0.0.1:{port}/__capture_cold_open.html"
+                    f"?fps={fps}&dur={duration:.3f}&w={width}&h={height}&wid={wid}&pairs={pairs_q}"
+                )
+                tmp_profile = Path(f"/tmp/gor9_coldopen_w{w}_{os.getpid()}")
+                tmp_profile.mkdir(parents=True, exist_ok=True)
+                cmd = [
+                    chrome_bin,
+                    "--headless=new",
+                    f"--user-data-dir={tmp_profile}",
+                    "--no-sandbox",
+                    "--disable-dev-shm-usage",
+                    "--enable-webgl",
+                    "--ignore-gpu-blocklist",
+                    "--use-gl=angle",
+                    "--use-angle=swiftshader",
+                    "--hide-scrollbars",
+                    "--force-device-scale-factor=1",
+                    f"--window-size={width},{win_h}",
+                    url,
+                ]
+                proc = subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                procs.append((proc, tmp_profile))
+
+            t0 = time.monotonic()
+            max_wait = (time_budget - (t0 - t_global_start)) if time_budget > 0.0 else 600.0
+            while time.monotonic() - t0 < max_wait:
+                with lock:
+                    if len(done_workers) >= n_workers:
+                        break
+                if all(p.poll() is not None for p, _ in procs):
+                    break
+                time.sleep(0.3)
+
+            subprocess.run(["pkill", "-9", "-f", "gor9_coldopen_w"], check=False)
+            for proc, tmp_profile in procs:
+                try:
+                    proc.wait(timeout=1)
+                except subprocess.TimeoutExpired:
+                    proc.kill()
+                shutil.rmtree(tmp_profile, ignore_errors=True)
+
+            if time_budget > 0.0 and (time.monotonic() - t_global_start) >= time_budget - 2.0:
+                break
+
+        httpd.shutdown()
+
+    return [out_dir / f"frame_{i:04d}.png" for i in range(len(times_list))]
 
 
-def assemble_concat_qhd_mp4(
-    slide_pngs: list[Path],
-    durations: list[float],
+def encode_qhd_mp4_from_frames(
+    frames_dir: Path,
     audio_wav: Path,
     out_mp4: Path,
+    duration: float,
+    fps: int = 30,
 ) -> None:
-    """Assemble QHD MP4 using the exact -f concat pipeline from shorts.py (elements & etc)."""
-    concat_file = out_mp4.parent / f"_{out_mp4.stem}_concat.txt"
-    lines = []
-    total_dur = 0.0
-    for png, dur in zip(slide_pngs, durations):
-        d = max(0.01, dur)
-        total_dur += d
-        lines.append(f"file '{png.resolve()}'")
-        lines.append(f"duration {d:.6f}")
-    lines.append(f"file '{slide_pngs[-1].resolve()}'")
-    concat_file.write_text("\n".join(lines) + "\n", encoding="utf-8")
-
+    """Encode native 2560x1440 30.00 fps PNG sequence + WAV audio to QHD High@L5.1 MP4."""
+    out_mp4.parent.mkdir(parents=True, exist_ok=True)
     cmd = [
         "/usr/bin/ffmpeg",
         "-y",
-        "-f",
-        "concat",
-        "-safe",
+        "-framerate",
+        str(fps),
+        "-start_number",
         "0",
         "-i",
-        str(concat_file),
+        str(frames_dir / "frame_%04d.png"),
         "-i",
         str(audio_wav),
-        "-c:a",
-        "aac",
-        "-ar",
-        "48000",
-        "-ac",
-        "2",
-        "-b:a",
-        "192k",
-        "-shortest",
-        "-t",
-        f"{total_dur:.3f}",
-        "-vf",
-        "fps=30,scale=2560:1440:flags=lanczos,setsar=1:1,format=yuv420p",
-        "-vsync",
-        "cfr",
-        "-r",
-        "30",
-        "-c:v",
-        "libx264",
-        "-preset",
-        "fast",
-        "-profile:v",
-        "high",
-        "-level:v",
-        "5.1",
-        "-crf",
-        "18",
-        "-maxrate",
-        "16M",
-        "-bufsize",
-        "32M",
-        "-g",
-        "90",
-        "-keyint_min",
-        "90",
-        "-sc_threshold",
-        "0",
-        "-bf",
-        "2",
-        "-flags",
-        "+cgop",
-        "-colorspace",
-        "bt709",
-        "-color_primaries",
-        "bt709",
-        "-color_trc",
-        "bt709",
-        "-color_range",
-        "tv",
-        "-movflags",
-        "+faststart",
         str(out_mp4),
     ]
     subprocess.run(cmd, check=True)
-    print(f"Encoded 2560x1440 QHD High@L5.1 MP4 -> {out_mp4}")
+    print(f"Encoded 2560x1440 MP4 (direct ffmpeg) -> {out_mp4}", flush=True)
+
+
+def ensure_youtube_json(video_dir: Path) -> Path:
+    import json
+
+    yt_path = video_dir / "youtube.json"
+    if not yt_path.exists():
+        meta = {
+            "short_code": "COLD-OPEN",
+            "g_id": "2736.305",
+            "channel": "@GOR-9-station",
+            "categoryId": "24",
+            "privacyStatus": "unlisted",
+            "title_1080p": "GOR-9 • Galactic Outpost Radio: High Basalt Shelf Tower Cold Open (14,285.7 kHz USB • 0400 GCT)",
+            "description": (
+                "This is GOR-9. Galactic Outpost Radio, broadcasting at 50 kilowatts from the High Basalt Shelf Tower "
+                "on Asteroid 3-5-1, 42,100 AU out in Oort Cloud Sector 9.\n"
+                "14,285.7 kHz Upper Sideband • Epoch 2736.305 • 0400 Galactic Coordinated Time.\n\n"
+                "0:00 Station Power-Up & Vertical GOR-9 Sign Ignition\n"
+                "0:04 4-Ring Marzelvane Cherenkov Burst & 1B C-Lydian Signal Lock\n"
+                "0:11 Central Lift Tube Emerge & Octagonal Broadcast Deck Glide"
+            ),
+            "tags": [
+                "GOR-9",
+                "Galactic Outpost Radio",
+                "Marzelvane",
+                "Shortwave",
+                "Sci-Fi",
+            ],
+            "files": {
+                "wide_1080p_mp4": str(OUT_COLD_OPEN_MP4),
+                "thumbnail_16x9_png": str(OUT_COLD_OPEN_THUMB),
+            },
+            "uploads": {},
+            "history": {},
+        }
+        yt_path.write_text(json.dumps(meta, indent=2) + "\n", encoding="utf-8")
+    return yt_path
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Capture GOR-9 Cold Open from docs/tower-3d.html")
+    import sys
+
+    parser = argparse.ArgumentParser(description="Capture GOR-9 Cold Open in native 2560x1440 QHD to videos/cold_open/")
     parser.add_argument("--test-frames", action="store_true", help="Capture 6 diagnostic keyframes only")
-    parser.add_argument("--width", type=int, default=1920, help="WebGL render width (upscaled with lanczos to 2560)")
-    parser.add_argument("--height", type=int, default=1080, help="WebGL render height (upscaled with lanczos to 1440)")
+    parser.add_argument("--width", type=int, default=2560, help="Native WebGL render width (default: 2560)")
+    parser.add_argument("--height", type=int, default=1440, help="Native WebGL render height (default: 1440)")
+    parser.add_argument("--workers", type=int, default=3, help="Parallel headless Chromium workers")
+    parser.add_argument("--time-budget", type=float, default=0.0, help="Optional max seconds to run before saving progress and exiting cleanly")
+    parser.add_argument("--no-clean", action="store_true", help="Resume without wiping existing frames")
+    parser.add_argument("--encode-only", action="store_true", help="Re-encode MP4 from existing frames in videos/cold_open/frames/")
+    parser.add_argument("--daemon", action="store_true", help="Spawn continuous background render job writing to videos/cold_open/render.log")
+    parser.add_argument("--status", action="store_true", help="Check progress of videos/cold_open/ frames and render.log")
+    parser.add_argument(
+        "--replace-range",
+        type=str,
+        default=None,
+        help="Optional inclusive frame index range start:end (e.g. 336:648) to delete and re-render without wiping other frames",
+    )
     args = parser.parse_args()
+
+    VIDEO_DIR.mkdir(parents=True, exist_ok=True)
+    if not COLD_OPEN_WAV.exists() and SRC_COLD_OPEN_WAV.exists():
+        shutil.copy2(SRC_COLD_OPEN_WAV, COLD_OPEN_WAV)
+    ensure_youtube_json(VIDEO_DIR)
+
+    log_path = VIDEO_DIR / "render.log"
+    if args.status:
+        n_frames = len(list(FRAMES_DIR.glob("frame_*.png"))) if FRAMES_DIR.exists() else 0
+        mp4_info = f"{OUT_COLD_OPEN_MP4.stat().st_size / (1024*1024):.2f} MB" if OUT_COLD_OPEN_MP4.exists() else "not yet encoded"
+        print(f"[Cold Open Status] Frames: {n_frames}/{len(COLD_OPEN_CONCAT_STEPS)} | MP4: {mp4_info}")
+        if log_path.exists():
+            lines = log_path.read_text(encoding="utf-8", errors="replace").splitlines()
+            print("--- Last 15 log lines ---")
+            for ln in lines[-15:]:
+                print(ln)
+        return
+
+    if args.daemon:
+        pid_file = VIDEO_DIR / "daemon.pid"
+        if pid_file.exists():
+            try:
+                old_pid = int(pid_file.read_text(encoding="utf-8").strip())
+                os.kill(old_pid, 9)
+            except Exception:
+                pass
+        subprocess.run(["pkill", "-9", "-f", "capture_tower3d_cold_open.py --workers"], check=False)
+        subprocess.run(["pkill", "-9", "-f", "gor9_coldopen_w"], check=False)
+        if not args.no_clean and FRAMES_DIR.exists():
+            shutil.rmtree(FRAMES_DIR, ignore_errors=True)
+        FRAMES_DIR.mkdir(parents=True, exist_ok=True)
+        cmd = [
+            sys.executable,
+            str(Path(__file__).resolve()),
+            "--workers",
+            str(args.workers),
+            "--width",
+            str(args.width),
+            "--height",
+            str(args.height),
+            "--no-clean",
+        ]
+        log_f = open(log_path, "w", encoding="utf-8")
+        proc = subprocess.Popen(
+            cmd,
+            cwd=str(ROOT),
+            stdout=log_f,
+            stderr=subprocess.STDOUT,
+            start_new_session=True,
+        )
+        pid_file.write_text(str(proc.pid), encoding="utf-8")
+        print(f"Spawned Cold Open 2560x1440 background render daemon (PID={proc.pid}) -> {log_path}")
+        return
 
     dur = get_wav_duration(COLD_OPEN_WAV)
     if args.test_frames:
-        test_dir = EP_DIR / "previews" / "cold_open_3d_test"
+        test_dir = VIDEO_DIR / "test_frames"
         capture_sequence(
             test_dir,
             fps=30,
             duration=dur,
             width=args.width,
             height=args.height,
-            test_times=[0.15, 1.60, 2.50, 3.85, 5.25, 16.50],
+            test_times=[0.15, 1.60, 3.85, 5.35, 11.50, 15.85, 20.50],
+            clean=not args.no_clean,
+            workers=args.workers,
+            time_budget=args.time_budget,
         )
         return
 
     sample_times = [step[0] for step in COLD_OPEN_CONCAT_STEPS]
-    step_durations = [step[1] for step in COLD_OPEN_CONCAT_STEPS]
-    slides_dir = EP_DIR / "slides_cold_open_3d"
-    slide_pngs = capture_sequence(
-        slides_dir,
-        fps=30,
-        duration=dur,
-        width=args.width,
-        height=args.height,
-        test_times=sample_times,
-    )
-    assemble_concat_qhd_mp4(slide_pngs, step_durations, COLD_OPEN_WAV, OUT_COLD_OPEN_MP4)
+    clean_dir = not args.no_clean
+    if args.replace_range:
+        clean_dir = False
+        start_s, end_s = args.replace_range.split(":", 1)
+        start_idx, end_idx = int(start_s), int(end_s)
+        removed = 0
+        for idx in range(start_idx, end_idx + 1):
+            p = FRAMES_DIR / f"frame_{idx:04d}.png"
+            if p.exists():
+                p.unlink()
+                removed += 1
+        print(f"Removed {removed} frames in range {start_idx}..{end_idx} from {FRAMES_DIR}", flush=True)
+
+    if not args.encode_only:
+        slide_pngs = capture_sequence(
+            FRAMES_DIR,
+            fps=30,
+            duration=dur,
+            width=args.width,
+            height=args.height,
+            test_times=sample_times,
+            clean=clean_dir,
+            workers=args.workers,
+            time_budget=args.time_budget,
+        )
+    else:
+        slide_pngs = [FRAMES_DIR / f"frame_{i:04d}.png" for i in range(len(sample_times))]
+
+    present_count = sum(1 for p in slide_pngs if p.exists())
+    if present_count < len(slide_pngs):
+        print(
+            f"[Partial Progress] {present_count}/{len(slide_pngs)} frames present in {FRAMES_DIR}. "
+            "Re-run with --no-clean to finish remaining frames and encode MP4.",
+            flush=True,
+        )
+        return
+
+    encode_qhd_mp4_from_frames(FRAMES_DIR, COLD_OPEN_WAV, OUT_COLD_OPEN_MP4, duration=dur, fps=30)
+    print(f"Saved master QHD MP4 -> {OUT_COLD_OPEN_MP4}", flush=True)
+
+    thumb_src = slide_pngs[min(len(slide_pngs) - 1, 160)]
+    if thumb_src.exists():
+        subprocess.run(
+            ["/usr/bin/ffmpeg", "-y", "-i", str(thumb_src), "-q:v", "4", str(OUT_COLD_OPEN_THUMB)],
+            check=True,
+        )
+        print(f"Exported Cold Open thumbnail -> {OUT_COLD_OPEN_THUMB}", flush=True)
 
 
 if __name__ == "__main__":
     main()
+
 

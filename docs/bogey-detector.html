@@ -595,57 +595,47 @@
       color: var(--text-muted);
     }
 
-    /* Full-Screen 16:9 CSS Grid Console Optimization & 1080p Readability */
+    /* Full-Screen 16:9 CSS Grid Console Optimization & 1440p/1080p Readability */
     html {
       background-color: #05070a;
-      font-size: 17px;
+      font-size: 17.5px;
     }
     body {
       height: 100vh;
       overflow: hidden;
-      padding: 8px 14px 12px;
-      display: grid;
-      grid-template-rows: auto 1fr;
-      gap: 8px;
+      padding: 0;
     }
-    .station-topbar {
-      padding: 7px 14px;
-      margin-bottom: 0;
-    }
-    .brand-title { font-size: 1rem; }
-    .brand-sub { font-size: 0.76rem; }
-    .t-pill { font-size: 0.78rem; padding: 5px 10px; }
-    .nav-btn { font-size: 0.78rem; padding: 6px 11px; }
     .bogey-chassis {
       padding: 10px 14px;
-      display: grid;
-      grid-template-rows: auto 1fr;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      display: flex;
+      flex-direction: column;
       gap: 10px;
       height: 100%;
       min-height: 0;
     }
     .chassis-header {
-      padding-bottom: 6px;
-      margin-bottom: 0;
+      display: none;
     }
-    .model-name { font-size: 1.18rem; }
-    .model-desc { font-size: 0.78rem; }
     .bogey-grid {
-      grid-template-columns: 380px 1fr 405px;
+      grid-template-columns: 390px 1fr 410px;
       gap: 12px;
       align-items: stretch;
+      flex: 1;
       height: 100%;
       min-height: 0;
     }
     .bogey-grid > section {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
       height: 100%;
       min-height: 0;
     }
     .rack-panel {
-      padding: 9px 11px;
+      padding: 10px 12px;
       margin-bottom: 0;
       display: flex;
       flex-direction: column;
@@ -653,17 +643,19 @@
     .bogey-grid > section > .rack-panel:last-child {
       flex: 1;
       justify-content: flex-start;
-      gap: 8px;
+      gap: 10px;
     }
     .panel-header {
-      font-size: 0.76rem;
+      font-size: 0.78rem;
       padding-bottom: 5px;
-      margin-bottom: 7px;
+      margin-bottom: 8px;
     }
-    .bogey-slot-btn { padding: 8px 10px; }
-    .slot-top { font-size: 0.74rem; }
-    .slot-title { font-size: 0.88rem; }
-    .slot-sub { font-size: 0.72rem; }
+    .bogey-slot-btn { padding: 10px 12px; }
+    .slot-top { font-size: 0.78rem; gap: 8px; }
+    .slot-code { font-size: 0.78rem; }
+    .slot-badge { font-size: 0.68rem; }
+    .slot-title { font-size: 0.9rem; }
+    .slot-cam { font-size: 0.72rem; }
     .radar-wrap {
       flex: 1;
       min-height: 0;
@@ -678,6 +670,7 @@
       width: 100%;
       display: block;
     }
+    .radar-legend { font-size: 0.7rem; padding: 7px 10px; }
     .trailcam-viewport {
       flex: 1;
       min-height: 0;
@@ -693,59 +686,17 @@
       width: 100%;
       object-fit: cover;
     }
-    .frame-stepper-bar { margin-top: 8px; padding: 6px 10px; }
-    .step-btn, .frm-pill { font-size: 0.74rem; padding: 5px 8px; }
-    .narrative-box { margin-top: 8px; padding: 9px 12px; font-size: 0.84rem; line-height: 1.45; }
-    .coverup-stamp { margin-top: 7px; padding: 7px 10px; font-size: 0.76rem; }
-    .kv-table { font-size: 0.78rem; }
-    .kv-table td { padding: 6px 4px; }
-    .kepler-alert { font-size: 0.78rem; padding: 8px 10px; margin-bottom: 6px; }
-    .drain-meter-wrap { margin-bottom: 4px; padding: 8px 10px; }
-    .drain-header { font-size: 0.76rem; }
+    .frame-stepper-bar { margin-top: 8px; padding: 7px 10px; }
+    .ctrl-btn, .frm-pill { font-size: 0.76rem; padding: 6px 10px; }
+    .narrative-box { margin-top: 8px; padding: 9px 12px; font-size: 0.85rem; line-height: 1.45; }
+    .coverup-stamp { margin-top: 6px; padding: 8px 12px; font-size: 0.78rem; line-height: 1.4; }
+    .kv-table { font-size: 0.8rem; }
+    .kv-table td { padding: 7px 4px; }
+    .kepler-alert { font-size: 0.8rem; padding: 9px 11px; margin-bottom: 8px; }
+    .drain-meter-wrap { margin-bottom: 8px; padding: 10px 12px; }
+    .drain-header { font-size: 0.78rem; }
     .bogey-chassis > .rack-panel:last-of-type { display: none; }
-    .mini-burst-strip {
-      margin-top: auto;
-      border-top: 1px solid var(--border-metal);
-      padding-top: 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .mini-burst-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
-    }
-    .mini-burst-card {
-      background: #080d14;
-      border: 1px solid #243248;
-      border-radius: 4px;
-      padding: 4px;
-      cursor: pointer;
-      transition: all 0.14s ease;
-    }
-    .mini-burst-card.active, .mini-burst-card:hover {
-      border-color: var(--crimson);
-      box-shadow: 0 0 8px rgba(244, 63, 94, 0.25);
-    }
-    .mini-burst-card img {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      object-fit: cover;
-      border-radius: 3px;
-      display: block;
-      margin-bottom: 3px;
-    }
-    .mini-burst-lbl {
-      font-family: var(--font-mono);
-      font-size: 0.62rem;
-      font-weight: 700;
-      color: var(--amber);
-      text-align: center;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+    .mini-burst-strip { display: none; }
   </style>
 </head>
 <body>
@@ -821,9 +772,9 @@
           <div class="radar-wrap">
             <canvas id="perimeterRadarCanvas" width="420" height="340"></canvas>
             <div class="radar-legend">
-              <span style="color:var(--phosphor);">● KEPLERIAN ROCKS (BALLISTIC)</span>
+              <span style="color:var(--phosphor);">● KEPLERIAN ROCKS (14)</span>
               <span style="color:var(--crimson);">◆ UAP BOGEY (NON-KEPLERIAN)</span>
-              <span style="color:var(--cyan);">▲ TRAIL-CAM FOV CONE</span>
+              <span style="color:var(--cyan);">▲ TRAIL-CAM FOV</span>
             </div>
           </div>
         </div>
@@ -839,14 +790,14 @@
 
           <div class="mode-switch-bar">
             <div class="btn-group">
-              <button class="ctrl-btn active" id="modeGifBtn" onclick="setInspectorMode('gif')">🎞 LIVE 8-FRAME BURST (.GIF)</button>
-              <button class="ctrl-btn" id="modeForensicBtn" onclick="setInspectorMode('forensic')">🔬 FORENSIC FRAME STEPPER</button>
+              <button class="ctrl-btn active" id="modeGifBtn" onclick="setInspectorMode('gif')">🎞 LIVE 8-FRAME BURST</button>
+              <button class="ctrl-btn" id="modeForensicBtn" onclick="setInspectorMode('forensic')">🔬 FORENSIC STEPPER</button>
             </div>
             <div class="btn-group" id="filterBtnGroup">
               <button class="ctrl-btn active" data-filter="raw" onclick="setSensorFilter('raw')">RAW SENSOR</button>
-              <button class="ctrl-btn" data-filter="nvg" onclick="setSensorFilter('nvg')">P31 NIGHT-VISION</button>
+              <button class="ctrl-btn" data-filter="nvg" onclick="setSensorFilter('nvg')">P31 NVG</button>
               <button class="ctrl-btn" data-filter="flir" onclick="setSensorFilter('flir')">THERMAL INVERT</button>
-              <button class="ctrl-btn" data-filter="vector" onclick="toggleVectorOverlay()" id="btnVectorOverlay">🎯 VECTOR TRACK: ON</button>
+              <button class="ctrl-btn" data-filter="vector" onclick="toggleVectorOverlay()" id="btnVectorOverlay">🎯 VECTOR: ON</button>
             </div>
           </div>
 
@@ -859,7 +810,7 @@
             <div class="btn-group">
               <button class="ctrl-btn" onclick="stepFrame(-1)">◀ PREV</button>
               <button class="ctrl-btn" onclick="stepFrame(1)">NEXT ▶</button>
-              <button class="ctrl-btn alert-btn" onclick="jumpToAnomalyFrame()">⚡ JUMP TO ANOMALY FRAME</button>
+              <button class="ctrl-btn alert-btn" onclick="jumpToAnomalyFrame()">⚡ JUMP TO ANOMALY</button>
             </div>
             <div class="frame-pills" id="framePillsContainer"></div>
           </div>
@@ -911,7 +862,7 @@
             </div>
           </div>
 
-          <table class="kv-table">
+          <table class="kv-table" style="margin-top:auto;">
             <tbody>
               <tr>
                 <td class="k">HAUSER MK-IV RF EFFECT</td>
@@ -924,16 +875,7 @@
             </tbody>
           </table>
 
-          <!-- SINGLE VECTOR LOGO FOR HAUSER BOGEY-9 -->
-          <div style="background:#04070d;border:1px solid #243248;border-radius:4px;padding:4px 8px;margin-top:4px;">
-            <img src="assets/branding/hauser_logo.svg" alt="Hauser Dynamics Vector Nameplate" style="width:100%;aspect-ratio:520/180;object-fit:contain;display:block;" />
-          </div>
-
           <div class="mini-burst-strip">
-            <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:0.68rem;font-weight:700;color:var(--text-muted);">
-              <span>SECTOR 9 BURST ARCHIVE (16:9)</span>
-              <span style="color:var(--cyan);">CLICK TO LOAD</span>
-            </div>
             <div class="mini-burst-grid" id="miniBurstGrid"></div>
           </div>
         </div>

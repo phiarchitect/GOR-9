@@ -72,7 +72,7 @@ Kd 0.1200 0.1400 0.1700
 
 newmtl mat24
 Kd 1.0000 1.0000 1.0000
-map_Kd hauser_dynamics_logo.jpg
+map_Kd hauser_logo.svg
 
 newmtl mat25
 Kd 0.8400 0.8000 0.7200
@@ -87,7 +87,7 @@ map_Kd mk4_3a_decoder.png
 
 newmtl mat28
 Kd 1.0000 1.0000 1.0000
-map_Kd van_allen_switchgear_logo.jpg
+map_Kd van_allen_logo.svg
 
 newmtl mat29
 Kd 1.0000 1.0000 1.0000

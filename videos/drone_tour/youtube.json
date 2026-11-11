@@ -1,0 +1,40 @@
+{
+  "short_code": "DRONE-TOUR",
+  "g_id": "2736.305",
+  "channel": "@GOR-9-station",
+  "categoryId": "24",
+  "privacyStatus": "public",
+  "title_1080p": "GOR-9 \u2022 High Basalt Shelf Tower 360\u00b0 Inspection Drone Tour (14,285.7 kHz USB \u2022 0400 GCT)",
+  "description": "Autonomous 360\u00b0 telemetry inspection flight around the 86.5m High Basalt Shelf Broadcast Tower on Asteroid 3-5-1, 42,100 AU out in Oort Cloud Sector 9.\n14,285.7 kHz Upper Sideband \u2022 Epoch 2736.305 \u2022 0400 Galactic Coordinated Time.\n\n0:00 Acheron Chasm Approach & Octagonal Broadcast Booth Detail Orbit (+26.0m)\n0:11 Vertical G/O/R/\u25ce/9 Sign Ascent & 4-Ring Marzelvane Crown Detail Orbit (+72.0m)\n0:21 Fly-Away Standoff & 50 kW Barycentric Cherenkov Shockwave Burst",
+  "tags": [
+    "GOR-9",
+    "Galactic Outpost Radio",
+    "Marzelvane",
+    "Shortwave",
+    "Sci-Fi"
+  ],
+  "files": {
+    "wide_1080p_mp4": "/home/phi/Sessions/GOR-9/videos/drone_tour/gor9_drone_tour.mp4",
+    "thumbnail_16x9_png": "/home/phi/Sessions/GOR-9/videos/drone_tour/gor9_drone_tour_thumb.jpg"
+  },
+  "uploads": {
+    "wide_1080p": {
+      "version": 1,
+      "video_id": "jqEVJF0gtr8",
+      "url": "https://youtu.be/jqEVJF0gtr8",
+      "studio_url": "https://studio.youtube.com/video/jqEVJF0gtr8/edit",
+      "caption_id": null,
+      "playlist_id": null,
+      "playlist_item_id": null,
+      "privacyStatus": "public",
+      "published_at": "2026-11-09T17:17:33.066486+00:00",
+      "uploaded_at": "2026-11-09T17:17:33.066486+00:00",
+      "thumbnail_set": true,
+      "updated_at": "2026-11-09T17:17:36.586449+00:00"
+    }
+  },
+  "history": {
+    "wide_1080p": []
+  },
+  "version": 1
+}

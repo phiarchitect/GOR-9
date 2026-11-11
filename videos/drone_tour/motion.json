@@ -1,0 +1,17 @@
+{
+  "prefix": "drone_tour",
+  "html": "../../docs/tower-3d.html",
+  "injected_js_file": "../tour_choreography.js",
+  "query_params": {
+    "mode": "drone_tour"
+  },
+  "duration_sec": 30.0,
+  "fps": 30,
+  "warmup_frames": 0,
+  "thumb_sec": 13.0,
+  "audio_wav": "drone_tour.wav",
+  "wide_mp4": "drone_tour_1080p.mp4",
+  "wide_thumb": "drone_tour_thumb.png",
+  "render_short": false,
+  "ambient_drone": false
+}

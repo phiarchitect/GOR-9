@@ -1,0 +1,40 @@
+{
+  "short_code": "BOOTH-LOOP",
+  "g_id": "2736.305",
+  "channel": "@GOR-9-station",
+  "categoryId": "24",
+  "privacyStatus": "public",
+  "title_1080p": "GOR-9 \u2022 Watchroom Rounds & Star/Solar Shift Seamless Loop (14,285.7 kHz USB \u2022 0400 GCT)",
+  "description": "Seamless 48-second watchroom rounds loop inside the +26.0m Octagonal Broadcast Booth on Asteroid 3-5-1, stopping at the telemetry consoles and gazing out through the panoramic windows as the Sun, Millisecond Pulsar PSR B1937+21, O.R.S. 351, and the Milky Way shift across the Oort Cloud sky.\n14,285.7 kHz Upper Sideband \u2022 Epoch 2736.305 \u2022 0400 Galactic Coordinated Time.\n\n0:00 North Master Broadcast Cockpit & Show Director HUD (Perpendicular Console Tilt)\n0:06 NE/East Panoramic Window Look-Up #1: Blazing Solar Corona (SOL) & Tumbling Basalt Asteroid Shift\n0:12 East (+90\u00b0) ED-9 Euclidean Vector Scope & Brass Flatbed Plotter (Perpendicular Console Tilt)\n0:24 South (180\u00b0) 3D Armillary Sphere & Panoramic Window Look-Up #2: Pulsar PSR B1937+21 & O.R.S. 351 Transit\n0:36 West (-90\u00b0) HV-4 Klystron Exciter Tubes & West/NW Window 50 kW Marzelvane Cherenkov Sky Burst",
+  "tags": [
+    "GOR-9",
+    "Galactic Outpost Radio",
+    "Marzelvane",
+    "Shortwave",
+    "Sci-Fi",
+    "Loop"
+  ],
+  "files": {
+    "wide_1080p_mp4": "/home/phi/Sessions/GOR-9/videos/booth_loop/gor9_booth_loop.mp4",
+    "thumbnail_16x9_png": "/home/phi/Sessions/GOR-9/videos/booth_loop/gor9_booth_loop_thumb.jpg"
+  },
+  "uploads": {
+    "wide_1080p": {
+      "version": 1,
+      "video_id": "Dv4EwDZsrmo",
+      "url": "https://youtu.be/Dv4EwDZsrmo",
+      "studio_url": "https://studio.youtube.com/video/Dv4EwDZsrmo/edit",
+      "caption_id": null,
+      "playlist_id": null,
+      "playlist_item_id": null,
+      "privacyStatus": "public",
+      "uploaded_at": "2026-11-09T12:18:15.637918+00:00",
+      "thumbnail_set": true,
+      "updated_at": "2026-11-09T12:18:20.398927+00:00"
+    }
+  },
+  "history": {
+    "wide_1080p": []
+  },
+  "version": 1
+}

@@ -1,0 +1,218 @@
+{
+  "model": "docs/tower-3d.html",
+  "mode": "drone_loop",
+  "title": "GOR-9 \u2022 Inverse-Keplerian Elliptical Drone Orbit Seamless Loop (14,285.7 kHz USB \u2022 0400 GCT)",
+  "short_code": "DRONE-LOOP",
+  "duration": 54.0,
+  "fps": 30,
+  "is_loop": true,
+  "coordinate_system": "tower_cylindrical",
+  "mp4_name": "gor9_drone_loop.mp4",
+  "wav_name": "gor9_drone_loop_audio.wav",
+  "thumb_name": "gor9_drone_loop_thumb.jpg",
+  "thumb_frame": 1387,
+  "test_frames": [
+    0,
+    63,
+    126,
+    258,
+    390,
+    483,
+    576,
+    708,
+    840,
+    933,
+    1026,
+    1158,
+    1290,
+    1386,
+    1506,
+    1619
+  ],
+  "bursts": {
+    "starts": [
+      43.2
+    ],
+    "duration": 7.8,
+    "ring_step": 0.45,
+    "spire_lock_offset": 1.95
+  },
+  "keyframes": [
+    {
+      "t": 0.0,
+      "camAz": 0.38,
+      "camR": 92.0,
+      "camY": 34.0,
+      "lookAz": 0.38,
+      "lookR": 0.0,
+      "lookY": 43.0,
+      "fov": 48.0,
+      "note": "Outer Apoapsis #3 Apex (92.0m): wide chasm overview of the 86.5m tower (exact loop seam match with t=54.0s)"
+    },
+    {
+      "t": 2.1,
+      "camAz": 1.02,
+      "camR": 44.0,
+      "camY": 28.8,
+      "lookAz": 1.25,
+      "lookR": 2.4,
+      "lookY": 29.5,
+      "fov": 45.0,
+      "note": "Fast elliptical inbound dive toward the +26.0m Octagonal Broadcast Booth"
+    },
+    {
+      "t": 4.2,
+      "camAz": 1.42,
+      "camR": 11.4,
+      "camY": 28.6,
+      "lookAz": 1.54,
+      "lookR": 3.4,
+      "lookY": 27.3,
+      "fov": 40.5,
+      "note": "BYPASS #1 ENTRY (Booth & Catwalk Detail): slow down 6m outside the red catwalk rail & SE Bogey-9 trail-cam bracket, peering over the sill into the SE/South console bay"
+    },
+    {
+      "t": 8.6,
+      "camAz": 1.8,
+      "camR": 9.8,
+      "camY": 28.9,
+      "lookAz": 1.86,
+      "lookR": 3.0,
+      "lookY": 27.5,
+      "fov": 39.0,
+      "note": "BYPASS #1 PERIAPSIS (Booth Interior Detail): ultra-close 4.9m outside the South/SSW panoramic glass, taking in the spinning 3D Brass Armillary Sphere, Dual Reel-to-Reel Tape Decks, and glowing HV-4 Klystron Tubes"
+    },
+    {
+      "t": 13.0,
+      "camAz": 2.34,
+      "camR": 11.6,
+      "camY": 29.1,
+      "lookAz": 2.26,
+      "lookR": 3.0,
+      "lookY": 27.8,
+      "fov": 40.5,
+      "note": "BYPASS #1 EXIT (Booth Roof & Lift Shaft Detail): gliding past the SW/West HV-4 Klystron bay, crimson soffit spotlights, and brass elevator guide rings"
+    },
+    {
+      "t": 16.1,
+      "camAz": 4.44,
+      "camR": 66.0,
+      "camY": 38.5,
+      "lookAz": 4.44,
+      "lookR": 0.0,
+      "lookY": 39.5,
+      "fov": 47.0,
+      "note": "APOAPSIS #1: fast outer elliptical swing (distR -> 66.0m) climbing toward the mid-tower sign"
+    },
+    {
+      "t": 19.2,
+      "camAz": 6.56,
+      "camR": 11.8,
+      "camY": 39.6,
+      "lookAz": 6.96,
+      "lookR": 2.2,
+      "lookY": 40.5,
+      "fov": 42.0,
+      "note": "BYPASS #2 ENTRY (Sign Base & Reticle Detail): slow down in front of the bottom '9' neon housing, the 4-ring cyan Marzelvane reticle (\u25ce), and the brass-rung EVA ladder"
+    },
+    {
+      "t": 23.6,
+      "camAz": 7.003,
+      "camR": 9.8,
+      "camY": 45.4,
+      "lookAz": 7.003,
+      "lookR": 2.2,
+      "lookY": 45.4,
+      "fov": 41.0,
+      "note": "BYPASS #2 PERIAPSIS (3D Neon Letters & EVA Cage Detail): 7.5m in front of the '\u25ce / R / O' neon tubes, copper mounting standoffs, and interior caged EVA ladder hoops"
+    },
+    {
+      "t": 28.0,
+      "camAz": 7.44,
+      "camR": 12.2,
+      "camY": 51.8,
+      "lookAz": 7.04,
+      "lookR": 2.2,
+      "lookY": 51.0,
+      "fov": 42.0,
+      "note": "BYPASS #2 EXIT (Sign Crown Detail): cresting the top 'O' and 'G' neon letters and upper guy-wire anchor collar"
+    },
+    {
+      "t": 31.1,
+      "camAz": 8.44,
+      "camR": 68.0,
+      "camY": 66.0,
+      "lookAz": 8.44,
+      "lookR": 0.0,
+      "lookY": 63.0,
+      "fov": 47.0,
+      "note": "APOAPSIS #2: fast outer elliptical swing (distR -> 68.0m) ascending to the +72.0m Crown"
+    },
+    {
+      "t": 34.2,
+      "camAz": 9.4,
+      "camR": 25.4,
+      "camY": 74.2,
+      "lookAz": 9.68,
+      "lookR": 13.5,
+      "lookY": 71.8,
+      "fov": 41.5,
+      "note": "BYPASS #3 ENTRY (Outer Ring & Emitter Tip Detail): skim 4.4m outside the R=21.0m outer Marzelvane ring, inspecting the glowing Cherenkov emitter cubes and radial waveguide spokes"
+    },
+    {
+      "t": 38.6,
+      "camAz": 9.88,
+      "camR": 22.8,
+      "camY": 74.8,
+      "lookAz": 9.88,
+      "lookR": 4.5,
+      "lookY": 72.4,
+      "fov": 40.0,
+      "note": "BYPASS #3 PERIAPSIS (Marzelvane Rings & Phase-Splitter Hub Detail): 1.8m outside the outer ring rim, looking across all 4 concentric torus rings into the central copper Harmonic Phase-Splitter Hub and +70.8m service gallery railing"
+    },
+    {
+      "t": 43.0,
+      "camAz": 10.36,
+      "camR": 25.8,
+      "camY": 75.8,
+      "lookAz": 10.12,
+      "lookR": 10.5,
+      "lookY": 72.8,
+      "fov": 42.0,
+      "note": "BYPASS #3 EXIT (Waveguide Spokes & Spire Base Detail): sweeping past the outbound phase-feed spokes as the 4-Ring Marzelvane sequence ignites"
+    },
+    {
+      "t": 46.2,
+      "camAz": 11.35,
+      "camR": 82.0,
+      "camY": 45.0,
+      "lookAz": 11.35,
+      "lookR": 0.0,
+      "lookY": 52.0,
+      "fov": 48.0,
+      "note": "APOAPSIS #3 & FINALE CHERENKOV BURST: fast fly-away to wide chasm vantage as Spire Lock & 82m Barycentric Shockwave Rings erupt"
+    },
+    {
+      "t": 50.2,
+      "camAz": 12.18,
+      "camR": 90.0,
+      "camY": 36.5,
+      "lookAz": 12.18,
+      "lookR": 0.0,
+      "lookY": 45.5,
+      "fov": 48.0,
+      "note": "Wide Apoapsis #3 glide as shockwave afterglow settles"
+    },
+    {
+      "t": 54.0,
+      "camAz": 12.9463706,
+      "camR": 92.0,
+      "camY": 34.0,
+      "lookAz": 12.9463706,
+      "lookR": 0.0,
+      "lookY": 43.0,
+      "fov": 48.0,
+      "note": "Seamless Loop Seam (0.38 + 4*PI rad): exact position, target, FOV, and angular velocity match with t=0.0s"
+    }
+  ]
+}

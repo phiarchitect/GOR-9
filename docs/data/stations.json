@@ -1,5 +1,5 @@
 {
-  "schema_version": "2.2.0",
+  "schema_version": "3.0.0",
   "station_meta": {
     "callsign": "GOR-9",
     "name": "Galactic Outpost Radio",
@@ -20,8 +20,8 @@
     },
     "carrier_khz": 14285.7,
     "carrier_mode": "USB",
-    "broadcast_time_gct": "0400 GCT",
-    "clock_standard": "PSR B1937+21 (641.928262 Hz Vulpecula Pulsar Barycentric Lock)",
+    "broadcast_time_gct": "EPOCH 254.310 • W0",
+    "clock_standard": "PSR B1937+21 Pulsar Barycentric Time (641.928262 Hz • 6 Watches/Cycle • 10 Cycles/Sweep)",
     "power_plant": {
       "primary": "Pebble-Bed Dilithium Reactor #2",
       "fuel": "Grade-B Dilithium Pellets (Oort Spot Index +4.2%)",
@@ -48,22 +48,29 @@
       }
     ],
     "triangulation_baseline": {
-      "origin": "Asteroid 3-5-1 (GOR-9 High Basalt Shelf • Oort Sector 9)",
+      "origin": "Asteroid 3-5-1 (GOR-9 Polar Shelf • 42,100 AU • Infall -42.6 m/s)",
       "primary_star": {
         "id": "sol-oort-star",
-        "name": "Sol (G2V Primary)",
+        "name": "Sol & 5' Solar System Core",
         "az_deg": 212.4,
         "local_el_deg": 22.4,
         "distance_au": 42100.0,
         "apparent_mag": -3.62
       },
       "foundry_anchor": {
-        "id": "ceres-foundry-7",
-        "name": "Ceres Foundry #7 (CFS-7 Dwarf Planet Hub)",
-        "az_deg": 272.0,
-        "local_el_deg": 14.6,
-        "distance_au": 1840.0,
-        "apparent_mag": 0.4
+        "id": "kz9-omega",
+        "name": "Meridian Trunk KZ9-OMEGA (Local Oort Baseline)",
+        "az_deg": 18.6,
+        "local_el_deg": 12.8,
+        "distance_au": 1420.0,
+        "apparent_mag": 16.4
+      },
+      "vlbi_partner": {
+        "id": "gor-3",
+        "name": "GOR-3 Antipodal Oort Relay (1.33 ly VLBI)",
+        "az_deg": 212.4,
+        "local_el_deg": 22.4,
+        "distance_au": 83900.0
       },
       "pulsar_clock": {
         "id": "psr-b1937",
@@ -87,66 +94,74 @@
       "status": "LOCKED • LIVE VIDEO + AUDIO",
       "status_color": "amber",
       "origin": {
-        "body": "Callisto Dome-4 (Sol-Jovian Corridor via Oort Gate)",
+        "body": "Callisto Dome-4 (Jupiter Orbit • 5.20 AU from Sol)",
         "site": "Dome-4 Sub-Level 3 Corrugated Roofline",
         "coordinates": "14.2° N, 112.8° W (Callisto Synodic Grid)",
-        "distance": "0.66 Light-Years (42,095 AU • Coreward Sol Bearing)",
-        "local_clock": "J-Dome Synodic (21:46:01 Local / 0400 GCT)"
+        "distance": "42,096.8 AU (0.666 ly • ±25.5\" off Sol via Jovian Flux-Duct)",
+        "local_clock": "J-Dome Synodic 0.84 • Epoch 254.310 W0"
       },
       "galactic": {
-        "sector": "Orion Spur • Sol-Jovian Coreward Corridor",
-        "arm": "Orion–Cygnus Spur",
-        "azimuth_deg": 212.4,
+        "sector": "Solar System 5' Core • Jovian Magnetosphere (5.20 AU)",
+        "arm": "Heliocentric Inner Core (4.90\"/AU)",
+        "azimuth_deg": 212.3953,
         "elevation_deg": -4.2,
-        "range_ly": 0.665,
-        "range_label": "0.66 ly (42,095 AU)",
-        "radial_norm": 0.36,
+        "range_ly": 0.66566,
+        "range_label": "42,097 AU (±25.5\" off Sol)",
+        "radial_norm": 0.427,
         "relay_nodes": [
           {
-            "name": "Jovian Magneto-Tail Duct",
-            "az_deg": 210.0,
-            "el_deg": 18.8,
-            "r_norm": 0.24,
-            "range_label": "42,090 AU (Jovian Flux Tube)",
-            "role": "+14 dB Magnetospheric Waveguide",
+            "name": "Sedna Hills Gate (SEDNA-H1)",
+            "az_deg": 211.93314,
+            "el_deg": 22.16694,
+            "range_au": 41320.0,
+            "r_norm": 0.44,
+            "range_label": "780 AU from Sol (Sedna Gate)",
+            "role": "+14 dB Heliospheric Flux-Duct Entry",
             "xyz_unit": [
-              -0.4733,
-              -0.8198,
-              0.3223
+              -0.48984,
+              -0.78594,
+              0.37731
             ]
           },
           {
             "name": "O.R.S. 351 Polar Halo",
             "az_deg": 176.0,
             "el_deg": 17.0,
-            "r_norm": 0.11,
-            "range_label": "42.8 km (Local Halo Orbit)",
-            "role": "Near-Field Polar Relay Transponder",
+            "range_au": 0.000286,
+            "r_norm": 0.08,
+            "range_label": "42.8 km (Polar Halo)",
+            "role": "Near-Field Phase Downlink",
             "xyz_unit": [
-              0.0667,
-              -0.954,
-              0.2924
+              0.06671,
+              -0.95398,
+              0.29237
             ]
           }
         ],
-        "local_el_deg": 17.2,
+        "local_el_deg": 22.40556,
         "xyz_unit": [
-          -0.5119,
-          -0.8066,
-          0.2957
+          -0.49531,
+          -0.78063,
+          0.38116
         ],
-        "sep_sol_deg": 5.2,
-        "sep_ceres_deg": 57.2,
-        "sep_psr_deg": 131.4,
-        "booth_window": "South-West Coreward Window (Sol–Jovian Duct)",
+        "sep_sol_deg": 0.0,
+        "sep_ceres_deg": 142.2869,
+        "sep_psr_deg": 126.8763,
+        "booth_window": "South-West Coreward Window (Sol 5' Coronagraph Lock)",
         "triangulation": {
-          "ceres_dist_label": "41,088 AU",
-          "ceres_sep_deg": 57.2,
-          "sol_sep_deg": 5.2,
-          "psr_sep_deg": 131.4,
-          "baseline_parallax": "2.16° (129.4')",
-          "booth_window": "South-West Coreward Window (Sol–Jovian Duct)"
-        }
+          "ceres_dist_label": "43,229 AU",
+          "ceres_sep_deg": 142.29,
+          "sol_sep_deg": 0.0,
+          "psr_sep_deg": 126.88,
+          "baseline_parallax": "1.15°",
+          "booth_window": "South-West Coreward Window (Sol 5' Coronagraph Lock)"
+        },
+        "range_au": 42096.8,
+        "orbit_id": "orbit-jupiter",
+        "sol_offset_arcsec": [
+          -15.627,
+          20.025
+        ]
       },
       "rf": {
         "frequency_khz": 11410.0,
@@ -158,7 +173,7 @@
         "tx_power_watts": 350,
         "tx_power_label": "350 W (Unlicensed Sodium-Lamp Bus Tap)",
         "antenna": "Half-Wave Galvanized Pipe Dipole (Torch-Soldered Live)",
-        "relay_path": "Via O.R.S. 351 Polar Halo + Jovian Magneto-Tail Duct",
+        "relay_path": "Jovian Magneto-Tail → Sedna H1 → GOR-9 Marzelvane Biased Duct",
         "sinpo": {
           "s": 4,
           "i": 3,
@@ -381,66 +396,74 @@
       "status": "NO VIDEO • CW + TELEMETRY",
       "status_color": "cyan",
       "origin": {
-        "body": "Titan-Minor (Cygnus-Rift Hydrocarbon Colony Moon)",
+        "body": "Titan • Kraken Mare (Saturn Orbit • 9.58 AU from Sol)",
         "site": "Kraken North Shallows • Tripod Mooring N-24",
         "coordinates": "64.8° N, 019.4° E (Tidal Grid)",
-        "distance": "412 Light-Years (Cygnus Rift Bearing 074.5°)",
-        "local_clock": "TSol 14.82 (Dawn Methane Mist / 0400 GCT)"
+        "distance": "42,106.4 AU (0.666 ly • ±47.0\" off Sol via Kronian Flux-Duct)",
+        "local_clock": "TSol 14.82 (15.945d Saturnian Tide) • Epoch 254.310 W0"
       },
       "galactic": {
-        "sector": "Orion–Cygnus Drift • Kraken Hydrocarbon Basin",
-        "arm": "Orion–Cygnus Spur (Spinward)",
-        "azimuth_deg": 74.5,
+        "sector": "Solar System 5' Core • Saturnian System (9.58 AU)",
+        "arm": "Heliocentric Inner Core (4.90\"/AU)",
+        "azimuth_deg": 212.41124,
         "elevation_deg": 6.8,
-        "range_ly": 412.0,
-        "range_label": "412 ly (0.13 kpc)",
-        "radial_norm": 0.56,
+        "range_ly": 0.66581,
+        "range_label": "42,106 AU (±47.0\" off Sol)",
+        "radial_norm": 0.427,
         "relay_nodes": [
           {
-            "name": "Cygnus Rift Waveguide",
-            "az_deg": 72.0,
-            "el_deg": 15.2,
-            "r_norm": 0.34,
-            "range_label": "185 ly (Cygnus Ionization Duct)",
-            "role": "Cryo-Tropospheric & ISM Duct",
+            "name": "Sedna Hills Gate (SEDNA-H1)",
+            "az_deg": 211.93314,
+            "el_deg": 22.16694,
+            "range_au": 41320.0,
+            "r_norm": 0.44,
+            "range_label": "780 AU from Sol",
+            "role": "Kronian-to-Oort Standing-Wave Duct",
             "xyz_unit": [
-              0.9178,
-              0.2982,
-              0.2622
+              -0.48984,
+              -0.78594,
+              0.37731
             ]
           },
           {
-            "name": "O.R.S. 351 Polar Halo",
-            "az_deg": 102.0,
-            "el_deg": 16.4,
-            "r_norm": 0.11,
-            "range_label": "42.8 km (Local Halo Orbit)",
-            "role": "Beverage-to-Booth Phase Feed",
+            "name": "Acheron 2km Beverage Wire",
+            "az_deg": 212.0,
+            "el_deg": 12.0,
+            "range_au": 1.3e-05,
+            "r_norm": 0.05,
+            "range_label": "2.0 km Basalt Rim",
+            "role": "Low-Noise Cryo Receive Feed",
             "xyz_unit": [
-              0.9384,
-              -0.1995,
-              0.2823
+              -0.51834,
+              -0.82952,
+              0.20791
             ]
           }
         ],
-        "local_el_deg": 10.1,
+        "local_el_deg": 22.4041,
         "xyz_unit": [
-          0.9487,
-          0.2631,
-          0.1754
+          -0.49554,
+          -0.7805,
+          0.38114
         ],
-        "sep_sol_deg": 127.5,
-        "sep_ceres_deg": 149.8,
-        "sep_psr_deg": 21.8,
-        "booth_window": "East Chasm Window • Bay 03 (Euclid ED-9 Desk)",
+        "sep_sol_deg": 0.0,
+        "sep_ceres_deg": 142.2828,
+        "sep_psr_deg": 126.8849,
+        "booth_window": "South-West Coreward Window (Sol 5' Coronagraph Lock)",
         "triangulation": {
-          "ceres_dist_label": "412.03 ly",
-          "ceres_sep_deg": 149.8,
-          "sol_sep_deg": 127.5,
-          "psr_sep_deg": 21.8,
-          "baseline_parallax": "7.327\"",
-          "booth_window": "East Chasm Window • Bay 03 (Euclid ED-9 Desk)"
-        }
+          "ceres_dist_label": "43,238 AU",
+          "ceres_sep_deg": 142.28,
+          "sol_sep_deg": 0.0,
+          "psr_sep_deg": 126.88,
+          "baseline_parallax": "1.15°",
+          "booth_window": "South-West Coreward Window (Sol 5' Coronagraph Lock)"
+        },
+        "range_au": 42106.4,
+        "orbit_id": "orbit-saturn",
+        "sol_offset_arcsec": [
+          37.414,
+          14.772
+        ]
       },
       "rf": {
         "frequency_khz": 3890.0,
@@ -452,7 +475,7 @@
         "tx_power_watts": 85,
         "tx_power_label": "85 W (Strontium-90 RTG Thermocouple)",
         "antenna": "6.4m Vertical Whip with 3 Stainless Guy-Wires",
-        "relay_path": "Cygnus Rift Ionospheric Bounce → O.R.S. 351",
+        "relay_path": "Kronian Flux-Tube → Heliopause Gate → GOR-9 80m Beverage/Ring Duct",
         "sinpo": {
           "s": 3,
           "i": 4,
@@ -693,7 +716,7 @@
         "site": "Pelagic & Deep-Field Sonde DS-771-04",
         "coordinates": "Gal Lon 133.6°, Gal Lat -31.3° (RA 01h 33m 50.9s)",
         "distance": "2.73 Million Light-Years (Extragalactic Micro-Lens)",
-        "local_clock": "Survey Epoch +712 Yrs (Barycentric Lock)"
+        "local_clock": "Survey-Era ROM Clock • Epoch 254.310 W0"
       },
       "galactic": {
         "sector": "Extragalactic Local Group • M-33 Triangulum Spur",
@@ -701,54 +724,59 @@
         "azimuth_deg": 133.6,
         "elevation_deg": -31.3,
         "range_ly": 2730000.0,
-        "range_label": "2.73 Mly (837 kpc)",
-        "radial_norm": 0.92,
+        "range_label": "2.73 Mly (M-33 H-I Caustic)",
+        "radial_norm": 0.923,
         "relay_nodes": [
           {
-            "name": "Perseus Arm Einstein Lens",
+            "name": "Perseus Arm Einstein Micro-Lens",
             "az_deg": 131.0,
             "el_deg": 6.4,
-            "r_norm": 0.68,
+            "range_au": 404742892.8,
+            "r_norm": 0.78,
             "range_label": "6,400 ly (Perseus Caustic)",
-            "role": "+28 dB Gravitational Micro-Lens",
+            "role": "+28 dB Gravitational Lens + H-I Filament",
             "xyz_unit": [
-              0.75,
-              -0.652,
-              0.1115
+              0.75001,
+              -0.65197,
+              0.11147
             ]
           },
           {
-            "name": "Outer Oort Halo Gate",
-            "az_deg": 133.2,
+            "name": "GOR-4 Perseus Gate Relay",
+            "az_deg": 134.5,
             "el_deg": 11.2,
-            "r_norm": 0.28,
-            "range_label": "12,400 AU (Sector 9 Rim)",
-            "role": "21-cm H-I Phase Correlator",
+            "range_au": 46500.0,
+            "r_norm": 0.5,
+            "range_label": "46,500 AU (Oort Sector 4)",
+            "role": "21-cm Cryo-Maser Correlator",
             "xyz_unit": [
-              0.7151,
-              -0.6715,
-              0.1942
+              0.69967,
+              -0.68756,
+              0.19423
             ]
           }
         ],
-        "local_el_deg": 2.8,
+        "local_el_deg": 2.75,
         "xyz_unit": [
-          0.7233,
-          -0.6888,
-          0.0488
+          0.72334,
+          -0.68883,
+          0.04798
         ],
-        "sep_sol_deg": 78.6,
-        "sep_ceres_deg": 135.3,
-        "sep_psr_deg": 76.2,
-        "booth_window": "South-East Window • Bay 04 (Bogey-9 Trail-Cam)",
+        "sep_sol_deg": 78.6001,
+        "sep_ceres_deg": 113.642,
+        "sep_psr_deg": 76.2347,
+        "booth_window": "South-East Window • Bay 04 (Bogey-9 Sentinel)",
         "triangulation": {
           "ceres_dist_label": "2.73 Mly",
-          "ceres_sep_deg": 135.3,
-          "sol_sep_deg": 78.6,
-          "psr_sep_deg": 76.2,
-          "baseline_parallax": "1.55 mas (Micro-Lens)",
-          "booth_window": "South-East Window • Bay 04 (Bogey-9 Trail-Cam)"
-        }
+          "ceres_sep_deg": 113.64,
+          "sol_sep_deg": 78.6001,
+          "psr_sep_deg": 76.23,
+          "baseline_parallax": "1.55 mas (VLBI)",
+          "booth_window": "South-East Window • Bay 04 (Bogey-9 Sentinel)"
+        },
+        "range_au": 172648140210.0,
+        "orbit_id": null,
+        "sol_offset_arcsec": null
       },
       "rf": {
         "frequency_khz": 1420405.751,
@@ -951,66 +979,60 @@
       "status": "NO VIDEO • BASE-8 CIPHER",
       "status_color": "red",
       "origin": {
-        "body": "Perseus-Trojan Lagrange Swarm L4 (Shard #624-Hektor)",
+        "body": "624 Hektor • Jupiter Trojan L4 (+60° Ahead of Jupiter • 5.26 AU)",
         "site": "Unmarked Carbonaceous Cavity Array",
         "coordinates": "Gal Lon 318.4°, Gal Lat +02.1° (L4 Libration Zone)",
-        "distance": "2,480 Light-Years (Perseus Gap Bearing 318.4°)",
-        "local_clock": "GCT Pulsar Direct (No Local Solar Day)"
+        "distance": "42,102.1 AU (0.666 ly • ±25.8\" off Sol via L4 Libration Duct)",
+        "local_clock": "Hektor Spin 6.92h • Epoch 254.310 W0"
       },
       "galactic": {
-        "sector": "Perseus Arm Inner Rim • L4 Trojan Shard Swarm",
-        "arm": "Perseus Arm",
-        "azimuth_deg": 318.4,
+        "sector": "Solar System 5' Core • Jupiter L4 Greek Camp (5.26 AU)",
+        "arm": "Heliocentric Inner Core (4.90\"/AU)",
+        "azimuth_deg": 212.40707,
         "elevation_deg": 2.1,
-        "range_ly": 2480.0,
-        "range_label": "2,480 ly (0.76 kpc)",
-        "radial_norm": 0.72,
+        "range_ly": 0.66574,
+        "range_label": "42,102 AU (Jupiter L4 • ±25.8\")",
+        "radial_norm": 0.427,
         "relay_nodes": [
-          {
-            "name": "Ceres-North Shadow Relay",
-            "az_deg": 302.0,
-            "el_deg": 14.2,
-            "r_norm": 0.42,
-            "range_label": "1,920 AU (North of CFS-7)",
-            "role": "Perseus Gap Libration Waveguide",
-            "xyz_unit": [
-              -0.8221,
-              0.5137,
-              0.2453
-            ]
-          },
           {
             "name": "Quarantine Buoy 12 (Tartarus)",
             "az_deg": 304.2,
             "el_deg": 19.2,
-            "r_norm": 0.25,
-            "range_label": "420 AU (Customs Hold)",
-            "role": "Null-Loop Jammer Rejection Reference",
+            "range_au": 420.0,
+            "r_norm": 0.24,
+            "range_label": "420 AU (Sector 9 NW)",
+            "role": "Ceres Jammer Phase-Null Reference",
             "xyz_unit": [
-              -0.7811,
-              0.5308,
-              0.3289
+              -0.78108,
+              0.53082,
+              0.32887
             ]
           }
         ],
-        "local_el_deg": 11.1,
+        "local_el_deg": 22.3968,
         "xyz_unit": [
-          -0.6515,
-          0.7338,
-          0.1925
+          -0.4955,
+          -0.78058,
+          0.38102
         ],
-        "sep_sol_deg": 100.2,
-        "sep_ceres_deg": 45.3,
-        "sep_psr_deg": 93.4,
-        "booth_window": "North-West Window • Bay 08 (Station Dossier & L4)",
+        "sep_sol_deg": 0.0,
+        "sep_ceres_deg": 142.2911,
+        "sep_psr_deg": 126.8892,
+        "booth_window": "South-West Coreward Window (Sol 5' Coronagraph Lock)",
         "triangulation": {
-          "ceres_dist_label": "2,479.98 ly",
-          "ceres_sep_deg": 45.3,
-          "sol_sep_deg": 100.2,
-          "psr_sep_deg": 93.4,
-          "baseline_parallax": "1.720\"",
-          "booth_window": "North-West Window • Bay 08 (Station Dossier & L4)"
-        }
+          "ceres_dist_label": "43,234 AU",
+          "ceres_sep_deg": 142.29,
+          "sol_sep_deg": 0.0,
+          "psr_sep_deg": 126.89,
+          "baseline_parallax": "1.15°",
+          "booth_window": "South-West Coreward Window (Sol 5' Coronagraph Lock)"
+        },
+        "range_au": 42102.1,
+        "orbit_id": "orbit-jupiter",
+        "sol_offset_arcsec": [
+          23.524,
+          -11.503
+        ]
       },
       "rf": {
         "frequency_khz": 6440.0,
@@ -1022,7 +1044,7 @@
         "tx_power_watts": 1200,
         "tx_power_label": "1.2 kW (Pulsed Capacitor Bank)",
         "antenna": "Slot-Cut Basalt Cavity Radiator",
-        "relay_path": "Perseus Gap Waveguide + Oort Cometary Scatter",
+        "relay_path": "Jupiter L4 Libration Filament → Tartarus Null-Loop → GOR-9",
         "sinpo": {
           "s": 4,
           "i": 2,
@@ -1232,49 +1254,53 @@
         "site": "Independent Ice-Tender 'Boca del Río'",
         "coordinates": "Gal Lon 264.0°, Gal Lat +11.5° (Oort Shell 38,400 AU)",
         "distance": "0.058 Light-Years (3,700 AU • Local Oort Scatter)",
-        "local_clock": "0400 GCT Daily Window (0402–0415 GCT Only)"
+        "local_clock": "MV Boca del Río Watch 0 • Epoch 254.310"
       },
       "galactic": {
         "sector": "Oort Cloud Sector 9 West • Cometary Ice Shoal",
         "arm": "Local Oort Shell (Inner Rim)",
         "azimuth_deg": 264.0,
         "elevation_deg": 11.5,
-        "range_ly": 0.058,
-        "range_label": "3,700 AU (0.058 ly)",
-        "radial_norm": 0.22,
+        "range_ly": 0.05851,
+        "range_label": "3,700 AU (Oort West Shoal)",
+        "radial_norm": 0.348,
         "relay_nodes": [
           {
-            "name": "Comet C/2736-K4 Ion Tail",
+            "name": "Comet C/2736-K4 Cyanogen Tail",
             "az_deg": 264.0,
             "el_deg": 32.5,
-            "r_norm": 0.36,
-            "range_label": "3,700 AU (Cyanogen Coma)",
+            "range_au": 3700.0,
+            "r_norm": 0.34,
+            "range_label": "3,700 AU (West Shoal)",
             "role": "+11.4 dB Es-Oort Forward-Scatter Mirror",
             "xyz_unit": [
-              -0.8388,
-              -0.0882,
+              -0.83877,
+              -0.08816,
               0.5373
             ]
           }
         ],
-        "local_el_deg": 29.0,
+        "local_el_deg": 29.04,
         "xyz_unit": [
-          -0.8698,
-          -0.0914,
-          0.4848
+          -0.86949,
+          -0.09139,
+          0.48542
         ],
-        "sep_sol_deg": 46.6,
-        "sep_ceres_deg": 16.2,
-        "sep_psr_deg": 120.5,
-        "booth_window": "West Window • Bay 07 (3D Spectrum & Ceres Bearing)",
+        "sep_sol_deg": 46.6018,
+        "sep_ceres_deg": 104.3212,
+        "sep_psr_deg": 120.4414,
+        "booth_window": "West Massif Window (Oort West Shoal & Quarry)",
         "triangulation": {
-          "ceres_dist_label": "1,969 AU",
-          "ceres_sep_deg": 16.2,
-          "sol_sep_deg": 46.6,
-          "psr_sep_deg": 120.5,
-          "baseline_parallax": "15.11° (906.7')",
-          "booth_window": "West Window • Bay 07 (3D Spectrum & Ceres Bearing)"
-        }
+          "ceres_dist_label": "4,279 AU",
+          "ceres_sep_deg": 104.32,
+          "sol_sep_deg": 46.6018,
+          "psr_sep_deg": 120.44,
+          "baseline_parallax": "18.76°",
+          "booth_window": "West Massif Window (Oort West Shoal & Quarry)"
+        },
+        "range_au": 3700.0,
+        "orbit_id": null,
+        "sol_offset_arcsec": null
       },
       "rf": {
         "frequency_khz": 6969.5,
@@ -1487,49 +1513,53 @@
         "site": "Meridian Plateau Ridge • Twin Parabolic Array",
         "coordinates": "Gal Lon 018.6°, Gal Lat -01.4° (Meridian Ridge)",
         "distance": "0.022 Light-Years (1,420 AU • Coreward Trunk Hop)",
-        "local_clock": "0400 GCT (Engulfed in Triboelectric Squall)"
+        "local_clock": "Meridian Fault Watch 0 • Epoch 254.310"
       },
       "galactic": {
         "sector": "Sagittarius–Coreward Trunk Corridor • Meridian Plateau",
         "arm": "Local Oort Trunk (Toward Sgr A* Core)",
         "azimuth_deg": 18.6,
         "elevation_deg": -1.4,
-        "range_ly": 0.022,
-        "range_label": "1,420 AU (0.022 ly)",
-        "radial_norm": 0.16,
+        "range_ly": 0.02245,
+        "range_label": "1,420 AU (Sector 9 Feeder)",
+        "radial_norm": 0.316,
         "relay_nodes": [
           {
-            "name": "Sector 9 Coreward Trunk Duct",
+            "name": "Sector 9 Meridian Duct",
             "az_deg": 18.6,
-            "el_deg": 14.5,
-            "r_norm": 0.09,
-            "range_label": "680 AU (Meridian Approach)",
-            "role": "Direct 41m Trunk (60 kV Squall Zone)",
+            "el_deg": 12.8,
+            "range_au": 710.0,
+            "r_norm": 0.18,
+            "range_label": "710 AU Mid-Span",
+            "role": "41m Trunk (60 kV Silicate Squall)",
             "xyz_unit": [
-              0.3088,
-              0.9176,
-              0.2504
+              0.31103,
+              0.92422,
+              0.22155
             ]
           }
         ],
-        "local_el_deg": 12.8,
+        "local_el_deg": 0.82,
         "xyz_unit": [
-          0.311,
-          0.9242,
-          0.2215
+          0.31893,
+          0.94767,
+          0.01431
         ],
-        "sep_sol_deg": 142.3,
-        "sep_ceres_deg": 102.3,
-        "sep_psr_deg": 38.6,
-        "booth_window": "North Window • Bay 01 (Hauser MK-IV Master Desk)",
+        "sep_sol_deg": 153.1656,
+        "sep_ceres_deg": 11.9793,
+        "sep_psr_deg": 44.5691,
+        "booth_window": "North Window • Bay 01 (Master Show Cockpit)",
         "triangulation": {
-          "ceres_dist_label": "2,532 AU",
-          "ceres_sep_deg": 102.3,
-          "sol_sep_deg": 142.3,
-          "psr_sep_deg": 38.6,
-          "baseline_parallax": "45.23° (2713.9')",
-          "booth_window": "North Window • Bay 01 (Hauser MK-IV Master Desk)"
-        }
+          "ceres_dist_label": "296 AU",
+          "ceres_sep_deg": 11.98,
+          "sol_sep_deg": 153.1656,
+          "psr_sep_deg": 44.57,
+          "baseline_parallax": "84.01°",
+          "booth_window": "North Window • Bay 01 (Master Show Cockpit)"
+        },
+        "range_au": 1420.0,
+        "orbit_id": null,
+        "sol_offset_arcsec": null
       },
       "rf": {
         "frequency_khz": 7140.0,
@@ -1733,66 +1763,74 @@
       "status": "HOPPING ±5 kHz • JAMMER LATE",
       "status_color": "green",
       "origin": {
-        "body": "Trojan L4 Asteroid Swarm (Shard #624-Hektor)",
+        "body": "624 Hektor Ridge • Jupiter Trojan L4 (+60° • 5.26 AU)",
         "site": "Mobile Silicate Blast-Crawler 'Balkan Star' (Crater-to-Crater)",
         "coordinates": "Gal Lon 319.1°, Gal Lat +02.4° (Mobile Crawler Track)",
-        "distance": "2,482 Light-Years (Perseus-Trojan Corridor)",
-        "local_clock": "Mon/Wed/Fri/Sun Only (Thursdays Off for Mahjong)"
+        "distance": "42,102.1 AU (0.666 ly • ±25.8\" off Sol; Jammed from Ceres 2.77 AU)",
+        "local_clock": "Crawler X-74 Shift • Epoch 254.310 W0"
       },
       "galactic": {
-        "sector": "Perseus Arm Inner Rim • L4 Trojan Shard Swarm",
-        "arm": "Perseus Arm",
-        "azimuth_deg": 322.0,
+        "sector": "Solar System 5' Core • Jupiter L4 Greek Camp (5.26 AU)",
+        "arm": "Heliocentric Inner Core (4.90\"/AU)",
+        "azimuth_deg": 212.40787,
         "elevation_deg": 2.4,
-        "range_ly": 2482.0,
-        "range_label": "2,482 ly (0.76 kpc)",
-        "radial_norm": 0.75,
+        "range_ly": 0.66574,
+        "range_label": "42,102 AU (Jupiter L4 • ±25.8\")",
+        "radial_norm": 0.427,
         "relay_nodes": [
           {
-            "name": "Perseus Libration Waveguide",
-            "az_deg": 318.0,
-            "el_deg": 15.6,
-            "r_norm": 0.52,
-            "range_label": "940 ly (Perseus Inner Rim)",
-            "role": "Hop-Track Duct (6440/6445/6435 kHz)",
+            "name": "Ceres 6440 Jammer (2.77 AU)",
+            "az_deg": 212.40127,
+            "el_deg": 22.40291,
+            "range_au": 42098.4,
+            "r_norm": 0.48,
+            "range_label": "2.77 AU off Sol (±13.6\")",
+            "role": "Syndicate Jammer (90s Lag / Nulled -34 dB)",
             "xyz_unit": [
-              -0.6445,
-              0.7158,
-              0.2689
+              -0.4954,
+              -0.78059,
+              0.38112
             ]
           },
           {
-            "name": "Ceres Jammer Null Node",
-            "az_deg": 272.0,
-            "el_deg": 14.6,
-            "r_norm": 0.34,
-            "range_label": "1,840 AU (Ceres Foundry #7)",
-            "role": "Syndicate Jammer (90s Lag / Nulled -34 dB)",
+            "name": "Quarantine Buoy 12 (Tartarus)",
+            "az_deg": 304.2,
+            "el_deg": 19.2,
+            "range_au": 420.0,
+            "r_norm": 0.24,
+            "range_label": "420 AU",
+            "role": "Orthogonal Beverage Null Reference",
             "xyz_unit": [
-              -0.9671,
-              0.0338,
-              0.2521
+              -0.78108,
+              0.53082,
+              0.32887
             ]
           }
         ],
-        "local_el_deg": 14.7,
+        "local_el_deg": 22.3973,
         "xyz_unit": [
-          -0.5955,
-          0.7622,
-          0.2538
+          -0.49551,
+          -0.78057,
+          0.38103
         ],
-        "sep_sol_deg": 101.7,
-        "sep_ceres_deg": 48.3,
-        "sep_psr_deg": 88.7,
-        "booth_window": "North-West Window • Bay 08 (Station Dossier & L4)",
+        "sep_sol_deg": 0.0,
+        "sep_ceres_deg": 142.2903,
+        "sep_psr_deg": 126.8891,
+        "booth_window": "South-West Coreward Window (Sol 5' Coronagraph Lock)",
         "triangulation": {
-          "ceres_dist_label": "2,481.98 ly",
-          "ceres_sep_deg": 48.3,
-          "sol_sep_deg": 101.7,
-          "psr_sep_deg": 88.7,
-          "baseline_parallax": "1.805\"",
-          "booth_window": "North-West Window • Bay 08 (Station Dossier & L4)"
-        }
+          "ceres_dist_label": "43,234 AU",
+          "ceres_sep_deg": 142.29,
+          "sol_sep_deg": 0.0,
+          "psr_sep_deg": 126.89,
+          "baseline_parallax": "1.15°",
+          "booth_window": "South-West Coreward Window (Sol 5' Coronagraph Lock)"
+        },
+        "range_au": 42102.1,
+        "orbit_id": "orbit-jupiter",
+        "sol_offset_arcsec": [
+          25.32,
+          -10.1
+        ]
       },
       "rf": {
         "frequency_khz": 6445.0,
@@ -1804,7 +1842,7 @@
         "tx_power_watts": 180,
         "tx_power_label": "180 W (Crawler Diesel-Cell Alternator)",
         "antenna": "4.5m Spring-Loaded Whip on Crawler Engine Hood",
-        "relay_path": "Perseus Waveguide (Evading Ceres Noise-Blanketer)",
+        "relay_path": "L4 Hop-Track Filament (Ceres 2.77 AU Jammer Nulled -34 dB) → GOR-9",
         "sinpo": {
           "s": 4,
           "i": 4,
@@ -1991,7 +2029,7 @@
         "site": "Sanctuary of the Fluted Shell & Golden Harmonic Spire",
         "coordinates": "Gal Lon 188.2°, Gal Lat -14.6° (Vael-Karun Nebula Rim)",
         "distance": "1,140 Light-Years (Orion-Perseus Inter-Arm Sanctuary)",
-        "local_clock": "0400 GCT Twin-Moon Convergence Bow"
+        "local_clock": "Vael Harmonic Canon • Epoch 254.310 W0"
       },
       "galactic": {
         "sector": "Orion-Perseus Inter-Arm • Kaelen-V Planetary Sanctuary",
@@ -1999,54 +2037,45 @@
         "azimuth_deg": 188.2,
         "elevation_deg": -14.6,
         "range_ly": 1140.0,
-        "range_label": "1,140 ly (0.35 kpc)",
-        "radial_norm": 0.48,
+        "range_label": "1,140 ly (Kaelen-V Filament)",
+        "radial_norm": 0.669,
         "relay_nodes": [
           {
-            "name": "Kaelen-V Crystal Spire",
-            "az_deg": 188.2,
-            "el_deg": 22.8,
-            "r_norm": 0.32,
-            "range_label": "480 ly (Vael-Karun Rim)",
-            "role": "Piezo-Opalescent Tri-Band Resonator",
+            "name": "GOR-11 South Trunk Relay",
+            "az_deg": 182.0,
+            "el_deg": 19.4,
+            "range_au": 48200.0,
+            "r_norm": 0.52,
+            "range_label": "48,200 AU (Oort Sector 11)",
+            "role": "Inter-Arm Barycentric Filament Lock",
             "xyz_unit": [
-              -0.1315,
-              -0.9124,
-              0.3875
-            ]
-          },
-          {
-            "name": "O.R.S. 351 Polar Halo",
-            "az_deg": 158.0,
-            "el_deg": 18.0,
-            "r_norm": 0.12,
-            "range_label": "42.8 km (Local Halo Orbit)",
-            "role": "Simultaneous SW + H-I + Optical Lock",
-            "xyz_unit": [
-              0.3563,
-              -0.8818,
-              0.309
+              -0.03292,
+              -0.94265,
+              0.33216
             ]
           }
         ],
-        "local_el_deg": 20.9,
+        "local_el_deg": 20.87,
         "xyz_unit": [
-          -0.1332,
-          -0.9247,
-          0.3567
+          -0.13327,
+          -0.92484,
+          0.35625
         ],
-        "sep_sol_deg": 22.5,
-        "sep_ceres_deg": 79.2,
-        "sep_psr_deg": 113.8,
-        "booth_window": "South Airlock & Catwalk Sector",
+        "sep_sol_deg": 22.5229,
+        "sep_ceres_deg": 144.8134,
+        "sep_psr_deg": 113.8093,
+        "booth_window": "South Catwalk & Pulsar Reference Sector",
         "triangulation": {
-          "ceres_dist_label": "1,139.99 ly",
-          "ceres_sep_deg": 79.2,
-          "sol_sep_deg": 22.5,
-          "psr_sep_deg": 113.8,
-          "baseline_parallax": "5.171\"",
-          "booth_window": "South Airlock & Catwalk Sector"
-        }
+          "ceres_dist_label": "1,140.0 ly",
+          "ceres_sep_deg": 144.81,
+          "sol_sep_deg": 22.5229,
+          "psr_sep_deg": 113.81,
+          "baseline_parallax": "2.34\"",
+          "booth_window": "South Catwalk & Pulsar Reference Sector"
+        },
+        "range_au": 72094827.78,
+        "orbit_id": null,
+        "sol_offset_arcsec": null
       },
       "rf": {
         "frequency_khz": 9290.0,
@@ -2262,248 +2291,269 @@
   ],
   "celestial_neighbors": [
     {
-      "id": "ceres-foundry-7",
-      "slot": "CFS-7",
-      "callsign": "CFS-7 / CERES",
-      "name": "Ceres Foundry #7 (Dwarf Planet Hub)",
-      "subtitle": "Van Allen Switchgear HQ • Dilithium Spot Exchange • Syndicate 6440 Jammer",
-      "category": "Oort Planetary Neighbor & Baseline Anchor",
-      "visual_type": "dwarf_planet_foundry",
+      "id": "sol-oort-star",
+      "slot": "SOL-00",
+      "callsign": "SOL (G2V CORE)",
+      "name": "Sol & 5-Arcminute Solar System Core",
+      "subtitle": "G2V Primary Star (m = -3.62 • 42,100 AU) + 10 Nested Keplerian Orbits (4.90\"/AU)",
+      "category": "Heliocentric Origin & Coronagraph Target",
+      "visual_type": "g2v_star",
       "status_color": "amber",
-      "hex": "#ff9e38",
-      "az_deg": 272.0,
-      "local_el_deg": 14.6,
-      "gal_lat_deg": -2.8,
-      "range_au": 1840.0,
-      "range_ly": 0.029,
-      "range_label": "1,840 AU (0.029 ly Baseline)",
-      "radial_norm": 0.34,
-      "apparent_mag": "+0.4",
-      "apparent_size": "6.8\" Warm Amber Planetary Disk",
-      "freq_khz": 10000.0,
-      "freq_label": "10,000.0 kHz CFS-7 Beacon / 6,440.0 kHz Jammer",
-      "arm": "Outer Foundry & Sector 9 Baseline Belt",
-      "appearance_from_gor9": "Appears above the West Basalt Massif (Az 272.0°, El +14.6°) as a resolved warm amber-ochre planetary sphere (m = +0.4). At 40x telescope magnification, glowing orange sodium-slag foundry canyons and the pulsing crimson Syndicate jammer array are visible on its night hemisphere.",
-      "triangulation_role": "Primary 1,840 AU Astrometric Triangulation Baseline (GOR-9 ↔ CFS-7). Paired with Sol (Az 212.4°) and PSR B1937+21 (Az 57.5°) to triangulate distances and bearings across Sector 9.",
-      "lore": "Relocated industrial headquarters of Van Allen & Sons Switchgear (Foundry #7), trading floor of the Ceres Dilithium Spot Exchange (+4.2%), and site of the automated Syndicate noise-jammer on bearing 272.0° that fires on 6,440 kHz even on silent Thursdays.",
+      "hex": "#ffedba",
+      "az_deg": 212.4,
+      "local_el_deg": 22.4,
+      "gal_lat_deg": -4.2,
+      "range_au": 42100.0,
+      "range_ly": 0.66571,
+      "range_label": "42,100 AU (0.666 ly)",
+      "radial_norm": 0.44,
+      "apparent_mag": "-3.62",
+      "apparent_size": "0.046\" Point-Star (5.0' Planetary Core)",
+      "orbit_id": "orbit-earth",
+      "freq_khz": 14285.7,
+      "freq_label": "10.7cm Flux: 148.2 SFU • Heliospheric Trunk",
+      "arm": "Heliocentric Core (Orion–Cygnus Spur)",
+      "appearance_from_gor9": "At 42,100 AU, the Sun is a razor-sharp 0.046\" point-star blazing at magnitude -3.62. Engaging the 2000× Solar Coronagraph masks Sol's glare and reveals the hairline Keplerian ellipses of Earth (±4.9\"), Ceres (±13.6\"), Jupiter & L4 Trojans (±25.5\"), and Saturn (±47.0\").",
+      "triangulation_role": "Heliocentric Coordinate Origin; target of Asteroid 3-5-1's -42.6 m/s cometary plunge (ETA 1.39 Myr).",
+      "lore": "All classical planets and inner colonies lie packed within 2.5 arcminutes of Sol, linked live to GOR-9 via Marzelvane-biased heliospheric flux-ducts.",
       "relay_nodes": [
         {
-          "name": "Quarantine Buoy 12 (Tartarus)",
-          "az_deg": 292.0,
-          "el_deg": 16.8,
-          "r_norm": 0.21,
-          "range_label": "420 AU",
-          "role": "Customs Telemetry Hop",
+          "name": "Sedna Hills Gate (SEDNA-H1)",
+          "az_deg": 211.93314,
+          "el_deg": 22.16694,
+          "range_au": 41320.0,
+          "r_norm": 0.42,
+          "range_label": "780 AU off Sol",
+          "role": "Inner-Oort Flux-Duct Mouth",
           "xyz_unit": [
-            -0.8876,
-            0.3586,
-            0.289
+            -0.48984,
+            -0.78594,
+            0.37731
           ]
         }
       ],
       "xyz_unit": [
-        -0.9671,
-        0.0338,
-        0.2521
+        -0.4954,
+        -0.78062,
+        0.38107
       ],
-      "sep_sol_deg": 56.7,
-      "sep_ceres_deg": 0.4,
-      "sep_psr_deg": 128.2,
-      "booth_window": "West Window • Bay 07 (3D Spectrum & Ceres Bearing)"
+      "sep_sol_deg": 0.0,
+      "sep_ceres_deg": 142.2906,
+      "sep_psr_deg": 126.8836,
+      "booth_window": "South-West Coreward Window (Sol 5' Coronagraph Lock)"
     },
     {
-      "id": "persephone-sedna9",
-      "slot": "OORT-P1",
-      "callsign": "SEDNA-IX",
-      "name": "Persephone • Ringed Oort Cryo-Planet",
-      "subtitle": "Detached Sector 9 Ice-Dwarf (2,380 km) with Teal Methane-Ice Rings",
-      "category": "Local Oort Planetary Neighbor",
-      "visual_type": "ringed_cryo_planet",
-      "status_color": "cyan",
-      "hex": "#3df0d9",
-      "az_deg": 148.5,
-      "local_el_deg": 28.4,
-      "gal_lat_deg": -12.4,
-      "range_au": 0.18,
-      "range_ly": 2.8e-06,
-      "range_label": "0.18 AU (26.9M km Local)",
-      "radial_norm": 0.18,
-      "apparent_mag": "-1.8",
-      "apparent_size": "18.2\" Disk / 44.0\" Ring System",
-      "freq_khz": 22.4,
-      "freq_label": "22.4 kHz Cryo-Aurora Whisper",
-      "arm": "Local Oort Sector 9 Sub-Cluster",
-      "appearance_from_gor9": "Our closest planetary neighbor in Sector 9! Visible to the naked eye and spectacular in the booth telescope over the South-East Acheron Chasm (Az 148.5°, El +28.4°) as a crescent teal-emerald cryo-planet encircled by double shimmering methane-ice rings.",
-      "triangulation_role": "Near-Field Gravitational Shepherd & Cryo-Albedic Photometric Reference (0.18 AU).",
-      "lore": "A 2,380 km detached Oort cryo-planet sharing Sector 9's gravitational shoal with Asteroid 3-5-1. Its double ring system of crystallized methane and cyanogen ice catches distant Sol's light at a 34° phase angle.",
+      "id": "ceres-foundry-7",
+      "slot": "CFS-7",
+      "callsign": "1 CERES / CFS-7",
+      "name": "Ceres Foundry #7 (Main Asteroid Belt • 2.77 AU)",
+      "subtitle": "Van Allen Switchgear HQ • Dilithium Spot Exchange • Syndicate 6440 Jammer",
+      "category": "Solar System Dwarf Planet (Coronagraph Core)",
+      "visual_type": "point_body",
+      "status_color": "amber",
+      "hex": "#f59e0b",
+      "az_deg": 212.40127,
+      "local_el_deg": 22.40291,
+      "gal_lat_deg": -4.2,
+      "range_au": 42098.4,
+      "range_ly": 0.66568,
+      "range_label": "2.77 AU off Sol (±13.6\" • 42,098 AU)",
+      "radial_norm": 0.44,
+      "apparent_mag": "+23.8",
+      "apparent_size": "Unresolved Point (±13.6\" Orbit, i = 10.6°)",
+      "orbit_id": "orbit-ceres",
+      "sol_offset_arcsec": [
+        4.234,
+        10.463
+      ],
+      "freq_khz": 10000.0,
+      "freq_label": "10,000.0 kHz CFS-7 Std / 6,440.0 kHz Jammer",
+      "arm": "Solar System Main Belt (2.77 AU)",
+      "appearance_from_gor9": "Completely hidden in Sol's glare on wide views; under 2000× Coronagraph lock, Ceres tracks along a 10.6°-inclined hairline ellipse ±13.6 arcseconds from the occulted Sun at 17.9 km/s.",
+      "triangulation_role": "Inner-Belt Industrial Hub; radiates the automated 6,440 kHz noise-jammer outward toward 624 Hektor (Jupiter L4).",
+      "lore": "Headquarters of Van Allen & Sons Switchgear (Foundry #7) and the Ceres Grade-B Dilithium Exchange (+4.2% this Sweep).",
       "relay_nodes": [
         {
-          "name": "O.R.S. 351 Polar Halo",
-          "az_deg": 135.0,
-          "el_deg": 20.2,
-          "r_norm": 0.1,
-          "range_label": "42.8 km",
-          "role": "Optical Limb & Aurora Monitor",
+          "name": "Sedna Hills Gate (SEDNA-H1)",
+          "az_deg": 211.93314,
+          "el_deg": 22.16694,
+          "range_au": 41320.0,
+          "r_norm": 0.42,
+          "range_label": "780 AU off Sol",
+          "role": "Heliospheric Trunk Hop",
           "xyz_unit": [
-            0.6636,
-            -0.6636,
-            0.3453
+            -0.48984,
+            -0.78594,
+            0.37731
           ]
         }
       ],
       "xyz_unit": [
-        0.4596,
-        -0.75,
-        0.4756
+        -0.4954,
+        -0.78059,
+        0.38112
       ],
-      "sep_sol_deg": 57.4,
-      "sep_ceres_deg": 110.5,
-      "sep_psr_deg": 79.3,
-      "booth_window": "South-East Window • Bay 04 (Bogey-9 Trail-Cam)"
+      "sep_sol_deg": 0.0915,
+      "sep_ceres_deg": 142.2869,
+      "sep_psr_deg": 126.881,
+      "booth_window": "South-West Coreward Window (Sol 5' Coronagraph Lock)"
+    },
+    {
+      "id": "sedna-hills-relay",
+      "slot": "SEDNA-H1",
+      "callsign": "90377 SEDNA / H1",
+      "name": "Sedna Inner-Hills Trunk Gate (76–937 AU)",
+      "subtitle": "Detached Sednoid Stepping-Stone Relay • 11,380-Year Eccentric Loop",
+      "category": "Hills Cloud & Sednoid Trunk Node",
+      "visual_type": "point_body",
+      "status_color": "green",
+      "hex": "#4ade80",
+      "az_deg": 211.93314,
+      "local_el_deg": 22.16694,
+      "gal_lat_deg": -4.8,
+      "range_au": 41320.0,
+      "range_ly": 0.65337,
+      "range_label": "780 AU off Sol (1.28° Aphelion Loop)",
+      "radial_norm": 0.43,
+      "apparent_mag": "+29.1",
+      "apparent_size": "Unresolved Point (1.28° Eccentric Orbit)",
+      "orbit_id": "orbit-sedna",
+      "sol_offset_arcsec": [
+        -1553.874,
+        -839.022
+      ],
+      "freq_khz": 14285.7,
+      "freq_label": "14,285.7 kHz Heliospheric Mouth Repeater",
+      "arm": "Inner Hills Cloud (506 AU Semi-Major)",
+      "appearance_from_gor9": "Point-source tracking along a dramatic 1.28°-wide eccentric ellipse bridging the 5' Kuiper core out into the Hills Cloud.",
+      "triangulation_role": "Primary impedance-matching repeater coupling the Solar System magnetotail into Sector 9's Marzelvane flux-duct.",
+      "lore": "Uncrewed isotope-powered Marzelvane collar anchored on 90377 Sedna, funneling low-wattage inner-planet HF traffic across the 41,000 AU gap to GOR-9.",
+      "relay_nodes": [],
+      "xyz_unit": [
+        -0.48984,
+        -0.78594,
+        0.37731
+      ],
+      "sep_sol_deg": 0.453,
+      "sep_ceres_deg": 142.6688,
+      "sep_psr_deg": 126.8775,
+      "booth_window": "South-West Coreward Window (Sol 5' Coronagraph Lock)"
     },
     {
       "id": "tartarus-buoy12",
-      "slot": "OORT-P2",
-      "callsign": "BUOY-12 / TARTARUS",
-      "name": "Tartarus Binary Plutoid & Quarantine Buoy 12",
-      "subtitle": "Tidally Locked Oort Double-Dwarf • Sector 9 Customs Impound Anchorage",
-      "category": "Local Oort Planetary Neighbor",
-      "visual_type": "binary_plutoid",
+      "slot": "BUOY-12",
+      "callsign": "TARTARUS / Q-12",
+      "name": "Tartarus Plutoid & Quarantine Buoy 12",
+      "subtitle": "Local Sector 9 Customs Impound Anchorage (420 AU NW)",
+      "category": "Local Oort Sector 9 Neighbor",
+      "visual_type": "point_body",
       "status_color": "purple",
       "hex": "#b8a3fa",
       "az_deg": 304.2,
       "local_el_deg": 19.2,
       "gal_lat_deg": 4.6,
       "range_au": 420.0,
-      "range_ly": 0.0066,
-      "range_label": "420 AU (0.0066 ly NW)",
-      "radial_norm": 0.25,
-      "apparent_mag": "+1.6",
-      "apparent_size": "4.2\" + 1.8\" Binary Dwarf Pair",
+      "range_ly": 0.00664,
+      "range_label": "420 AU (Sector 9 Customs Hold)",
+      "radial_norm": 0.27,
+      "apparent_mag": "+15.2",
+      "apparent_size": "0.008\" Unresolved Point + L1 Strobe",
       "freq_khz": 4125.0,
-      "freq_label": "4,125.0 kHz USB Customs Hold",
-      "arm": "Local Oort Sector 9 (NW Corridor)",
-      "appearance_from_gor9": "Resolves in the telescope (Az 304.2°, El +19.2°) as a pale slate-violet binary dwarf planet pair revolving around their common barycenter, with the amber beacon of Quarantine Buoy 12 stationed at the L1 Lagrange point between them.",
-      "triangulation_role": "NW Mid-Field Ranging Waypoint (420 AU) along the Ceres–Trojan L4 corridor.",
-      "lore": "Sector 9 Outer Customs & Quarantine Anchorage. GOR-9's monthly Dilithium pellet and vacuum-tube tender is currently impounded at Quarantine Buoy 12 after customs inspectors misfiled replacement 811A oscillator tubes as 'fermented brine tubers'.",
-      "relay_nodes": [
-        {
-          "name": "O.R.S. 351 Polar Halo",
-          "az_deg": 295.0,
-          "el_deg": 17.5,
-          "r_norm": 0.11,
-          "range_label": "42.8 km",
-          "role": "Customs Manifest Link",
-          "xyz_unit": [
-            -0.8644,
-            0.4031,
-            0.3007
-          ]
-        }
-      ],
+      "freq_label": "4,125.0 kHz USB Customs Manifest",
+      "arm": "Oort Sector 9 (NW Approach)",
+      "appearance_from_gor9": "Faint +15.2 mag point of light at Az 304.2°, El +19.2°; phase-interferometry separates the binary plutoid's 0.008\" barycenter wobble.",
+      "triangulation_role": "Near-sector phase reference used to null out the Ceres 6,440 kHz Syndicate jammer.",
+      "lore": "Sector 9 customs hold where GOR-9's replacement 811A oscillator tubes remain impounded as 'fermented brine tubers'.",
+      "relay_nodes": [],
       "xyz_unit": [
-        -0.7811,
-        0.5308,
-        0.3289
+        -0.78108,
+        0.53082,
+        0.32887
       ],
-      "sep_sol_deg": 84.4,
-      "sep_ceres_deg": 31.1,
-      "sep_psr_deg": 101.6,
-      "booth_window": "North-West Window • Bay 08 (Station Dossier & L4)"
+      "sep_sol_deg": 84.3817,
+      "sep_ceres_deg": 71.3058,
+      "sep_psr_deg": 101.6043,
+      "booth_window": "North-West Window (Hauser MK-IV & Tartarus Hold)"
     },
     {
       "id": "quarry-44k",
-      "slot": "OORT-Q44",
+      "slot": "QRY-44K",
       "callsign": "QUARRY-44K",
-      "name": "Asteroid Silicate Quarry 44-K",
-      "subtitle": "Open-Pit Silicate & Grade-B Dilithium Dragline Mining World",
-      "category": "Local Oort Industrial Neighbor",
-      "visual_type": "mining_asteroid",
+      "name": "Silicate & Dilithium Quarry 44-K",
+      "subtitle": "Oort Sector 9 Dragline Mining Asteroid (890 AU WNW)",
+      "category": "Local Oort Sector 9 Neighbor",
+      "visual_type": "point_body",
       "status_color": "amber",
       "hex": "#f5bf52",
       "az_deg": 288.5,
       "local_el_deg": 9.4,
       "gal_lat_deg": 1.2,
       "range_au": 890.0,
-      "range_ly": 0.014,
-      "range_label": "890 AU (West Mining Belt)",
-      "radial_norm": 0.29,
-      "apparent_mag": "+2.8",
-      "apparent_size": "2.4\" Floodlit Basalt Crag",
+      "range_ly": 0.01407,
+      "range_label": "890 AU (Sector 9 West Crag)",
+      "radial_norm": 0.3,
+      "apparent_mag": "+17.4",
+      "apparent_size": "Unresolved Point (5,180 kHz Carrier)",
       "freq_khz": 5180.0,
-      "freq_label": "5,180.0 kHz Dragline Telemetry",
-      "arm": "Local Oort Sector 9 (West Mining Belt)",
-      "appearance_from_gor9": "Seen low in the WNW sky (Az 288.5°, El +9.4°) as a jagged carbonaceous asteroid crag illuminated by amber floodlights and a shimmering silicate dust plume kicked up by its cable dragline.",
-      "triangulation_role": "Intermediate Ranging Beacon (890 AU) on the GOR-9 ↔ Ceres Foundry #7 baseline.",
-      "lore": "Open-pit silicate and Grade-B Dilithium mining operation. A dragline cable slowdown at Pit 44-K triggered a +4.2% surge in Grade-B Dilithium pellets on the Ceres Spot Exchange.",
-      "relay_nodes": [
-        {
-          "name": "Quarantine Buoy 12 (Tartarus)",
-          "az_deg": 296.0,
-          "el_deg": 14.0,
-          "r_norm": 0.22,
-          "range_label": "420 AU",
-          "role": "Barge Telemetry Relay",
-          "xyz_unit": [
-            -0.8721,
-            0.4253,
-            0.2419
-          ]
-        }
-      ],
-      "xyz_unit": [
-        -0.9356,
-        0.313,
-        0.1633
-      ],
-      "sep_sol_deg": 73.7,
-      "sep_ceres_deg": 16.9,
-      "sep_psr_deg": 119.7,
-      "booth_window": "West Window • Bay 07 (3D Spectrum & Ceres Bearing)"
-    },
-    {
-      "id": "comet-c2736-k4",
-      "slot": "COMET-K4",
-      "callsign": "C/2736-K4",
-      "name": "Comet C/2736-K4 Ion Tail (Es-Oort)",
-      "subtitle": "Active Oort Macro-Comet & Sporadic-Oort Plasma Mirror (+11.4 dB)",
-      "category": "Cometary Plasma Reflector",
-      "visual_type": "active_comet",
-      "status_color": "green",
-      "hex": "#40fac7",
-      "az_deg": 264.0,
-      "local_el_deg": 32.5,
-      "gal_lat_deg": 11.5,
-      "range_au": 3700.0,
-      "range_ly": 0.058,
-      "range_label": "3,700 AU (0.058 ly West Shoal)",
-      "radial_norm": 0.36,
-      "apparent_mag": "-2.4",
-      "apparent_size": "6.5° Cyanogen Coma & Double Tail",
-      "freq_khz": 6969.5,
-      "freq_label": "Es-Oort Forward-Scatter (+11.4 dB)",
-      "arm": "Local Oort Shell (West Ice Shoal)",
-      "appearance_from_gor9": "Dominates the upper western sky (Az 264.0°, El +32.5°) with a luminous cyan-green cyanogen coma and a 6.5°-long striated ion tail streaming away from Sol.",
-      "triangulation_role": "Ionized Cometary Scatter Mirror enabling 3-Watt QRP reception across 3,700 AU.",
-      "lore": "Outgassing macro-comet in the West Oort Shoal whose ionized sublimation plume acts as a giant natural radio mirror (+11.4 dB forward-scatter gain) for Capt. Rafa's 3-Watt biscuit-tin weather broadcasts.",
+      "freq_label": "5,180.0 kHz Dragline Load Telemetry",
+      "arm": "Oort Sector 9 (West Shoal)",
+      "appearance_from_gor9": "Stellar pinpoint low over the West Basalt Massif (Az 288.5°, El +9.4°); sodium floodlight modulation detectable photometrically during Watch 1–3 shifts.",
+      "triangulation_role": "890 AU west-corridor telemetry node.",
+      "lore": "Open-pit silicate and Grade-B Dilithium quarry whose dragline cable slowdown pushed pellet spot prices up +4.2% this Sweep.",
       "relay_nodes": [],
       "xyz_unit": [
-        -0.8388,
-        -0.0882,
-        0.5373
+        -0.93559,
+        0.31304,
+        0.16333
       ],
-      "sep_sol_deg": 46.4,
-      "sep_ceres_deg": 19.3,
-      "sep_psr_deg": 117.4,
-      "booth_window": "West Window • Bay 07 (3D Spectrum & Ceres Bearing)"
+      "sep_sol_deg": 73.6582,
+      "sep_ceres_deg": 88.0225,
+      "sep_psr_deg": 119.6765,
+      "booth_window": "West Massif Window (Oort West Shoal & Quarry)"
+    },
+    {
+      "id": "gor-8-trunk",
+      "slot": "GOR-08",
+      "callsign": "RELAY GOR-8",
+      "name": "Sister Outpost GOR-8 (Oort Sector 8 Trunk)",
+      "subtitle": "50 kW Lateral Oort Perimeter Relay Peer (31,400 AU)",
+      "category": "Oort 12-Station Relay Ring",
+      "visual_type": "relay_peer",
+      "status_color": "cyan",
+      "hex": "#38bdf8",
+      "az_deg": 291.33,
+      "local_el_deg": 11.25,
+      "gal_lat_deg": -8.4,
+      "range_au": 5122.0,
+      "range_ly": 0.081,
+      "range_label": "5,122 AU (Oort Ring Peer)",
+      "radial_norm": 0.42,
+      "apparent_mag": "RF Beacon",
+      "apparent_size": "Point Source • 14,253.6 kHz DRM-9",
+      "freq_khz": 14253.6,
+      "freq_label": "14,253.6 kHz Lateral Ring Trunk",
+      "arm": "Outer Oort 12-Relay Perimeter Shell",
+      "appearance_from_gor9": "Optically invisible dark basalt spire across the Oort shell; blazes at S9+25 dB on the 20m lateral ring waveguide.",
+      "triangulation_role": "Port-side neighbor in the 12-station Oort Relay Ring (`GOR-1..12`), handing off lateral store-and-forward mail packets.",
+      "lore": "Identical 86.5m 4-ring Marzelvane tower anchored in Sector 8; shares Watch 0 pulsar clock calibration and VLBI fringe sync with GOR-9 and GOR-10.",
+      "relay_nodes": [],
+      "xyz_unit": [
+        -0.9136,
+        0.35675,
+        0.19509
+      ],
+      "sep_sol_deg": 75.6139,
+      "sep_ceres_deg": 84.9065,
+      "sep_psr_deg": 116.3355,
+      "booth_window": "West Massif Window (Oort West Shoal & Quarry)"
     },
     {
       "id": "ors-351-halo",
       "slot": "ORS-351",
       "callsign": "O.R.S. 351",
-      "name": "O.R.S. 351 Polar Halo Relay Satellite",
-      "subtitle": "Near-Field Orbital Transponder & CAM-SAT09 Optical Downlook Platform",
-      "category": "Local Orbital Relay",
+      "name": "O.R.S. 351 Polar Halo Transponder",
+      "subtitle": "Station-Keeping Orbital Relay & Remote Kiwis/SDR (42.8 km)",
+      "category": "Near-Field Station Hardware",
       "visual_type": "orbital_satellite",
       "status_color": "cyan",
       "hex": "#59ebff",
@@ -2513,174 +2563,793 @@
       "range_au": 0.000286,
       "range_ly": 4.5e-09,
       "range_label": "42.8 km (Polar Halo Station)",
-      "radial_norm": 0.12,
+      "radial_norm": 0.1,
       "apparent_mag": "-2.4",
-      "apparent_size": "Resolved Brass Bus & Solar Wings",
+      "apparent_size": "m = -2.4 Artificial Point Strobe",
       "freq_khz": 14285.7,
-      "freq_label": "14,285.7 kHz / Halo Optical Trunk",
+      "freq_label": "14,285.7 kHz / Halo Quiet SDR",
       "arm": "Asteroid 3-5-1 Near-Space Halo",
-      "appearance_from_gor9": "Hovers off the South-East Acheron Chasm cliff (Az 125.6°, El +16.4°) as a bright cyan/amber artificial star; telescope zoom reveals its 8-sided brass bus, parabolic dish, copper solar wings, and navigation strobes.",
-      "triangulation_role": "Local Relay Hop #1 and remote camera station looking directly back at the GOR-9 lighthouse tower.",
-      "lore": "Station-keeping orbital relay satellite positioned off the South Rotational Pole of Asteroid 3-5-1, coupling inner-system waveguides to the 4-Ring Marzelvane array.",
+      "appearance_from_gor9": "Steady magnitude -2.4 artificial star poised 16.4° above the South-East Acheron Chasm cliff.",
+      "triangulation_role": "Provides quiet-zone remote SDR reception 42.8 km clear of Reactor #2 switching hash, plus CAM-SAT09 optical downlook.",
+      "lore": "Station-keeping polar relay satellite locked off Asteroid 3-5-1's 88.4° S rotational pole.",
       "relay_nodes": [],
       "xyz_unit": [
-        0.78,
-        -0.5584,
-        0.2823
+        0.78002,
+        -0.55844,
+        0.28234
       ],
-      "sep_sol_deg": 81.0,
-      "sep_ceres_deg": 134.6,
-      "sep_psr_deg": 63.7,
-      "booth_window": "South-East Window • Bay 04 (Bogey-9 Trail-Cam)"
-    },
-    {
-      "id": "sol-oort-star",
-      "slot": "SOL-00",
-      "callsign": "SOL (G2V)",
-      "name": "Sol • The Distant Sun (42,100 AU)",
-      "subtitle": "Coreward G2V Primary Star • Apparent Mag -3.62 • 0.665 ly",
-      "category": "Primary Cosmic & Astrometric Anchor",
-      "visual_type": "g2v_star",
-      "status_color": "amber",
-      "hex": "#ffedba",
-      "az_deg": 212.4,
-      "local_el_deg": 22.4,
-      "gal_lat_deg": -4.2,
-      "range_au": 42100.0,
-      "range_ly": 0.665,
-      "range_label": "42,100 AU (0.665 ly)",
-      "radial_norm": 0.48,
-      "apparent_mag": "-3.62",
-      "apparent_size": "0.045\" Razor-Sharp Point-Star",
-      "freq_khz": 2800000.0,
-      "freq_label": "10.7cm Solar Flux: 148.2 SFU",
-      "arm": "Orion–Cygnus Spur (Heliocentric Core)",
-      "appearance_from_gor9": "At 42,100 AU (0.665 ly), the Sun is an unresolved 0.045-arcsecond point-source—yet at apparent magnitude -3.62 (8x brighter than Sirius), it blazes in the SSW sky with crisp 6-point optical diffraction spikes and silver-gold corona glare.",
-      "triangulation_role": "Heliocentric Coordinate Origin (42,100 AU) & Primary Coreward Bearing Reference (Az 212.4°).",
-      "lore": "Casts high-contrast directional silver-gold light across Asteroid 3-5-1's columnar basalt cliffs and anchors the Sol–Jovian Magneto-Tail propagation corridor.",
-      "relay_nodes": [
-        {
-          "name": "Jovian Magneto-Tail Duct",
-          "az_deg": 210.0,
-          "el_deg": 18.8,
-          "r_norm": 0.24,
-          "range_label": "42,095 AU",
-          "role": "Heliospheric Waveguide",
-          "xyz_unit": [
-            -0.4733,
-            -0.8198,
-            0.3223
-          ]
-        },
-        {
-          "name": "O.R.S. 351 Polar Halo",
-          "az_deg": 176.0,
-          "el_deg": 17.0,
-          "r_norm": 0.11,
-          "range_label": "42.8 km",
-          "role": "Local Halo Downlink",
-          "xyz_unit": [
-            0.0667,
-            -0.954,
-            0.2924
-          ]
-        }
-      ],
-      "xyz_unit": [
-        -0.4954,
-        -0.7806,
-        0.3811
-      ],
-      "sep_sol_deg": 0.2,
-      "sep_ceres_deg": 56.7,
-      "sep_psr_deg": 126.9,
-      "booth_window": "South-West Coreward Window (Sol–Jovian Duct)"
+      "sep_sol_deg": 80.9615,
+      "sep_ceres_deg": 102.1786,
+      "sep_psr_deg": 63.6892,
+      "booth_window": "South-East Window • Bay 04 (Bogey-9 Sentinel)"
     },
     {
       "id": "psr-b1937",
       "slot": "PSR-01",
       "callsign": "PSR B1937+21",
-      "name": "Vulpecula Millisecond Pulsar",
-      "subtitle": "Master Barycentric Station Clock Metronome • 641.928262 Hz",
-      "category": "Primary Cosmic & Astrometric Anchor",
+      "name": "Vulpecula Millisecond Pulsar (Master Clock)",
+      "subtitle": "641.928262 Hz Barycentric Metronome • 11,700 ly",
+      "category": "Cosmic Clock & Astrometric Anchor",
       "visual_type": "millisecond_pulsar",
       "status_color": "cyan",
       "hex": "#38f2ff",
       "az_deg": 57.5,
       "local_el_deg": 24.8,
       "gal_lat_deg": -0.3,
-      "range_au": 740000000.0,
+      "range_au": 739920600.9,
       "range_ly": 11700.0,
       "range_label": "11,700 ly (3.59 kpc)",
-      "radial_norm": 0.84,
-      "apparent_mag": "641.928 Hz Pulse",
-      "apparent_size": "1.557806 ms Relativistic Jet",
+      "radial_norm": 0.8,
+      "apparent_mag": "641.928 Hz RF",
+      "apparent_size": "Point Radio/Optical Tick (1.5578 ms)",
       "freq_khz": 1420405.0,
-      "freq_label": "641.928262 Hz Barycentric Lock",
-      "arm": "Orion–Cygnus / Sagittarius Edge",
-      "appearance_from_gor9": "Appears in the ENE sky (Az 57.5°, El +24.8°) as a cyan-white bipolar relativistic jet beacon flashing in phase-locked 641.928262 Hz timing sync.",
-      "triangulation_role": "Master Galactic Coordinated Time (GCT) Clock & Phase-Difference-of-Arrival Reference.",
-      "lore": "Because Asteroid 3-5-1's tumbling rotation cannot serve as a civil clock, all GOR-9 consoles lock to the 1.557806 ms barycentric pulse train of PSR B1937+21.",
+      "freq_label": "641.928262 Hz PST Master Lock",
+      "arm": "Orion–Sagittarius Interface",
+      "appearance_from_gor9": "Unresolved point-source in Vulpecula (Az 057.5°, El +24.8°) whose 641.928262 Hz pulse train disciplines every oscillator at Outpost Nine.",
+      "triangulation_role": "Defines Pulsar Barycentric Time (`1 Beat = 1,000 pulses = 1.5578s`; `1 Watch = 10^7 pulses`; `1 Sweep = 6×10^8 pulses`).",
+      "lore": "Discovered at Arecibo in 1982 (`Epoch 000.000`); replaces planetary days, weeks, and years across the entire Oort Relay Ring.",
       "relay_nodes": [],
       "xyz_unit": [
-        0.7656,
-        0.4877,
-        0.4195
+        0.76561,
+        0.48775,
+        0.41945
       ],
-      "sep_sol_deg": 126.9,
-      "sep_ceres_deg": 128.2,
-      "sep_psr_deg": 0.4,
-      "booth_window": "North-East Window • Bay 02 (Van Allen VA-4 Desk)"
+      "sep_sol_deg": 126.8836,
+      "sep_ceres_deg": 38.5702,
+      "sep_psr_deg": 0.1395,
+      "booth_window": "North-East Window • Bay 02 (Van Allen VA-4 Bus)"
     },
     {
       "id": "sgr-a-core",
       "slot": "SGR-A*",
-      "callsign": "SGR A* CORE",
+      "callsign": "SGR A* (l = 0°)",
       "name": "Sagittarius Galactic Center",
-      "subtitle": "Milky Way Central Bulge & Great Dust Rift (l = 0.0°, b = 0.0°)",
-      "category": "Primary Cosmic & Astrometric Anchor",
+      "subtitle": "Galactic Zero-Meridian Origin • 26,480 ly (8.12 kpc)",
+      "category": "Cosmic Clock & Astrometric Anchor",
       "visual_type": "galactic_core",
       "status_color": "amber",
       "hex": "#ffbd61",
       "az_deg": 18.6,
       "local_el_deg": 18.0,
       "gal_lat_deg": 0.0,
-      "range_au": 1670000000.0,
+      "range_au": 1674623718.96,
       "range_ly": 26480.0,
       "range_label": "26,480 ly (8.12 kpc)",
-      "radial_norm": 0.9,
-      "apparent_mag": "Galactic Bulge",
-      "apparent_size": "24° Golden Bulge & Dark Rift",
+      "radial_norm": 0.86,
+      "apparent_mag": "Compact RF Core",
+      "apparent_size": "Point Radio Source in Starry Bulge",
       "freq_khz": 1420405.75,
-      "freq_label": "Galactic Zero-Meridian (l = 0°)",
-      "arm": "Galactic Nucleus (Sagittarius Core)",
-      "appearance_from_gor9": "Hangs directly outside the North Master Broadcast Desk window (Az 18.6°, El +18.0°) in permanent hard-vacuum night, completely unattenuated by inner-system zodiacal dust.",
-      "triangulation_role": "Galactic Longitude 000.0° Zero-Meridian & Coreward Trunk Bearing.",
-      "lore": "Defines the Galactic coordinate frame (R_gal = 8.12 kpc) and the Sagittarius–Coreward trunk corridor through Meridian Relay KZ9-OMEGA.",
-      "relay_nodes": [
-        {
-          "name": "Meridian Plateau Relay (KZ9-OMEGA)",
-          "az_deg": 18.6,
-          "el_deg": 12.8,
-          "r_norm": 0.16,
-          "range_label": "1,420 AU",
-          "role": "Coreward Trunk Hop #1",
-          "xyz_unit": [
-            0.311,
-            0.9242,
-            0.2215
-          ]
-        }
-      ],
+      "freq_label": "Galactic Zero-Meridian (l = 0.0°)",
+      "arm": "Galactic Nucleus",
+      "appearance_from_gor9": "Positioned outside the North Cockpit window (Az 018.6°, El +18.0°) amidst the dense stellar dust lanes of the Sagittarius Milky Way.",
+      "triangulation_role": "Defines Galactic Longitude 000.0° and the vertical Galactic Tide vector currently nudging Asteroid 3-5-1 toward perihelion.",
+      "lore": "Inertial directional anchor for the 12-Sector Oort Perimeter Ring.",
+      "relay_nodes": [],
       "xyz_unit": [
-        0.3033,
-        0.9014,
-        0.309
+        0.30335,
+        0.90138,
+        0.30902
       ],
-      "sep_sol_deg": 137.4,
-      "sep_ceres_deg": 100.7,
-      "sep_psr_deg": 36.7,
-      "booth_window": "North Window • Bay 01 (Hauser MK-IV Master Desk)"
+      "sep_sol_deg": 137.405,
+      "sep_ceres_deg": 5.1979,
+      "sep_psr_deg": 36.725,
+      "booth_window": "North Window • Bay 01 (Master Show Cockpit)"
+    }
+  ],
+  "pulsar_time": {
+    "standard_code": "PST",
+    "standard_name": "Pulsar Barycentric Time (Vulpecula Millisecond Standard)",
+    "reference_pulsar": "PSR B1937+21 (J1939+2134)",
+    "pulse_freq_hz": 641.928262,
+    "pulse_period_ms": 1.55780645,
+    "zero_epoch_origin": "Epoch 000.000 = 1982.86 CE (Arecibo First Millisecond Lock)",
+    "units": {
+      "beat_pulses": 1000,
+      "beat_seconds": 1.557806,
+      "watch_beats": 10000,
+      "watch_pulses": 10000000,
+      "watch_hours_si": 4.3272,
+      "cycle_watches": 6,
+      "cycle_pulses": 60000000,
+      "cycle_hours_si": 25.9634,
+      "sweep_cycles": 10,
+      "sweep_pulses": 600000000,
+      "sweep_days_si": 10.8181,
+      "epoch_sweeps": 100,
+      "epoch_cycles": 1000,
+      "epoch_years_si": 2.9618
+    },
+    "current_broadcast": {
+      "epoch": "254.310",
+      "previous_sweep": "254.300",
+      "watch": 0,
+      "watch_name": "Watch 0 • Quiet DX & Sweep Roundup (12 kW Reactor Step-Down)",
+      "sign_on_beat": "0000",
+      "display_stamp": "EPOCH 254.310 • W0 • B0000 PST"
+    }
+  },
+  "gor9_orbit": {
+    "body": "Asteroid 3-5-1 (Oort Sector 9 Polar Shelf)",
+    "orbit_class": "Perturbed Long-Period Retrograde Oort Comet (Pre-Active Crust)",
+    "current_r_au": 42100.0,
+    "aphelion_q_max_au": 42500.0,
+    "perihelion_q_min_au": 1.22,
+    "semi_major_axis_au": 21250.61,
+    "eccentricity": 0.9999426,
+    "inclination_deg": 104.2,
+    "unperturbed_circular_period_yr": 8638000,
+    "perturbed_cometary_period_yr": 3098000,
+    "infall_half_period_yr": 1549000,
+    "perturbation_event": "Grazing M-dwarf stellar tide + Galactic disk vertical torque (~155 kyr ago)",
+    "radial_velocity_ms": -42.6,
+    "tangential_velocity_ms": 11.4,
+    "local_escape_velocity_ms": 205.2,
+    "saturn_frost_line_au": 9.58,
+    "coma_ignition_eta_yr": 1392000,
+    "coma_ignition_eta_sweeps": 470100,
+    "actuarial_note": "Van Allen & Sons Switchgear lease valid until 10.0 AU water-ice sublimation threshold (ETA 1.39 Myr)."
+  },
+  "solar_system_orbits": [
+    {
+      "id": "orbit-earth",
+      "name": "Earth (Terra)",
+      "short": "TERRA",
+      "a_au": 1.0,
+      "e": 0.0167,
+      "inc_deg": 0.0,
+      "node_deg": 0.0,
+      "arg_peri_deg": 102.9,
+      "true_anom_deg": 42.0,
+      "period_yr": 1.0,
+      "v_kms": 29.78,
+      "mag": "+18.2",
+      "hex": "#60a5fa",
+      "tier": "inner",
+      "hosted_stations": [],
+      "note": "1.00 AU reference ring (±4.90\" from Sol); deep inside coronagraph inner zone.",
+      "angular_radius_arcsec": 4.9,
+      "aphelion_arcsec": 4.98,
+      "current_offset_arcsec": [
+        -2.656,
+        3.765
+      ],
+      "current_r_helio_au": 0.9875,
+      "az_deg": 212.3992,
+      "local_el_deg": 22.40105,
+      "period_sweeps": 33.8
+    },
+    {
+      "id": "orbit-mars",
+      "name": "Mars",
+      "short": "MARS",
+      "a_au": 1.524,
+      "e": 0.0934,
+      "inc_deg": 1.85,
+      "node_deg": 49.6,
+      "arg_peri_deg": 286.5,
+      "true_anom_deg": 195.0,
+      "period_yr": 1.881,
+      "v_kms": 24.07,
+      "mag": "+20.6",
+      "hex": "#f87171",
+      "tier": "inner",
+      "hosted_stations": [],
+      "note": "Inner boundary of Main Asteroid Belt (±7.47\" from Sol).",
+      "angular_radius_arcsec": 7.47,
+      "aphelion_arcsec": 8.16,
+      "current_offset_arcsec": [
+        -6.859,
+        4.35
+      ],
+      "current_r_helio_au": 1.6605,
+      "az_deg": 212.39794,
+      "local_el_deg": 22.40121,
+      "period_sweeps": 63.5
+    },
+    {
+      "id": "orbit-ceres",
+      "name": "1 Ceres (Foundry #7 Hub)",
+      "short": "CERES • CFS-7",
+      "a_au": 2.767,
+      "e": 0.0758,
+      "inc_deg": 10.59,
+      "node_deg": 80.3,
+      "arg_peri_deg": 73.6,
+      "true_anom_deg": 298.0,
+      "period_yr": 4.603,
+      "v_kms": 17.9,
+      "mag": "+23.8",
+      "hex": "#f59e0b",
+      "tier": "inner",
+      "hosted_stations": [
+        "CFS-7 (10.0 MHz Beacon / 6,440 kHz Jammer)"
+      ],
+      "note": "Van Allen & Sons Switchgear HQ, Dilithium Exchange & automated 6,440 kHz Syndicate Jammer aimed at 624 Hektor.",
+      "angular_radius_arcsec": 13.56,
+      "aphelion_arcsec": 14.58,
+      "current_offset_arcsec": [
+        4.234,
+        10.463
+      ],
+      "current_r_helio_au": 2.6566,
+      "az_deg": 212.40127,
+      "local_el_deg": 22.40291,
+      "period_sweeps": 155.4
+    },
+    {
+      "id": "orbit-jupiter",
+      "name": "Jupiter + Callisto & Trojan L4/L5",
+      "short": "JUPITER / L4",
+      "a_au": 5.204,
+      "e": 0.0489,
+      "inc_deg": 1.31,
+      "node_deg": 100.5,
+      "arg_peri_deg": 273.9,
+      "true_anom_deg": 134.0,
+      "period_yr": 11.862,
+      "v_kms": 13.07,
+      "mag": "+15.4",
+      "hex": "#ffae2b",
+      "tier": "gas",
+      "hosted_stations": [
+        "SW4-CORR (Callisto)",
+        "E08-OCTAL (624 Hektor L4)",
+        "RFH-HOP (624 Hektor L4)"
+      ],
+      "note": "Dominant ±25.5\" magnetospheric duct anchor; 624 Hektor leads Jupiter by +60° at L4.",
+      "angular_radius_arcsec": 25.5,
+      "aphelion_arcsec": 26.74,
+      "current_offset_arcsec": [
+        -15.627,
+        20.025
+      ],
+      "current_r_helio_au": 5.3741,
+      "az_deg": 212.3953,
+      "local_el_deg": 22.40556,
+      "period_sweeps": 400.5
+    },
+    {
+      "id": "orbit-saturn",
+      "name": "Saturn + Titan (Kraken Mare)",
+      "short": "SATURN / TITAN",
+      "a_au": 9.583,
+      "e": 0.0565,
+      "inc_deg": 2.49,
+      "node_deg": 113.7,
+      "arg_peri_deg": 339.4,
+      "true_anom_deg": 318.0,
+      "period_yr": 29.457,
+      "v_kms": 9.68,
+      "mag": "+17.1",
+      "hex": "#38e8ff",
+      "tier": "gas",
+      "hosted_stations": [
+        "TM-N24/B (Titan Buoy N-24 • 3,890 kHz)"
+      ],
+      "note": "±47.0\" water-ice sublimation boundary; hosts Hydrographic Buoy N-24 on Titan (15.945-day TSol tide).",
+      "angular_radius_arcsec": 46.95,
+      "aphelion_arcsec": 49.6,
+      "current_offset_arcsec": [
+        37.414,
+        14.772
+      ],
+      "current_r_helio_au": 9.1675,
+      "az_deg": 212.41124,
+      "local_el_deg": 22.4041,
+      "period_sweeps": 994.6
+    },
+    {
+      "id": "orbit-uranus",
+      "name": "Uranus",
+      "short": "URANUS",
+      "a_au": 19.191,
+      "e": 0.0472,
+      "inc_deg": 0.77,
+      "node_deg": 74.0,
+      "arg_peri_deg": 96.9,
+      "true_anom_deg": 72.0,
+      "period_yr": 84.02,
+      "v_kms": 6.8,
+      "mag": "+20.1",
+      "hex": "#67e8f9",
+      "tier": "kuiper",
+      "hosted_stations": [],
+      "note": "Outer ice-giant waveguide marker (±1.57' from Sol).",
+      "angular_radius_arcsec": 94.02,
+      "aphelion_arcsec": 98.46,
+      "current_offset_arcsec": [
+        -66.821,
+        -46.524
+      ],
+      "current_r_helio_au": 18.873,
+      "az_deg": 212.37992,
+      "local_el_deg": 22.38708,
+      "period_sweeps": 2836.8
+    },
+    {
+      "id": "orbit-neptune",
+      "name": "Neptune",
+      "short": "NEPTUNE",
+      "a_au": 30.07,
+      "e": 0.0086,
+      "inc_deg": 1.77,
+      "node_deg": 131.8,
+      "arg_peri_deg": 273.2,
+      "true_anom_deg": 228.0,
+      "period_yr": 164.8,
+      "v_kms": 5.43,
+      "mag": "+21.0",
+      "hex": "#3b82f6",
+      "tier": "kuiper",
+      "hosted_stations": [],
+      "note": "Classical Solar System outer rim (±2.46' = 4.9' diameter around Sol).",
+      "angular_radius_arcsec": 147.33,
+      "aphelion_arcsec": 148.59,
+      "current_offset_arcsec": [
+        -43.295,
+        -116.388
+      ],
+      "current_r_helio_au": 30.2418,
+      "az_deg": 212.38699,
+      "local_el_deg": 22.36767,
+      "period_sweeps": 5564.1
+    },
+    {
+      "id": "orbit-pluto",
+      "name": "134340 Pluto–Charon",
+      "short": "PLUTO",
+      "a_au": 39.482,
+      "e": 0.2488,
+      "inc_deg": 17.16,
+      "node_deg": 110.3,
+      "arg_peri_deg": 113.8,
+      "true_anom_deg": 64.0,
+      "period_yr": 247.9,
+      "v_kms": 4.67,
+      "mag": "+26.8",
+      "hex": "#a78bfa",
+      "tier": "kuiper",
+      "hosted_stations": [],
+      "note": "3:2 Neptunian resonance dwarf planet; inclined 17.2° (±3.22' from Sol).",
+      "angular_radius_arcsec": 193.44,
+      "aphelion_arcsec": 241.57,
+      "current_offset_arcsec": [
+        -6.534,
+        -140.298
+      ],
+      "current_r_helio_au": 33.3957,
+      "az_deg": 212.39804,
+      "local_el_deg": 22.36103,
+      "period_sweeps": 8369.8
+    },
+    {
+      "id": "orbit-eris",
+      "name": "136199 Eris (Scattered Disk)",
+      "short": "ERIS",
+      "a_au": 67.864,
+      "e": 0.4361,
+      "inc_deg": 44.04,
+      "node_deg": 36.0,
+      "arg_peri_deg": 151.6,
+      "true_anom_deg": 168.0,
+      "period_yr": 559.1,
+      "v_kms": 3.43,
+      "mag": "+27.4",
+      "hex": "#c084fc",
+      "tier": "kuiper",
+      "hosted_stations": [],
+      "note": "Steep 44.0° scattered-disk orbit extending to 97.5 AU (8.0' from Sol).",
+      "angular_radius_arcsec": 332.49,
+      "aphelion_arcsec": 477.49,
+      "current_offset_arcsec": [
+        347.606,
+        -246.666
+      ],
+      "current_r_helio_au": 95.8398,
+      "az_deg": 212.50444,
+      "local_el_deg": 22.33148,
+      "period_sweeps": 18876.8
+    },
+    {
+      "id": "orbit-sedna",
+      "name": "90377 Sedna (Inner Oort / Hills Gate)",
+      "short": "SEDNA • H1",
+      "a_au": 506.0,
+      "e": 0.8496,
+      "inc_deg": 11.93,
+      "node_deg": 144.5,
+      "arg_peri_deg": 311.3,
+      "true_anom_deg": 145.0,
+      "period_yr": 11380.0,
+      "v_kms": 1.32,
+      "mag": "+29.1",
+      "hex": "#4ade80",
+      "tier": "hills",
+      "hosted_stations": [
+        "SEDNA-H1 (Inner Hills Trunk Repeater)"
+      ],
+      "note": "Extreme detached sednoid (q = 76 AU, Q = 937 AU); aphelion reaches 1.28° from Sol!",
+      "angular_radius_arcsec": 2479.1,
+      "aphelion_arcsec": 4585.34,
+      "current_offset_arcsec": [
+        -1553.874,
+        -839.022
+      ],
+      "current_r_helio_au": 462.9493,
+      "az_deg": 211.93314,
+      "local_el_deg": 22.16694,
+      "period_sweeps": 384221.4
+    }
+  ],
+  "trojan_swarms": {
+    "L4_hektor": {
+      "name": "624 Hektor • Jupiter L4 Trojan Swarm (+60° Greek Camp)",
+      "d_az_arcsec": 23.524,
+      "d_el_arcsec": -11.503,
+      "az_deg": 212.40707,
+      "local_el_deg": 22.3968,
+      "r_helio_au": 5.3742
+    },
+    "L5_patroclus": {
+      "name": "617 Patroclus • Jupiter L5 Trojan Swarm (-60° Trojan Camp)",
+      "d_az_arcsec": 9.2,
+      "d_el_arcsec": 18.974,
+      "az_deg": 212.40276,
+      "local_el_deg": 22.40527
+    }
+  },
+  "oort_relay_ring": [
+    {
+      "id": "gor-1",
+      "callsign": "GOR-1",
+      "name": "Sector 1 • Boreal Apex Trunk",
+      "is_self": false,
+      "helio_r_au": 41800,
+      "dist_from_gor9_au": 57202.0,
+      "az_deg": 230.83,
+      "local_el_deg": 67.77,
+      "local_xyz_au": [
+        -16776.2,
+        -13669.0,
+        52950.3
+      ],
+      "carrier_khz": 14031.7,
+      "role": "Outer Oort 50 kW Flux-Duct Perimeter Node"
+    },
+    {
+      "id": "gor-2",
+      "callsign": "GOR-2",
+      "name": "Sector 2 • Cygnus Frontier Trunk",
+      "is_self": false,
+      "helio_r_au": 43200,
+      "dist_from_gor9_au": 45486.0,
+      "az_deg": 144.73,
+      "local_el_deg": 53.0,
+      "local_xyz_au": [
+        15809.5,
+        -22350.4,
+        36324.2
+      ],
+      "carrier_khz": 14063.4,
+      "role": "Outer Oort 50 kW Flux-Duct Perimeter Node"
+    },
+    {
+      "id": "gor-3",
+      "callsign": "GOR-3",
+      "name": "Sector 3 • Antipodal VLBI Partner",
+      "is_self": false,
+      "helio_r_au": 41800,
+      "dist_from_gor9_au": 84006.0,
+      "az_deg": 212.02,
+      "local_el_deg": 22.57,
+      "local_xyz_au": [
+        -41125.5,
+        -65775.3,
+        32237.8
+      ],
+      "carrier_khz": 14095.1,
+      "role": "1.33-ly Antipodal VLBI Euclidean Interferometer Partner"
+    },
+    {
+      "id": "gor-4",
+      "callsign": "GOR-4",
+      "name": "Sector 4 • Perseus Gate Trunk",
+      "is_self": false,
+      "helio_r_au": 44100,
+      "dist_from_gor9_au": 72621.0,
+      "az_deg": 176.56,
+      "local_el_deg": 34.09,
+      "local_xyz_au": [
+        3607.6,
+        -60033.9,
+        40703.5
+      ],
+      "carrier_khz": 14126.8,
+      "role": "Outer Oort 50 kW Flux-Duct Perimeter Node"
+    },
+    {
+      "id": "gor-5",
+      "callsign": "GOR-5",
+      "name": "Sector 5 • Orion Spur Trunk",
+      "is_self": false,
+      "helio_r_au": 40900,
+      "dist_from_gor9_au": 81088.0,
+      "az_deg": 206.21,
+      "local_el_deg": 33.25,
+      "local_xyz_au": [
+        -29947.8,
+        -60845.1,
+        44454.6
+      ],
+      "carrier_khz": 14158.5,
+      "role": "Outer Oort 50 kW Flux-Duct Perimeter Node"
+    },
+    {
+      "id": "gor-6",
+      "callsign": "GOR-6",
+      "name": "Sector 6 • Vela Deep Trunk",
+      "is_self": false,
+      "helio_r_au": 43600,
+      "dist_from_gor9_au": 80476.0,
+      "az_deg": 234.63,
+      "local_el_deg": 23.72,
+      "local_xyz_au": [
+        -60080.6,
+        -42643.8,
+        32375.9
+      ],
+      "carrier_khz": 14190.2,
+      "role": "Outer Oort 50 kW Flux-Duct Perimeter Node"
+    },
+    {
+      "id": "gor-7",
+      "callsign": "GOR-7",
+      "name": "Sector 7 • Centaurus Trunk",
+      "is_self": false,
+      "helio_r_au": 42400,
+      "dist_from_gor9_au": 60844.0,
+      "az_deg": 260.79,
+      "local_el_deg": 38.51,
+      "local_xyz_au": [
+        -46999.8,
+        -7617.5,
+        37880.7
+      ],
+      "carrier_khz": 14221.9,
+      "role": "Outer Oort 50 kW Flux-Duct Perimeter Node"
+    },
+    {
+      "id": "gor-8",
+      "callsign": "GOR-8",
+      "name": "Sector 8 • West Hand-Off Peer",
+      "is_self": false,
+      "helio_r_au": 41900,
+      "dist_from_gor9_au": 5122.0,
+      "az_deg": 291.33,
+      "local_el_deg": -11.25,
+      "local_xyz_au": [
+        -4679.4,
+        1827.1,
+        -999.2
+      ],
+      "carrier_khz": 14253.6,
+      "role": "Adjacent Lateral Ring Trunk Peer"
+    },
+    {
+      "id": "gor-9",
+      "callsign": "GOR-9",
+      "name": "Sector 9 • Acheron Polar Shelf (US)",
+      "is_self": true,
+      "helio_r_au": 42100.0,
+      "dist_from_gor9_au": 0.0,
+      "az_deg": 0.0,
+      "local_el_deg": -90.0,
+      "local_xyz_au": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "carrier_khz": 14285.7,
+      "role": "Active Broadcast & Sector 9 Flux-Duct Bias Hub (50 kW / 12 kW W0)"
+    },
+    {
+      "id": "gor-10",
+      "callsign": "GOR-10",
+      "name": "Sector 10 • East Hand-Off Peer",
+      "is_self": false,
+      "helio_r_au": 42700,
+      "dist_from_gor9_au": 35736.0,
+      "az_deg": 154.12,
+      "local_el_deg": -10.62,
+      "local_xyz_au": [
+        15333.4,
+        -31600.3,
+        -6584.5
+      ],
+      "carrier_khz": 14317.0,
+      "role": "Adjacent Lateral Ring Trunk Peer"
+    },
+    {
+      "id": "gor-11",
+      "callsign": "GOR-11",
+      "name": "Sector 11 • Sculptor South Trunk",
+      "is_self": false,
+      "helio_r_au": 43900,
+      "dist_from_gor9_au": 62057.0,
+      "az_deg": 187.67,
+      "local_el_deg": -15.5,
+      "local_xyz_au": [
+        -7979.1,
+        -59266.0,
+        -16581.0
+      ],
+      "carrier_khz": 14348.7,
+      "role": "Outer Oort 50 kW Flux-Duct Perimeter Node"
+    },
+    {
+      "id": "gor-12",
+      "callsign": "GOR-12",
+      "name": "Sector 12 • Sagittarius South Trunk",
+      "is_self": false,
+      "helio_r_au": 41200,
+      "dist_from_gor9_au": 54603.0,
+      "az_deg": 249.16,
+      "local_el_deg": -9.83,
+      "local_xyz_au": [
+        -50280.4,
+        -19143.4,
+        -9322.2
+      ],
+      "carrier_khz": 14380.4,
+      "role": "Outer Oort 50 kW Flux-Duct Perimeter Node"
+    }
+  ],
+  "sweep_roundup_log": [
+    {
+      "seq": 1,
+      "territory": "ACHERON HALO",
+      "target_id": "ors-351-halo",
+      "zoom": 1,
+      "freq": "14,285.7 kHz",
+      "sinpo": "5-5-5-5-5",
+      "summary": "O.R.S. 351 polar transponder nominal at 42.8 km; Trail-Cam TRL-01 logged 140g non-Keplerian cylinder snap-turn."
+    },
+    {
+      "seq": 2,
+      "territory": "CALLISTO DOME-4",
+      "target_id": "radio-corrugated",
+      "zoom": 2000,
+      "freq": "11,410.0 kHz AM",
+      "sinpo": "4-4-3-4-4",
+      "summary": "Unlicensed 'Radio Corrugated' (+25.5\" off Sol, 5.20 AU) peaked S9+18 dB via Jovian flux-duct during live dipole blowtorch braze."
+    },
+    {
+      "seq": 3,
+      "territory": "CERES BELT",
+      "target_id": "ceres-foundry-7",
+      "zoom": 2000,
+      "freq": "10,000 / 6,440 kHz",
+      "sinpo": "5-2-4-4-3",
+      "summary": "Foundry #7 (±13.6\" off Sol, 2.77 AU): Grade-B Dilithium +4.2%; Syndicate 6,440 kHz jammer fired on empty channel Cycle .306."
+    },
+    {
+      "seq": 4,
+      "territory": "COMET K4 SHOAL",
+      "target_id": "pedregal-utility",
+      "zoom": 6,
+      "freq": "6,969.5 kHz USB",
+      "sinpo": "3-4-3-3-3",
+      "summary": "3-Watt 'Pirate Utility' XE9-PED/U on MV Boca del Río (3,700 AU) forward-scattered +11.4 dB off Comet K4's cyanogen tail."
+    },
+    {
+      "seq": 5,
+      "territory": "HEKTOR L4 (CIPHER)",
+      "target_id": "trojan-octal",
+      "zoom": 2000,
+      "freq": "6,440.0 kHz OCT",
+      "sinpo": "4-3-4-4-3",
+      "summary": "Jupiter L4 (+60° lead on 5.26 AU ring): base-8 station E08-OCTAL leaked live caretaker mic + Euclid I.34 octal group [047•034]."
+    },
+    {
+      "seq": 6,
+      "territory": "HEKTOR L4 (REBEL)",
+      "target_id": "radio-free-hektor",
+      "zoom": 2000,
+      "freq": "6,445.0 kHz HOP",
+      "sinpo": "4-2-4-3-4",
+      "summary": "Zora's 180W Crawler X-74 on 624 Hektor out-hopped Ceres Foundry jammer by 90s; nulled -34 dB via Tartarus reference."
+    },
+    {
+      "seq": 7,
+      "territory": "KAELEN-V RIM",
+      "target_id": "st-jerome-slag",
+      "zoom": 6,
+      "freq": "9,290.0 kHz + H-I",
+      "sinpo": "4-5-4-4-4",
+      "summary": "Vael-Vihara Spire (1,140 ly via GOR-11 filament) received simultaneously on 31m shortwave and 21-cm Hydrogen hyperfine."
+    },
+    {
+      "seq": 8,
+      "territory": "MERIDIAN TRUNK",
+      "target_id": "kz9-omega",
+      "zoom": 6,
+      "freq": "7,140.3 kHz DRM-9",
+      "sinpo": "2-3-2-2-2",
+      "summary": "Feeder Relay KZ9-OMEGA (1,420 AU) hit by 60 kV silicate squall; ruptured PA oil capacitor splattering ±30 kHz."
+    },
+    {
+      "seq": 9,
+      "territory": "OORT RING PEER",
+      "target_id": "gor-8-trunk",
+      "zoom": 2,
+      "freq": "14,253.6 kHz DRM-9",
+      "sinpo": "5-5-4-5-5",
+      "summary": "Sister Trunk GOR-8 (31,400 AU) & antipodal GOR-3 (83,900 AU) locked 1.33-ly VLBI baseline for ED-9 Vat 19 parallelogram proof."
+    },
+    {
+      "seq": 10,
+      "territory": "QUARRY 44-K",
+      "target_id": "quarry-44k",
+      "zoom": 6,
+      "freq": "5,180.0 kHz FSK",
+      "sinpo": "4-4-3-4-4",
+      "summary": "Sector 9 West Crag (890 AU) logged cable drum slip on Pit 44-K dragline during Watch 2 shift."
+    },
+    {
+      "seq": 11,
+      "territory": "SEDNA HILLS GATE",
+      "target_id": "sedna-hills-relay",
+      "zoom": 40,
+      "freq": "14,285.7 kHz MUX",
+      "sinpo": "5-5-4-5-5",
+      "summary": "90377 Sedna repeater (780 AU off Sol on 1.28° loop) relayed 412 store-and-forward inner-system packets this Sweep."
+    },
+    {
+      "seq": 12,
+      "territory": "TARTARUS HOLD",
+      "target_id": "tartarus-buoy12",
+      "zoom": 6,
+      "freq": "4,125.0 kHz USB",
+      "sinpo": "4-4-4-4-4",
+      "summary": "Quarantine Buoy 12 (420 AU NW) still holding GOR-9's 811A oscillator tubes under 'fermented brine tuber' tariff."
+    },
+    {
+      "seq": 13,
+      "territory": "TITAN SHALLOWS",
+      "target_id": "buoy-n24",
+      "zoom": 2000,
+      "freq": "3,890.0 kHz CW",
+      "sinpo": "3-4-3-3-3",
+      "summary": "Saturn VI (±47.0\" off Sol, 9.58 AU): 85W Buoy TM-N24/B detuned -165 Hz at TSol dawn by wading silt-striders on guy-wire #2."
+    },
+    {
+      "seq": 14,
+      "territory": "TRIANGULUM M-33",
+      "target_id": "m33-drift-buoy",
+      "zoom": 6,
+      "freq": "1,420.405 MHz H-I",
+      "sinpo": "2-4-2-3-2",
+      "summary": "4.2W Sonde M33-771/R (2.73 Mly via Perseus Einstein caustic) copied S4 issuing advisories for a dry ammonia basin."
     }
   ]
 }

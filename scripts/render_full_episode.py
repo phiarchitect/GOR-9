@@ -38,7 +38,7 @@ COMP_DIR = STATION_DIR / "rig"
 RENDERS_DIR = EP_DIR / "previews"
 
 W, H = 2560, 1440
-FPS = 24
+FPS = 30
 
 
 def load_font(size: int, bold: bool = True) -> ImageFont.FreeTypeFont | ImageFont.ImageFont:
@@ -512,34 +512,9 @@ def main() -> None:
         "-f", "rawvideo",
         "-pix_fmt", "rgb24",
         "-s", f"{W}x{H}",
-        "-r", str(FPS),
+        "-framerate", str(FPS),
         "-i", "-",
         "-i", str(master_wav),
-        "-c:a", "aac",
-        "-ar", "48000",
-        "-ac", "2",
-        "-b:a", "192k",
-        "-shortest",
-        "-vf", "fps=30,setsar=1:1,noise=alls=2:allf=t,format=yuv420p",
-        "-vsync", "cfr",
-        "-r", "30",
-        "-c:v", "libx264",
-        "-preset", "fast",
-        "-profile:v", "high",
-        "-level:v", "5.1",
-        "-crf", "16",
-        "-maxrate", "16M",
-        "-bufsize", "32M",
-        "-g", "30",
-        "-keyint_min", "30",
-        "-sc_threshold", "0",
-        "-bf", "2",
-        "-flags", "+cgop",
-        "-colorspace", "bt709",
-        "-color_primaries", "bt709",
-        "-color_trc", "bt709",
-        "-color_range", "tv",
-        "-movflags", "+faststart",
         str(out_mp4),
     ]
     proc = subprocess.Popen(ffmpeg_cmd, stdin=subprocess.PIPE, stderr=subprocess.DEVNULL)

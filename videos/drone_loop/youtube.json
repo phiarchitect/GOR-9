@@ -1,0 +1,40 @@
+{
+  "short_code": "DRONE-LOOP",
+  "g_id": "2736.305",
+  "channel": "@GOR-9-station",
+  "categoryId": "24",
+  "privacyStatus": "public",
+  "title_1080p": "GOR-9 \u2022 Inverse-Keplerian Elliptical Drone Orbit Seamless Loop (14,285.7 kHz USB \u2022 0400 GCT)",
+  "description": "Seamless 54-second Inverse-Keplerian elliptical inspection drone loop around the 86.5m High Basalt Shelf Broadcast Tower on Asteroid 3-5-1, 42,100 AU out in Oort Cloud Sector 9.\nUnlike a comet that accelerates at periapsis, the camera drone slows down on close approach to take in the architectural details across 3 ascending periapsis bypasses, and accelerates out into wide elliptical apoapsis turns over Acheron Chasm before the finale 50 kW Marzelvane burst.\n14,285.7 kHz Upper Sideband \u2022 Epoch 2736.305 \u2022 0400 Galactic Coordinated Time.\n\n0:00 Apoapsis Dive & Bypass #1: Close-Up Orbit Past the +26.0m Booth Catwalk, 3D Armillary & Consoles\n0:13 Fast Elliptical Swing #1 & Bypass #2: Close-Up Ascent Past the Vertical G/O/R/\u25ce/9 Neon Sign & Caged EVA Ladder\n0:28 Fast Elliptical Swing #2 & Bypass #3: Close-Up Orbit Past the +72.0m 4-Ring Marzelvane Waveguides & Phase-Splitter Hub\n0:43 Fast Fly-Away to Wide Chasm Vantage & Single Finale 50 kW Barycentric Cherenkov Burst",
+  "tags": [
+    "GOR-9",
+    "Galactic Outpost Radio",
+    "Marzelvane",
+    "Shortwave",
+    "Sci-Fi",
+    "Loop"
+  ],
+  "files": {
+    "wide_1080p_mp4": "/home/phi/Sessions/GOR-9/videos/drone_loop/gor9_drone_loop.mp4",
+    "thumbnail_16x9_png": "/home/phi/Sessions/GOR-9/videos/drone_loop/gor9_drone_loop_thumb.jpg"
+  },
+  "uploads": {
+    "wide_1080p": {
+      "version": 1,
+      "video_id": "xD8W6nAcOgg",
+      "url": "https://youtu.be/xD8W6nAcOgg",
+      "studio_url": "https://studio.youtube.com/video/xD8W6nAcOgg/edit",
+      "caption_id": null,
+      "playlist_id": null,
+      "playlist_item_id": null,
+      "privacyStatus": "public",
+      "uploaded_at": "2026-11-09T12:23:28.349289+00:00",
+      "thumbnail_set": true,
+      "updated_at": "2026-11-09T12:23:35.809555+00:00"
+    }
+  },
+  "history": {
+    "wide_1080p": []
+  },
+  "version": 1
+}

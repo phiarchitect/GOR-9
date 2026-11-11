@@ -3,15 +3,16 @@
 **From Asteroid 3-5-1 in Oort Cloud Sector 9, this is GOR-9—your eye to the cosmos, ear to the vacuum.**
 
 - **Official YouTube Channel**: [`youtube.com/@GOR-9-station`](https://www.youtube.com/@GOR-9-station)
-- **Transmitter Location**: High Basalt Shelf ATC Control Tower (South Rotational Pole, `88.4° S`), Asteroid 3-5-1, Oort Cloud Sector 9 (`42,100 AU` / `0.66 ly` from Sol)
-- **Carrier**: `14,285.7 kHz` Upper Sideband (`50 kW` Peak / `12 kW` Night-Shift Step-Down via Pebble-Bed Dilithium Reactor #2)
+- **Transmitter Location**: High Basalt Shelf ATC Control Tower (South Rotational Pole, `88.4° S`), Asteroid 3-5-1, Oort Cloud Sector 9 (`42,100 AU` / `0.666 ly` from Sol; plunging cometary ellipse `Q = 42,500 AU → q = 1.22 AU`, `v_r = -42.6 m/s`, `1.39 Myr` to frost-line coma ignition)
+- **Carrier & Waveguide**: `14,285.7 kHz` Upper Sideband (`λ = 20.985 m`, `50 kW` Peak / `12 kW` Watch 0 Step-Down via Pebble-Bed Dilithium Reactor #2), biasing Sector 9 of the **12-Station (`GOR-1..12`) Marzelvane Barycentric Flux-Duct Ring**
 - **Primary Tower Consoles**:
   - **Hauser MK-IV Wideband Barycentric DX Correlator** (*Hauser Dynamics • Ganymede Orbital Precision Works*)
+  - **Celestial Sphere, `5'` Lyot Solar Coronagraph (`4.90"/AU`) & 3D Oort Relay Ring Navigator**
   - **Van Allen VA-4 Heliopause Sounder & 50 kW Dilithium Bus Console** (*Van Allen & Sons Switchgear • Ceres Foundry #7*)
   - **Bogey-9 Perimeter Asteroid Trail-Cam & Non-Keplerian UAP Discriminator**
-  - **Van Allen ED-9 Euclidean Detector & Cosmic Geometric Intelligence Correlator** (*Van Allen & Sons Switchgear • SETI Division*)
+  - **Van Allen ED-9 Euclidean Detector & Cosmic Geometric Intelligence Correlator** (*1.33-ly VLBI Baseline `GOR-9 ↔ GOR-3`*)
 - **Orbital Relay**: Synchronous Polar Halo Satellite **`O.R.S. 351`** (`Alt: 42.8 km`)
-- **Time Standard**: **Galactic Coordinated Time (`GCT` / legacy dial `UTC`)** — Barycentric millisecond pulsar standard locked to **`PSR B1937+21`** (`641.928262 Hz`, the *"Vulpecula Metronome"*).
+- **Time Standard**: **Pulsar Barycentric Time (`PST`)** — Non-terrestrial decimal pulsar clock locked to **`PSR B1937+21`** (`641.928262 Hz`, the *"Vulpecula Metronome"*: `Beats → 6 Watches = 1 Cycle → 10 Cycles = 1 Sweep`). See full physics & ephemeris specification in [`ASTROMETRY_AND_TIME.md`](ASTROMETRY_AND_TIME.md).
 
 ---
 
@@ -22,15 +23,17 @@ All broadcast productions are self-contained inside `episodes/<broadcast_id>/`, 
 ```text
 GOR-9/
 ├── gor9_ep01.mp4                       # Latest finished 2560x1440 QHD master broadcast video (local root hardlink)
-├── README.md                           # Station overview, Galactic Time standard, & broadcast index
+├── README.md                           # Station overview, Pulsar Time (PST) standard, & broadcast index
+├── ASTROMETRY_AND_TIME.md              # Canonical Oort astrometry, 3.10 Myr cometary orbit, Flux-Ducts & PST spec
 ├── PRODUCTION_BIBLE.md                 # Full world lore, hardware specs, & shader/console documentation
 ├── docs/                               # Interactive Companion Web Consoles & Station Ledger
 │   ├── index.html                      # Hauser MK-IV Wideband DX Receiver, Decoder & Galaxy Signal Atlas
+│   ├── celestial-atlas.html            # Sidereal Sky, 2200× Solar Coronagraph, 3D Cometary Orbit & Sweep Roll-Call
 │   ├── propagation.html                # Van Allen VA-4 Space Weather, Oort Propagation & Dilithium Bus Console
 │   ├── bogey-detector.html             # Bogey-9 Perimeter Asteroid Trail-Cam & UAP Kinematic Correlator
 │   ├── euclidean-detector.html         # Van Allen ED-9 Cosmic Geometric Intelligence Correlator
 │   ├── station.html                    # Companion DX Ledger, 3D-Flip eQSL Collector Cards & Manufacturer Lore
-│   └── data/                           # Canonical JSON & JS schemas (stations, propagation, bogeys, euclidean, logs)
+│   └── data/                           # Canonical JSON & JS schemas (stations v3.0, propagation, bogeys, euclidean)
 ├── station/                            # Shared station-wide assets reused across all broadcasts
 │   ├── branding/                       # @GOR-9-station avatar, banners, Hauser Dynamics & Van Allen Switchgear logos
 │   ├── rig/                            # CAM-00A cliff tower RGBA mattes, 4 apex rings, beacons, O.R.S. 351 & asteroid sprites
@@ -38,66 +41,43 @@ GOR-9/
 │   ├── sfx/                            # Shortwave static, squelch bursts, harmonic chimes, sfx_catalog.json
 │   └── consoles/                       # Broadcast console templates
 ├── scripts/                            # Broadcast synthesis, 1440p QHD shader renderer, artifact builder & uploader
+│   ├── update_celestial_data.py        # Computes Keplerian 4.90"/AU Solar orbits, Oort Ring & Sweep Roll-Call data
 │   ├── build_station_artifacts.py      # Generates animated eQSL GIFs, UAP burst GIFs, audio suites & JS data bundles
 │   ├── synth_full_episode.py           # Synthesizes Argon III-C narration, DX vignettes, clip audio & Lydian chime
 │   ├── render_full_episode.py          # Renders 2560x1440 30fps High@L5.1 QHD broadcast video with 10 NumPy shaders
 │   ├── build_youtube_package.py        # Generates YOUTUBE_METADATA.md, .srt, .vtt, and chapter markers
 │   └── upload_youtube.py               # Automated YouTube Data API v3 uploader for @GOR-9-station
-└── episodes/                           # Self-contained broadcast folders (sequenced by Broadcast & Galactic Epoch)
-    ├── ep00_2735.215_pilot/            # Broadcast 00 (July 2024 Pilot • Epoch 2735.215 • 0400 GCT)
-    │   ├── GOR-9.mp4                   # Finished pilot broadcast video at root (local)
-    │   ├── youtube/                    # Captions (.srt, .vtt), metadata (.json, .tsv), thumbnail
-    │   ├── script/                     # Original broadcast script & MLT timeline
-    │   ├── audio/                      # Original pilot narration track
-    │   └── slides/                     # Original pilot plates & animation loops
-    └── ep01_2736.305_parallelogram/    # Broadcast 01 (Epoch 2736.305 • 0400 GCT)
-        ├── gor9_ep01.mp4               # Finished 2560x1440 QHD master broadcast video right at the root (local)
-        ├── youtube/                    # One-stop YouTube upload folder:
-        │   ├── YOUTUBE_METADATA.md     # Copy-paste Title, Description, Chapters & checklist
-        │   ├── youtube.json            # Uploaded YouTube video ID & Studio URL manifest
-        │   ├── gor9_ep01.srt           # Frame-accurate SubRip closed captions
-        │   ├── gor9_ep01.vtt           # Frame-accurate WebVTT closed captions
-        │   ├── gor9_ep01_thumbnail_split.jpg
-        │   └── gor9_ep01_thumbnail_tower.jpg
-        ├── script/                     # Broadcast script (gor9_ep01_script.txt) & ep01_timeline.json
-        ├── audio/                      # Full master WAV + segments/ (cached Argon III-C WAVs)
-        ├── plates/                     # Broadcast-specific remote camera plates & Euclid SVG
-        ├── clips/                      # 10s generated video+audio insert clips (N-24, Blowtorch, M-33, etc.)
-        └── previews/                   # Rendered QHD preview frames for each console & panel
+└── episodes/                           # Self-contained broadcast folders (sequenced by Broadcast & Epoch)
+    ├── ep00_2735.215_pilot/            # Broadcast 00 (Pilot • Legacy Stamp 2735.215)
+    └── ep01_2736.305_parallelogram/    # Broadcast 01 (The Unsuspecting Parallelogram • Legacy Stamp 2736.305)
 ```
 
 ---
 
-## 2. Galactic Coordinated Time (`GCT`) — What Are We Relative To?
+## 2. Oort Astrometry & Pulsar Barycentric Time (`PST`)
 
-Out on **Asteroid 3-5-1** in **Oort Cloud Sector 9 (`42,100 AU` from Sol)**, there is no planetary horizon day/night and no Earth calendar:
-- Asteroid 3-5-1 is a `38 km × 21 km × 16 km` carbonaceous-basalt shard with an erratic **9.42-hour axial tumble (`P_rot = 9h 25m 12s`)**.
-- To prevent the 50 kW concentric-ring emitter and the `O.R.S. 351` orbital relay link from sweeping wildly across the sky every 4.7 hours, the **High Basalt Shelf Tower Outpost** is anchored at **88.4° South Asteroidal Latitude** on the rim of **Acheron Polar Chasm**—aligned with the asteroid's **South Rotational Pole**.
-- Because the tower sits at the south rotational pole, the **Galactic Milky Way Core (Sagittarius–Scorpius)** hangs in permanent deep-space night above the cliff precipice while the distant Sun is a faint magnitude `-18.5` pinprick skimming `-1.6°` below the northern crater rim, and **`O.R.S. 351`** maintains a stationary polar halo station-keeping position `42.8 km` off the shelf.
+Full mathematical and worldbuilding details live in [`ASTROMETRY_AND_TIME.md`](ASTROMETRY_AND_TIME.md).
 
-### The Pulsar Barycentric Clock (`PSR B1937+21`)
-Instead of tying clocks to any spinning planet or tumbling rock, all Oort, Jovian, Saturnian, and Trojan stations lock their oscillators to **Galactic Coordinated Time (`GCT`)**—often still stamped `UTC` on vintage Hauser MK-IV receiver bezels:
+### Where Are We? (`42,100 AU` • `3.10 Myr` Cometary Plunge • `12-Relay` Oort Ring)
+- **Unresolved Sky & `5-Arcminute` Solar Core**: From **Asteroid 3-5-1** (`42,100 AU` / `0.666 ly` in Oort Sector 9), `1 AU` subtends **`4.8994 arcseconds`**. The Sun (`Sol`, `Az 212.40°, El +22.40°`) is a razor-sharp magnitude `-3.62` point-star (`0.046"`), and the entire classical planetary system—`Earth (±4.9")`, `Ceres Foundry #7 (±13.6")`, `Jupiter + Callisto & 624 Hektor L4 (±25.5")`, `Saturn + Titan (±47.0")`, out to `Neptune (±2.46')`—fits inside a **5-arcminute Lyot Solar Coronagraph** field. Only detached `90377 Sedna` (`a = 506 AU`, aphelion `937 AU`) loops `1.28°` clear of Sol into the Hills Cloud.
+- **Our Own Cometary Destiny**: Originally an `8.64 Myr` outer Oort shard, Asteroid 3-5-1 was torqued `~155 kyr` ago by a grazing M-dwarf star and the vertical Galactic tide onto a steep **`104.2°` retrograde plunging cometary ellipse** (`Q = 42,500 AU → q = 1.22 AU`, orbital period **`P = 3.10 Myr`**). Falling sunward at **`v_r = -42.6 m/s`**, Asteroid 3-5-1 will cross Saturn's `~10 AU` water-ice sublimation frost line and erupt into a Great Comet in **`1.392 million years` (`470,100 Sweeps`)**.
+- **Marzelvane Barycentric Flux-Ducts**: `GOR-9` is one of **12 polar trunk outposts (`GOR-1` .. `GOR-12`)** forming an `~84,000 AU` (`1.33 ly`) Oort perimeter shell (paired antipodally with `GOR-3` for `0.0001"` VLBI interferometry). Pumping `50 kW` at `14,285.7 kHz` (`λ = 20.985 m`, resonant with the 4 Marzelvane rings $R = 7.0, 11.5, 16.0, 21.0\text{ m}$) biases barycentric gravitational-magnetic flux filaments into lossless standing-wave ducts—allowing `3 W` pirate tugs, `85 W` Titan buoys, and `180 W` Hektor crawlers to skip live across space without $1/r^2$ inverse-square wipeout or 8-month light-lag.
 
-1. **Physical Reference (`The Vulpecula Metronome`)**:
-   - Locked to the barycentric arrival of pulses from millisecond pulsar **`PSR B1937+21` (`J1939+2134`)** in Vulpecula, which rotates at **`641.928262 Hz`** (`1.557806 ms` per pulse—more stable than most atomic clocks), cross-indexed against the **Galactic Center (`Sagittarius A*`)** and the **21-cm Hydrogen Hyperfine Line (`1,420.405751 MHz`)**.
-2. **The Standard Galactic Cycle (`2400 GCT`)**:
-   - **1.000 Galactic Cycle** = exactly **`55,462,600` pulsar ticks** (`86,400.000` SI seconds), divided into 24 Galactic Hours (`0000` to `2400 GCT`) so human crews living inside dark basalt mines, domes, and outposts maintain a stable circadian rhythm:
-     - `0000 – 0800 GCT`: **Night Shift / Deep-Space DX Watch** (Reactor #2 stepped down to `12 kW`; GOR-9 signs on at **`0400 GCT`** when interplanetary solar-wind ionization reaches its quietest trough).
-     - `0800 – 1600 GCT`: **Primary Quarry & Dragline Shift** (Silicate Quarry 44-K & Ceres Spot Exchange open).
-     - `1600 – 2400 GCT`: **Maintenance, Feedhorn De-Sputtering & Buoy Telemetry Poll**.
-3. **Broadcast Epoch Sequencing (`Epoch YYYY.DDD • 0400 GCT`)**:
-   - **1 Galactic Year** = `365` Standard Cycles (`.001` to `.365`).
-   - Every GOR-9 broadcast advances monotonically along this timeline:
+### Non-Terrestrial Pulsar Time (`PSR B1937+21` • `641.928262 Hz`)
+With no Earth horizon, days, weeks, or years at `88.4° S` South Rotational Pole, all 12 Oort trunk stations count decimal pulse multiples of millisecond pulsar **`PSR B1937+21`** (`1.55780645 ms` period; `Epoch 000.000` = `1982.86 CE` Arecibo discovery; current broadcast **`Epoch 254.310 • Watch 0`**):
 
-| Broadcast | Folder | Galactic Timestamp | Broadcast Title & Key Anomalies |
-| :--- | :--- | :--- | :--- |
-| **BCAST 00** | [`episodes/ep00_2735.215_pilot/`](file:///home/phi/Sessions/GOR-9/episodes/ep00_2735.215_pilot) | **`2735.215 • 0400 GCT`** | *Pilot Broadcast* — Carina-Sagittarius Cochrane flux, Kuiper asteroid traffic, BorgCoin, Crab Nebula rogue AI, binary neutron star waves. |
-| **BCAST 01** | [`episodes/ep01_2736.305_parallelogram/`](file:///home/phi/Sessions/GOR-9/episodes/ep01_2736.305_parallelogram) | **`2736.305 • 0400 GCT`** | *The Unsuspecting Parallelogram* — Van Allen VA-4 Comet K4 skip duct, KZ9-Omega 60 kV squall & Belt-Master marzelvane #4; Grade-B Dilithium pellets (+4%), Ring-Bake de-icer & Cryo-Toast foot-warmers; Hauser MK-IV intercepts (Buoy N-24, Radio Corrugated blowtorch, M-33 Ming drift-buoy via ALG-02, Trojan Octal numbers via ALG-03); Bogey-9 Trail-Cam 140g UAP cylinder; Van Allen ED-9 Euclidean Detector single lock on Callisto-South Vat 19 (`Euclid I.34 / G.47` Parallelogram & mud-rake cotter pin cover-up). |
-| **BCAST 02** *(Next)* | `episodes/ep02_2736.312_.../` | **`2736.312 • 0400 GCT`** | *Planned*: Comet C/2736-K4 uninspected Dilithium barge rendezvous (`Pedregal 1051.2 mbar` code) & a suspected rhombus (`Euclid Def. I.22`) aboard bulk ice-hauler *MV Cryogenic-9*. |
+| `PST` Unit | Exact `PSR B1937+21` Pulses | Relation | Human Feel | Operational Role at GOR-9 |
+| :--- | :--- | :--- | :--- | :--- |
+| **`1 Beat`** | $10^3$ (`1,000`) | Base console tick | **`1.5578 sec`** | S-meter / waterfall sweep & PST footer heartbeat (`B0000..B9999`) |
+| **`1 Watch`** | $10^7$ (`10,000` Beats) | Duty shift | **`4.327 hr`** | Standard operator console watch (`W0` = `12 kW` Quiet DX Watch) |
+| **`1 Cycle`** | $6 \times 10^7$ (`6` Watches) | `W0` .. `W5` | **`25.963 hr`** | Deep-space circadian sleep/work cycle |
+| **`1 Sweep`** | $6 \times 10^8$ (`10` Cycles) | **Broadcast cadence** | **`10.818 days`** | **GOR-9 Broadcast Roundup interval** (*"Sweep `.300 → .310` Roll-Call"*) |
+| **`1 Epoch`** | $6 \times 10^{10}$ (`100` Sweeps) | `1,000` Cycles | **`2.962 yr`** | Major ledger integer (`Epoch 254.310`) |
 
-### Local & Planetary Time Systems Referenced on the Hauser MK-IV
-When GOR-9 intercepts transmissions from across the solar system and beyond, operators translate their local clocks against `GCT`:
-- **Asteroid 3-5-1 Local Tumble-Phase (`T-Phase 0.00..1.00`)**: `9h 25m 12s` equatorial rotation period (`2.548 tumbles` per `GCT` cycle)—used by Silicate Quarry 44-K dragline crews on the equatorial belt to time low-gravity slag throws.
-- **Titan-Minor Tidal Sol (`TSol`)**: `15.945 GCT cycles` per Saturnian orbit—governs the methane tide tables recited by Hydrographic Buoy N-24 on `3,890 kHz`.
-- **Callisto Dome-4 Synodic Schedule (`J-Dome Time`)**: `16.689 GCT cycles` synchronized to Callisto's passage through Jupiter's magnetospheric current sheet (when Dome-4 dims its sodium streetlamps for the "Night Market" and *Radio Corrugated* fires up on `11,410 kHz`).
-- **Ming-Era Terra Ephemeris (`Epoch 1580 CE`)**: Legacy terrestrial clock still broadcast by the 700-year-old Intergalactic M-33 drift-buoy on `1,420.405 MHz`.
+*(Early prototype broadcasts `ep00_2735.215_pilot` and `ep01_2736.305_parallelogram` carry legacy `2400 GCT` Earth-emulator dial stamps recorded prior to the Sector 9 `PST` cutover.)*
+
+### Local & Planetary Clocks Cross-Indexed on the Hauser MK-IV
+- **Asteroid 3-5-1 Tumble-Phase (`T-Phase 0.00..1.00`)**: `9h 25m 12s` equatorial rotation period—used by Silicate Quarry 44-K dragline crews on the equatorial belt.
+- **Titan-Minor Tidal Sol (`TSol`)**: `15.945 d` (`1.474 Sweeps`) per Saturnian orbit—governs methane tide tables from Hydrographic Buoy N-24 (`3,890 kHz`).
+- **Callisto Dome-4 Synodic Schedule (`J-Dome Time`)**: `16.689 d` (`1.543 Sweeps`) synchronized to Callisto's passage through Jupiter's magnetospheric current sheet (*Radio Corrugated*, `11,410 kHz`).
+- **Ming-Era Survey ROM (`Epoch 1580 CE`)**: Legacy clock still transmitted by Intergalactic Sonde `M33-771/R` on `1,420.405 MHz`.

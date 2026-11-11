@@ -1,0 +1,48 @@
+{
+  "model": "docs/tower-3d.html",
+  "mode": "satellite_orbit",
+  "title": "GOR-9 \u2022 O.R.S. 351 Satellite Orbit Over Asteroid 3-5-1 (14,285.7 kHz USB \u2022 0400 GCT)",
+  "short_code": "SAT-ORBIT",
+  "duration": 30.0,
+  "fps": 30,
+  "is_loop": false,
+  "coordinate_system": "satellite_locked",
+  "mp4_name": "gor9_satellite_orbit.mp4",
+  "wav_name": "gor9_satellite_orbit_audio.wav",
+  "thumb_name": "gor9_satellite_orbit_thumb.jpg",
+  "thumb_frame": 90,
+  "test_frames": [
+    0,
+    90,
+    225,
+    390,
+    540,
+    690,
+    810,
+    899
+  ],
+  "bursts": {
+    "starts": [
+      2.0,
+      12.0,
+      22.0
+    ],
+    "duration": 5.6,
+    "ring_step": 0.2,
+    "spire_lock_offset": 0.84
+  },
+  "satellite_cam": {
+    "fov": 55.0,
+    "local_pos": [
+      -12.0,
+      6.2,
+      -44.0
+    ],
+    "local_target": [
+      -18.0,
+      -138.0,
+      410.0
+    ]
+  },
+  "keyframes": []
+}
